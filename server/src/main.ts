@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import { router } from './routes/router';
+import { router } from './route/router';
 
 const app = fastify({ logger: true });
 

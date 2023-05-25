@@ -1,4 +1,9 @@
-export const registerUserDto = {
+import { dto } from '../utils/dto';
+
+export const registerUserDto = dto<{
+  id: string;
+  password: string;
+}>({
   body: {
     type: 'object',
     properties: {
@@ -6,10 +11,10 @@ export const registerUserDto = {
         type: 'string',
       },
       password: {
-        type: 'number',
+        type: 'string',
       },
     },
     required: ['id', 'password'],
     additionalProperties: false,
   },
-};
+});
