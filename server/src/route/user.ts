@@ -1,15 +1,17 @@
 import { FastifyPluginAsync } from 'fastify';
 import { registerUserDto } from '../dto/user';
 import { registerUser } from '../service/user';
+import { createUserToken } from '../service/auth';
 
 export const userRouter: FastifyPluginAsync = async (instance) => {
   instance.post(
     '/register',
     { schema: registerUserDto.schema },
-    async (req) => {
+    async (req, rep) => {
       const body = req.body as typeof registerUserDto.type;
-      registerUser(body);
-      return { body };
+      const { id } = await registerUser(body);
+      rep.status(201);
+      return createUserToken(id);
     }
   );
 };
