@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "yogi-poke server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "swc src -w -d out -C module.type=commonjs & nodemon out/main.js | pino-pretty",
+    "build": "swc src -d out -C module.type=commonjs",
+    "start": "node out/main.js | pino-pretty"
+  },
+  "author": "Donghyun Lee",
+  "license": "ISC",
+  "dependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.60",
+    "chokidar": "^3.5.3",
+    "chokidar-cli": "^3.0.0",
+    "fastify": "^4.17.0",
+    "pino-pretty": "^10.0.0",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
+  }
+}
