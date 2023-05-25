@@ -1,20 +1,20 @@
 import { dto } from '../utils/dto';
 
 export const registerUserDto = dto<{
-  id: string;
+  email: string;
   password: string;
 }>({
   body: {
     type: 'object',
     properties: {
-      id: {
+      email: {
         type: 'string',
       },
       password: {
         type: 'string',
       },
     },
-    required: ['id', 'password'],
+    required: ['email', 'password'],
     additionalProperties: false,
   },
 });
