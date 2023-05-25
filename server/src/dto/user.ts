@@ -1,8 +1,10 @@
 import { dto } from '../utils/dto';
 
 export const registerUserDto = dto<{
-  email: string;
-  password: string;
+  body: {
+    email: string;
+    password: string;
+  };
 }>({
   body: {
     type: 'object',
@@ -16,5 +18,21 @@ export const registerUserDto = dto<{
     },
     required: ['email', 'password'],
     additionalProperties: false,
+  },
+});
+
+export const authTokenHeaderDto = dto<{
+  headers: {
+    authorization: string;
+  };
+}>({
+  headers: {
+    type: 'object',
+    properties: {
+      authorization: {
+        type: 'string',
+      },
+    },
+    required: ['authorization'],
   },
 });
