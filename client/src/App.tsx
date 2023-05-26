@@ -23,9 +23,16 @@ export const App = () => {
                   return registration.pushManager.subscribe(subscribeOptions);
                 })
                 .then((pushSubscription) => {
-                  axios.patch(`http://localhost:3000/user/my-info`, {
-                    subscription: pushSubscription,
-                  });
+                  axios.patch(
+                    `http://localhost:3000/user/my-info`,
+                    { pushSubscription },
+                    {
+                      headers: {
+                        Authorization:
+                          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJAay1iaWxsIiwibmFtZSI6IktvcmVhbiBCaWxsIEdhdGVzIiwiaWF0IjoxNjg1MTAzODY0fQ.Sx92qw7wcmR_GGtr3mSh2-Hk_LZFfGC_GNqVRD2NJbQ",
+                      },
+                    }
+                  );
                   console.log(pushSubscription);
                 });
             }

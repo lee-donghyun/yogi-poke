@@ -25,6 +25,27 @@ export const registerUserDto = dto<{
   },
 });
 
+export const signInUserDto = dto<{
+  body: {
+    email: string;
+    password: string;
+  };
+}>({
+  body: {
+    type: 'object',
+    properties: {
+      email: {
+        type: 'string',
+      },
+      password: {
+        type: 'string',
+      },
+    },
+    required: ['email', 'password'],
+    additionalProperties: false,
+  },
+});
+
 export const authTokenHeaderDto = dto<{
   headers: {
     authorization: string;
@@ -45,7 +66,7 @@ export const patchUserDto = dto<{
   body: {
     password?: string;
     name?: string;
-    pushSubscription?: string;
+    pushSubscription?: PushSubscriptionJSON;
     profileImageUrl?: string;
   };
 }>({
@@ -59,7 +80,7 @@ export const patchUserDto = dto<{
         type: 'string',
       },
       pushSubscription: {
-        type: 'string',
+        type: 'object',
       },
       profileImageUrl: {
         type: 'string',

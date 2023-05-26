@@ -62,7 +62,7 @@ export const patchUser = async ({
   id: number;
   password?: string;
   name?: string;
-  pushSubscription?: string;
+  pushSubscription?: PushSubscriptionJSON;
   profileImageUrl?: string;
 }) => {
   return db.user.update({
