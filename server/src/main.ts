@@ -3,11 +3,13 @@ import { router } from './route/router';
 import { authPlugin } from './plugin/auth';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import cors from '@fastify/cors';
 
 const app = fastify({ logger: true });
 
 app.register(fastifySwagger);
 app.register(fastifySwaggerUi);
+app.register(cors);
 app.register(router);
 app.register(authPlugin);
 
