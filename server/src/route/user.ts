@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify';
 import { authTokenHeaderDto, registerUserDto } from '../dto/user';
 import { registerUser } from '../service/user';
 import { createUserToken } from '../service/auth';
+import { assertAuth } from '../plugin/auth';
 
 export const userRouter: FastifyPluginAsync = async (instance) => {
   instance.post(
@@ -20,7 +21,8 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
       schema: authTokenHeaderDto.schema,
     },
     async (req) => {
-      return req.user;
+      const user = assertAuth(req.user);
+      return user;
     }
   );
 };
