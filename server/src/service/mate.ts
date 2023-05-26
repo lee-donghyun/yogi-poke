@@ -1,6 +1,4 @@
-import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { db } from '../repository/prisma';
-import { createError } from '../utils/error';
 
 export const getRelation = async (fromUserId: number, toUserId: number) => {
   const relation = await db.relation.findUnique({
