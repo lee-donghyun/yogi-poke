@@ -30,5 +30,8 @@ export const getUser = async (user: { id: number }) => {
       message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
     });
   }
-  return found;
+  return {
+    id: found.id,
+    email: found.email,
+  };
 };
