@@ -1,6 +1,8 @@
+import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { db } from '../repository/prisma';
+import { createError } from '../utils/error';
 
-export const getRelation = async (fromUserId: number, toUserId: number) => {
+const getRelation = async (fromUserId: number, toUserId: number) => {
   const relation = await db.relation.findUnique({
     where: {
       fromUserId_toUserId: { fromUserId, toUserId },
@@ -10,6 +12,36 @@ export const getRelation = async (fromUserId: number, toUserId: number) => {
 };
 
 export const createRelation = async (fromUserId: number, toUserId: number) => {
+  const relation = await getRelation(fromUserId, toUserId);
+  if (relation !== null) {
+    throw createError({
+      statusCode: 409,
+      message: CLIENT_ERROR_MESSAGE.ALREADY_HAS_RELATION,
+    });
+  }
   const made = await db.relation.create({ data: { fromUserId, toUserId } });
   return made;
+};
+
+export const assertHasAcceptedRelation = async (
+  fromUserId: number,
+  toUserId: number
+) => {
+  const relation = await getRelation(fromUserId, toUserId);
+  if (relation === null || !relation.isAccepted) {
+    throw createError({
+      statusCode: 400,
+      message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
+    });
+  }
+};
+
+export const pokeMate = async (fromUserId: number, toUserId: number) => {
+  await assertHasAcceptedRelation(fromUserId, toUserId);
+  await db.poke.create({
+    data: {
+      realtionFromUserId: fromUserId,
+      realtionToUserId: toUserId,
+    },
+  });
 };

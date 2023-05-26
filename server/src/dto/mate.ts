@@ -1,7 +1,9 @@
 import { dto } from '../utils/dto';
 
 export const requestRelationDto = dto<{
-  email: string;
+  body: {
+    email: string;
+  };
 }>({
   body: {
     type: 'object',
