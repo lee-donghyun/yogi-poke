@@ -40,3 +40,31 @@ export const authTokenHeaderDto = dto<{
     required: ['authorization'],
   },
 });
+
+export const patchUserDto = dto<{
+  body: {
+    password?: string;
+    name?: string;
+    pushSubscription?: string;
+    profileImageUrl?: string;
+  };
+}>({
+  body: {
+    type: 'object',
+    properties: {
+      password: {
+        type: 'string',
+      },
+      name: {
+        type: 'string',
+      },
+      pushSubscription: {
+        type: 'string',
+      },
+      profileImageUrl: {
+        type: 'string',
+      },
+    },
+    additionalProperties: false,
+  },
+});

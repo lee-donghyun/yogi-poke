@@ -6,6 +6,7 @@ import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 export const authPlugin = fastifyPlugin(async (instance) => {
   instance.decorateRequest('user', null);
   instance.addHook('preHandler', async (request) => {
+    request.user = null;
     const token = request.headers.authorization;
     if (!token) return;
     try {

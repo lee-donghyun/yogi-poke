@@ -60,10 +60,12 @@ export const patchUser = async ({
   pushSubscription,
 }: {
   id: number;
+  password?: string;
   name?: string;
-  pushSubscription?: PushSubscriptionJSON;
+  pushSubscription?: string;
+  profileImageUrl?: string;
 }) => {
-  db.user.update({
+  return db.user.update({
     where: {
       id,
     },

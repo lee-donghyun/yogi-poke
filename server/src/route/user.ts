@@ -1,6 +1,10 @@
 import { FastifyPluginAsync } from 'fastify';
-import { authTokenHeaderDto, registerUserDto } from '../dto/user';
-import { getUserByEmailAndPassword, registerUser } from '../service/user';
+import { authTokenHeaderDto, patchUserDto, registerUserDto } from '../dto/user';
+import {
+  getUserByEmailAndPassword,
+  patchUser,
+  registerUser,
+} from '../service/user';
 import { createUserToken } from '../service/auth';
 import { assertAuth } from '../plugin/auth';
 import { getPokedCount } from '../service/mate';
@@ -34,4 +38,15 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     );
     return createUserToken(user);
   });
+  instance.patch(
+    '/my-info',
+    { schema: patchUserDto.schema },
+    async (req, rep) => {
+      const user = assertAuth(req.user);
+      const body = req.body as typeof patchUserDto.type.body;
+      console.table({ user, body });
+      // rep.status(204);
+      return await patchUser({ id: user.id, ...body });
+    }
+  );
 };
