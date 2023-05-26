@@ -10,9 +10,9 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     { schema: registerUserDto.schema },
     async (req, rep) => {
       const body = req.body as typeof registerUserDto.type.body;
-      const { id } = await registerUser(body);
+      const { id, email } = await registerUser(body);
       rep.status(201);
-      return createUserToken(id);
+      return createUserToken({ id, email });
     }
   );
   instance.get(

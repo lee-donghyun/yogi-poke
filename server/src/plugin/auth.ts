@@ -1,5 +1,4 @@
-import { getUser } from '../service/user';
-import { verifyUserToken } from '../service/auth';
+import { verifyUserToken, JwtPayload } from '../service/auth';
 import fastifyPlugin from 'fastify-plugin';
 import { createError } from '../utils/error';
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
@@ -10,7 +9,8 @@ export const authPlugin = fastifyPlugin(async (instance) => {
     const token = request.headers.authorization;
     if (!token) return;
     try {
-      request.user = await getUser({ id: verifyUserToken(token).userId });
+      const { id, email } = verifyUserToken(token);
+      request.user = { id, email };
     } catch {
       request.user = null;
     }
@@ -27,10 +27,7 @@ export const assertAuth = (requestUser: RequestUser) => {
   return requestUser;
 };
 
-type RequestUser = {
-  id: number;
-  email: string;
-} | null;
+type RequestUser = JwtPayload | null;
 
 declare module 'fastify' {
   interface FastifyRequest {

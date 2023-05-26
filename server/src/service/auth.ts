@@ -4,13 +4,13 @@ import { createError } from '../utils/error';
 
 const jwtSecret = process.env.JWT_SECRET || '';
 
-export const createUserToken = async (userId: number) => {
-  return sign({ userId }, jwtSecret);
+export const createUserToken = async (user: JwtPayload) => {
+  return sign(user, jwtSecret);
 };
 
 export const verifyUserToken = (token: string) => {
   try {
-    return verify(token, jwtSecret) as { userId: number };
+    return verify(token, jwtSecret) as JwtPayload;
   } catch {
     throw createError({
       statusCode: 401,
@@ -18,3 +18,5 @@ export const verifyUserToken = (token: string) => {
     });
   }
 };
+
+export type JwtPayload = { id: number; email: string };

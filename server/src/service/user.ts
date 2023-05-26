@@ -19,14 +19,18 @@ export const registerUser = async (user: {
       message: CLIENT_ERROR_MESSAGE.ALREADY_USED_EMAIL,
     });
   }
-  return db.user.create({ data: user });
+  const { id, email } = await db.user.create({ data: user });
+  return { id, email };
 };
 
-export const getUser = async (user: { id: number }) => {
-  const found = await db.user.findUnique({ where: user });
+export const getUserByEmailAndPassword = async (user: {
+  email: string;
+  password: string;
+}) => {
+  const found = await db.user.findFirst({ where: user });
   if (found === null) {
     throw createError({
-      statusCode: 404,
+      statusCode: 400,
       message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
     });
   }
