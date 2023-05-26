@@ -17,6 +17,7 @@ export const passwordMatchesEmail = (user: {
 export const registerUser = async (user: {
   email: string;
   password: string;
+  name: string;
 }) => {
   if (await isUsedEmail(user.email)) {
     throw createError({
@@ -24,8 +25,8 @@ export const registerUser = async (user: {
       message: CLIENT_ERROR_MESSAGE.ALREADY_USED_EMAIL,
     });
   }
-  const { id, email } = await db.user.create({ data: user });
-  return { id, email };
+  const { id, email, name } = await db.user.create({ data: user });
+  return { id, email, name };
 };
 
 export const getUser = async (user: { email: string }) => {
@@ -44,14 +45,31 @@ export const getUserByEmailAndPassword = async (user: {
   password: string;
 }) => {
   if (await passwordMatchesEmail(user)) {
-    const found = await getUser(user);
-    return {
-      id: found.id,
-      email: found.email,
-    };
+    const { email, id, name } = await getUser(user);
+    return { email, id, name };
   }
   throw createError({
     statusCode: 400,
     message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
+  });
+};
+
+export const patchUser = async ({
+  id,
+  name,
+  pushSubscription,
+}: {
+  id: number;
+  name?: string;
+  pushSubscription?: PushSubscriptionJSON;
+}) => {
+  db.user.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      pushSubscription: JSON.stringify(pushSubscription),
+    },
   });
 };
