@@ -3,6 +3,7 @@ import { authTokenHeaderDto, registerUserDto } from '../dto/user';
 import { getUserByEmailAndPassword, registerUser } from '../service/user';
 import { createUserToken } from '../service/auth';
 import { assertAuth } from '../plugin/auth';
+import { getPokedCount } from '../service/mate';
 
 export const userRouter: FastifyPluginAsync = async (instance) => {
   instance.post(
@@ -22,7 +23,9 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     },
     async (req) => {
       const user = assertAuth(req.user);
-      return user;
+      const pokes = await getPokedCount({ fromUserId: user.id });
+      const pokeds = await getPokedCount({ toUserId: user.id });
+      return { ...user, pokes, pokeds };
     }
   );
   instance.post('/sign-in', { schema: registerUserDto.schema }, async (req) => {

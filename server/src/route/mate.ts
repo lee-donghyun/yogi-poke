@@ -1,6 +1,6 @@
-import { requestRelationDto } from '../dto/mate';
+import { getPokeListDto, requestRelationDto } from '../dto/mate';
 import { assertAuth } from '../plugin/auth';
-import { createRelation, pokeMate } from '../service/mate';
+import { createRelation, getRelatedPokesList, pokeMate } from '../service/mate';
 import { getUser } from '../service/user';
 import { FastifyPluginAsync } from 'fastify';
 
@@ -29,4 +29,13 @@ export const mateRouter: FastifyPluginAsync = async (instance) => {
       rep.status(201);
     }
   );
+  instance.get('/poke', { schema: getPokeListDto.schema }, async (req) => {
+    const user = assertAuth(req.user);
+    const query = req.query as typeof getPokeListDto.type.query;
+    const relatedPokes = await getRelatedPokesList(user.id, {
+      limit: query.limit ?? 20,
+      page: query.page ?? 1,
+    });
+    return relatedPokes;
+  });
 };

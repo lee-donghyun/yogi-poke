@@ -16,3 +16,23 @@ export const requestRelationDto = dto<{
     additionalProperties: false,
   },
 });
+
+export const getPokeListDto = dto<{
+  query: {
+    limit?: number;
+    page?: number;
+  };
+}>({
+  querystring: {
+    type: 'object',
+    properties: {
+      limit: {
+        type: 'number',
+      },
+      page: {
+        type: 'number',
+      },
+    },
+    additionalProperties: false,
+  },
+});
