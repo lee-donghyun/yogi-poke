@@ -12,3 +12,21 @@ model User {
   email    String @unique
   password String
 }
+
+model Relation {
+  fromUserId Int
+  toUserId   Int
+  isAccepted Boolean @default(false)
+  Poke       Poke[]
+
+  @@id([fromUserId, toUserId])
+}
+
+model Poke {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime
+
+  relation           Relation @relation(fields: [realtionFromUserId, realtionToUserId], references: [fromUserId, toUserId])
+  realtionFromUserId Int
+  realtionToUserId   Int
+}

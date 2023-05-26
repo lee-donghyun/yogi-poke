@@ -9,6 +9,11 @@ const isUsedEmail = (email: string) =>
     })
     .then((res) => res !== null);
 
+export const passwordMatchesEmail = (user: {
+  email: string;
+  password: string;
+}) => db.user.findFirst({ where: user }).then((res) => res !== null);
+
 export const registerUser = async (user: {
   email: string;
   password: string;
@@ -23,10 +28,7 @@ export const registerUser = async (user: {
   return { id, email };
 };
 
-export const getUserByEmailAndPassword = async (user: {
-  email: string;
-  password: string;
-}) => {
+export const getUser = async (user: { email: string }) => {
   const found = await db.user.findFirst({ where: user });
   if (found === null) {
     throw createError({
@@ -34,8 +36,22 @@ export const getUserByEmailAndPassword = async (user: {
       message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
     });
   }
-  return {
-    id: found.id,
-    email: found.email,
-  };
+  return found;
+};
+
+export const getUserByEmailAndPassword = async (user: {
+  email: string;
+  password: string;
+}) => {
+  if (await passwordMatchesEmail(user)) {
+    const found = await getUser(user);
+    return {
+      id: found.id,
+      email: found.email,
+    };
+  }
+  throw createError({
+    statusCode: 400,
+    message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
+  });
 };
