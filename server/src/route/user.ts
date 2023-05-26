@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 import { authTokenHeaderDto, registerUserDto } from '../dto/user';
-import { registerUser } from '../service/user';
+import { getUserByEmailAndPassword, registerUser } from '../service/user';
 import { createUserToken } from '../service/auth';
 import { assertAuth } from '../plugin/auth';
 
@@ -25,4 +25,10 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
       return user;
     }
   );
+  instance.post('/sign-in', { schema: registerUserDto.schema }, async (req) => {
+    const user = await getUserByEmailAndPassword(
+      req.body as typeof registerUserDto.type.body
+    );
+    return createUserToken(user);
+  });
 };
