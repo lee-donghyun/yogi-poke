@@ -1,6 +1,7 @@
 import { getPokeListDto, requestRelationDto } from '../dto/mate';
 import { assertAuth } from '../plugin/auth';
 import { createRelation, getRelatedPokesList, pokeMate } from '../service/mate';
+import { sendPushNotification } from '../service/push';
 import { getUser } from '../service/user';
 import { FastifyPluginAsync } from 'fastify';
 
@@ -22,11 +23,17 @@ export const mateRouter: FastifyPluginAsync = async (instance) => {
     { schema: requestRelationDto.schema },
     async (req, rep) => {
       const body = req.body as typeof requestRelationDto.type.body;
-      const { id: fromUserId } = assertAuth(req.user);
-      const { id: toUserId } = await getUser({ email: body.email });
+      const { id: fromUserId, email, name } = assertAuth(req.user);
+      const { id: toUserId, pushSubscription } = await getUser(body);
 
       await pokeMate(fromUserId, toUserId);
       rep.status(201);
+      if (pushSubscription !== null) {
+        return await sendPushNotification(toUserId, {
+          title: '요기콕콕!',
+          body: `${email}님이 회원님을 콕 찔렀어요!`,
+        });
+      }
     }
   );
   instance.get('/poke', { schema: getPokeListDto.schema }, async (req) => {

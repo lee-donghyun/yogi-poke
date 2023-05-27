@@ -17,8 +17,7 @@ export const App = () => {
                 .then((registration) => {
                   const subscribeOptions = {
                     userVisibleOnly: true,
-                    applicationServerKey:
-                      "BLOxNEo_0Vvvi5v2UUEnJF01rXNKNJLha_H26gt0TAlRDHAj6VAIUVTqz-CNjaVTVGkUlTn8vD-9zK9a_NSx0qo", // 발급받은 vapid public key
+                    applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY,
                   };
                   return registration.pushManager.subscribe(subscribeOptions);
                 })
