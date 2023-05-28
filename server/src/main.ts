@@ -4,6 +4,7 @@ import { authPlugin } from './plugin/auth';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
+import { Error2 } from './utils/error';
 
 const app = fastify({ logger: true });
 
@@ -13,10 +14,10 @@ app.register(cors);
 app.register(router);
 app.register(authPlugin);
 
-app.setErrorHandler(async (error, _, reply) => {
+app.setErrorHandler(async (error: Error2, _, reply) => {
   const { statusCode = 500, ...rest } = error;
-  reply.code(statusCode);
+  reply.status(statusCode);
   return rest;
 });
 
-app.listen({ port: 3000 });
+app.listen({ port: Number(process.env.PORT ?? 3000) });
