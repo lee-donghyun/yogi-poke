@@ -20,4 +20,4 @@ app.setErrorHandler(async (error: Error2, _, reply) => {
   return rest;
 });
 
-app.listen({ port: Number(process.env.PORT ?? 3000) });
+app.listen({ port: Number(process.env.PORT ?? 8080), host: '0.0.0.0' });
