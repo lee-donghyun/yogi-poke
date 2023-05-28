@@ -132,9 +132,10 @@ export const Register = () => {
             <p className={cx.helper}>{currentFieldError}</p>
           )}
         </div>
+        <button></button>
       </form>
       <div className="h-96"></div>
-      <div className="sticky inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
+      <div className="fixed inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
         <button
           disabled={isMutating || typeof currentFieldError === "string"}
           className="block w-full bg-black rounded text-white p-4 disabled:bg-zinc-300 duration-300"
