@@ -1,14 +1,23 @@
 import axios from "axios";
+import { useState } from "react";
 
 export const App = () => {
+  const [token, setToken] = useState("");
   return (
     <div>
       <h1>web push test!</h1>
+      <input
+        type="text"
+        className="border-p-5 text-lg"
+        value={token}
+        onChange={({ target: { value } }) => {
+          setToken(value);
+        }}
+      />
       <button
         onClick={() => {
           Notification.requestPermission().then((status) => {
             console.log("Notification 상태", status);
-
             if (status === "denied") {
               alert("Notification 거부됨");
             } else if (navigator.serviceWorker) {
@@ -23,16 +32,14 @@ export const App = () => {
                 })
                 .then((pushSubscription) => {
                   axios.patch(
-                    `http://localhost:3000/user/my-info`,
+                    `${import.meta.env.VITE_YOGI_POKE_API_URL}/user/my-info`,
                     { pushSubscription },
                     {
                       headers: {
-                        Authorization:
-                          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJAay1iaWxsIiwibmFtZSI6IktvcmVhbiBCaWxsIEdhdGVzIiwiaWF0IjoxNjg1MTAzODY0fQ.Sx92qw7wcmR_GGtr3mSh2-Hk_LZFfGC_GNqVRD2NJbQ",
+                        Authorization: token,
                       },
                     }
                   );
-                  console.log(pushSubscription);
                 });
             }
           });
