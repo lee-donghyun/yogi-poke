@@ -1,0 +1,8 @@
+{
+  "short_name": "요기콕콕!",
+  "name": "요기콕콕!",
+  "start_url": "./?mode=pwa",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
