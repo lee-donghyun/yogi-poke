@@ -1,66 +1,141 @@
+import { useCallback, useState } from "react";
+import useSWRMutation from "swr/mutation";
+import { yogiPokeApi } from "../service/api";
+
 const cx = {
-  formItem: "flex flex-col gap-2 pb-5",
+  formItem: "flex flex-col gap-2 h-32 duration-300",
   label: "text-lg",
-  input: "border rounded text-zinc-800 p-2 invalid:border-red-500",
+  input: "border rounded text-zinc-800 p-2",
+  helper: "text-sm text-zinc-600",
 };
 
+type Form = {
+  email: string;
+  name: string;
+  password: string;
+};
+const stepFieldNameMap = {
+  1: "email",
+  2: "name",
+  3: "password",
+} as const;
+const validator = {
+  email: (email: string) =>
+    !/^[a-z,_,0-9]+$/.test(email)
+      ? "소문자 알파벳과 숫자, 언더바(_)만 사용가능합니다."
+      : null,
+  name: (name: string) =>
+    name.length === 0 ? "1자리 이상 입력해주세요." : null,
+  password: (password: string) =>
+    password.length < 6 ? "6자리 이상 입력해주세요." : null,
+} as const;
 export const Register = () => {
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const { trigger, isMutating } = useSWRMutation(
+    "/user/register",
+    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg)
+  );
+  const [data, setData] = useState<Form>({
+    email: "",
+    name: "",
+    password: "",
+  });
+
+  const onChange = useCallback(
+    (key: keyof Form) => (e: { target: { value: string } }) =>
+      setData((p) => ({ ...p, [key]: e.target.value })),
+    []
+  );
+
+  const currentKey = stepFieldNameMap[step];
+  const currentFieldError = validator[currentKey](data[currentKey]);
+
   return (
     <div className="min-h-screen">
       <div className="text-4xl font-extrabold p-20 text-center">
-        <p className="-rotate-12">요기콕콕!</p>
+        <p className={`-rotate-12 ${isMutating && "animate-spin"}`}>
+          요기콕콕!
+        </p>
       </div>
-      <form
-        className="flex flex-col gap-5 p-5"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const form = new FormData(e.currentTarget);
-          console.table(Object.fromEntries([...form.entries()]));
-        }}
+      <div
+        style={{ transform: `translateY(${(step - 3) * 128}px)` }}
+        className="flex flex-col p-5 duration-300"
       >
-        <div className={cx.formItem}>
-          <label className={cx.label} htmlFor="username">
-            아이디
+        <div
+          className={cx.formItem}
+          style={step > 2 ? undefined : { pointerEvents: "none", opacity: 0 }}
+        >
+          <label className={cx.label} htmlFor="password">
+            비밀번호
           </label>
           <input
+            onFocus={() => setStep(3)}
+            disabled={isMutating}
             className={cx.input}
-            pattern="^[a-z]+$"
-            type="text"
-            id="username"
-            name="username"
-            required
+            type="password"
+            id="password"
+            name="password"
+            onChange={onChange("password")}
           />
+          {step === 3 && typeof currentFieldError === "string" && (
+            <p className={cx.helper}>{currentFieldError}</p>
+          )}
         </div>
-        <div className={cx.formItem}>
+        <div
+          className={cx.formItem}
+          style={step > 1 ? undefined : { pointerEvents: "none", opacity: 0 }}
+        >
           <label className={cx.label} htmlFor="name">
             이름
           </label>
           <input
             className={cx.input}
+            onFocus={() => setStep(2)}
+            disabled={isMutating}
             type="text"
             id="name"
             name="name"
-            required
+            onChange={onChange("name")}
           />
+          {step === 2 && typeof currentFieldError === "string" && (
+            <p className={cx.helper}>{currentFieldError}</p>
+          )}
         </div>
         <div className={cx.formItem}>
-          <label className={cx.label} htmlFor="password">
-            비밀번호
+          <label className={cx.label} htmlFor="email">
+            아이디
           </label>
           <input
-            required
             className={cx.input}
-            type="password"
-            id="password"
-            name="password"
+            onFocus={() => setStep(1)}
+            disabled={isMutating}
+            type="text"
+            id="email"
+            name="email"
+            onChange={onChange("email")}
           />
+          {step === 1 && typeof currentFieldError === "string" && (
+            <p className={cx.helper}>{currentFieldError}</p>
+          )}
         </div>
-        <div className="fixed inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
-          <button className="block w-full bg-black rounded text-white p-4">
-            회원가입
-          </button>
-        </div>
-      </form>
+      </div>
+      <div className="fixed inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
+        <button
+          disabled={isMutating || typeof currentFieldError === "string"}
+          className="block w-full bg-black rounded text-white p-4 disabled:opacity-40 duration-300"
+          onClick={() => {
+            if (step < 3) {
+              const nextStep = (step + 1) as 1;
+              setStep(nextStep);
+              document.getElementById(stepFieldNameMap[nextStep])?.focus();
+            } else {
+              trigger(data);
+            }
+          }}
+        >
+          {step === 3 ? "회원가입" : "다음"}
+        </button>
+      </div>
     </div>
   );
 };
