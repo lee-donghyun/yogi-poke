@@ -47,6 +47,16 @@ export const Register = () => {
     []
   );
 
+  const onSubmit = () => {
+    if (step < 3) {
+      const nextStep = (step + 1) as 1;
+      setStep(nextStep);
+      document.getElementById(stepFieldNameMap[nextStep])?.focus();
+    } else {
+      trigger(data);
+    }
+  };
+
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
 
@@ -57,9 +67,13 @@ export const Register = () => {
           요기콕콕!
         </p>
       </div>
-      <div
+      <form
         style={{ transform: `translateY(${(step - 3) * 128}px)` }}
         className="flex flex-col p-5 duration-300"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
       >
         <div
           className={cx.formItem}
@@ -118,20 +132,13 @@ export const Register = () => {
             <p className={cx.helper}>{currentFieldError}</p>
           )}
         </div>
-      </div>
-      <div className="fixed inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
+      </form>
+      <div className="h-96"></div>
+      <div className="sticky inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
         <button
           disabled={isMutating || typeof currentFieldError === "string"}
-          className="block w-full bg-black rounded text-white p-4 disabled:opacity-40 duration-300"
-          onClick={() => {
-            if (step < 3) {
-              const nextStep = (step + 1) as 1;
-              setStep(nextStep);
-              document.getElementById(stepFieldNameMap[nextStep])?.focus();
-            } else {
-              trigger(data);
-            }
-          }}
+          className="block w-full bg-black rounded text-white p-4 disabled:bg-zinc-300 duration-300"
+          onClick={onSubmit}
         >
           {step === 3 ? "회원가입" : "다음"}
         </button>
