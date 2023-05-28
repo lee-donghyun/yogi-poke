@@ -134,7 +134,6 @@ export const Register = () => {
         </div>
         <button></button>
       </form>
-      <div className="h-96"></div>
       <div className="fixed inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white">
         <button
           disabled={isMutating || typeof currentFieldError === "string"}
