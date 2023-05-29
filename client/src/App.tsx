@@ -4,7 +4,7 @@ import { Register } from "./page/Register";
 export const App = () => {
   return (
     <Router>
-      <Route path="/" component={Register} />
+      <Route component={Register} path="/" />
     </Router>
   );
 };

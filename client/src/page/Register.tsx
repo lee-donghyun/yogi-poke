@@ -62,14 +62,14 @@ export const Register = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="text-4xl font-extrabold p-20 text-center">
+      <div className="p-20 text-center text-4xl font-extrabold">
         <p className={`-rotate-12 ${isMutating && "animate-spin"}`}>
           요기콕콕!
         </p>
       </div>
       <form
-        style={{ transform: `translateY(${(step - 3) * 128}px)` }}
         className="flex flex-col p-5 duration-300"
+        style={{ transform: `translateY(${(step - 3) * 128}px)` }}
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
@@ -83,13 +83,13 @@ export const Register = () => {
             비밀번호
           </label>
           <input
-            onFocus={() => setStep(3)}
-            disabled={isMutating}
             className={cx.input}
-            type="password"
+            disabled={isMutating}
             id="password"
             name="password"
             onChange={onChange("password")}
+            onFocus={() => setStep(3)}
+            type="password"
           />
           {step === 3 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -104,12 +104,12 @@ export const Register = () => {
           </label>
           <input
             className={cx.input}
-            onFocus={() => setStep(2)}
             disabled={isMutating}
-            type="text"
             id="name"
             name="name"
             onChange={onChange("name")}
+            onFocus={() => setStep(2)}
+            type="text"
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -121,12 +121,12 @@ export const Register = () => {
           </label>
           <input
             className={cx.input}
-            onFocus={() => setStep(1)}
             disabled={isMutating}
-            type="text"
             id="email"
             name="email"
             onChange={onChange("email")}
+            onFocus={() => setStep(1)}
+            type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -134,10 +134,10 @@ export const Register = () => {
         </div>
         <button></button>
       </form>
-      <div className="fixed inset-x-0 bottom-[env(safe-area-inset-bottom)] p-5 bg-gradient-to-b from-transparent to-white">
+      <div className="fixed inset-x-0 bottom-[env(safe-area-inset-bottom)] bg-gradient-to-b from-transparent to-white p-5">
         <button
+          className="block w-full rounded bg-black p-4 text-white duration-300 disabled:bg-zinc-300"
           disabled={isMutating || typeof currentFieldError === "string"}
-          className="block w-full bg-black rounded text-white p-4 disabled:bg-zinc-300 duration-300"
           onClick={onSubmit}
         >
           {step === 3 ? "회원가입" : "다음"}
