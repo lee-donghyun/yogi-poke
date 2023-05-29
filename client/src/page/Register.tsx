@@ -28,7 +28,16 @@ export const Register = () => {
     "/user/register",
     (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg),
     {
-      onError: () => push({ content: "다시 시도해주세요." }),
+      onError: (err) => {
+        switch (err?.response?.status) {
+          case 409:
+            push({ content: "이미 사용중인 계정입니다." });
+            break;
+          default:
+            push({ content: "다시 시도해주세요." });
+            break;
+        }
+      },
       throwOnError: false,
     }
   );
