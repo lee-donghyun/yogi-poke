@@ -9,6 +9,7 @@ type MyInfo = {
   name: string;
   pokeds: number;
   pokes: number;
+  token: string;
 };
 
 const authContext = createContext<{
@@ -49,7 +50,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       .get("/user/my-info", {
         headers: { Authorization: token },
       })
-      .then(({ data }) => setMyInfo(data));
+      .then(({ data }) => setMyInfo({ ...data, token }));
 
   return (
     <authContext.Provider
@@ -58,7 +59,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       <SWRConfig
         value={{
           fetcher: ([key, params]) =>
-            yogiPokeApi.get(key, { params }).then((res) => res.data),
+            yogiPokeApi
+              .get(key, { params, headers: { Authorization: myInfo?.token } })
+              .then((res) => res.data),
         }}
       >
         {children}
