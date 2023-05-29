@@ -1,6 +1,13 @@
-import { Link } from "../lib/router2";
+import { useUser } from "../component/Auth";
+import { Link, useRouter } from "../lib/router2";
 
 export const Home = () => {
+  const { navigate } = useRouter();
+  const { isLoggedIn } = useUser();
+
+  if (isLoggedIn) {
+    navigate({ pathname: "/my-page" }, { replace: true });
+  }
   return (
     <div className="min-h-screen">
       <div className="p-20 text-center text-4xl font-extrabold">

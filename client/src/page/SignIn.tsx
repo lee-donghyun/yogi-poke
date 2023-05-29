@@ -26,11 +26,6 @@ export const SignIn = () => {
   const { navigate, params } = useRouter();
   const { registerToken, isLoggedIn } = useUser();
 
-  if (isLoggedIn) {
-    const redirect = params.returnUrl;
-    navigate({ pathname: redirect || "/my-page" }, { replace: true });
-  }
-
   const [step, setStep] = useState<1 | 2>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/sign-in",
@@ -40,7 +35,11 @@ export const SignIn = () => {
         .then(({ data }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
-          navigate({ pathname: redirect || "/my-page" }, { replace: true });
+          if (typeof redirect === "string") {
+            navigate({ pathname: redirect }, { replace: true });
+          } else {
+            window.history.back();
+          }
         }),
     {
       onError: () => push({ content: "다시 시도해주세요." }),
@@ -71,6 +70,9 @@ export const SignIn = () => {
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
 
+  if (isLoggedIn) {
+    navigate({ pathname: "/my-page" }, { replace: true });
+  }
   return (
     <div className="min-h-screen">
       <div className="p-20 text-center text-4xl font-extrabold">

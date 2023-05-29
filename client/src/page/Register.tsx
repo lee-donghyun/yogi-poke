@@ -28,11 +28,6 @@ export const Register = () => {
   const { navigate, params } = useRouter();
   const { registerToken, isLoggedIn } = useUser();
 
-  if (isLoggedIn) {
-    const redirect = params.returnUrl;
-    navigate({ pathname: redirect || "/my-page" }, { replace: true });
-  }
-
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/register",
@@ -42,7 +37,11 @@ export const Register = () => {
         .then(({ data }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
-          navigate({ pathname: redirect || "/my-page" }, { replace: true });
+          if (typeof redirect === "string") {
+            navigate({ pathname: redirect }, { replace: true });
+          } else {
+            window.history.back();
+          }
         }),
     {
       onError: (err) => {
@@ -83,6 +82,9 @@ export const Register = () => {
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
 
+  if (isLoggedIn) {
+    navigate({ pathname: "/my-page" }, { replace: true });
+  }
   return (
     <div className="min-h-screen">
       <div className="p-20 text-center text-4xl font-extrabold">
