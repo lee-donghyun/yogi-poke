@@ -2,11 +2,12 @@ import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { yogiPokeApi } from "../service/api";
 import { validator } from "../service/validator";
+import { useNotification } from "../component/notification";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
   label: "text-lg",
-  input: "border rounded text-zinc-800 p-2",
+  input: "border rounded text-zinc-800 p-2 disabled:bg-zinc-100",
   helper: "text-sm text-zinc-600",
 };
 
@@ -19,10 +20,15 @@ const stepFieldNameMap = {
   2: "password",
 } as const;
 export const SignIn = () => {
+  const push = useNotification();
   const [step, setStep] = useState<1 | 2>(1);
   const { trigger, isMutating } = useSWRMutation(
-    "/user/register",
-    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg)
+    "/user/sign-in",
+    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg),
+    {
+      onError: () => push({ content: "다시 시도해주세요." }),
+      throwOnError: false,
+    }
   );
   const [data, setData] = useState<Form>({
     email: "",
@@ -108,7 +114,7 @@ export const SignIn = () => {
           disabled={isMutating || typeof currentFieldError === "string"}
           onClick={onSubmit}
         >
-          {step === 2 ? "회원가입" : "다음"}
+          {step === 2 ? "로그인" : "다음"}
         </button>
       </div>
     </div>
