@@ -2,6 +2,7 @@ import { useUser } from "../component/Auth";
 import { BottomNavigation } from "../component/BottomNavigation";
 import { Navigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
+import { PokeListItem } from "../component/PokeListItem";
 import { Link, useRouter } from "../lib/router2";
 
 const Stat = ({ label, value }: { value: number; label: string }) => {
@@ -117,6 +118,32 @@ export const MyPage = () => {
           <Stat label="내가 찌른 횟수" value={myInfo?.pokes ?? 0} />
           <div className="h-12 w-px bg-zinc-200"></div>
           <Stat label="내가 찔린 횟수" value={myInfo?.pokeds ?? 0} />
+        </div>
+        <div className="mt-10 flex flex-col gap-4">
+          <PokeListItem
+            date=""
+            targetUserEmail="korean_bill_gates"
+            targetUserName="한국인 빌게이츠"
+            type="poke"
+          />
+          <PokeListItem
+            date=""
+            targetUserEmail="korean_9lock_nine"
+            targetUserName="감옥에서 방금나온 글락나인"
+            type="poked"
+          />
+          <PokeListItem
+            date=""
+            targetUserEmail="korean_bill_gates"
+            targetUserName="한국인 빌게이츠"
+            type="poke"
+          />
+          <PokeListItem
+            date=""
+            targetUserEmail="korean_bill_gates"
+            targetUserName="한국인 빌게이츠"
+            type="poked"
+          />
         </div>
         {/* 여기에서 poke 피드 보기 */}
       </div>
