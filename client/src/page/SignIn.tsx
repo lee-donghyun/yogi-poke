@@ -58,7 +58,7 @@ export const SignIn = () => {
     <div className="min-h-screen">
       <div className="p-20 text-center text-4xl font-extrabold">
         <p className={`-rotate-12 ${isMutating && "animate-spin"}`}>
-          요기콕콕!
+          요기콕콕!👉
         </p>
       </div>
       <form
@@ -112,7 +112,7 @@ export const SignIn = () => {
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
-          className="block w-full rounded bg-black p-4 text-white duration-300 disabled:bg-zinc-300"
+          className="block w-full rounded bg-black p-4 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={isMutating || typeof currentFieldError === "string"}
           onClick={onSubmit}
         >
