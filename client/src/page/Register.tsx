@@ -26,7 +26,12 @@ const stepFieldNameMap = {
 export const Register = () => {
   const push = useNotification();
   const { navigate, params } = useRouter();
-  const { registerToken } = useUser();
+  const { registerToken, isLoggedIn } = useUser();
+
+  if (isLoggedIn) {
+    const redirect = params.returnUrl;
+    navigate({ pathname: redirect || "/my-page" }, { replace: true });
+  }
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { trigger, isMutating } = useSWRMutation(
