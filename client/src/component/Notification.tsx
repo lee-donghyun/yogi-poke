@@ -7,19 +7,17 @@ type NotificationData = {
 };
 
 const notificationContext = createContext<
-  null | ((notification: Omit<NotificationData, "id">) => void)
->(null);
+  (notification: Omit<NotificationData, "id">) => void
+>(() => {
+  throw new Error(
+    "useNotification hook need to be called in NotificationProvider"
+  );
+});
 
 const initialNotificaion = { data: [], cursor: 0 };
 
 export const useNotification = () => {
-  const push = useContext(notificationContext);
-  if (push === null) {
-    throw new Error(
-      "useNotification hook need to be called in NotificationProvider"
-    );
-  }
-  return push;
+  return useContext(notificationContext);
 };
 
 export const NotificationProvider = ({

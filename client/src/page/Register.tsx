@@ -1,8 +1,9 @@
 import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
+import { useNotification } from "../component/Notification";
 import { yogiPokeApi } from "../service/api";
 import { validator } from "../service/validator";
-import { useNotification } from "../component/notification";
+import { useUser } from "../component/Auth";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
@@ -23,10 +24,13 @@ const stepFieldNameMap = {
 } as const;
 export const Register = () => {
   const push = useNotification();
+  const { registerToken } = useUser();
+
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/register",
-    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg),
+    (api, { arg }: { arg: Form }) =>
+      yogiPokeApi.post(api, arg).then(({ data }) => registerToken(data)),
     {
       onError: (err) => {
         switch (err?.response?.status) {

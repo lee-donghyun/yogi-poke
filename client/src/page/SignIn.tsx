@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { yogiPokeApi } from "../service/api";
 import { validator } from "../service/validator";
-import { useNotification } from "../component/notification";
+import { useNotification } from "../component/Notification";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
