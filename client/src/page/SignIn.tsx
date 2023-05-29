@@ -3,6 +3,8 @@ import useSWRMutation from "swr/mutation";
 import { yogiPokeApi } from "../service/api";
 import { validator } from "../service/validator";
 import { useNotification } from "../component/Notification";
+import { useUser } from "../component/Auth";
+import { useRouter } from "../lib/router2";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
@@ -21,10 +23,20 @@ const stepFieldNameMap = {
 } as const;
 export const SignIn = () => {
   const push = useNotification();
+  const { navigate, params } = useRouter();
+  const { registerToken } = useUser();
+
   const [step, setStep] = useState<1 | 2>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/sign-in",
-    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg),
+    (api, { arg }: { arg: Form }) =>
+      yogiPokeApi
+        .post(api, arg)
+        .then(({ data }) => registerToken(data))
+        .then(() => {
+          const redirect = params.returnUrl;
+          navigate({ pathname: redirect || "/my-page" }, { replace: true });
+        }),
     {
       onError: () => push({ content: "다시 시도해주세요." }),
       throwOnError: false,

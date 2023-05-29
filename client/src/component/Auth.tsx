@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { yogiPokeApi } from "../service/api";
 import { SWRConfig } from "swr";
-import { useLocation } from "wouter";
+import { useRouter } from "../lib/router2";
 
 type MyInfo = { name: string; id: number; email: string; token: string };
 
@@ -20,13 +20,17 @@ const authContext = createContext<{
 });
 
 export const useUser = () => {
-  const [location, navigate] = useLocation();
+  const { navigate, path } = useRouter();
   const auth = useContext(authContext);
   const assertAuth = () => {
     if (!auth.isLoggedIn) {
-      navigate(`/sign-in?returnUrl=${encodeURIComponent(location)}`, {
-        replace: true,
-      });
+      navigate(
+        {
+          pathname: "/sign-in",
+          ...(path && { query: { returnUrl: path } }),
+        },
+        { replace: true }
+      );
     }
   };
   return { ...auth, assertAuth };

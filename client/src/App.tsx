@@ -1,21 +1,24 @@
-import { Route, Router } from "wouter";
 import { Register } from "./page/Register";
 import { SignIn } from "./page/SignIn";
 import { NotificationProvider } from "./component/Notification";
 import { Home } from "./page/Home";
 import { AuthProvider } from "./component/Auth";
 import { MyPage } from "./page/MyPage";
+import { BrowserRouter } from "./lib/router2";
 
 export const App = () => {
   return (
     <NotificationProvider>
       <AuthProvider>
-        <Router>
-          <Route component={Home} path="/" />
-          <Route component={Register} path="/register" />
-          <Route component={SignIn} path="/sign-in" />
-          <Route component={MyPage} path="/my-page" />
-        </Router>
+        <BrowserRouter
+          routes={{
+            "/": Home,
+            "/register": Register,
+            "/sign-in": SignIn,
+            "/my-page": MyPage,
+            "/404": () => <>not found</>,
+          }}
+        />
       </AuthProvider>
     </NotificationProvider>
   );

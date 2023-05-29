@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link } from "../lib/router2";
 
 export const Home = () => {
   return (
@@ -26,12 +26,12 @@ export const Home = () => {
         <p className="mt-5">함께 더 가까워지는 소통의 즐거움을 경험하세요!</p>
       </div>
       <div className="flex flex-col gap-5 p-5">
-        <Link href="/register">
+        <Link pathname="/register">
           <button className="block w-full rounded bg-black p-4 text-white duration-300 active:opacity-60">
             회원가입
           </button>
         </Link>
-        <Link href="/sign-in">
+        <Link pathname="/sign-in">
           <button className="block w-full rounded border p-4 duration-300 active:bg-zinc-200 disabled:bg-zinc-300">
             로그인
           </button>
