@@ -1,6 +1,8 @@
 import { useUser } from "../component/Auth";
+import { BottomNavigation } from "../component/BottomNavigation";
 import { Navigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
+import { Link, useRouter } from "../lib/router2";
 
 const Stat = ({ label, value }: { value: number; label: string }) => {
   return (
@@ -10,6 +12,23 @@ const Stat = ({ label, value }: { value: number; label: string }) => {
     </div>
   );
 };
+
+const SearchIcon = () => (
+  <svg
+    className="h-6 w-6"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.5}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 const EditIcon = () => (
   <svg
@@ -27,6 +46,40 @@ const EditIcon = () => (
     />
   </svg>
 );
+
+const DomainBottomNavigation = () => {
+  const { path } = useRouter();
+  return (
+    <BottomNavigation
+      menus={[
+        <Link
+          key="search"
+          replace
+          pathname="/search"
+          className={`flex flex-1 justify-center ${
+            path === "/search" ? "text-black" : "text-zinc-400"
+          }`}
+        >
+          <SearchIcon />
+        </Link>,
+        <Link
+          key="myPage"
+          replace
+          className="flex flex-1 justify-center"
+          pathname="/my-page"
+        >
+          <img
+            alt=""
+            src=""
+            className={`h-6 w-6 rounded-full bg-zinc-200 object-cover ${
+              path === "/my-page" ? "border border-black" : ""
+            }`}
+          />
+        </Link>,
+      ]}
+    />
+  );
+};
 
 export const MyPage = () => {
   const push = useNotification();
@@ -50,7 +103,7 @@ export const MyPage = () => {
         ]}
       />
       <div className="p-5">
-        <div className="mt-16 flex justify-center">
+        <div className="flex justify-center pt-16">
           <img
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src=""
@@ -65,7 +118,9 @@ export const MyPage = () => {
           <div className="h-12 w-px bg-zinc-200"></div>
           <Stat label="내가 찔린 횟수" value={myInfo?.pokeds ?? 0} />
         </div>
+        {/* 여기에서 poke 피드 보기 */}
       </div>
+      <DomainBottomNavigation />
     </div>
   );
 };

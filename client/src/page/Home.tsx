@@ -27,12 +27,12 @@ export const Home = () => {
       </div>
       <div className="flex flex-col gap-5 p-5">
         <Link pathname="/register">
-          <button className="block w-full rounded bg-black p-4 text-white duration-300 active:opacity-60">
+          <button className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60">
             회원가입
           </button>
         </Link>
         <Link pathname="/sign-in">
-          <button className="block w-full rounded border p-4 duration-300 active:bg-zinc-200 disabled:bg-zinc-300">
+          <button className="block w-full rounded-full border p-4 duration-300 active:bg-zinc-200 disabled:bg-zinc-300">
             로그인
           </button>
         </Link>

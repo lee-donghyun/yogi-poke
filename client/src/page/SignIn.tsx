@@ -129,7 +129,7 @@ export const SignIn = () => {
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
-          className="block w-full rounded bg-black p-4 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
+          className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={isMutating || typeof currentFieldError === "string"}
           onClick={onSubmit}
         >
