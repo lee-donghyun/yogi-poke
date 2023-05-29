@@ -5,6 +5,7 @@ import { Home } from "./page/Home";
 import { AuthProvider } from "./component/Auth";
 import { MyPage } from "./page/MyPage";
 import { BrowserRouter } from "./lib/router2";
+import { Search } from "./page/Search";
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
             "/register": Register,
             "/sign-in": SignIn,
             "/my-page": MyPage,
+            "/search": Search,
             "/404": () => <>not found</>,
           }}
         />

@@ -48,7 +48,7 @@ const EditIcon = () => (
   </svg>
 );
 
-const DomainBottomNavigation = () => {
+export const DomainBottomNavigation = () => {
   const { path } = useRouter();
   return (
     <BottomNavigation
@@ -115,9 +115,9 @@ export const MyPage = () => {
           <p className="mt-1">{myInfo?.name}</p>
         </div>
         <div className="mt-10 flex items-center">
-          <Stat label="내가 찌른 횟수" value={myInfo?.pokes ?? 0} />
+          <Stat label="내가 콕! 찌른 횟수" value={myInfo?.pokes ?? 0} />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="내가 찔린 횟수" value={myInfo?.pokeds ?? 0} />
+          <Stat label="내가 콕! 찔린 횟수" value={myInfo?.pokeds ?? 0} />
         </div>
         <div className="mt-10 flex flex-col gap-4">
           <PokeListItem

@@ -45,7 +45,7 @@ export const PokeListItem = ({
           </p>
           {type === "poked" && (
             <button className="mt-1 w-full rounded-md border border-zinc-600 p-1 text-sm">
-              나도 콕 찌르기 👉
+              나도 콕! 찌르기 👉
             </button>
           )}
         </div>
