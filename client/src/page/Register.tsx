@@ -134,7 +134,7 @@ export const Register = () => {
         </div>
         <button></button>
       </form>
-      <div className="fixed inset-x-0 top-[calc(100vh-96px)] bg-gradient-to-b from-transparent to-white p-5">
+      <div className="bottom0 fixed inset-x-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
           className="block w-full rounded bg-black p-4 text-white duration-300 disabled:bg-zinc-300"
           disabled={isMutating || typeof currentFieldError === "string"}
