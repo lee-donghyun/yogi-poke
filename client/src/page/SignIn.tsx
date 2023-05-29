@@ -12,23 +12,20 @@ const cx = {
 
 type Form = {
   email: string;
-  name: string;
   password: string;
 };
 const stepFieldNameMap = {
   1: "email",
-  2: "name",
-  3: "password",
+  2: "password",
 } as const;
-export const Register = () => {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+export const SignIn = () => {
+  const [step, setStep] = useState<1 | 2>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/register",
     (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg)
   );
   const [data, setData] = useState<Form>({
     email: "",
-    name: "",
     password: "",
   });
 
@@ -39,7 +36,7 @@ export const Register = () => {
   );
 
   const onSubmit = () => {
-    if (step < 3) {
+    if (step < 2) {
       const nextStep = (step + 1) as 1;
       setStep(nextStep);
       document.getElementById(stepFieldNameMap[nextStep])?.focus();
@@ -60,7 +57,7 @@ export const Register = () => {
       </div>
       <form
         className="flex flex-col p-5 duration-300"
-        style={{ transform: `translateY(${(step - 3) * 128}px)` }}
+        style={{ transform: `translateY(${(step - 2) * 128}px)` }}
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
@@ -68,7 +65,7 @@ export const Register = () => {
       >
         <div
           className={cx.formItem}
-          style={step > 2 ? undefined : { pointerEvents: "none", opacity: 0 }}
+          style={step > 1 ? undefined : { pointerEvents: "none", opacity: 0 }}
         >
           <label className={cx.label} htmlFor="password">
             비밀번호
@@ -79,28 +76,8 @@ export const Register = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
-            onFocus={() => setStep(3)}
-            type="password"
-          />
-          {step === 3 && typeof currentFieldError === "string" && (
-            <p className={cx.helper}>{currentFieldError}</p>
-          )}
-        </div>
-        <div
-          className={cx.formItem}
-          style={step > 1 ? undefined : { pointerEvents: "none", opacity: 0 }}
-        >
-          <label className={cx.label} htmlFor="name">
-            이름
-          </label>
-          <input
-            className={cx.input}
-            disabled={isMutating}
-            id="name"
-            name="name"
-            onChange={onChange("name")}
             onFocus={() => setStep(2)}
-            type="text"
+            type="password"
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -131,7 +108,7 @@ export const Register = () => {
           disabled={isMutating || typeof currentFieldError === "string"}
           onClick={onSubmit}
         >
-          {step === 3 ? "회원가입" : "다음"}
+          {step === 2 ? "회원가입" : "다음"}
         </button>
       </div>
     </div>
