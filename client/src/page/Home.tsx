@@ -6,7 +6,7 @@ export const Home = () => {
   const { isLoggedIn } = useUser();
 
   if (isLoggedIn) {
-    navigate({ pathname: "/my-page" }, { replace: true });
+    navigate({ pathname: "/search" }, { replace: true });
   }
   return (
     <div className="min-h-screen">
