@@ -1,6 +1,5 @@
 export const PokeListItem = ({
   type,
-  date,
   targetUserEmail,
   targetUserName,
 }: {
