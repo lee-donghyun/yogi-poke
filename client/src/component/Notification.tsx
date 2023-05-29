@@ -14,7 +14,7 @@ const notificationContext = createContext<
   );
 });
 
-const initialNotificaion = { data: [], cursor: 0 };
+const initialNotificaion = { data: [], cursor: -1 };
 
 export const useNotification = () => {
   return useContext(notificationContext);
@@ -32,22 +32,24 @@ export const NotificationProvider = ({
 
   const pushNotification = (n: Omit<NotificationData, "id">) => {
     const next = { ...n, id: Date.now() };
-    setNotifications(({ data, cursor }) => ({
-      data: [...data, next],
-      cursor: cursor + 1,
+    setNotifications(({ data }) => ({
+      data: [next, ...data],
+      cursor: 0,
     }));
     setTimeout(() => {
       setNotifications((p) => {
-        const nextCursor = p.cursor + 1;
-        setTimeout(() => {
-          setNotifications((p) => {
-            if (nextCursor === p.data.length * 2) {
-              return initialNotificaion;
+        if (p.data.indexOf(next) === 0) {
+          setTimeout(() => {
+            if (p.data.indexOf(next) === 0) {
+              setNotifications(initialNotificaion);
             }
-            return p;
-          });
-        }, 300);
-        return { data: p.data, cursor: nextCursor };
+          }, 500);
+          return {
+            data: p.data,
+            cursor: -1,
+          };
+        }
+        return p;
       });
     }, 3000);
   };
@@ -56,16 +58,13 @@ export const NotificationProvider = ({
     <notificationContext.Provider value={pushNotification}>
       {data.length > 0 &&
         createPortal(
-          <div
-            className="fixed inset-x-0 top-0 z-10 duration-300"
-            style={{
-              transform: `translateY(${84 * (data.length - cursor)}px)`,
-            }}
-          >
-            {data.map((n) => (
+          <div className="fixed inset-x-0 top-0 z-10">
+            {data.map((n, i) => (
               <div
                 key={n.id}
-                className="m-5 mb-0 rounded-xl p-5 shadow-lg backdrop-blur backdrop-brightness-95"
+                className={`absolute inset-x-5 top-5 rounded-xl p-5 shadow-lg backdrop-blur backdrop-brightness-95 duration-300 ${
+                  cursor === i * 2 ? "from-top" : "to-top"
+                }`}
               >
                 {n.content}
               </div>

@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.from-top {
+  animation-duration: 500ms;
+  animation-name: fromTop;
+  animation-fill-mode: forwards;
+}
+.to-top {
+  animation-duration: 500ms;
+  animation-name: toTop;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fromTop {
+  from {
+    transform: translateY(-120px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes toTop {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-120px);
+  }
+}
