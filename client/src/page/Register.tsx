@@ -134,12 +134,7 @@ export const Register = () => {
         </div>
         <button></button>
       </form>
-      <div
-        style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom) + 20px)",
-        }}
-        className="fixed inset-0 top-auto p-5 bg-gradient-to-b from-transparent to-white"
-      >
+      <div className="fixed inset-x-0 bottom-[env(safe-area-inset-bottom)] p-5 bg-gradient-to-b from-transparent to-white">
         <button
           disabled={isMutating || typeof currentFieldError === "string"}
           className="block w-full bg-black rounded text-white p-4 disabled:bg-zinc-300 duration-300"
