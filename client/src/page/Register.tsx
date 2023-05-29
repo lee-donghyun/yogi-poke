@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { yogiPokeApi } from "../service/api";
 import { validator } from "../service/validator";
+import { useNotification } from "../component/notification";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
@@ -21,10 +22,15 @@ const stepFieldNameMap = {
   3: "password",
 } as const;
 export const Register = () => {
+  const push = useNotification();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/register",
-    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg)
+    (api, { arg }: { arg: Form }) => yogiPokeApi.post(api, arg),
+    {
+      onError: () => push({ content: "다시 시도해주세요." }),
+      throwOnError: false,
+    }
   );
   const [data, setData] = useState<Form>({
     email: "",
@@ -123,7 +129,9 @@ export const Register = () => {
             <p className={cx.helper}>{currentFieldError}</p>
           )}
         </div>
-        <button></button>
+        <button
+          disabled={isMutating || typeof currentFieldError === "string"}
+        />
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button

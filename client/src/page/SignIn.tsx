@@ -106,7 +106,9 @@ export const SignIn = () => {
             <p className={cx.helper}>{currentFieldError}</p>
           )}
         </div>
-        <button></button>
+        <button
+          disabled={isMutating || typeof currentFieldError === "string"}
+        />
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
