@@ -3,7 +3,13 @@ import { yogiPokeApi } from "../service/api";
 import { SWRConfig } from "swr";
 import { useRouter } from "../lib/router2";
 
-type MyInfo = { name: string; id: number; email: string; token: string };
+type MyInfo = {
+  email: string;
+  id: number;
+  name: string;
+  pokeds: number;
+  pokes: number;
+};
 
 const authContext = createContext<{
   myInfo: MyInfo | null;
