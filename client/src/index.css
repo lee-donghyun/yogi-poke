@@ -12,6 +12,11 @@
   animation-name: toTop;
   animation-fill-mode: forwards;
 }
+.from-right {
+  animation-duration: 300ms;
+  animation-name: fromRight;
+  animation-fill-mode: forwards;
+}
 
 @keyframes fromTop {
   from {
@@ -29,5 +34,16 @@
 
   to {
     transform: translateY(-120px);
+  }
+}
+@keyframes fromRight {
+  from {
+    transform: translateX(120px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

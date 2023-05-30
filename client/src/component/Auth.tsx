@@ -12,6 +12,23 @@ type MyInfo = {
   token: string;
 };
 
+const dummy = {
+  myInfo: {
+    email: "asdf",
+    id: 0,
+    name: "asfd",
+    pokeds: 0,
+    pokes: 0,
+    token: "adf",
+  },
+  isLoggedIn: true,
+  registerToken: () => {
+    throw new Error(
+      "registerToken need to be called within AuthProvider context"
+    );
+  },
+};
+
 const authContext = createContext<{
   myInfo: MyInfo | null;
   registerToken: (token: string) => Promise<void>;
@@ -44,7 +61,7 @@ export const useUser = () => {
 };
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
+  const [myInfo, setMyInfo] = useState<MyInfo | null>(dummy.myInfo);
   const registerToken = async (token: string) =>
     yogiPokeApi
       .get("/user/my-info", {

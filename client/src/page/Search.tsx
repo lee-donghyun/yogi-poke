@@ -5,13 +5,31 @@ import { yogiPokeApi } from "../service/api";
 import { DomainBottomNavigation } from "./MyPage";
 import { useNotification } from "../component/Notification";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { useDeferredValue, useState, useTransition } from "react";
+import useSWR from "swr";
+import { UserListItem } from "../component/UserListItem";
+import { useDebouncedValue } from "../hook/useDebouncedValue";
+
+type User = {
+  email: string;
+  id: number;
+  name: string;
+  profileImageUrl?: string;
+};
 
 export const Search = () => {
   const push = useNotification();
-  const [email, setEmail] = useState("");
   const { assertAuth } = useUser();
   assertAuth();
+
+  const [email, setEmail] = useState("");
+  const deferredEmail = useDebouncedValue(email, 200);
+  const [selectedEmail, setSelectedEmail] = useState<null | string>(null);
+
+  const { data, isLoading } = useSWR<User[]>(
+    ["/user", { email: deferredEmail, limit: 5 }],
+    { keepPreviousData: true }
+  );
 
   const { trigger, isMutating } = useSWRMutation(
     "/mate/poke",
@@ -31,31 +49,42 @@ export const Search = () => {
         <p className="pt-52 text-2xl font-bold text-zinc-800">
           누구를 콕콕! 찌를까요?
         </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            trigger({ email });
-          }}
-        >
-          <div className="flex items-center pt-10">
-            <span className="block w-5 text-xl font-bold">@</span>
-            <input
-              className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
-              onChange={({ target: { value } }) => setEmail(value)}
-              placeholder="콕콕! 찌를 상대방의 아이디를 입력하세요!"
-              type="text"
-              value={email}
-            />
-          </div>
-          <div className="flex justify-end pt-9">
-            <button
-              className="rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
-              disabled={isMutating}
-            >
-              콕 찌르기 👉
-            </button>
-          </div>
-        </form>
+        <div className="flex items-center pt-10">
+          <span className="block w-5 text-xl font-bold">@</span>
+          <input
+            className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
+            onChange={({ target: { value } }) => setEmail(value)}
+            placeholder="콕콕! 찌를 상대방의 아이디를 입력하세요!"
+            type="text"
+            value={email}
+          />
+        </div>
+        <div className="mt-5 flex flex-col">
+          {["korean_bill_gates", "asdffg", "wgefdf"]
+            .map((user) => user + deferredEmail)
+            .map((user, i) => (
+              <UserListItem
+                key={user}
+                listIndex={i}
+                onClick={() => setSelectedEmail(user)}
+                selected={selectedEmail === user}
+                userEmail={user}
+                userName={user}
+              />
+            ))}
+        </div>
+        <div className="flex justify-end pt-9">
+          <button
+            className="rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
+            disabled={selectedEmail === null}
+            onClick={() =>
+              typeof selectedEmail === "string" &&
+              trigger({ email: selectedEmail })
+            }
+          >
+            콕 찌르기 👉
+          </button>
+        </div>
       </div>
       <DomainBottomNavigation />
     </div>

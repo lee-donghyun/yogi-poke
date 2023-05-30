@@ -89,3 +89,27 @@ export const patchUserDto = dto<{
     additionalProperties: false,
   },
 });
+
+export const getUserListDto = dto<{
+  query: {
+    limit?: number;
+    page?: number;
+    email?: string;
+  };
+}>({
+  querystring: {
+    type: 'object',
+    properties: {
+      limit: {
+        type: 'number',
+      },
+      page: {
+        type: 'number',
+      },
+      email: {
+        type: 'string',
+      },
+    },
+    additionalProperties: false,
+  },
+});

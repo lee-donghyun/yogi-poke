@@ -1,4 +1,5 @@
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
+import { Pagination } from '../helper/type';
 import { db } from '../repository/prisma';
 import { createError } from '../utils/error';
 
@@ -72,6 +73,35 @@ export const patchUser = async ({
     data: {
       name,
       pushSubscription: JSON.stringify(pushSubscription),
+    },
+  });
+};
+
+export const getUserList = (
+  { email }: { email?: string },
+  { limit, page }: Pagination,
+  selfId?: number
+) => {
+  return db.user.findMany({
+    skip: limit * (page - 1),
+    take: limit,
+    where: {
+      AND: [
+        {
+          email: {
+            startsWith: email,
+          },
+        },
+        {
+          NOT: { id: selfId },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      profileImageUrl: true,
     },
   });
 };
