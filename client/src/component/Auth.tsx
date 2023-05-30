@@ -50,7 +50,10 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       .get("/user/my-info", {
         headers: { Authorization: token },
       })
-      .then(({ data }) => setMyInfo({ ...data, token }));
+      .then(({ data }) => {
+        setMyInfo({ ...data, token });
+        yogiPokeApi.defaults.headers.Authorization = token;
+      });
 
   return (
     <authContext.Provider

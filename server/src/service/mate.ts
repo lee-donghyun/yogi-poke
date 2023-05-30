@@ -31,7 +31,7 @@ export const assertHasAcceptedRelation = async (
   const relation = await getRelation(fromUserId, toUserId);
   if (relation === null || !relation.isAccepted) {
     throw createError({
-      statusCode: 400,
+      statusCode: 404,
       message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
     });
   }

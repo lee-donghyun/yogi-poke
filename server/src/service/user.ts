@@ -33,7 +33,7 @@ export const getUser = async (user: { email: string }) => {
   const found = await db.user.findFirst({ where: user });
   if (found === null) {
     throw createError({
-      statusCode: 400,
+      statusCode: 404,
       message: CLIENT_ERROR_MESSAGE.NOT_FOUND,
     });
   }
