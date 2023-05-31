@@ -10,8 +10,8 @@ export const authPlugin = fastifyPlugin(async (instance) => {
     const token = request.headers.authorization;
     if (!token) return;
     try {
-      const { id, email, name } = verifyUserToken(token);
-      request.user = { id, email, name };
+      const user = verifyUserToken(token);
+      request.user = user;
     } catch {
       request.user = null;
     }

@@ -1,6 +1,7 @@
 import { sign, verify } from 'jsonwebtoken';
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { createError } from '../utils/error';
+import { User } from '@prisma/client';
 
 const jwtSecret = process.env.JWT_SECRET || '';
 
@@ -19,4 +20,4 @@ export const verifyUserToken = (token: string) => {
   }
 };
 
-export type JwtPayload = { id: number; email: string; name: string };
+export type JwtPayload = Omit<User, 'password'>;

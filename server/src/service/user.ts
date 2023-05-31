@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { Pagination } from '../helper/type';
 import { db } from '../repository/prisma';
@@ -26,8 +27,17 @@ export const registerUser = async (user: {
       message: CLIENT_ERROR_MESSAGE.ALREADY_USED_EMAIL,
     });
   }
-  const { id, email, name } = await db.user.create({ data: user });
-  return { id, email, name };
+  return db.user.create({
+    data: user,
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      createdAt: true,
+      profileImageUrl: true,
+      pushSubscription: true,
+    },
+  });
 };
 
 export const getUser = async (user: { email: string }) => {
@@ -41,13 +51,13 @@ export const getUser = async (user: { email: string }) => {
   return found;
 };
 
-export const getUserByEmailAndPassword = async (user: {
+export const getUserByEmailAndPassword = async (data: {
   email: string;
   password: string;
 }) => {
-  if (await passwordMatchesEmail(user)) {
-    const { email, id, name } = await getUser(user);
-    return { email, id, name };
+  if (await passwordMatchesEmail(data)) {
+    const user = await getUser(data);
+    return user;
   }
   throw createError({
     statusCode: 400,
@@ -63,7 +73,7 @@ export const patchUser = async ({
   id: number;
   password?: string;
   name?: string;
-  pushSubscription?: PushSubscriptionJSON;
+  pushSubscription?: PushSubscriptionJSON | null;
   profileImageUrl?: string;
 }) => {
   return db.user.update({
@@ -72,7 +82,12 @@ export const patchUser = async ({
     },
     data: {
       name,
-      pushSubscription: JSON.stringify(pushSubscription),
+      pushSubscription:
+        pushSubscription === null
+          ? Prisma.DbNull
+          : pushSubscription === undefined
+          ? undefined
+          : JSON.stringify(pushSubscription),
     },
   });
 };

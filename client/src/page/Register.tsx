@@ -5,6 +5,7 @@ import { yogiPokeApi } from "../service/api";
 import { validator } from "../service/validator";
 import { useUser } from "../component/Auth";
 import { useRouter } from "../lib/router2";
+import { getPushNotificationSubscription } from "../service/util";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
@@ -26,7 +27,7 @@ const stepFieldNameMap = {
 export const Register = () => {
   const push = useNotification();
   const { navigate, params } = useRouter();
-  const { registerToken, isLoggedIn } = useUser();
+  const { registerToken, isLoggedIn, patchUser } = useUser();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { trigger, isMutating } = useSWRMutation(
@@ -42,12 +43,16 @@ export const Register = () => {
           } else {
             window.history.back();
           }
+          getPushNotificationSubscription()
+            .then((pushSubscription) => patchUser({ pushSubscription }))
+            .then(() => push({ content: "이제 콕 찔리면 알림이 울립니다." }))
+            .catch(console.error);
         }),
     {
       onError: (err) => {
         switch (err?.response?.status) {
           case 409:
-            push({ content: "이미 사용중인 계정입니다." });
+            push({ content: "이미 사용중인 아이디입니다." });
             break;
           default:
             push({ content: "다시 시도해주세요." });

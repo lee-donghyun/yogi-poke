@@ -12,10 +12,16 @@ type MyInfo = {
   token: string;
 };
 
+type PatchUserPayload = {
+  pushSubscription?: PushSubscriptionJSON;
+  name?: string;
+};
+
 const authContext = createContext<{
   myInfo: MyInfo | null;
   registerToken: (token: string) => Promise<void>;
   isLoggedIn: boolean;
+  patchUser: (payload: PatchUserPayload) => Promise<void>;
 }>({
   myInfo: null,
   isLoggedIn: false,
@@ -23,6 +29,9 @@ const authContext = createContext<{
     throw new Error(
       "registerToken need to be called within AuthProvider context"
     );
+  },
+  patchUser: () => {
+    throw new Error("patchUser need to be called within AuthProvider context");
   },
 });
 
@@ -54,10 +63,14 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         setMyInfo({ ...data, token });
         yogiPokeApi.defaults.headers.Authorization = token;
       });
+  const patchUser = async (myInfo: PatchUserPayload) =>
+    yogiPokeApi
+      .patch<MyInfo>("/user/my-info", myInfo)
+      .then((user) => setMyInfo((p) => ({ ...p, ...user.data })));
 
   return (
     <authContext.Provider
-      value={{ myInfo, registerToken, isLoggedIn: myInfo !== null }}
+      value={{ myInfo, registerToken, patchUser, isLoggedIn: myInfo !== null }}
     >
       <SWRConfig
         value={{

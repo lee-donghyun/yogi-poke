@@ -66,7 +66,7 @@ export const patchUserDto = dto<{
   body: {
     password?: string;
     name?: string;
-    pushSubscription?: PushSubscriptionJSON;
+    pushSubscription?: PushSubscriptionJSON | null;
     profileImageUrl?: string;
   };
 }>({
@@ -80,7 +80,7 @@ export const patchUserDto = dto<{
         type: 'string',
       },
       pushSubscription: {
-        type: 'object',
+        type: ['object', 'null'],
       },
       profileImageUrl: {
         type: 'string',

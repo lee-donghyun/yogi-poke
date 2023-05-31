@@ -22,9 +22,9 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     { schema: registerUserDto.schema },
     async (req, rep) => {
       const body = req.body as typeof registerUserDto.type.body;
-      const { id, email, name } = await registerUser(body);
+      const user = await registerUser(body);
       rep.status(201);
-      return createUserToken({ id, email, name });
+      return createUserToken(user);
     }
   );
   instance.get(
@@ -51,8 +51,11 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     async (req, rep) => {
       const user = assertAuth(req.user);
       const body = req.body as typeof patchUserDto.type.body;
-      rep.status(204);
-      return await patchUser({ id: user.id, ...body });
+      const { password, ...updated } = await patchUser({
+        id: user.id,
+        ...body,
+      });
+      return updated;
     }
   );
   instance.get('/', { schema: getUserListDto.schema }, async (req) => {

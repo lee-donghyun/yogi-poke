@@ -5,7 +5,7 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const urlToOpen = "http://localhost:5173";
+  const urlToOpen = "https://yogi-poke-.vercel.app/my-page";
   event.waitUntil(
     self.clients
       .matchAll({

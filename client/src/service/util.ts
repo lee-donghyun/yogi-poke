@@ -17,3 +17,21 @@ export const getReadableDateOffset = (date: string) => {
   }
   return then.format("Y M/D");
 };
+
+export const getPushNotificationSubscription = async () => {
+  const permission =
+    Notification.permission === "granted"
+      ? "granted"
+      : await Notification.requestPermission();
+  if (permission !== "granted") {
+    throw new Error(`permission not granted: ${permission}`);
+  }
+  const registration = await navigator.serviceWorker.register(
+    "/worker/notification.js"
+  );
+  const pushSubscription = await registration.pushManager.subscribe({
+    applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY,
+    userVisibleOnly: true,
+  });
+  return pushSubscription;
+};
