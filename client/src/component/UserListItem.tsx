@@ -17,7 +17,7 @@ export const UserListItem = ({
     <button
       onClick={onClick}
       className={`from-right rounded-lg p-2 text-start opacity-0 duration-75 active:bg-blue-50 ${
-        selected ? "bg-blue-100" : ""
+        selected ? "bg-yellow-100" : ""
       }`}
       style={{
         animationDelay: `${listIndex * 50}ms`,

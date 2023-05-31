@@ -73,7 +73,7 @@ export const Search = () => {
     <div className="min-h-screen">
       <Navigation />
       <div className="p-5">
-        <p className="pt-52 text-2xl font-bold text-zinc-800">
+        <p className="pt-32 text-2xl font-bold text-zinc-800">
           누구를 콕콕! 찌를까요?
         </p>
         <div className="flex items-center pt-10">
