@@ -1,10 +1,12 @@
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 import { useUser } from "../component/Auth";
 import { BottomNavigation } from "../component/BottomNavigation";
 import { Navigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
 import { PokeListItem } from "../component/PokeListItem";
 import { Link, useRouter } from "../lib/router2";
+import { useIntersectionObserver } from "../hook/useIntersectionObserver";
+import { useCallback } from "react";
 
 const Stat = ({ label, value }: { value: number; label: string }) => {
   return (
@@ -43,6 +45,23 @@ const EditIcon = () => (
   >
     <path
       d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const BlinkIcon = () => (
+  <svg
+    className="h-6 w-6"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.5}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -105,12 +124,22 @@ type User = {
   profileImageUrl: null;
 };
 
+const POKE_LIST_LIMIT = 20;
+
 export const MyPage = () => {
   const push = useNotification();
+  const { navigate } = useRouter();
   const { assertAuth, myInfo } = useUser();
   assertAuth();
 
-  const { data } = useSWR<Poke[]>([`/mate/poke`]);
+  const { data, setSize, error } = useSWRInfinite<Poke[]>((index, previous) => {
+    if (index === 0 || (previous && previous.length === POKE_LIST_LIMIT)) {
+      return ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }];
+    }
+    return null;
+  });
+  const loadMore = useCallback(() => setSize((prev) => prev + 1), [setSize]);
+  const intersectorRef = useIntersectionObserver(loadMore);
 
   return (
     <div className="min-h-screen">
@@ -144,23 +173,45 @@ export const MyPage = () => {
           <div className="h-12 w-px bg-zinc-200"></div>
           <Stat label="내가 콕! 찔린 횟수" value={myInfo?.pokeds ?? 0} />
         </div>
-        <div className="mt-10 flex flex-col gap-4 pb-24">
-          {data?.map(({ createdAt, id, relation: { fromUser, toUser } }) => {
-            const type = fromUser.id === myInfo?.id ? "poke" : "poked";
-            const targetUser = {
-              poke: toUser,
-              poked: fromUser,
-            }[type];
-            return (
-              <PokeListItem
-                key={id}
-                date={createdAt}
-                targetUserEmail={targetUser.email}
-                targetUserName={targetUser.name}
-                type={type}
-              />
-            );
-          })}
+        <div className="mt-10 flex flex-col gap-4">
+          {(error || data?.[0].length === 0) && (
+            <div className="flex flex-col items-center pt-10 text-zinc-700">
+              <BlinkIcon />
+              <p className="pt-6">처음으로 콕 찔러보세요!</p>
+              <button
+                className="mt-12 rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
+                onClick={() =>
+                  navigate({ pathname: "/search" }, { replace: true })
+                }
+              >
+                콕 찌르기 👉
+              </button>
+            </div>
+          )}
+          {data
+            ?.map((pokes) =>
+              pokes.map(
+                ({ createdAt, id, relation: { fromUser, toUser } }, index) => {
+                  const type = fromUser.id === myInfo?.id ? "poke" : "poked";
+                  const targetUser = {
+                    poke: toUser,
+                    poked: fromUser,
+                  }[type];
+                  return (
+                    <PokeListItem
+                      key={id}
+                      date={createdAt}
+                      listIndex={index}
+                      targetUserEmail={targetUser.email}
+                      targetUserName={targetUser.name}
+                      type={type}
+                    />
+                  );
+                }
+              )
+            )
+            .flat()}
+          <div ref={intersectorRef} className="h-24"></div>
         </div>
       </div>
       <DomainBottomNavigation />

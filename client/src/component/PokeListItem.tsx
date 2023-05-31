@@ -6,15 +6,23 @@ export const PokeListItem = ({
   targetUserName,
   targetUserProfileImageUrl,
   date,
+  listIndex,
 }: {
   type: "poke" | "poked";
   targetUserName: string;
   targetUserEmail: string;
   targetUserProfileImageUrl?: string;
   date: string;
+  listIndex: number;
 }) => {
   return (
-    <div>
+    <div
+      className="from-bottom opacity-0"
+      style={{
+        animationDelay: `${listIndex * 50}ms`,
+        transform: "translateY(60px)",
+      }}
+    >
       <div className="flex">
         <img
           alt={`${targetUserName} 프로필 이미지`}
@@ -48,7 +56,7 @@ export const PokeListItem = ({
             }
           </p>
           {type === "poked" && (
-            <button className="mt-1 w-full rounded-md border border-zinc-600 p-1 text-sm">
+            <button className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900">
               나도 콕! 찌르기 👉
             </button>
           )}
