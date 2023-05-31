@@ -22,6 +22,7 @@ const authContext = createContext<{
   registerToken: (token: string) => Promise<void>;
   isLoggedIn: boolean;
   patchUser: (payload: PatchUserPayload) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }>({
   myInfo: null,
   isLoggedIn: false,
@@ -31,6 +32,9 @@ const authContext = createContext<{
     );
   },
   patchUser: () => {
+    throw new Error("patchUser need to be called within AuthProvider context");
+  },
+  refreshUser: () => {
     throw new Error("patchUser need to be called within AuthProvider context");
   },
 });
@@ -54,7 +58,7 @@ export const useUser = () => {
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
-  const registerToken = async (token: string) =>
+  const registerToken = (token: string) =>
     yogiPokeApi
       .get("/user/my-info", {
         headers: { Authorization: token },
@@ -63,14 +67,24 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         setMyInfo({ ...data, token });
         yogiPokeApi.defaults.headers.Authorization = token;
       });
-  const patchUser = async (myInfo: PatchUserPayload) =>
+  const patchUser = (myInfo: PatchUserPayload) =>
     yogiPokeApi
       .patch<MyInfo>("/user/my-info", myInfo)
       .then((user) => setMyInfo((p) => ({ ...p, ...user.data })));
+  const refreshUser = () =>
+    yogiPokeApi.get("/user/my-info").then(({ data }) => {
+      setMyInfo((p) => ({ ...p, ...data }));
+    });
 
   return (
     <authContext.Provider
-      value={{ myInfo, registerToken, patchUser, isLoggedIn: myInfo !== null }}
+      value={{
+        myInfo,
+        registerToken,
+        patchUser,
+        refreshUser,
+        isLoggedIn: myInfo !== null,
+      }}
     >
       <SWRConfig
         value={{

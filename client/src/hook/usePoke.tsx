@@ -1,0 +1,41 @@
+import useSWRMutation from "swr/mutation";
+import { yogiPokeApi } from "../service/api";
+import { useNotification } from "../component/Notification";
+import { AxiosError } from "axios";
+import { useUser } from "../component/Auth";
+
+export const usePoke = () => {
+  const push = useNotification();
+  const { refreshUser } = useUser();
+  return useSWRMutation(
+    "/mate/poke",
+    (key, { arg }: { arg: { email: string } }) =>
+      yogiPokeApi
+        .post(key, arg)
+        .then(() => arg.email)
+        .catch((err: AxiosError) => {
+          throw { status: err.response?.status, email: arg.email };
+        }),
+    {
+      onError: (err) => {
+        switch (err?.status) {
+          case 409:
+            return push({
+              content:
+                "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
+            });
+          case 403:
+            return push({
+              content: `${err.email}님을 콕! 찌를 수 없습니다.`,
+            });
+          default:
+            return push({ content: "다시 시도해주세요." });
+        }
+      },
+      onSuccess: (email) => {
+        refreshUser();
+        push({ content: `${email}님을 콕! 찔렀습니다.` });
+      },
+    }
+  );
+};

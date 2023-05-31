@@ -1,15 +1,12 @@
-import useSWRMutation from "swr/mutation";
 import { useUser } from "../component/Auth";
 import { Navigation } from "../component/Navigation";
-import { yogiPokeApi } from "../service/api";
 import { DomainBottomNavigation } from "./MyPage";
-import { useNotification } from "../component/Notification";
-import { AxiosError } from "axios";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import { UserListItem } from "../component/UserListItem";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { validator } from "../service/validator";
+import { usePoke } from "../hook/usePoke";
 
 type User = {
   email: string;
@@ -19,7 +16,6 @@ type User = {
 };
 
 export const Search = () => {
-  const push = useNotification();
   const { assertAuth } = useUser();
   assertAuth();
 
@@ -40,34 +36,7 @@ export const Search = () => {
   );
   const dataUpdatedAt = useMemo(() => Date.now(), [data]);
 
-  const { trigger, isMutating } = useSWRMutation(
-    "/mate/poke",
-    (key, { arg }: { arg: { email: string } }) => yogiPokeApi.post(key, arg),
-    {
-      onError: (err: AxiosError) => {
-        switch (err.response?.status) {
-          case 409:
-            push({
-              content:
-                "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
-            });
-            return;
-          case 403:
-            push({
-              content: `${selected?.email}님을 콕! 찌를 수 없습니다.`,
-            });
-            return;
-          default:
-            push({ content: "다시 시도해주세요." });
-            return;
-        }
-      },
-      onSuccess: () => {
-        push({ content: `${selected?.email}님을 콕! 찔렀습니다.` });
-        setSelected(null);
-      },
-    }
-  );
+  const { trigger, isMutating } = usePoke();
 
   return (
     <div className="min-h-screen">
@@ -104,7 +73,7 @@ export const Search = () => {
             disabled={selected === null || isLoading || isMutating}
             onClick={() =>
               typeof selected?.email === "string" &&
-              trigger({ email: selected.email })
+              trigger({ email: selected.email }).then(() => setSelected(null))
             }
           >
             콕 찌르기 👉

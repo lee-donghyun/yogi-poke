@@ -1,3 +1,4 @@
+import { usePoke } from "../hook/usePoke";
 import { getReadableDateOffset } from "../service/util";
 
 export const PokeListItem = ({
@@ -15,6 +16,7 @@ export const PokeListItem = ({
   date: string;
   listIndex: number;
 }) => {
+  const { trigger, isMutating } = usePoke();
   return (
     <div
       className="from-bottom opacity-0"
@@ -56,7 +58,11 @@ export const PokeListItem = ({
             }
           </p>
           {type === "poked" && (
-            <button className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900">
+            <button
+              className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
+              disabled={isMutating}
+              onClick={() => trigger({ email: targetUserEmail })}
+            >
               나도 콕! 찌르기 👉
             </button>
           )}
