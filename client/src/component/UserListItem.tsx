@@ -3,10 +3,12 @@ export const UserListItem = ({
   userName,
   listIndex,
   selected,
+  userProfileImageUrl,
   onClick,
 }: {
   userEmail: string;
   userName: string;
+  userProfileImageUrl?: string;
   listIndex: number;
   selected: boolean;
   onClick: () => void;
@@ -26,7 +28,7 @@ export const UserListItem = ({
         <img
           alt=""
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200"
-          src=""
+          src={userProfileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-3 flex-1">
           <p className="relative font-medium">@{userEmail}</p>

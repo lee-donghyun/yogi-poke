@@ -2,19 +2,21 @@ export const PokeListItem = ({
   type,
   targetUserEmail,
   targetUserName,
+  targetUserProfileImageUrl,
 }: {
   type: "poke" | "poked";
   targetUserName: string;
   targetUserEmail: string;
+  targetUserProfileImageUrl?: string;
   date: string;
 }) => {
   return (
     <div>
       <div className="flex">
         <img
-          alt=""
+          alt={`${targetUserName} 프로필 이미지`}
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200"
-          src=""
+          src={targetUserProfileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-4 flex-1">
           <p className="relative font-medium">

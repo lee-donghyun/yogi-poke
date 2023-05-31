@@ -71,9 +71,9 @@ export const DomainBottomNavigation = () => {
         >
           <img
             alt=""
-            src=""
-            className={`h-6 w-6 rounded-full bg-zinc-200 object-cover ${
-              path === "/my-page" ? "border border-black" : ""
+            src="/asset/default_user_profile.png"
+            className={`h-6 w-6 rounded-full border-[1.5px] bg-zinc-200 object-cover ${
+              path === "/my-page" ? "border-black" : "border-transparent"
             }`}
           />
         </Link>,
@@ -107,7 +107,7 @@ export const MyPage = () => {
         <div className="flex justify-center pt-16">
           <img
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
-            src=""
+            src="/asset/default_user_profile.png"
           />
         </div>
         <div className="mt-10">
