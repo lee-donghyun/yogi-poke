@@ -106,5 +106,31 @@ export const getRelatedPokesList = async (
         },
       ],
     },
+    select: {
+      id: true,
+      createdAt: true,
+      realtionFromUserId: true,
+      realtionToUserId: true,
+      relation: {
+        select: {
+          fromUser: {
+            select: {
+              email: true,
+              id: true,
+              name: true,
+              profileImageUrl: true,
+            },
+          },
+          toUser: {
+            select: {
+              email: true,
+              id: true,
+              name: true,
+              profileImageUrl: true,
+            },
+          },
+        },
+      },
+    },
   });
 };

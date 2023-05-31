@@ -1,3 +1,4 @@
+import useSWR from "swr";
 import { useUser } from "../component/Auth";
 import { BottomNavigation } from "../component/BottomNavigation";
 import { Navigation } from "../component/Navigation";
@@ -81,11 +82,35 @@ export const DomainBottomNavigation = () => {
     />
   );
 };
+type Poke = {
+  id: number;
+  createdAt: string;
+  fromUserId: number;
+  toUserId: number;
+  relation: Relation;
+};
+
+type Relation = {
+  fromUserId: number;
+  toUserId: number;
+  isAccepted: boolean;
+  fromUser: User;
+  toUser: User;
+};
+
+type User = {
+  email: string;
+  id: number;
+  name: string;
+  profileImageUrl: null;
+};
 
 export const MyPage = () => {
   const push = useNotification();
   const { assertAuth, myInfo } = useUser();
   assertAuth();
+
+  const { data } = useSWR<Poke[]>([`/mate/poke`]);
 
   return (
     <div className="min-h-screen">
@@ -119,33 +144,24 @@ export const MyPage = () => {
           <div className="h-12 w-px bg-zinc-200"></div>
           <Stat label="내가 콕! 찔린 횟수" value={myInfo?.pokeds ?? 0} />
         </div>
-        <div className="mt-10 flex flex-col gap-4">
-          <PokeListItem
-            date=""
-            targetUserEmail="korean_bill_gates"
-            targetUserName="한국인 빌게이츠"
-            type="poke"
-          />
-          <PokeListItem
-            date=""
-            targetUserEmail="korean_9lock_nine"
-            targetUserName="감옥에서 방금나온 글락나인"
-            type="poked"
-          />
-          <PokeListItem
-            date=""
-            targetUserEmail="korean_bill_gates"
-            targetUserName="한국인 빌게이츠"
-            type="poke"
-          />
-          <PokeListItem
-            date=""
-            targetUserEmail="korean_bill_gates"
-            targetUserName="한국인 빌게이츠"
-            type="poked"
-          />
+        <div className="mt-10 flex flex-col gap-4 pb-24">
+          {data?.map(({ createdAt, id, relation: { fromUser, toUser } }) => {
+            const type = fromUser.id === myInfo?.id ? "poke" : "poked";
+            const targetUser = {
+              poke: toUser,
+              poked: fromUser,
+            }[type];
+            return (
+              <PokeListItem
+                key={id}
+                date={createdAt}
+                targetUserEmail={targetUser.email}
+                targetUserName={targetUser.name}
+                type={type}
+              />
+            );
+          })}
         </div>
-        {/* 여기에서 poke 피드 보기 */}
       </div>
       <DomainBottomNavigation />
     </div>

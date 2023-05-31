@@ -1,8 +1,11 @@
+import { getReadableDateOffset } from "../service/util";
+
 export const PokeListItem = ({
   type,
   targetUserEmail,
   targetUserName,
   targetUserProfileImageUrl,
+  date,
 }: {
   type: "poke" | "poked";
   targetUserName: string;
@@ -22,7 +25,7 @@ export const PokeListItem = ({
           <p className="relative font-medium">
             @{targetUserEmail}
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
-              1일 전
+              {getReadableDateOffset(date)}
             </span>
           </p>
           <p className="text-sm text-zinc-800">

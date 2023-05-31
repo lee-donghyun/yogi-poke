@@ -15,10 +15,15 @@ model User {
   password         String
   pushSubscription Json?
   profileImageUrl  String?
+
+  goingRelations  Relation[] @relation(name: "from")
+  comingRelations Relation[] @relation(name: "to")
 }
 
 model Relation {
+  fromUser   User    @relation(fields: [fromUserId], references: [id], name: "from")
   fromUserId Int
+  toUser     User    @relation(fields: [toUserId], references: [id], name: "to")
   toUserId   Int
   isAccepted Boolean @default(true)
   Poke       Poke[]
