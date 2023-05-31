@@ -5,6 +5,7 @@ import { validator } from "../service/validator";
 import { useNotification } from "../component/Notification";
 import { useUser } from "../component/Auth";
 import { useRouter } from "../lib/router2";
+import { StackedNavigation } from "../component/Navigation";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
@@ -75,11 +76,8 @@ export const SignIn = () => {
   }
   return (
     <div className="min-h-screen">
-      <div className="p-20 text-center text-4xl font-extrabold">
-        <p className={`-rotate-12 ${isMutating && "animate-spin"}`}>
-          요기콕콕!👉
-        </p>
-      </div>
+      <StackedNavigation title="로그인" />
+      <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"
         style={{ transform: `translateY(${(step - 2) * 128}px)` }}

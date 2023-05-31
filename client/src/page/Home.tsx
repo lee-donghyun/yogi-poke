@@ -10,8 +10,8 @@ export const Home = () => {
   }
   return (
     <div className="min-h-screen">
-      <div className="p-20 text-center text-4xl font-extrabold">
-        <p className="-rotate-12">요기콕콕!👉</p>
+      <div className="p-10">
+        <img alt="요기콕콕👉" src="/asset/logo.png" />
       </div>
       <div className="p-5">
         <p className="text-xl">
