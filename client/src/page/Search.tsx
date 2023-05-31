@@ -5,7 +5,7 @@ import { yogiPokeApi } from "../service/api";
 import { DomainBottomNavigation } from "./MyPage";
 import { useNotification } from "../component/Notification";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 import { UserListItem } from "../component/UserListItem";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
@@ -25,7 +25,7 @@ export const Search = () => {
 
   const [email, setEmail] = useState("");
   const deferredEmail = useDebouncedValue(email, 300);
-  const [selectedEmail, setSelectedEmail] = useState<null | string>(null);
+  const [selected, setSelected] = useState<null | User>(null);
 
   const { data, isLoading } = useSWR<User[]>(
     deferredEmail.length === 0 || validator.email(deferredEmail) === null
@@ -33,23 +33,38 @@ export const Search = () => {
       : [],
     {
       keepPreviousData: true,
-      onSuccess: (users) => {
-        users.every((user) => user.email !== selectedEmail) &&
-          setSelectedEmail(null);
+      onSuccess: () => {
+        setSelected(null);
       },
     }
   );
+  const dataUpdatedAt = useMemo(() => Date.now(), [data]);
 
   const { trigger, isMutating } = useSWRMutation(
     "/mate/poke",
     (key, { arg }: { arg: { email: string } }) => yogiPokeApi.post(key, arg),
     {
-      onError: (err: AxiosError) =>
-        err.response?.status === 404
-          ? push({ content: "존재하지 않는 유저입니다!" })
-          : push({ content: "다시 시도해주세요." }),
+      onError: (err: AxiosError) => {
+        switch (err.response?.status) {
+          case 409:
+            push({
+              content:
+                "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
+            });
+            return;
+          case 403:
+            push({
+              content: `${selected?.email}님을 콕! 찌를 수 없습니다.`,
+            });
+            return;
+          default:
+            push({ content: "다시 시도해주세요." });
+            return;
+        }
+      },
       onSuccess: () => {
-        push({ content: "콕 찌르기 성공!" });
+        push({ content: `${selected?.email}님을 콕! 찔렀습니다.` });
+        setSelected(null);
       },
     }
   );
@@ -71,25 +86,25 @@ export const Search = () => {
             value={email}
           />
         </div>
-        <div className="mt-5 flex flex-col">
+        <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
-              key={user.email}
+              key={user.email + dataUpdatedAt}
               listIndex={i}
-              onClick={() => setSelectedEmail(user.email)}
-              selected={selectedEmail === user.email}
+              onClick={() => setSelected(user)}
+              selected={selected?.email === user.email}
               userEmail={user.email}
               userName={user.name}
             />
-          )) ?? <div style={{ height: 180 }} />}
+          ))}
         </div>
         <div className="flex justify-end pt-9">
           <button
             className="rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
-            disabled={selectedEmail === null || isLoading || isMutating}
+            disabled={selected === null || isLoading || isMutating}
             onClick={() =>
-              typeof selectedEmail === "string" &&
-              trigger({ email: selectedEmail })
+              typeof selected?.email === "string" &&
+              trigger({ email: selected.email })
             }
           >
             콕 찌르기 👉

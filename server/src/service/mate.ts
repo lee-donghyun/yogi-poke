@@ -38,7 +38,15 @@ export const assertHasAcceptedRelation = async (
 };
 
 export const pokeMate = async (fromUserId: number, toUserId: number) => {
-  await assertHasAcceptedRelation(fromUserId, toUserId);
+  const relation = await getRelation(fromUserId, toUserId);
+  if (relation?.isAccepted === false) {
+    throw createError({
+      statusCode: 403,
+      message: CLIENT_ERROR_MESSAGE.BLOCKED_RELATION,
+    });
+  } else {
+    await createRelation(fromUserId, toUserId);
+  }
   await db.poke.create({
     data: {
       realtionFromUserId: fromUserId,
