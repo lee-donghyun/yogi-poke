@@ -88,6 +88,7 @@ const BellIcon = () => (
 
 export const DomainBottomNavigation = () => {
   const { path } = useRouter();
+  const { myInfo } = useUser();
   return (
     <BottomNavigation
       menus={[
@@ -109,7 +110,7 @@ export const DomainBottomNavigation = () => {
         >
           <img
             alt=""
-            src="/asset/default_user_profile.png"
+            src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
             className={`h-6 w-6 rounded-full border-[1.5px] bg-zinc-200 object-cover ${
               path === "/my-page" ? "border-black" : "border-transparent"
             }`}
@@ -194,7 +195,7 @@ export const MyPage = () => {
         <div className="flex justify-center pt-16">
           <img
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
-            src="/asset/default_user_profile.png"
+            src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
         </div>
         <div className="mt-10">

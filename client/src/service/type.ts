@@ -5,4 +5,5 @@ export type MyInfo = {
   pokeds: number;
   pokes: number;
   token: string;
+  profileImageUrl: null | string;
 };
