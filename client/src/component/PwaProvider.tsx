@@ -53,9 +53,12 @@ export const PwaProvider = ({
       let ignore = false;
       yogiPokeApi
         .get<MyInfo>("/user/my-info", { headers: { Authorization: token } })
-        .then(
-          (res) => !ignore && setPrefetch({ myInfo: { ...res.data, token } })
-        )
+        .then((res) => {
+          if (!ignore) {
+            setPrefetch({ myInfo: { ...res.data, token } });
+            yogiPokeApi.defaults.headers.Authorization = token;
+          }
+        })
         .catch(() => setPrefetch({ myInfo: null }));
       return () => {
         ignore = true;
