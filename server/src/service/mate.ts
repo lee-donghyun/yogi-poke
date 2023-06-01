@@ -44,9 +44,29 @@ export const pokeMate = async (fromUserId: number, toUserId: number) => {
       statusCode: 403,
       message: CLIENT_ERROR_MESSAGE.BLOCKED_RELATION,
     });
-  } else {
+  } else if (relation?.isAccepted === undefined) {
     await createRelation(fromUserId, toUserId);
+  } else {
+    if (
+      await db.poke
+        .findFirst({
+          where: {
+            OR: [
+              { realtionFromUserId: fromUserId, realtionToUserId: toUserId },
+              { realtionFromUserId: toUserId, realtionToUserId: fromUserId },
+            ],
+          },
+          orderBy: [{ id: 'desc' }],
+        })
+        .then((row) => row?.realtionFromUserId === fromUserId)
+    ) {
+      throw createError({
+        statusCode: 409,
+        message: CLIENT_ERROR_MESSAGE.ALREADY_HAS_RELATION,
+      });
+    }
   }
+
   await db.poke.create({
     data: {
       realtionFromUserId: fromUserId,
