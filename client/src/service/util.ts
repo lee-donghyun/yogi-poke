@@ -29,9 +29,27 @@ export const getPushNotificationSubscription = async () => {
   const registration = await navigator.serviceWorker.register(
     "/worker/notification.js"
   );
-  const pushSubscription = await registration.pushManager.subscribe({
-    applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY,
-    userVisibleOnly: true,
+  return new Promise<PushSubscription>((res) => {
+    if (registration.installing) {
+      registration.installing.addEventListener("statechange", async (e) => {
+        if (
+          (e as unknown as { target: { state: string } }).target.state ==
+          "activated"
+        ) {
+          const pushSubscription = await registration.pushManager.subscribe({
+            applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY,
+            userVisibleOnly: true,
+          });
+          res(pushSubscription);
+        }
+      });
+    } else if (registration.active) {
+      return registration.pushManager.getSubscription().then((subscription) => {
+        if (subscription === null) {
+          throw new Error("구독 실패");
+        }
+        res(subscription);
+      });
+    }
   });
-  return pushSubscription;
 };
