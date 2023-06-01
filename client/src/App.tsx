@@ -6,22 +6,27 @@ import { AuthProvider } from "./component/Auth";
 import { MyPage } from "./page/MyPage";
 import { BrowserRouter } from "./lib/router2";
 import { Search } from "./page/Search";
+import { PwaProvider } from "./component/PwaProvider";
 
 export const App = () => {
   return (
-    <NotificationProvider>
-      <AuthProvider>
-        <BrowserRouter
-          routes={{
-            "/": Home,
-            "/register": Register,
-            "/sign-in": SignIn,
-            "/my-page": MyPage,
-            "/search": Search,
-            "/404": () => <>not found</>,
-          }}
-        />
-      </AuthProvider>
-    </NotificationProvider>
+    <PwaProvider>
+      {(prefetch) => (
+        <NotificationProvider>
+          <AuthProvider myInfo={prefetch.myInfo}>
+            <BrowserRouter
+              routes={{
+                "/": Home,
+                "/register": Register,
+                "/sign-in": SignIn,
+                "/my-page": MyPage,
+                "/search": Search,
+                "/404": () => <>not found</>,
+              }}
+            />
+          </AuthProvider>
+        </NotificationProvider>
+      )}
+    </PwaProvider>
   );
 };

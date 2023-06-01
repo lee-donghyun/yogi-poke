@@ -2,15 +2,8 @@ import { createContext, useContext, useState } from "react";
 import { yogiPokeApi } from "../service/api";
 import { SWRConfig } from "swr";
 import { useRouter } from "../lib/router2";
-
-type MyInfo = {
-  email: string;
-  id: number;
-  name: string;
-  pokeds: number;
-  pokes: number;
-  token: string;
-};
+import { MyInfo } from "../service/type";
+import { persisteToken } from "./PwaProvider";
 
 type PatchUserPayload = {
   pushSubscription?: PushSubscriptionJSON;
@@ -56,8 +49,14 @@ export const useUser = () => {
   return { ...auth, assertAuth };
 };
 
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
+export const AuthProvider = ({
+  children,
+  myInfo: prefetchedMyInfo,
+}: {
+  children: JSX.Element;
+  myInfo: MyInfo | null;
+}) => {
+  const [myInfo, setMyInfo] = useState<MyInfo | null>(prefetchedMyInfo);
   const registerToken = (token: string) =>
     yogiPokeApi
       .get("/user/my-info", {
@@ -65,6 +64,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       })
       .then(({ data }) => {
         setMyInfo({ ...data, token });
+        persisteToken(token);
         yogiPokeApi.defaults.headers.Authorization = token;
       });
   const patchUser = (myInfo: PatchUserPayload) =>
