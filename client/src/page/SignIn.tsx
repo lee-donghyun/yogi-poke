@@ -36,11 +36,7 @@ export const SignIn = () => {
         .then(({ data }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
-          if (typeof redirect === "string") {
-            navigate({ pathname: redirect }, { replace: true });
-          } else {
-            window.history.back();
-          }
+          navigate({ pathname: redirect || "/my-page" }, { replace: true });
         }),
     {
       onError: () => push({ content: "다시 시도해주세요." }),
@@ -76,7 +72,10 @@ export const SignIn = () => {
   }
   return (
     <div className="min-h-screen">
-      <StackedNavigation title="로그인" />
+      <StackedNavigation
+        onBack={() => navigate({ pathname: "/" }, { replace: true })}
+        title="로그인"
+      />
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"

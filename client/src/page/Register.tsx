@@ -39,11 +39,8 @@ export const Register = () => {
         .then(({ data }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
-          if (typeof redirect === "string") {
-            navigate({ pathname: redirect }, { replace: true });
-          } else {
-            window.history.back();
-          }
+          navigate({ pathname: redirect || "/search" }, { replace: true });
+
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }))
             .then(() => push({ content: "이제 콕 찔리면 알림이 울립니다." }))
@@ -93,7 +90,10 @@ export const Register = () => {
   }
   return (
     <div className="min-h-screen">
-      <StackedNavigation title="회원가입" />
+      <StackedNavigation
+        onBack={() => navigate({ pathname: "/" }, { replace: true })}
+        title="회원가입"
+      />
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"

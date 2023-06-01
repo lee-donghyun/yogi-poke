@@ -10,8 +10,8 @@ export const Home = () => {
   }
   return (
     <div className="min-h-screen">
-      <div className="p-10">
-        <img alt="요기콕콕👉" src="/asset/logo.png" />
+      <div className="py-10">
+        <img alt="요기콕콕👉" className="h-32" src="/asset/logo.png" />
       </div>
       <div className="p-5">
         <p className="text-xl">
@@ -33,12 +33,12 @@ export const Home = () => {
         <p className="mt-5">함께 더 가까워지는 소통의 즐거움을 경험하세요!</p>
       </div>
       <div className="flex flex-col gap-5 p-5">
-        <Link pathname="/register">
+        <Link replace pathname="/register">
           <button className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60">
             회원가입
           </button>
         </Link>
-        <Link pathname="/sign-in">
+        <Link replace pathname="/sign-in">
           <button className="block w-full rounded-full border p-4 duration-300 active:bg-zinc-200 disabled:bg-zinc-300">
             로그인
           </button>

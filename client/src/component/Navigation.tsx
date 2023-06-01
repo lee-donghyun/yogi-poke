@@ -29,19 +29,15 @@ export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
 export const StackedNavigation = ({
   title,
   actions,
+  onBack,
 }: {
   title: string;
+  onBack: () => void;
   actions?: JSX.Element[];
 }) => {
   return (
     <div className="fixed inset-x-0 top-0 z-10 grid grid-cols-3 bg-white p-5">
-      <button
-        className="justify-self-start"
-        type="button"
-        onClick={() => {
-          window.history.back();
-        }}
-      >
+      <button className="justify-self-start" onClick={onBack} type="button">
         <ChevronLeft />
       </button>
       <p className="text-center font-medium">{title}</p>
