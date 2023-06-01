@@ -12,7 +12,7 @@ type User = {
   email: string;
   id: number;
   name: string;
-  profileImageUrl?: string;
+  profileImageUrl: string | null;
 };
 
 export const Search = () => {
@@ -64,6 +64,7 @@ export const Search = () => {
               selected={selected?.email === user.email}
               userEmail={user.email}
               userName={user.name}
+              userProfileImageUrl={user.profileImageUrl}
             />
           ))}
         </div>

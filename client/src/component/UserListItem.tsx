@@ -8,7 +8,7 @@ export const UserListItem = ({
 }: {
   userEmail: string;
   userName: string;
-  userProfileImageUrl?: string;
+  userProfileImageUrl: string | null;
   listIndex: number;
   selected: boolean;
   onClick: () => void;

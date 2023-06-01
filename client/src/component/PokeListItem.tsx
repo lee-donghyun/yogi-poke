@@ -12,7 +12,7 @@ export const PokeListItem = ({
   type: "poke" | "poked";
   targetUserName: string;
   targetUserEmail: string;
-  targetUserProfileImageUrl?: string;
+  targetUserProfileImageUrl: string | null;
   date: string;
   listIndex: number;
 }) => {

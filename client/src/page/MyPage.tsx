@@ -139,7 +139,7 @@ type User = {
   email: string;
   id: number;
   name: string;
-  profileImageUrl: null;
+  profileImageUrl: null | string;
 };
 
 const POKE_LIST_LIMIT = 20;
@@ -237,6 +237,7 @@ export const MyPage = () => {
                       listIndex={index}
                       targetUserEmail={targetUser.email}
                       targetUserName={targetUser.name}
+                      targetUserProfileImageUrl={targetUser.profileImageUrl}
                       type={type}
                     />
                   );
