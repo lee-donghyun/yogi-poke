@@ -153,13 +153,16 @@ export const MyPage = () => {
   });
   assertAuth();
 
-  const { data, setSize, error } = useSWRInfinite<Poke[]>((index, previous) => {
-    if (index === 0 || (previous && previous.length === POKE_LIST_LIMIT)) {
-      return ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }];
-    }
-    return null;
-  });
-  const loadMore = useCallback(() => setSize((prev) => prev + 1), [setSize]);
+  const { data, setSize, error, isLoading } = useSWRInfinite<Poke[]>(
+    (index, previous) =>
+      index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
+        ? ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
+        : null
+  );
+  const loadMore = useCallback(
+    () => !isLoading && setSize((prev) => prev + 1),
+    [isLoading, setSize]
+  );
   const intersectorRef = useIntersectionObserver(loadMore);
 
   return (
