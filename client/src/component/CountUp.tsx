@@ -18,7 +18,7 @@ export const CountUp = ({
     const diff = to - fromValue.current;
     const tick = diff / (duration / TIMEOUT);
     const timer = setInterval(() => {
-      const nextValue = Math.round(prevValue.current + tick);
+      const nextValue = Math.ceil(prevValue.current + tick);
       if (nextValue < to) {
         if (ref.current) {
           ref.current.innerText = nextValue.toLocaleString();
