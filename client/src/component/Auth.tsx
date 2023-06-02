@@ -1,6 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { yogiPokeApi } from "../service/api";
-import { SWRConfig } from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { useRouter } from "../lib/router2";
 import { MyInfo } from "../service/type";
 import { persisteToken } from "./PwaProvider";
@@ -32,11 +38,23 @@ const authContext = createContext<{
   },
 });
 
-export const useUser = () => {
+export const useUser = ({
+  revalidateIfHasToken,
+}: {
+  /**
+   * 훅이 호출될때 최신 정보임을 확인합니다. 토큰이 있는 경우에만 활성화됩니다.
+   * @warn 이 옵션은 페이지 단위의 훅 호출에서만 사용되어야 합니다. 여러 컴포넌트에서 동시에 사용한다면 불필요한 요청이 발생할 수 있습니다.
+   * @default false
+   */
+  revalidateIfHasToken?: boolean;
+} = {}) => {
   const { navigate, path } = useRouter();
   const auth = useContext(authContext);
+
+  const { isLoggedIn, refreshUser } = auth;
+
   const assertAuth = () => {
-    if (!auth.isLoggedIn) {
+    if (!isLoggedIn) {
       navigate(
         {
           pathname: "/sign-in",
@@ -46,6 +64,17 @@ export const useUser = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if (revalidateIfHasToken && isLoggedIn) {
+      refreshUser();
+      self.addEventListener("focus", refreshUser);
+      return () => {
+        self.removeEventListener("focus", refreshUser);
+      };
+    }
+  }, [revalidateIfHasToken, isLoggedIn, refreshUser]);
+
   return { ...auth, assertAuth };
 };
 
@@ -57,24 +86,33 @@ export const AuthProvider = ({
   myInfo: MyInfo | null;
 }) => {
   const [myInfo, setMyInfo] = useState<MyInfo | null>(prefetchedMyInfo);
-  const registerToken = (token: string) =>
-    yogiPokeApi
-      .get("/user/my-info", {
-        headers: { Authorization: token },
-      })
-      .then(({ data }) => {
-        setMyInfo({ ...data, token });
-        persisteToken(token);
-        yogiPokeApi.defaults.headers.Authorization = token;
-      });
-  const patchUser = (myInfo: PatchUserPayload) =>
-    yogiPokeApi
-      .patch<MyInfo>("/user/my-info", myInfo)
-      .then((user) => setMyInfo((p) => ({ ...p, ...user.data })));
-  const refreshUser = () =>
-    yogiPokeApi.get("/user/my-info").then(({ data }) => {
-      setMyInfo((p) => ({ ...p, ...data }));
-    });
+  const registerToken = useCallback(
+    (token: string) =>
+      yogiPokeApi
+        .get("/user/my-info", {
+          headers: { Authorization: token },
+        })
+        .then(({ data }) => {
+          setMyInfo({ ...data, token });
+          persisteToken(token);
+          yogiPokeApi.defaults.headers.Authorization = token;
+        }),
+    []
+  );
+  const patchUser = useCallback(
+    (myInfo: PatchUserPayload) =>
+      yogiPokeApi
+        .patch<MyInfo>("/user/my-info", myInfo)
+        .then((user) => setMyInfo((p) => ({ ...p, ...user.data }))),
+    []
+  );
+  const refreshUser = useCallback(
+    () =>
+      yogiPokeApi.get("/user/my-info").then(({ data }) => {
+        setMyInfo((p) => ({ ...p, ...data }));
+      }),
+    []
+  );
 
   return (
     <authContext.Provider

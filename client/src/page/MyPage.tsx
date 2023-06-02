@@ -148,7 +148,9 @@ const POKE_LIST_LIMIT = 20;
 export const MyPage = () => {
   const push = useNotification();
   const { navigate } = useRouter();
-  const { assertAuth, myInfo, patchUser } = useUser();
+  const { assertAuth, myInfo, patchUser } = useUser({
+    revalidateIfHasToken: true,
+  });
   assertAuth();
 
   const { data, setSize, error } = useSWRInfinite<Poke[]>((index, previous) => {
