@@ -198,7 +198,7 @@ export const MyPage = () => {
         </div>
         <div className="mt-10">
           <p className="text-xl font-bold">@{myInfo?.email}</p>
-          <p className="mt-1">{myInfo?.name ?? <div className="h-4" />}</p>
+          <p className="mt-1">{myInfo?.name ?? <div className="h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
           <Stat label="내가 콕! 찌른 횟수" value={myInfo?.pokes ?? 0} />
@@ -253,7 +253,11 @@ export const MyPage = () => {
       </div>
       <DomainBottomNavigation />
       {(() => {
-        prevData.current = data;
+        data?.forEach((pokes, index) => {
+          if (Array.isArray(prevData.current)) {
+            prevData.current[index] = pokes;
+          }
+        });
         return <></>;
       })()}
     </div>

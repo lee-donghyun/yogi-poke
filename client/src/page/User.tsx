@@ -55,12 +55,12 @@ export const User = () => {
         <div className="flex justify-center pt-16">
           <img
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
-            src={"myInfo?.profileImageUrl" ?? "/asset/default_user_profile.png"}
+            src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
         </div>
         <div className="mt-10">
           <p className="text-xl font-bold">@{userEmail}</p>
-          <p className="mt-1">{data?.name ?? ""}</p>
+          <p className="mt-1">{data?.name ?? <div className="h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
           <Stat label="내가 콕! 찌른 횟수" value={data?.pokes ?? 0} />

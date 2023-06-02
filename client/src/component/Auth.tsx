@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { yogiPokeApi } from "../service/api";
-import useSWR, { SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 import { useRouter } from "../lib/router2";
 import { MyInfo } from "../service/type";
 import { persisteToken } from "./PwaProvider";

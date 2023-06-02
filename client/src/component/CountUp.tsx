@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 
 const TIMEOUT = 50;
 
@@ -35,5 +35,6 @@ export const CountUp = ({
       clearInterval(timer);
     };
   }, [duration, to]);
-  return <span ref={ref}>{ref.current?.innerText}</span>;
+  const render = useMemo(() => <span ref={ref}>{from}</span>, []);
+  return render;
 };
