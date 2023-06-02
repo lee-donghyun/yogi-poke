@@ -6,17 +6,9 @@ import { useNotification } from "../component/Notification";
 import { PokeListItem } from "../component/PokeListItem";
 import { Link, useRouter } from "../lib/router2";
 import { useIntersectionObserver } from "../hook/useIntersectionObserver";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { getPushNotificationSubscription } from "../service/util";
-
-const Stat = ({ label, value }: { value: number; label: string }) => {
-  return (
-    <div className="flex flex-1 flex-col items-center">
-      <p className="text-xl font-extrabold">{value?.toLocaleString()}</p>
-      <p>{label}</p>
-    </div>
-  );
-};
+import { Stat } from "../component/Stat";
 
 const SearchIcon = () => (
   <svg
@@ -164,6 +156,7 @@ export const MyPage = () => {
     [isLoading, setSize]
   );
   const intersectorRef = useIntersectionObserver(loadMore);
+  const prevData = useRef(data);
 
   return (
     <div className="min-h-screen">
@@ -205,7 +198,7 @@ export const MyPage = () => {
         </div>
         <div className="mt-10">
           <p className="text-xl font-bold">@{myInfo?.email}</p>
-          <p className="mt-1">{myInfo?.name}</p>
+          <p className="mt-1">{myInfo?.name ?? <div className="h-4" />}</p>
         </div>
         <div className="mt-10 flex items-center">
           <Stat label="내가 콕! 찌른 횟수" value={myInfo?.pokes ?? 0} />
@@ -228,7 +221,7 @@ export const MyPage = () => {
             </div>
           )}
           {data
-            ?.map((pokes) =>
+            ?.map((pokes, pageIndex) =>
               pokes.map(
                 ({ createdAt, id, relation: { fromUser, toUser } }, index) => {
                   const type = fromUser.id === myInfo?.id ? "poke" : "poked";
@@ -236,11 +229,15 @@ export const MyPage = () => {
                     poke: toUser,
                     poked: fromUser,
                   }[type];
+                  const animation =
+                    prevData.current?.[pageIndex] !== pokes
+                      ? { delayTimes: index }
+                      : null;
                   return (
                     <PokeListItem
                       key={id}
+                      animation={animation}
                       date={createdAt}
-                      listIndex={index}
                       targetUserEmail={targetUser.email}
                       targetUserName={targetUser.name}
                       targetUserProfileImageUrl={targetUser.profileImageUrl}
@@ -255,6 +252,10 @@ export const MyPage = () => {
         </div>
       </div>
       <DomainBottomNavigation />
+      {(() => {
+        prevData.current = data;
+        return <></>;
+      })()}
     </div>
   );
 };

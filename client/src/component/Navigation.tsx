@@ -36,7 +36,10 @@ export const StackedNavigation = ({
   actions?: JSX.Element[];
 }) => {
   return (
-    <div className="fixed inset-x-0 top-0 z-10 grid grid-cols-3 bg-white p-5">
+    <div
+      className="fixed inset-x-0 top-0 z-10 grid bg-white p-5"
+      style={{ gridTemplateColumns: "80px 1fr 80px" }}
+    >
       <button className="justify-self-start" onClick={onBack} type="button">
         <ChevronLeft />
       </button>

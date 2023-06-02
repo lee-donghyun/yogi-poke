@@ -1,4 +1,5 @@
 import { usePoke } from "../hook/usePoke";
+import { useRouter } from "../lib/router2";
 import { getReadableDateOffset } from "../service/util";
 
 export const PokeListItem = ({
@@ -7,23 +8,28 @@ export const PokeListItem = ({
   targetUserName,
   targetUserProfileImageUrl,
   date,
-  listIndex,
+  animation,
 }: {
   type: "poke" | "poked";
   targetUserName: string;
   targetUserEmail: string;
   targetUserProfileImageUrl: string | null;
   date: string;
-  listIndex: number;
+  animation: {
+    delayTimes: number;
+  } | null;
 }) => {
   const { trigger, isMutating } = usePoke();
+  const { navigate } = useRouter();
   return (
     <div
-      className="from-bottom opacity-0"
-      style={{
-        animationDelay: `${listIndex * 50}ms`,
-        transform: "translateY(60px)",
-      }}
+      {...(animation && {
+        className: "from-bottom opacity-0",
+        style: {
+          animationDelay: `${animation.delayTimes * 50}ms`,
+          transform: "translateY(60px)",
+        },
+      })}
     >
       <div className="flex">
         <img
@@ -33,7 +39,12 @@ export const PokeListItem = ({
         />
         <div className="ml-4 flex-1">
           <p className="relative font-medium">
-            @{targetUserEmail}
+            <span
+              onClick={() => navigate({ pathname: `/user/${targetUserEmail}` })}
+              role="link"
+            >
+              @{targetUserEmail}
+            </span>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
               {getReadableDateOffset(date)}
             </span>
