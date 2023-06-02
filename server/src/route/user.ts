@@ -1,12 +1,14 @@
 import { FastifyPluginAsync } from 'fastify';
 import {
   authTokenHeaderDto,
+  getUserDto,
   getUserListDto,
   patchUserDto,
   registerUserDto,
   signInUserDto,
 } from '../dto/user';
 import {
+  getUser,
   getUserByEmailAndPassword,
   getUserList,
   patchUser,
@@ -66,5 +68,13 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
       { limit: query.limit ?? 20, page: query.page ?? 1 },
       user.id
     );
+  });
+  instance.get('/:email', { schema: getUserDto.schema }, async (req) => {
+    const user = assertAuth(req.user);
+    const params = req.params as typeof getUserDto.type.params;
+    const { email, id, name, profileImageUrl } = await getUser(params);
+    const pokes = await getPokedCount({ fromUserId: user.id, toUserId: id });
+    const pokeds = await getPokedCount({ fromUserId: id, toUserId: user.id });
+    return { email, id, name, profileImageUrl, pokeds, pokes };
   });
 };

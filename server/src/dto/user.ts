@@ -113,3 +113,20 @@ export const getUserListDto = dto<{
     additionalProperties: false,
   },
 });
+
+export const getUserDto = dto<{
+  params: {
+    email: string;
+  };
+}>({
+  params: {
+    type: 'object',
+    properties: {
+      email: {
+        type: 'string',
+      },
+    },
+    required: ['email'],
+    additionalProperties: false,
+  },
+});
