@@ -230,7 +230,7 @@ export const MyPage = () => {
                     poked: fromUser,
                   }[type];
                   const animation =
-                    prevData.current?.[pageIndex] !== pokes
+                    pageIndex + 1 > (prevData.current?.length ?? 0)
                       ? { delayTimes: index }
                       : null;
                   return (
@@ -252,14 +252,6 @@ export const MyPage = () => {
         </div>
       </div>
       <DomainBottomNavigation />
-      {(() => {
-        data?.forEach((pokes, index) => {
-          if (Array.isArray(prevData.current)) {
-            prevData.current[index] = pokes;
-          }
-        });
-        return <></>;
-      })()}
     </div>
   );
 };
