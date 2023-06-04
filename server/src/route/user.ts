@@ -35,7 +35,8 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
       schema: authTokenHeaderDto.schema,
     },
     async (req) => {
-      const user = assertAuth(req.user);
+      const { email } = assertAuth(req.user);
+      const user = await getUser({ email });
       const pokes = await getPokedCount({ fromUserId: user.id });
       const pokeds = await getPokedCount({ toUserId: user.id });
       return { ...user, pokes, pokeds };

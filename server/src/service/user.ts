@@ -41,7 +41,17 @@ export const registerUser = async (user: {
 };
 
 export const getUser = async (user: { email: string }) => {
-  const found = await db.user.findFirst({ where: user });
+  const found = await db.user.findFirst({
+    where: user,
+    select: {
+      createdAt: true,
+      email: true,
+      id: true,
+      name: true,
+      profileImageUrl: true,
+      pushSubscription: true,
+    },
+  });
   if (found === null) {
     throw createError({
       statusCode: 404,
