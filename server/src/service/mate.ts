@@ -1,6 +1,7 @@
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { Pagination } from '../helper/type';
 import { db } from '../repository/prisma';
+import { getDiffDays } from '../utils/date';
 import { createError } from '../utils/error';
 
 const getRelation = async (fromUserId: number, toUserId: number) => {
@@ -58,7 +59,11 @@ export const pokeMate = async (fromUserId: number, toUserId: number) => {
           },
           orderBy: [{ id: 'desc' }],
         })
-        .then((row) => row?.realtionFromUserId === fromUserId)
+        .then(
+          (row) =>
+            row?.realtionFromUserId === fromUserId &&
+            getDiffDays(row.createdAt, Date.now()) < 1
+        )
     ) {
       throw createError({
         statusCode: 409,
