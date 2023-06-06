@@ -8,6 +8,10 @@ import { BrowserRouter } from "./lib/router2";
 import { Search } from "./page/Search";
 import { PwaProvider } from "./component/PwaProvider";
 import { User } from "./page/User";
+import duration from "dayjs/plugin/duration";
+import dayjs from "dayjs";
+
+dayjs.extend(duration);
 
 export const App = () => {
   return (

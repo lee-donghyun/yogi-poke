@@ -159,3 +159,26 @@ export const getRelatedPokesList = async (
     },
   });
 };
+
+export const getRelatedPokesListBetweenUsers = async (
+  {
+    userId1,
+    userId2,
+  }: {
+    userId1: number;
+    userId2: number;
+  },
+  { limit, page }: Pagination
+) => {
+  return db.poke.findMany({
+    skip: limit * (page - 1),
+    take: limit,
+    orderBy: { createdAt: 'desc' },
+    where: {
+      OR: [
+        { realtionFromUserId: userId1, realtionToUserId: userId2 },
+        { realtionFromUserId: userId2, realtionToUserId: userId1 },
+      ],
+    },
+  });
+};

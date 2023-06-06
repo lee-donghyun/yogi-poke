@@ -3,6 +3,13 @@ import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
 import { Stat } from "../component/Stat";
 import { useRouter } from "../lib/router2";
+import dayjs, { Dayjs, isDayjs } from "dayjs";
+import { useUser } from "../component/Auth";
+import { useEffect, useMemo, useRef } from "react";
+import { usePoke } from "../hook/usePoke";
+
+const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
+const MINUTE_IN_UNIX = 1000 * 60;
 
 const BlockIcon = () => (
   <svg
@@ -21,10 +28,40 @@ const BlockIcon = () => (
   </svg>
 );
 
+const Timer = ({ to }: { to: Dayjs }) => {
+  const format = "H시간 m분";
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (ref.current) {
+        ref.current.innerText = dayjs
+          .duration(to.diff() + DAY_IN_UNIX)
+          .format(format);
+      }
+    }, MINUTE_IN_UNIX);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+  const render = useMemo(
+    () => (
+      <span ref={ref}>
+        {dayjs.duration(to.diff() + DAY_IN_UNIX).format(format)}
+      </span>
+    ),
+    []
+  );
+
+  return render;
+};
+
 export const User = () => {
   const { params } = useRouter();
+  const { myInfo } = useUser();
   const userEmail = params[":userId"];
   const push = useNotification();
+  const { trigger, isMutating } = usePoke();
+
   const { data } = useSWR<{
     email: string;
     id: number;
@@ -33,6 +70,25 @@ export const User = () => {
     pokeds: number;
     pokes: number;
   }>([`/user/${userEmail}`]);
+  const {
+    data: pokes,
+    isLoading,
+    mutate,
+  } = useSWR<
+    {
+      createdAt: string;
+      id: number;
+      realtionFromUserId: number;
+      realtionToUserId: number;
+    }[]
+  >([`/mate/poke/${userEmail}`, { limit: 1 }]);
+
+  const lastPoked =
+    pokes?.[0].realtionFromUserId === myInfo?.id
+      ? dayjs(pokes?.[0].createdAt)
+      : null;
+  const isPokable = lastPoked ? dayjs().diff(lastPoked, "hour") >= 24 : true;
+
   return (
     <div className="min-h-screen">
       <StackedNavigation
@@ -60,13 +116,30 @@ export const User = () => {
         </div>
         <div className="mt-10">
           <p className="text-xl font-bold">@{userEmail}</p>
-          <p className="mt-1">{data?.name ?? <div className="h-6" />}</p>
+          <p className="mt-1">{data?.name ?? <span className="h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
           <Stat label="내가 콕! 찌른 횟수" value={data?.pokes ?? 0} />
           <div className="h-12 w-px bg-zinc-200"></div>
           <Stat label="내가 콕! 찔린 횟수" value={data?.pokeds ?? 0} />
         </div>
+      </div>
+      <div className="p-5">
+        <button
+          className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
+          disabled={!isPokable || isLoading || isMutating}
+          onClick={() => trigger({ email: userEmail }).then(() => mutate())}
+        >
+          콕 찌르기 👉
+        </button>
+        {isDayjs(lastPoked) && !isPokable && (
+          <p className="mt-1 text-center text-sm text-zinc-500">
+            <b className="font-medium">
+              <Timer to={lastPoked} />
+            </b>
+            {" 후에 찌를 수 있어요"}
+          </p>
+        )}
       </div>
     </div>
   );

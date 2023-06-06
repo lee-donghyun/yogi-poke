@@ -1,6 +1,15 @@
-import { getPokeListDto, requestRelationDto } from '../dto/mate';
+import {
+  getPokeListDto,
+  getUserRelatedPokeListDto,
+  requestRelationDto,
+} from '../dto/mate';
 import { assertAuth } from '../plugin/auth';
-import { createRelation, getRelatedPokesList, pokeMate } from '../service/mate';
+import {
+  createRelation,
+  getRelatedPokesList,
+  getRelatedPokesListBetweenUsers,
+  pokeMate,
+} from '../service/mate';
 import { sendPushNotification } from '../service/push';
 import { getUser } from '../service/user';
 import { FastifyPluginAsync } from 'fastify';
@@ -45,4 +54,20 @@ export const mateRouter: FastifyPluginAsync = async (instance) => {
     });
     return relatedPokes;
   });
+  instance.get(
+    '/poke/:email',
+    { schema: getUserRelatedPokeListDto.schema },
+    async (req) => {
+      const query = req.query as typeof getUserRelatedPokeListDto.type.query;
+      const params = req.params as typeof getUserRelatedPokeListDto.type.params;
+
+      const { id: userId1 } = assertAuth(req.user);
+      const { id: userId2 } = await getUser({ email: params.email });
+
+      return getRelatedPokesListBetweenUsers(
+        { userId1, userId2 },
+        { limit: query.limit ?? 20, page: query.page ?? 1 }
+      );
+    }
+  );
 };

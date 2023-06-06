@@ -36,3 +36,36 @@ export const getPokeListDto = dto<{
     additionalProperties: false,
   },
 });
+
+export const getUserRelatedPokeListDto = dto<{
+  query: {
+    limit?: number;
+    page?: number;
+  };
+  params: {
+    email: string;
+  };
+}>({
+  querystring: {
+    type: 'object',
+    properties: {
+      limit: {
+        type: 'number',
+      },
+      page: {
+        type: 'number',
+      },
+    },
+    additionalProperties: false,
+  },
+  params: {
+    type: 'object',
+    properties: {
+      email: {
+        type: 'string',
+      },
+    },
+    required: ['email'],
+    additionalProperties: false,
+  },
+});
