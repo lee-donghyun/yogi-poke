@@ -79,6 +79,7 @@ export const patchUser = async ({
   id,
   name,
   pushSubscription,
+  profileImageUrl,
 }: {
   id: number;
   password?: string;
@@ -98,6 +99,7 @@ export const patchUser = async ({
           : pushSubscription === undefined
           ? undefined
           : JSON.stringify(pushSubscription),
+      profileImageUrl,
     },
   });
 };
