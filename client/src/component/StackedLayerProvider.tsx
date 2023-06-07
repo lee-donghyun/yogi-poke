@@ -52,10 +52,10 @@ export const StackedLayerProvider = ({
 
   return (
     <stackedLayerContext.Provider value={push}>
-      <div ref={childrenContainerRef}>
+      <div ref={childrenContainerRef} className="w-screen">
         {isLayer(Layer) && (
           <div
-            className={`pointer-events-none fixed inset-0 z-40 rounded-xl duration-300 ${
+            className={`pointer-events-none fixed inset-0 z-40 rounded-xl duration-500 ${
               show ? "bg-black bg-opacity-10" : ""
             }`}
           />
