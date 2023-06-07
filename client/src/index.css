@@ -23,12 +23,12 @@
   animation-fill-mode: forwards;
 }
 .stacked-layer-from {
-  animation-duration: 300ms;
+  animation-duration: 500ms;
   animation-name: stackedLayerFrom;
   animation-fill-mode: forwards;
 }
 .stacked-layer-to {
-  animation-duration: 300ms;
+  animation-duration: 500ms;
   animation-name: stackedLayerTo;
   animation-fill-mode: forwards;
 }
