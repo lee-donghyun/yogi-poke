@@ -55,8 +55,8 @@ export const StackedLayerProvider = ({
       <div ref={childrenContainerRef} className="w-screen">
         {isLayer(Layer) && (
           <div
-            className={`pointer-events-none fixed inset-0 z-40 rounded-xl duration-500 ${
-              show ? "bg-black bg-opacity-10" : ""
+            className={`pointer-events-none fixed inset-0 z-40 rounded-xl bg-black ${
+              show ? "stacked-backdrop-from" : "stacked-backdrop-to"
             }`}
           />
         )}
