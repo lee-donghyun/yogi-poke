@@ -13,6 +13,7 @@ import { persisteToken } from "./PwaProvider";
 
 type PatchUserPayload = {
   pushSubscription?: PushSubscriptionJSON;
+  profileImageUrl?: string;
   name?: string;
 };
 

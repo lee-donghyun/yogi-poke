@@ -6,4 +6,5 @@ export enum CLIENT_ERROR_MESSAGE {
   ALREADY_HAS_RELATION = '이미 존재하는 관계입니다.',
   ALREADY_POKED = '이미 콕 찔렀습니다.',
   BLOCKED_RELATION = '상대방이 차단한 관계입니다.',
+  BAD_REQUEST = '잘못된 요청입니다.',
 }
