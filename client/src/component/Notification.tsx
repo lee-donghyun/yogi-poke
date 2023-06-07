@@ -58,7 +58,7 @@ export const NotificationProvider = ({
     <notificationContext.Provider value={pushNotification}>
       {data.length > 0 &&
         createPortal(
-          <div className="fixed inset-x-0 top-0 z-10">
+          <div className="fixed inset-x-0 top-0 z-50">
             {data.map((n, i) => (
               <div
                 key={n.id}

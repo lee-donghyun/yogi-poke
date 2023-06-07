@@ -55,7 +55,7 @@ export const StackedLayerProvider = ({
       <div ref={childrenContainerRef}>
         {isLayer(Layer) && (
           <div
-            className={`pointer-events-none fixed inset-0 z-50 rounded-xl duration-300 ${
+            className={`pointer-events-none fixed inset-0 z-40 rounded-xl duration-300 ${
               show ? "bg-black bg-opacity-10" : ""
             }`}
           />
@@ -65,7 +65,7 @@ export const StackedLayerProvider = ({
       {isLayer(Layer) &&
         createPortal(
           <div
-            className={`fixed inset-0 z-50 bg-white ${
+            className={`fixed inset-0 z-40 bg-white ${
               show ? "stacked-layer-from" : "stacked-layer-to"
             }`}
           >
