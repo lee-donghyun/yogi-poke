@@ -1,5 +1,5 @@
 import { JSX, useEffect, useMemo, useState } from "react";
-import { enableBodyScroll } from "body-scroll-lock";
+import { enableBodyScroll } from "body-scroll-lock-upgrade";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/type";
 import { Introduction } from "./Introduction";
