@@ -22,12 +22,21 @@
   animation-name: fromBottom;
   animation-fill-mode: forwards;
 }
+.stacked-layer-from {
+  animation-duration: 300ms;
+  animation-name: stackedLayerFrom;
+  animation-fill-mode: forwards;
+}
+.stacked-layer-to {
+  animation-duration: 300ms;
+  animation-name: stackedLayerTo;
+  animation-fill-mode: forwards;
+}
 
 @keyframes fromTop {
   from {
     transform: translateY(-120px);
   }
-
   to {
     transform: translateY(0);
   }
@@ -36,7 +45,6 @@
   from {
     transform: translateY(0);
   }
-
   to {
     transform: translateY(-120px);
   }
@@ -46,7 +54,6 @@
     transform: translateX(120px);
     opacity: 0;
   }
-
   to {
     transform: translateX(0);
     opacity: 1;
@@ -57,9 +64,24 @@
     transform: translateY(60px);
     opacity: 0;
   }
-
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+@keyframes stackedLayerFrom {
+  from {
+    transform: translateY(110vh);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes stackedLayerTo {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(110vh);
   }
 }
