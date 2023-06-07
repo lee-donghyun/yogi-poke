@@ -32,6 +32,16 @@
   animation-name: stackedLayerTo;
   animation-fill-mode: forwards;
 }
+.stacked-backdrop-from {
+  animation-duration: 500ms;
+  animation-name: stackedBackdropFrom;
+  animation-fill-mode: forwards;
+}
+.stacked-backdrop-to {
+  animation-duration: 500ms;
+  animation-name: stackedBackdropTo;
+  animation-fill-mode: forwards;
+}
 
 @keyframes fromTop {
   from {
@@ -83,5 +93,21 @@
   }
   to {
     transform: translateY(110vh);
+  }
+}
+@keyframes stackedBackdropFrom {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.1;
+  }
+}
+@keyframes stackedBackdropTo {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 0;
   }
 }

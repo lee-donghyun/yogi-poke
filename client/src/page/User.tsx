@@ -116,7 +116,7 @@ export const User = () => {
         </div>
         <div className="mt-10">
           <p className="text-xl font-bold">@{userEmail}</p>
-          <p className="mt-1">{data?.name ?? <span className="h-6" />}</p>
+          <p className="mt-1">{data?.name ?? <span className="block h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
           <Stat label="내가 콕! 찌른 횟수" value={data?.pokes ?? 0} />

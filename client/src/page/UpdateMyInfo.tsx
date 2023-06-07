@@ -80,9 +80,11 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
               name={FORM_NAME.PROFILE_IMAGE}
               type="file"
               onChange={(e) => {
-                const profileImageUrl = URL.createObjectURL(
-                  e.target.files?.item(0) as File
-                );
+                const file = e.target.files?.item(0) as File;
+                if (file.size > 4_000_000) {
+                  return push({ content: "더 작은 사진을 사용해주세요." });
+                }
+                const profileImageUrl = URL.createObjectURL(file);
                 setData((p) => ({ ...p, profileImageUrl }));
               }}
             />
