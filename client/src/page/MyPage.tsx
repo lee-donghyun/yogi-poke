@@ -9,6 +9,8 @@ import { useIntersectionObserver } from "../hook/useIntersectionObserver";
 import { useCallback, useRef } from "react";
 import { getPushNotificationSubscription } from "../service/util";
 import { Stat } from "../component/Stat";
+import { useStackedLayer } from "../component/StackedLayerProvider";
+import { UpdateMyInfo } from "./UpdateMyInfo";
 
 const SearchIcon = () => (
   <svg
@@ -140,6 +142,7 @@ const POKE_LIST_LIMIT = 20;
 export const MyPage = () => {
   const push = useNotification();
   const { navigate } = useRouter();
+  const overlay = useStackedLayer();
   const { assertAuth, myInfo, patchUser } = useUser({
     revalidateIfHasToken: true,
   });
@@ -182,7 +185,7 @@ export const MyPage = () => {
             className="active:opacity-60"
             type="button"
             onClick={() => {
-              push({ content: "내 정보 수정을 하려면 관리자에게 문의하세요." });
+              overlay(UpdateMyInfo);
             }}
           >
             <EditIcon />
