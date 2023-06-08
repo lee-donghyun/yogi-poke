@@ -81,7 +81,7 @@
 }
 @keyframes stackedLayerFrom {
   from {
-    transform: translateY(110vh);
+    transform: translateY(110%);
   }
   to {
     transform: translateY(0);
@@ -92,7 +92,7 @@
     transform: translateY(0);
   }
   to {
-    transform: translateY(110vh);
+    transform: translateY(110%);
   }
 }
 @keyframes stackedBackdropFrom {
