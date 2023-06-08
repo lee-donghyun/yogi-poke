@@ -91,15 +91,21 @@ export const createDraggableSheet = (Layer: Layer) => {
     const deferredTranslate = useDeferredValue(translate);
 
     return (
-      <div className="p-2">
+      <div className="p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <div
-          className="rounded-xl bg-white duration-150"
+          className="rounded-xl bg-white"
           style={
             deferredTranslate
               ? {
-                  transform: `translate(${deferredTranslate.x}px,${deferredTranslate.y}px)`,
+                  transform: `translate(${deferredTranslate.x}px,${
+                    deferredTranslate.y
+                  }px) scale(${Math.min(
+                    1,
+                    (startPointRef.current.y + deferredTranslate.y) /
+                      startPointRef.current.y
+                  )})`,
                 }
-              : undefined
+              : { transition: "all 150ms" }
           }
         >
           <div
@@ -115,7 +121,15 @@ export const createDraggableSheet = (Layer: Layer) => {
             onTouchMove={(e) => {
               const { clientX, clientY } = e.touches.item(0);
               const { x, y } = startPointRef.current;
-              setTranslate({ x: clientX - x, y: clientY - y });
+              const diffY = clientY - y;
+              const diffX = clientX - x;
+              setTranslate({
+                x:
+                  diffX > 0
+                    ? Math.sqrt(clientX - x)
+                    : -Math.sqrt(-(clientX - x)),
+                y: diffY > 0 ? diffY : -Math.sqrt(-diffY),
+              });
             }}
             onTouchStart={(e) => {
               const { clientX: x, clientY: y } = e.touches.item(0);
