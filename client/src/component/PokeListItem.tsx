@@ -1,5 +1,6 @@
 import { usePoke } from "../hook/usePoke";
 import { useRouter } from "../lib/router2";
+import { eventPokeProps } from "../service/event/firstFive";
 import { getReadableDateOffset } from "../service/util";
 
 export const PokeListItem = ({
@@ -19,7 +20,7 @@ export const PokeListItem = ({
     delayTimes: number;
   } | null;
 }) => {
-  const { trigger, isMutating } = usePoke();
+  const { trigger, isMutating } = usePoke(eventPokeProps);
   const { navigate } = useRouter();
   return (
     <div

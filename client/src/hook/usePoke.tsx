@@ -3,10 +3,27 @@ import { yogiPokeApi } from "../service/api";
 import { useNotification } from "../component/Notification";
 import { AxiosError } from "axios";
 import { useUser } from "../component/Auth";
+import { useStackedLayer } from "../component/StackedLayerProvider";
+import { MyInfo } from "../service/type";
 
-export const usePoke = () => {
+export const usePoke = (
+  {
+    onSuccess,
+  }: {
+    onSuccess: (helper: {
+      meta: { email: string; myInfo: MyInfo | null };
+      stack: ReturnType<typeof useStackedLayer>;
+      push: ReturnType<typeof useNotification>;
+    }) => void;
+  } = {
+    onSuccess: (helper) => {
+      helper.push({ content: `${helper.meta.email}님을 콕! 찔렀습니다.` });
+    },
+  }
+) => {
+  const stack = useStackedLayer();
   const push = useNotification();
-  const { refreshUser } = useUser();
+  const { refreshUser, myInfo } = useUser();
   return useSWRMutation(
     "/mate/poke",
     (key, { arg }: { arg: { email: string } }) =>
@@ -34,7 +51,7 @@ export const usePoke = () => {
       },
       onSuccess: (email) => {
         refreshUser();
-        push({ content: `${email}님을 콕! 찔렀습니다.` });
+        onSuccess({ stack, push, meta: { email, myInfo } });
       },
     }
   );

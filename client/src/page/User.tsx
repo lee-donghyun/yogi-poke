@@ -7,6 +7,7 @@ import dayjs, { Dayjs, isDayjs } from "dayjs";
 import { useUser } from "../component/Auth";
 import { useEffect, useMemo, useRef } from "react";
 import { usePoke } from "../hook/usePoke";
+import { eventPokeProps } from "../service/event/firstFive";
 
 const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 const MINUTE_IN_UNIX = 1000 * 60;
@@ -60,7 +61,7 @@ export const User = () => {
   const { myInfo } = useUser();
   const userEmail = params[":userId"];
   const push = useNotification();
-  const { trigger, isMutating } = usePoke();
+  const { trigger, isMutating } = usePoke(eventPokeProps);
 
   const { data } = useSWR<{
     email: string;
