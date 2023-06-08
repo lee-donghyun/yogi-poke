@@ -43,7 +43,7 @@ const EventLayer = createDraggableSheet(({ close }) => (
       <button
         className="block w-full rounded-xl bg-black p-4 text-white duration-300 active:opacity-60"
         onClick={() => {
-          window.open("https://www.naver.com");
+          window.open("https://docs.google.com/forms/d/e/1FAIpQLSeNaE6jbhJgnzPi7nNp04uTmAtZxHeuZqG6Dg4NJNxnTeL_Wg/viewform?usp=pp_url&entry.29515224="+"donghyun_");
           close();
         }}
       >
