@@ -7,6 +7,7 @@ import { UserListItem } from "../component/UserListItem";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { validator } from "../service/validator";
 import { usePoke } from "../hook/usePoke";
+import { eventPokeProps } from "../service/event/firstFive";
 
 type User = {
   email: string;
@@ -36,7 +37,7 @@ export const Search = () => {
   );
   const dataUpdatedAt = useMemo(() => Date.now(), [data]);
 
-  const { trigger, isMutating } = usePoke();
+  const { trigger, isMutating } = usePoke(eventPokeProps);
 
   return (
     <div className="min-h-screen">

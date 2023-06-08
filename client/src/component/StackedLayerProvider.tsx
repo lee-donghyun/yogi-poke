@@ -79,7 +79,7 @@ export const StackedLayerProvider = ({
   );
 };
 
-export const createDraggableSheet = (Layer: () => JSX.Element) => {
+export const createDraggableSheet = (Layer: Layer) => {
   if (import.meta.env.DEV) {
     console.warn("DraggableSheet is created. This must be created once.");
   }
@@ -125,7 +125,7 @@ export const createDraggableSheet = (Layer: () => JSX.Element) => {
             <div className="h-2 w-12 rounded-full bg-zinc-500"></div>
           </div>
           <div>
-            <Layer />
+            <Layer close={close} />
           </div>
         </div>
       </div>
