@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useDeferredValue,
   useRef,
   useState,
 } from "react";
@@ -55,7 +56,8 @@ export const StackedLayerProvider = ({
       <div ref={childrenContainerRef} className="w-screen">
         {isLayer(Layer) && (
           <div
-            className={`pointer-events-none fixed inset-0 z-40 rounded-xl bg-black ${
+            onClick={pop}
+            className={`fixed inset-0 z-40 rounded-xl bg-black ${
               show ? "stacked-backdrop-from" : "stacked-backdrop-to"
             }`}
           />
@@ -65,7 +67,7 @@ export const StackedLayerProvider = ({
       {isLayer(Layer) &&
         createPortal(
           <div
-            className={`fixed inset-0 z-40 bg-white ${
+            className={`fixed inset-0 top-auto z-40 ${
               show ? "stacked-layer-from" : "stacked-layer-to"
             }`}
           >
@@ -75,4 +77,59 @@ export const StackedLayerProvider = ({
         )}
     </stackedLayerContext.Provider>
   );
+};
+
+export const createDraggableSheet = (Layer: () => JSX.Element) => {
+  if (import.meta.env.DEV) {
+    console.warn("DraggableSheet is created. This must be created once.");
+  }
+  const DraggableSheet = ({ close }: { close: () => void }) => {
+    const startPointRef = useRef({ x: 0, y: 0 });
+    const [translate, setTranslate] = useState<null | { x: number; y: number }>(
+      null
+    );
+    const deferredTranslate = useDeferredValue(translate);
+
+    return (
+      <div className="p-2">
+        <div
+          className="rounded-xl bg-white duration-150"
+          style={
+            deferredTranslate
+              ? {
+                  transform: `translate(${deferredTranslate.x}px,${deferredTranslate.y}px)`,
+                }
+              : undefined
+          }
+        >
+          <div
+            className="flex cursor-pointer justify-center p-3"
+            onTouchEnd={() => {
+              if (translate && translate.y > 160) {
+                setTranslate({ x: 0, y: translate.y });
+                close();
+              } else {
+                setTranslate(null);
+              }
+            }}
+            onTouchMove={(e) => {
+              const { clientX, clientY } = e.touches.item(0);
+              const { x, y } = startPointRef.current;
+              setTranslate({ x: clientX - x, y: clientY - y });
+            }}
+            onTouchStart={(e) => {
+              const { clientX: x, clientY: y } = e.touches.item(0);
+              startPointRef.current = { x, y };
+            }}
+          >
+            <div className="h-2 w-12 rounded-full bg-zinc-500"></div>
+          </div>
+          <div>
+            <Layer />
+          </div>
+        </div>
+      </div>
+    );
+  };
+  return DraggableSheet;
 };

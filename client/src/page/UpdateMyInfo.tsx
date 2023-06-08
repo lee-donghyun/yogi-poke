@@ -42,7 +42,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div
         className="z-10 grid bg-white p-5"
         style={{ gridTemplateColumns: "80px 1fr 80px" }}
