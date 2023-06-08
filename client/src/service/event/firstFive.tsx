@@ -1,10 +1,32 @@
 import { createDraggableSheet } from "../../component/StackedLayerProvider";
 import { usePoke } from "../../hook/usePoke";
 
+const CloseIcon = () => (
+  <svg
+    className="h-6 w-6"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.5}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 18L18 6M6 6l12 12"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const HIDE_LAYER_PERSIST_KEY = "EVENT_LAYER_FIRST_5";
 const EventLayer = createDraggableSheet(({ close }) => (
   <div className="p-5">
-    <p className="text-xl font-medium">스타벅스 기프티콘 이벤트 ☕️</p>
+    <div className="flex items-center justify-between">
+      <p className="text-xl font-medium">스타벅스 기프티콘 이벤트 ☕️</p>
+      <button className="text-zinc-500" onClick={close}>
+        <CloseIcon />
+      </button>
+    </div>
     <p className="mt-5 break-keep text-zinc-900">
       5명을 콕! 찌른 회원님께 스타벅스 기프티콘을 드립니다. 아래 링크에서
       응모에서 회원님의 휴대폰 번호를 입력해주세요!
