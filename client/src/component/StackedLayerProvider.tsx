@@ -128,7 +128,7 @@ export const createDraggableSheet = (Layer: Layer) => {
                   diffX > 0
                     ? Math.sqrt(clientX - x)
                     : -Math.sqrt(-(clientX - x)),
-                y: diffY > 0 ? diffY : -Math.sqrt(-diffY),
+                y: diffY > 0 ? diffY : -Math.sqrt(-diffY) * 1.4,
               });
             }}
             onTouchStart={(e) => {

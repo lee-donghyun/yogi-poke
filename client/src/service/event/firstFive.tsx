@@ -5,9 +5,9 @@ const HIDE_LAYER_PERSIST_KEY = "EVENT_LAYER_FIRST_5";
 const EventLayer = createDraggableSheet(({ close }) => (
   <div className="p-5">
     <p className="text-xl font-medium">스타벅스 기프티콘 이벤트 ☕️</p>
-    <p className="mt-5 text-zinc-900">
-      5명을 콕!찌른 회원님께 스타벅스 기프티콘을 드립니다. 아래 링크에서 응모에
-      참여할 분의 휴대폰 번호를 입력해주세요!
+    <p className="mt-5 break-keep text-zinc-900">
+      5명을 콕! 찌른 회원님께 스타벅스 기프티콘을 드립니다. 아래 링크에서
+      응모에서 회원님의 휴대폰 번호를 입력해주세요!
     </p>
     <div className="mt-7">
       <button
