@@ -28,8 +28,16 @@ const EventLayer = createDraggableSheet(({ close }) => (
       </button>
     </div>
     <p className="mt-5 break-keep text-zinc-900">
-      5명을 콕! 찌른 회원님께 스타벅스 기프티콘을 드립니다. 아래 링크에서
-      응모에서 회원님의 휴대폰 번호를 입력해주세요!
+      5명을 콕! 찌른 회원님께
+      <br />
+      <span className="animate-pulse font-medium text-green-900">
+        스타벅스 기프티콘
+      </span>
+      을 드립니다. <br />
+      아래 링크에서 회원님의 휴대폰 번호를 입력해주세요!
+    </p>
+    <p className="mt-1.5 text-sm text-zinc-300">
+      개인정보는 이벤트가 종료된 후 파기됩니다.
     </p>
     <div className="mt-7">
       <button
