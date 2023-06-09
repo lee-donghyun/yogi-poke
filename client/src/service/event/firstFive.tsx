@@ -31,7 +31,9 @@ const EventLayer = createDraggableSheet(({ close }) => {
         </button>
       </div>
       <p className="mt-5 break-keep text-zinc-900">
-        5명을 콕! 찌른 회원님께
+        <span className="font-medium">7월 10일</span>까지
+        <br />
+        <span className="font-medium">5명</span>을 콕! 찌른 회원님 두 분에게
         <br />
         <span className="animate-pulse font-medium text-green-900">
           스타벅스 기프티콘
