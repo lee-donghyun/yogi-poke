@@ -2,7 +2,6 @@ import useSWRInfinite from "swr/infinite";
 import { useUser } from "../component/Auth";
 import { BottomNavigation } from "../component/BottomNavigation";
 import { Navigation } from "../component/Navigation";
-import { useNotification } from "../component/Notification";
 import { PokeListItem } from "../component/PokeListItem";
 import { Link, useRouter } from "../lib/router2";
 import { useIntersectionObserver } from "../hook/useIntersectionObserver";
