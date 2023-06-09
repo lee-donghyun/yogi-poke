@@ -27,7 +27,7 @@ export const UserListItem = ({
       <div className="flex">
         <img
           alt=""
-          className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200"
+          className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
           src={userProfileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-3 flex-1">
