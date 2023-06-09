@@ -35,7 +35,7 @@ export const PokeListItem = ({
       <div className="flex">
         <img
           alt={`${targetUserName} 프로필 이미지`}
-          className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200"
+          className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
           src={targetUserProfileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-4 flex-1">
