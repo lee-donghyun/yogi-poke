@@ -11,6 +11,7 @@ import { User } from "./page/User";
 import duration from "dayjs/plugin/duration";
 import dayjs from "dayjs";
 import { StackedLayerProvider } from "./component/StackedLayerProvider";
+import { Setting } from "./page/Setting";
 
 dayjs.extend(duration);
 
@@ -18,23 +19,28 @@ export const App = () => {
   return (
     <PwaProvider>
       {(prefetch) => (
-        <NotificationProvider>
-          <AuthProvider myInfo={prefetch.myInfo}>
-            <StackedLayerProvider>
-              <BrowserRouter
-                routes={{
-                  "/": Home,
-                  "/register": Register,
-                  "/sign-in": SignIn,
-                  "/my-page": MyPage,
-                  "/search": Search,
-                  "/user/:userId": User,
-                  "/404": () => <>not found</>,
-                }}
-              />
-            </StackedLayerProvider>
-          </AuthProvider>
-        </NotificationProvider>
+        <AuthProvider myInfo={prefetch.myInfo}>
+          <BrowserRouter
+            routes={{
+              "/": Home,
+              "/register": Register,
+              "/sign-in": SignIn,
+              "/my-page": MyPage,
+              "/search": Search,
+              "/user/:userId": User,
+              "/setting": Setting,
+              "/404": () => <>not found</>,
+            }}
+          >
+            {(Page) => (
+              <NotificationProvider>
+                <StackedLayerProvider>
+                  <Page />
+                </StackedLayerProvider>
+              </NotificationProvider>
+            )}
+          </BrowserRouter>
+        </AuthProvider>
       )}
     </PwaProvider>
   );
