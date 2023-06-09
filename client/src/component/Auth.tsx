@@ -12,7 +12,7 @@ import { MyInfo } from "../service/type";
 import { persisteToken } from "./PwaProvider";
 
 type PatchUserPayload = {
-  pushSubscription?: PushSubscriptionJSON;
+  pushSubscription?: PushSubscriptionJSON | null;
   profileImageUrl?: string;
   name?: string;
 };

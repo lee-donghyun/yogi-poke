@@ -14,6 +14,10 @@ export const persisteToken = (token: string) => {
   localStorage.setItem(TOKEN_PERSIST_KEY, token);
 };
 
+export const releaseToken = () => {
+  localStorage.removeItem(TOKEN_PERSIST_KEY);
+};
+
 const isPwaMode = () => {
   if (localStorage.getItem(IS_PWA_PERSIST_KEY) === TRUE) {
     return true;

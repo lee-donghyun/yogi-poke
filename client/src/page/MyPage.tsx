@@ -188,10 +188,9 @@ type User = {
 const POKE_LIST_LIMIT = 20;
 
 export const MyPage = () => {
-  const push = useNotification();
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
-  const { assertAuth, myInfo, patchUser } = useUser({
+  const { assertAuth, myInfo } = useUser({
     revalidateIfHasToken: true,
   });
   assertAuth();

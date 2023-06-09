@@ -6,4 +6,5 @@ export type MyInfo = {
   pokes: number;
   token: string;
   profileImageUrl: null | string;
+  pushSubscription: null | string;
 };
