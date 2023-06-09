@@ -57,8 +57,9 @@ const Timer = ({ to }: { to: Dayjs }) => {
 };
 
 export const User = () => {
+  const { myInfo, assertAuth } = useUser();
+  assertAuth();
   const { params } = useRouter();
-  const { myInfo } = useUser();
   const userEmail = params[":userId"];
   const push = useNotification();
   const { trigger, isMutating } = usePoke(eventPokeProps);
