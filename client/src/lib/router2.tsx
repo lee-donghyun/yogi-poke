@@ -16,6 +16,7 @@ type History = {
 
 type RouterProps = {
   routes: Record<string, () => JSX.Element> & Record<"/404", () => JSX.Element>;
+  children?: (Page: () => JSX.Element) => JSX.Element;
 };
 
 type Router = {
@@ -73,7 +74,7 @@ const EventListener = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const Router = ({ routes }: RouterProps) => {
+const Router = ({ routes, children: chidren }: RouterProps) => {
   const { pathname } = useContext(historyContext);
   const [path, Page] = Object.entries(routes)
     .sort((a, b) => (a[0] > b[0] ? -1 : 1))
@@ -84,7 +85,7 @@ const Router = ({ routes }: RouterProps) => {
   const router = useCreateSingletonRouter(path);
   return (
     <routerContext.Provider value={router}>
-      <Page />
+      {chidren ? chidren(Page) : <Page />}
     </routerContext.Provider>
   );
 };
