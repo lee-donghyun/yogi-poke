@@ -4,18 +4,20 @@ export const getReadableDateOffset = (date: string) => {
   const now = dayjs();
   const then = dayjs(date);
 
-  const diffDays = now.diff(then, "day");
-
-  if (diffDays === 0) {
-    return "오늘";
+  if (!now.isAfter(then, "hour")) {
+    return `${now.diff(then, "minute")}분 전`;
   }
+  if (!now.isAfter(then, "date")) {
+    return `${now.diff(then, "hour")}시간 전`;
+  }
+  const diffDays = now.diff(then, "day");
   if (diffDays < 7) {
-    return `${diffDays}일 전`;
+    return `${diffDays + 1}일 전`;
   }
   if (now.diff(then, "year") < 1) {
-    return then.format("M/D");
+    return then.format("M월 D일");
   }
-  return then.format("Y M/D");
+  return then.format("Y년 M월 D일");
 };
 
 export const getPushNotificationSubscription = async () => {
