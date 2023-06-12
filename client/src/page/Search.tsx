@@ -16,6 +16,23 @@ type User = {
   profileImageUrl: string | null;
 };
 
+const CircleXIcon = () => (
+  <svg
+    className="h-6 w-6"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.5}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const Search = () => {
   const { assertAuth } = useUser();
   assertAuth();
@@ -68,6 +85,19 @@ export const Search = () => {
               userProfileImageUrl={user.profileImageUrl}
             />
           ))}
+          {data?.length === 0 && (
+            <div className="from-bottom flex flex-col items-center pt-16 text-zinc-600">
+              <span className="text-zinc-400">
+                <CircleXIcon />
+              </span>
+              <p className="pt-6">
+                <span className="font-semibold text-zinc-900">
+                  @{deferredEmail}
+                </span>{" "}
+                유저를 찾지 못했어요.
+              </p>
+            </div>
+          )}
         </div>
         <div className="flex justify-end pt-9">
           <button
