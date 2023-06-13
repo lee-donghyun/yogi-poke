@@ -95,6 +95,7 @@ export const getUserListDto = dto<{
     limit?: number;
     page?: number;
     email?: string;
+    ids?: number[];
   };
 }>({
   querystring: {
@@ -108,6 +109,12 @@ export const getUserListDto = dto<{
       },
       email: {
         type: 'string',
+      },
+      ids: {
+        type: 'array',
+        items: {
+          type: 'number',
+        },
       },
     },
     additionalProperties: false,

@@ -12,6 +12,7 @@ import {
   useStackedLayer,
 } from "../component/StackedLayerProvider";
 import { UpdateMyInfo } from "./UpdateMyInfo";
+import { Star } from "../component/icon/Star";
 
 const SearchIcon = () => (
   <svg
@@ -142,6 +143,16 @@ export const DomainBottomNavigation = () => {
           }`}
         >
           <SearchIcon />
+        </Link>,
+        <Link
+          key="like"
+          replace
+          pathname="/like"
+          className={`flex flex-1 justify-center ${
+            path === "/like" ? "text-black" : "text-zinc-400"
+          }`}
+        >
+          <Star />
         </Link>,
         <Link
           key="myPage"

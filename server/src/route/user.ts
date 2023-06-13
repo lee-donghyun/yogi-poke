@@ -65,7 +65,7 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     const user = assertAuth(req.user);
     const query = req.query as typeof getUserListDto.type.query;
     return getUserList(
-      { email: query.email },
+      { email: query.email, ids: query.ids },
       { limit: query.limit ?? 20, page: query.page ?? 1 },
       user.id
     );

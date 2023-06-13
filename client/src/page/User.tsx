@@ -10,6 +10,7 @@ import { usePoke } from "../hook/usePoke";
 import { eventPokeProps } from "../service/event/firstFive";
 import { Star, StarSolid } from "../component/icon/Star";
 import { useLocalStorage } from "../hook/useLocalStorage";
+import { LIKE_PERSIST_KEY } from "../service/const";
 
 const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 const MINUTE_IN_UNIX = 1000 * 60;
@@ -87,7 +88,7 @@ export const User = () => {
     }[]
   >([`/mate/poke/${userEmail}`, { limit: 1 }]);
 
-  const [likes, setLikes] = useLocalStorage<number[]>("LIKES", []);
+  const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
   const isLiked = typeof data?.id === "number" && likes.includes(data.id);
   const lastPoked =
     pokes?.[0].realtionFromUserId === myInfo?.id
