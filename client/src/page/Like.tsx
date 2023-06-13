@@ -8,6 +8,7 @@ import { User } from "../service/type";
 import { useRouter } from "../lib/router2";
 import { CircleXIcon } from "../component/icon/CircleX";
 import { useCreatedAt } from "../hook/useCreatedAt";
+import { useRef } from "react";
 
 export const Like = () => {
   const { navigate } = useRouter();
@@ -15,6 +16,7 @@ export const Like = () => {
   const noLikes = likes.length === 0;
   const { data } = useSWR<User[]>(!noLikes ? ["/user", { ids: likes }] : null);
   const dataUpdatedAt = useCreatedAt(data);
+  const prev = useRef(data);
 
   return (
     <div className="min-h-screen">
@@ -25,7 +27,7 @@ export const Like = () => {
           {data?.map((user, i) => (
             <UserListItem
               key={user.email + dataUpdatedAt}
-              listIndex={i}
+              animation={prev.current === data ? null : { delayTimes: i }}
               onClick={() => navigate({ pathname: `/user/${user.email}` })}
               selected={false}
               userEmail={user.email}
