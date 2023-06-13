@@ -8,3 +8,10 @@ export type MyInfo = {
   profileImageUrl: null | string;
   pushSubscription: null | string;
 };
+
+export type User = {
+  email: string;
+  id: number;
+  name: string;
+  profileImageUrl: string | null;
+};

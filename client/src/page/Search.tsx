@@ -8,30 +8,9 @@ import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { validator } from "../service/validator";
 import { usePoke } from "../hook/usePoke";
 import { eventPokeProps } from "../service/event/firstFive";
-
-type User = {
-  email: string;
-  id: number;
-  name: string;
-  profileImageUrl: string | null;
-};
-
-const CircleXIcon = () => (
-  <svg
-    className="h-6 w-6"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.5}
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+import { User } from "../service/type";
+import { CircleXIcon } from "../component/icon/CircleX";
+import { useCreatedAt } from "../hook/useCreatedAt";
 
 export const Search = () => {
   const { assertAuth } = useUser();
@@ -52,7 +31,7 @@ export const Search = () => {
       },
     }
   );
-  const dataUpdatedAt = useMemo(() => Date.now(), [data]);
+  const dataUpdatedAt = useCreatedAt(data);
 
   const { trigger, isMutating } = usePoke(eventPokeProps);
 

@@ -105,7 +105,7 @@ export const patchUser = async ({
 };
 
 export const getUserList = (
-  { email }: { email?: string },
+  { email, ids }: { email?: string; ids?: number[] },
   { limit, page }: Pagination,
   selfId?: number
 ) => {
@@ -115,9 +115,18 @@ export const getUserList = (
     where: {
       AND: [
         {
-          email: {
-            startsWith: email,
-          },
+          OR: [
+            {
+              email: {
+                startsWith: email,
+              },
+            },
+            {
+              id: {
+                in: ids ?? [],
+              },
+            },
+          ],
         },
         {
           NOT: { id: selfId },

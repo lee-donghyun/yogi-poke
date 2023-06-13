@@ -12,6 +12,7 @@ import duration from "dayjs/plugin/duration";
 import dayjs from "dayjs";
 import { StackedLayerProvider } from "./component/StackedLayerProvider";
 import { Setting } from "./page/Setting";
+import { Like } from "./page/Like";
 
 dayjs.extend(duration);
 
@@ -29,6 +30,7 @@ export const App = () => {
               "/search": Search,
               "/user/:userId": User,
               "/setting": Setting,
+              "/like": Like,
               "/404": () => <>not found</>,
             }}
           >
