@@ -1,7 +1,7 @@
 import { useUser } from "../component/Auth";
 import { Navigation } from "../component/Navigation";
 import { DomainBottomNavigation } from "./MyPage";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { UserListItem } from "../component/UserListItem";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
