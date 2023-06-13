@@ -56,7 +56,7 @@ export const Search = () => {
           {data?.map((user, i) => (
             <UserListItem
               key={user.email + dataUpdatedAt}
-              listIndex={i}
+              animation={{ delayTimes: i }}
               onClick={() => setSelected(user)}
               selected={selected?.email === user.email}
               userEmail={user.email}

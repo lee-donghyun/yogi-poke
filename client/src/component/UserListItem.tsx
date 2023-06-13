@@ -1,28 +1,34 @@
 export const UserListItem = ({
   userEmail,
   userName,
-  listIndex,
   selected,
   userProfileImageUrl,
   onClick,
+  animation,
 }: {
   userEmail: string;
   userName: string;
   userProfileImageUrl: string | null;
-  listIndex: number;
+  animation: {
+    delayTimes: number;
+  } | null;
   selected: boolean;
   onClick: () => void;
 }) => {
   return (
     <button
       onClick={onClick}
-      className={`from-right rounded-lg p-2 text-start opacity-0 duration-75 active:scale-[98%] active:bg-yellow-50 ${
+      className={`rounded-lg p-2 text-start duration-75 active:scale-[98%] active:bg-yellow-50 ${
         selected ? "bg-yellow-200" : ""
-      }`}
-      style={{
-        animationDelay: `${listIndex * 50}ms`,
-        transform: "translateX(120px)",
-      }}
+      } ${animation ? "from-right opacity-0" : ""}`}
+      style={
+        animation
+          ? {
+              animationDelay: `${animation.delayTimes * 50}ms`,
+              transform: "translateX(120px)",
+            }
+          : undefined
+      }
     >
       <div className="flex">
         <img
