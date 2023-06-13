@@ -19,6 +19,7 @@ app.register(authPlugin);
 app.setErrorHandler(async (error: Error2, _, reply) => {
   const { statusCode = 500, ...rest } = error;
   reply.status(statusCode);
+  console.error(error);
   return rest;
 });
 
