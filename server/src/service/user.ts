@@ -20,6 +20,7 @@ export const registerUser = async (user: {
   email: string;
   password: string;
   name: string;
+  referrerId?: number;
 }) => {
   if (await isUsedEmail(user.email)) {
     throw createError({
@@ -27,8 +28,13 @@ export const registerUser = async (user: {
       message: CLIENT_ERROR_MESSAGE.ALREADY_USED_EMAIL,
     });
   }
+  const isValidReferrerId = user.referrerId
+    ? await db.user.findFirst({
+        where: { id: user.referrerId },
+      })
+    : null;
   return db.user.create({
-    data: user,
+    data: { ...user, referrerId: isValidReferrerId?.id },
     select: {
       id: true,
       email: true,

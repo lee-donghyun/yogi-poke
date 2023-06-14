@@ -20,4 +20,4 @@ export const verifyUserToken = (token: string) => {
   }
 };
 
-export type JwtPayload = Omit<User, 'password'>;
+export type JwtPayload = Omit<User, 'password' | 'referrerId'>;

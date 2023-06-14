@@ -3,7 +3,7 @@ import { Introduction } from "../component/Introduction";
 import { Link, useRouter } from "../lib/router2";
 
 export const Home = () => {
-  const { navigate } = useRouter();
+  const { navigate, params } = useRouter();
   const { isLoggedIn } = useUser();
 
   if (isLoggedIn) {
@@ -13,7 +13,7 @@ export const Home = () => {
     <div className="min-h-screen">
       <Introduction />
       <div className="flex flex-col gap-5 p-5">
-        <Link replace pathname="/register">
+        <Link replace pathname="/register" query={params}>
           <button className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60">
             회원가입
           </button>

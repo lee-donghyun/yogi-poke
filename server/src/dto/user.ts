@@ -5,6 +5,7 @@ export const registerUserDto = dto<{
     email: string;
     password: string;
     name: string;
+    referrerId?: number;
   };
 }>({
   body: {
@@ -19,8 +20,11 @@ export const registerUserDto = dto<{
       name: {
         type: 'string',
       },
+      referrerId: {
+        type: 'number',
+      },
     },
-    required: ['email', 'password', 'name'],
+    required: ['email', 'password', 'name', 'referrerId'],
     additionalProperties: false,
   },
 });

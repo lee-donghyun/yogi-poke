@@ -33,7 +33,7 @@ export const Register = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { trigger, isMutating } = useSWRMutation(
     "/user/register",
-    (api, { arg }: { arg: Form }) =>
+    (api, { arg }: { arg: Form & { referrerId: number | null } }) =>
       yogiPokeApi
         .post(api, arg)
         .then(({ data }) => registerToken(data))
@@ -78,7 +78,7 @@ export const Register = () => {
       setStep(nextStep);
       document.getElementById(stepFieldNameMap[nextStep])?.focus();
     } else {
-      trigger(data);
+      trigger({ ...data, referrerId: params.tag ? Number(params.tag) : null });
     }
   };
 

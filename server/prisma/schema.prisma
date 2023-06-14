@@ -15,6 +15,7 @@ model User {
   password         String
   pushSubscription Json?
   profileImageUrl  String?
+  referrerId       Int?
 
   goingRelations  Relation[] @relation(name: "from")
   comingRelations Relation[] @relation(name: "to")
