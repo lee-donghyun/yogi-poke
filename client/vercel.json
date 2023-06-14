@@ -1,9 +1,9 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" },
     {
       "source": "/api/:path*",
       "destination": "https://yogi-poke-bkwhz5cr5q-du.a.run.app/:path*"
-    }
+    },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
