@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
-import { uploadAndGetStorageUrl } from '../service/util';
+import { getWebManifest, uploadAndGetStorageUrl } from '../service/util';
 import { createError } from '../utils/error';
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { assertAuth } from '../plugin/auth';
@@ -32,5 +32,10 @@ export const utilRouter: FastifyPluginAsync = async (instance) => {
       type,
       userName,
     });
+  });
+  instance.get('/web-manifest', {}, async (req) => {
+    const refer = req.headers.referer;
+    const tag = refer ? new URL(refer).searchParams.get('tag') : null;
+    return getWebManifest(tag);
   });
 };
