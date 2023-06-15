@@ -191,14 +191,18 @@ export const Setting = () => {
               children: (
                 <>
                   {[
-                    { label: "개인정보처리방침", url: "/help/privacy.html" },
-                    { label: "이용 약관", url: "/help/term.html" },
-                    { label: "오픈소스 라이브러리", url: "/help/license.html" },
+                    { label: "개인정보처리방침", url: "/privacy.html" },
+                    { label: "이용 약관", url: "/term.html" },
+                    { label: "오픈소스 라이브러리", url: "/license.html" },
                   ].map(({ label, url }) => (
                     <button
                       key={label}
                       className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
-                      onClick={() => window.open(url)}
+                      onClick={() =>
+                        window.open(
+                          `https://storage.googleapis.com/yogi-poke-assets/help${url}`
+                        )
+                      }
                     >
                       {label}
                     </button>
