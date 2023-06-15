@@ -4,7 +4,7 @@ import { StackedNavigation } from "../component/Navigation";
 import { getPushNotificationSubscription } from "../service/util";
 import { releaseToken } from "../component/PwaProvider";
 
-type Open = null | "알림" | "로그아웃";
+type Open = null | "알림" | "로그아웃" | "정보";
 
 const ChevronRightIcon = () => (
   <svg
@@ -97,7 +97,7 @@ const SettingGroup = <T extends string>({
                   : { height: 0, opacity: 0 }
               }
             >
-              <div ref={chidlrenRef} className="rounded-xl bg-zinc-50 p-3">
+              <div ref={chidlrenRef} className="rounded-xl bg-zinc-50 px-3">
                 {subGroup.children}
               </div>
             </div>
@@ -129,7 +129,7 @@ export const Setting = () => {
               open: open === "알림",
               children: (
                 <button
-                  className="flex w-full items-center justify-between rounded-xl text-start duration-150 active:scale-[98%]"
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
                   onClick={async () => {
                     const pushSubscription = isPushEnabled
                       ? null
@@ -167,7 +167,7 @@ export const Setting = () => {
               title: "로그아웃",
               children: (
                 <button
-                  className="flex w-full items-center justify-between rounded-xl text-start text-red-500 duration-150 active:scale-[98%]"
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start text-red-500 duration-150 active:scale-[98%]"
                   onClick={() => {
                     if (confirm("로그아웃하시겠어요?")) {
                       releaseToken();
@@ -179,6 +179,33 @@ export const Setting = () => {
                 </button>
               ),
               open: open === "로그아웃",
+            },
+          ]}
+        />
+        <SettingGroup
+          onOpenSubgroup={onOpenSubgroup}
+          title="지원"
+          subGroups={[
+            {
+              title: "정보",
+              children: (
+                <>
+                  {[
+                    { label: "개인정보처리방침", url: "/help/privacy.html" },
+                    { label: "이용 약관", url: "/help/term.html" },
+                    { label: "오픈소스 라이브러리", url: "/help/license.html" },
+                  ].map(({ label, url }) => (
+                    <button
+                      key={label}
+                      className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
+                      onClick={() => window.open(url)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </>
+              ),
+              open: open === "정보",
             },
           ]}
         />
