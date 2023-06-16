@@ -56,18 +56,6 @@ export const getWebManifest = (tag: string | null) => {
 };
 
 export const getDocument = async (tag: string | null) => {
-  const logoImageJimp = await Jimp.read(getPath('../../public/logo.png'));
-  const profileImageJimp = await Jimp.read(
-    getPath('../../public/default_user_profile.png')
-  );
-  profileImageJimp.resize(200, 200);
-  const ogImageJimp = logoImageJimp.composite(
-    profileImageJimp.circle(),
-    logoImageJimp.getWidth() - 280,
-    logoImageJimp.getHeight() / 2 - 100
-  );
-  ogImageJimp.write('./og-image.png');
-
   const user = tag
     ? await db.user.findUnique({
         where: { email: tag },
