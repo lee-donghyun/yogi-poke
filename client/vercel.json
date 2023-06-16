@@ -4,6 +4,17 @@
       "source": "/api/:path*",
       "destination": "https://yogi-poke-bkwhz5cr5q-du.a.run.app/:path*"
     },
+    {
+      "source": "/",
+      "destination": "/api/util/document",
+      "has": [
+        {
+          "type": "header",
+          "key": "REF_CODE",
+          "value": "MOMENT"
+        }
+      ]
+    },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
