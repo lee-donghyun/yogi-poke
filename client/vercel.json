@@ -5,9 +5,14 @@
       "destination": "https://yogi-poke-bkwhz5cr5q-du.a.run.app/:path*"
     },
     {
-      "source": "/*",
-      "destination": "/api/util/document*",
+      "source": "/",
+      "destination": "/api/util/document/:referrer",
       "has": [
+        {
+          "type": "query",
+          "key": "referrer",
+          "value": "(?<referrer>.*)"
+        },
         {
           "type": "header",
           "key": "user-agent",
