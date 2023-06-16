@@ -1,16 +1,19 @@
 import { Storage } from '@google-cloud/storage';
+import Jimp from 'jimp';
 import path from 'path';
+import { db } from '../repository/prisma';
 
+const getPath = (relativePath: string) => path.resolve(__dirname, relativePath);
 const storage = new Storage({
-  keyFilename: path.resolve(__dirname, '../../certification/gcp_key.json'),
+  keyFilename: getPath('../../certification/gcp_key.json'),
 });
 const bucketId = process.env.ASSET_BUCKET_ID || 'ASSET_BUCKET_ID';
 
 export const uploadAndGetStorageUrl = async (
   buffer: Buffer,
-  { type, userName }: { type: string; userName: string }
+  { type, title }: { type: string; title: string }
 ) => {
-  const fileName = `${userName}-${Date.now()}.${type}`;
+  const fileName = `${title}.${type}`;
   const assets = storage.bucket(bucketId);
   await assets.file(fileName).save(buffer);
   return `https://storage.googleapis.com/${bucketId}/${fileName}`;
@@ -50,4 +53,72 @@ export const getWebManifest = (tag: string | null) => {
       },
     ],
   };
+};
+
+export const getDocument = async (tag: string | null) => {
+  const logoImageJimp = await Jimp.read(getPath('../../public/logo.png'));
+  const profileImageJimp = await Jimp.read(
+    getPath('../../public/default_user_profile.png')
+  );
+  profileImageJimp.resize(200, 200);
+  const ogImageJimp = logoImageJimp.composite(
+    profileImageJimp.circle(),
+    logoImageJimp.getWidth() - 280,
+    logoImageJimp.getHeight() / 2 - 100
+  );
+  ogImageJimp.write('./og-image.png');
+
+  const user = tag
+    ? await db.user.findUnique({
+        where: { email: tag },
+      })
+    : null;
+  if (user) {
+    const logoImageJimp = await Jimp.read('../../public/logo.png');
+    const profileImageJimp = await Jimp.read(
+      user.profileImageUrl ?? '../../public/default_user_profile.png'
+    );
+    profileImageJimp.resize(200, 200);
+    const ogImageJimp = logoImageJimp.composite(
+      profileImageJimp.circle(),
+      logoImageJimp.getWidth() - 280,
+      logoImageJimp.getHeight() / 2 - 100
+    );
+    const ogImageUrl = uploadAndGetStorageUrl(
+      await ogImageJimp.getBufferAsync('image/png'),
+      { type: 'png', title: `og-image/${user.id}` }
+    );
+    return `<!DOCTYPE html>
+    <html lang="ko">
+      <head>
+        <meta charset="utf-8" />
+        <title>!</title>
+        <meta property="og:title" content="요기콕콕!에서 ${user.name}님을 콕 찔러보세요.">
+        <meta property="og:site_name" content="요기콕콕!">
+        <meta property="og:url" content="https://www.yogi-poke.social?tag=${tag}">
+        <meta property="og:description" content="링크를 눌러서 요기콕콕!앱을 설치하세요.">
+        <meta property="og:type" content="profile">
+        <meta property="og:image" content="${ogImageUrl}">
+        <meta name="description" content="요기콕콕!에서 새로운 소셜 미디어를 경험하세요." />
+      </head>
+      <body>
+      </body>
+    </html>`;
+  }
+  return `<!DOCTYPE html>
+  <html lang="ko">
+    <head>
+      <meta charset="utf-8" />
+      <title>요기콕콕!</title>
+      <meta property="og:title" content="요기콕콕!">
+      <meta property="og:site_name" content="요기콕콕!">
+      <meta property="og:url" content="https://www.yogi-poke.social">
+      <meta property="og:description" content="링크를 눌러서 요기콕콕!앱을 설치하세요.">
+      <meta property="og:type" content="profile">
+      <meta property="og:image" content="/asset/logo.png">
+      <meta name="description" content="요기콕콕!에서 새로운 소셜 미디어를 경험하세요." />
+    </head>
+    <body>
+    </body>
+  </html>`;
 };
