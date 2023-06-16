@@ -1,8 +1,13 @@
 import { FastifyPluginAsync } from 'fastify';
-import { getWebManifest, uploadAndGetStorageUrl } from '../service/util';
+import {
+  getDocument,
+  getWebManifest,
+  uploadAndGetStorageUrl,
+} from '../service/util';
 import { createError } from '../utils/error';
 import { CLIENT_ERROR_MESSAGE } from '../helper/enum';
 import { assertAuth } from '../plugin/auth';
+import { referrerSchema } from '../dto/util';
 
 export const utilRouter: FastifyPluginAsync = async (instance) => {
   instance.post('/image', {}, async (req) => {
@@ -30,12 +35,18 @@ export const utilRouter: FastifyPluginAsync = async (instance) => {
     }
     return uploadAndGetStorageUrl(buffer, {
       type,
-      userName,
+      title: `${userName}-${Date.now()}`,
     });
   });
   instance.get('/web-manifest', {}, async (req) => {
     const refer = req.headers.referer;
     const tag = refer ? new URL(refer).searchParams.get('tag') : null;
     return getWebManifest(tag);
+  });
+  instance.get('/document', {}, async (req) => {
+    const query = req.query as typeof referrerSchema.type.params;
+    const referrer = query.referrer;
+    const tag = referrer ?? null;
+    return getDocument(tag);
   });
 };
