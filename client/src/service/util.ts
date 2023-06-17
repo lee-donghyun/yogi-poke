@@ -7,11 +7,11 @@ export const getReadableDateOffset = (date: string) => {
   if (!now.isAfter(then, "hour")) {
     return `${now.diff(then, "minute") + 1}분 전`;
   }
-  if (!now.isAfter(then, "date")) {
+  if (!now.isAfter(then, "day")) {
     return `${now.diff(then, "hour") + 1}시간 전`;
   }
   if (!now.isAfter(then, "week")) {
-    return `${now.diff(then, "date") + 1}일 전`;
+    return `${now.diff(then, "day") + 1}일 전`;
   }
   if (now.diff(then, "year") < 1) {
     return then.format("M월 D일");
