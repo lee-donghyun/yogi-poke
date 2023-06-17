@@ -62,9 +62,9 @@ export const getDocument = async (tag: string | null) => {
       })
     : null;
   if (user) {
-    const logoImageJimp = await Jimp.read('../../public/logo.png');
+    const logoImageJimp = await Jimp.read(getPath('../../public/logo.png'));
     const profileImageJimp = await Jimp.read(
-      user.profileImageUrl ?? '../../public/default_user_profile.png'
+      user.profileImageUrl ?? getPath('../../public/default_user_profile.png')
     );
     profileImageJimp.resize(200, 200);
     const ogImageJimp = logoImageJimp.composite(
@@ -72,7 +72,7 @@ export const getDocument = async (tag: string | null) => {
       logoImageJimp.getWidth() - 280,
       logoImageJimp.getHeight() / 2 - 100
     );
-    const ogImageUrl = uploadAndGetStorageUrl(
+    const ogImageUrl = await uploadAndGetStorageUrl(
       await ogImageJimp.getBufferAsync('image/png'),
       { type: 'png', title: `og-image/${user.id}` }
     );
