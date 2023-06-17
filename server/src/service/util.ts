@@ -81,13 +81,13 @@ export const getDocument = async (tag: string | null) => {
       <head>
         <meta charset="utf-8" />
         <title>!</title>
-        <meta property="og:title" content="요기콕콕!에서 ${user.name}님을 콕 찔러보세요.">
+        <meta property="og:title" content="${user.name}님을 콕 찔러보세요.">
         <meta property="og:site_name" content="요기콕콕!">
         <meta property="og:url" content="https://www.yogi-poke.social?tag=${tag}">
         <meta property="og:description" content="링크를 눌러서 요기콕콕!앱을 설치하세요.">
+        <meta name="description" content="링크를 눌러서 요기콕콕!앱을 설치하세요." />
         <meta property="og:type" content="profile">
         <meta property="og:image" content="${ogImageUrl}">
-        <meta name="description" content="요기콕콕!에서 새로운 소셜 미디어를 경험하세요." />
       </head>
       <body>
       </body>
@@ -104,7 +104,7 @@ export const getDocument = async (tag: string | null) => {
       <meta property="og:description" content="링크를 눌러서 요기콕콕!앱을 설치하세요.">
       <meta property="og:type" content="profile">
       <meta property="og:image" content="/asset/logo.png">
-      <meta name="description" content="요기콕콕!에서 새로운 소셜 미디어를 경험하세요." />
+      <meta name="description" content="링크를 눌러서 요기콕콕!앱을 설치하세요." />
     </head>
     <body>
     </body>
