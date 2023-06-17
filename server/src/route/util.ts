@@ -43,10 +43,15 @@ export const utilRouter: FastifyPluginAsync = async (instance) => {
     const tag = refer ? new URL(refer).searchParams.get('tag') : null;
     return getWebManifest(tag);
   });
-  instance.get('/document', {}, async (req) => {
-    const query = req.query as typeof referrerSchema.type.params;
-    const referrer = query.referrer;
-    const tag = referrer ?? null;
-    return getDocument(tag);
+  instance.get('/document/:referrer', {}, async (req, rel) => {
+    const params = req.params as typeof referrerSchema.type.params;
+    const referrer = params.referrer;
+    if (req.headers['user-agent']?.includes('scrap')) {
+      return rel
+        .header('Content-Type', 'text/html; charset=utf-8')
+        .send(await getDocument(referrer));
+    } else {
+      return rel.redirect(307, `https://www.yogi-poke.social/?tag=${referrer}`);
+    }
   });
 };

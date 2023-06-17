@@ -5,7 +5,7 @@ export const referrerSchema = dto<{
     referrer: string;
   };
 }>({
-  querystring: {
+  params: {
     type: 'object',
     properties: {
       referrer: { type: 'string' },
