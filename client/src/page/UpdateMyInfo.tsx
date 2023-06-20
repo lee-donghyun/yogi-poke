@@ -55,7 +55,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
         >
           취소
         </button>
-        <p className="text-center font-medium">내 정보 수정</p>
+        <p className="text-center font-medium">프로필 편집</p>
         <button
           className="justify-self-end disabled:opacity-60"
           disabled={isMutating}
