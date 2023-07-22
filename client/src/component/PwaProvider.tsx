@@ -49,7 +49,7 @@ export const PwaProvider = ({
 }) => {
   const [prefetch, setPrefetch] = useState<null | Prefetch>(null);
 
-  const isPwa = isPwaMode();
+  const isPwa = true;
   const token = useMemo(() => localStorage.getItem(TOKEN_PERSIST_KEY), []);
 
   useEffect(() => {
