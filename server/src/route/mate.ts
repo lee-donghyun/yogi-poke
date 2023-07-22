@@ -36,13 +36,13 @@ export const mateRouter: FastifyPluginAsync = async (instance) => {
       const { id: toUserId, pushSubscription } = await getUser(body);
 
       await pokeMate(fromUserId, toUserId);
-      rep.status(201);
       if (pushSubscription !== null) {
-        return await sendPushNotification(toUserId, {
+        sendPushNotification(toUserId, {
           title: '요기콕콕!',
           body: `${email}님이 회원님을 콕 찔렀어요!`,
-        });
+        }).catch();
       }
+      rep.status(201);
     }
   );
   instance.get('/poke', { schema: getPokeListDto.schema }, async (req) => {
