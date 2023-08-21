@@ -30,7 +30,7 @@ export const Search = () => {
       onSuccess: () => {
         setSelected(null);
       },
-    }
+    },
   );
   const dataUpdatedAt = useCreatedAt(data);
 

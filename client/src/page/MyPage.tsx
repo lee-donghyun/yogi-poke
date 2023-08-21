@@ -210,11 +210,11 @@ export const MyPage = () => {
     (index, previous) =>
       index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
         ? ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
-        : null
+        : null,
   );
   const loadMore = useCallback(
     () => !isLoading && !error && setSize((prev) => prev + 1),
-    [isLoading, setSize, !!error]
+    [isLoading, setSize, !!error],
   );
   const intersectorRef = useIntersectionObserver(loadMore);
   const prevData = useRef(data);
@@ -304,8 +304,8 @@ export const MyPage = () => {
                       type={type}
                     />
                   );
-                }
-              )
+                },
+              ),
             )
             .flat()}
           <div ref={intersectorRef} className="h-24"></div>

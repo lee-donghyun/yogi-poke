@@ -29,7 +29,7 @@ const authContext = createContext<{
   isLoggedIn: false,
   registerToken: () => {
     throw new Error(
-      "registerToken need to be called within AuthProvider context"
+      "registerToken need to be called within AuthProvider context",
     );
   },
   patchUser: () => {
@@ -62,7 +62,7 @@ export const useUser = ({
           pathname: "/sign-in",
           ...(path && { query: { returnUrl: path } }),
         },
-        { replace: true }
+        { replace: true },
       );
     }
   };
@@ -99,21 +99,21 @@ export const AuthProvider = ({
           persisteToken(token);
           yogiPokeApi.defaults.headers.Authorization = token;
         }),
-    []
+    [],
   );
   const patchUser = useCallback(
     (myInfo: PatchUserPayload) =>
       yogiPokeApi
         .patch<MyInfo>("/user/my-info", myInfo)
         .then((user) => setMyInfo((p) => ({ ...p, ...user.data }))),
-    []
+    [],
   );
   const refreshUser = useCallback(
     () =>
       yogiPokeApi.get("/user/my-info").then(({ data }) => {
         setMyInfo((p) => ({ ...p, ...data }));
       }),
-    []
+    [],
   );
 
   return (

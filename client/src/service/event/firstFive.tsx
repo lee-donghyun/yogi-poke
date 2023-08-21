@@ -50,7 +50,7 @@ const EventLayer = createDraggableSheet(({ close }) => {
           onClick={() => {
             window.open(
               "https://docs.google.com/forms/d/e/1FAIpQLSeNaE6jbhJgnzPi7nNp04uTmAtZxHeuZqG6Dg4NJNxnTeL_Wg/viewform?usp=pp_url&entry.29515224=" +
-                myInfo?.email
+                myInfo?.email,
             );
             close();
           }}

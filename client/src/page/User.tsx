@@ -54,7 +54,7 @@ const Timer = ({ to }: { to: Dayjs }) => {
         {dayjs.duration(to.diff() + DAY_IN_UNIX).format(format)}
       </span>
     ),
-    []
+    [],
   );
 
   return render;

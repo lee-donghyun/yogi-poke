@@ -42,7 +42,7 @@ export const SignIn = () => {
     {
       onError: () => push({ content: "다시 시도해주세요." }),
       throwOnError: false,
-    }
+    },
   );
   const [data, setData] = useState<Form>({
     email: "",
@@ -52,7 +52,7 @@ export const SignIn = () => {
   const onChange = useCallback(
     (key: keyof Form) => (e: { target: { value: string } }) =>
       setData((p) => ({ ...p, [key]: e.target.value })),
-    []
+    [],
   );
 
   const onSubmit = () => {

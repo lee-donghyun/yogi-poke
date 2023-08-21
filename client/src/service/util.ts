@@ -28,7 +28,7 @@ export const getPushNotificationSubscription = async () => {
     throw new Error(`permission not granted: ${permission}`);
   }
   const registration = await navigator.serviceWorker.register(
-    "/worker/notification.js"
+    "/worker/notification.js",
   );
   return new Promise<PushSubscription>((res) => {
     if (registration.installing) {

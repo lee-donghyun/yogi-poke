@@ -12,11 +12,11 @@ export const try_ = <T>(f: Parameters<Try<T>>[0]): ReturnType<Try<T>> => {
 
 type If<T> = (
   condition: boolean,
-  value: T
+  value: T,
 ) => { elif: If<T>; _else: (value: T) => T };
 export const if_ = <T>(
   condition: Parameters<If<T>>[0],
-  value: Parameters<If<T>>[1]
+  value: Parameters<If<T>>[1],
 ): ReturnType<If<T>> => {
   if (condition) {
     return {
