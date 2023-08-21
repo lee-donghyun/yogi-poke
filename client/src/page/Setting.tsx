@@ -1,4 +1,4 @@
-import { JSX, useRef,useState } from "react";
+import { JSX, useRef, useState } from "react";
 
 import { useUser } from "../component/Auth";
 import { StackedNavigation } from "../component/Navigation";
