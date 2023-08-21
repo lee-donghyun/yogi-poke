@@ -20,7 +20,7 @@ export const usePoke = (
     onSuccess: (helper) => {
       helper.push({ content: `${helper.meta.email}님을 콕! 찔렀습니다.` });
     },
-  }
+  },
 ) => {
   const stack = useStackedLayer();
   const push = useNotification();
@@ -54,6 +54,6 @@ export const usePoke = (
         refreshUser();
         onSuccess({ stack, push, meta: { email, myInfo } });
       },
-    }
+    },
   );
 };

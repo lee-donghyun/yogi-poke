@@ -59,7 +59,7 @@ export const Register = () => {
         }
       },
       throwOnError: false,
-    }
+    },
   );
   const [data, setData] = useState<Form>({
     email: "",
@@ -70,7 +70,7 @@ export const Register = () => {
   const onChange = useCallback(
     (key: keyof Form) => (e: { target: { value: string } }) =>
       setData((p) => ({ ...p, [key]: e.target.value })),
-    []
+    [],
   );
 
   const onSubmit = () => {

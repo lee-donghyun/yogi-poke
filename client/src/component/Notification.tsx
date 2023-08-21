@@ -10,7 +10,7 @@ const notificationContext = createContext<
   (notification: Omit<NotificationData, "id">) => void
 >(() => {
   throw new Error(
-    "useNotification hook need to be called in NotificationProvider"
+    "useNotification hook need to be called in NotificationProvider",
   );
 });
 
@@ -70,7 +70,7 @@ export const NotificationProvider = ({
               </div>
             ))}
           </div>,
-          document.body
+          document.body,
         )}
       {children}
     </notificationContext.Provider>

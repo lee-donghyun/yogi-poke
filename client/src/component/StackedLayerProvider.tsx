@@ -13,7 +13,7 @@ import { createPortal } from "react-dom";
 type Layer = (props: { close: () => void }) => JSX.Element;
 const stackedLayerContext = createContext<(layer: Layer) => void>(() => {
   throw new Error(
-    "useStackedLayer hook must be called in StackedLayerProvider context"
+    "useStackedLayer hook must be called in StackedLayerProvider context",
   );
 });
 const isLayer = (layer: Layer | null): layer is Layer => layer !== null;
@@ -73,7 +73,7 @@ export const StackedLayerProvider = ({
           >
             <Layer close={pop} />
           </div>,
-          document.body
+          document.body,
         )}
     </stackedLayerContext.Provider>
   );
@@ -86,7 +86,7 @@ export const createDraggableSheet = (Layer: Layer) => {
   const DraggableSheet = ({ close }: { close: () => void }) => {
     const startPointRef = useRef({ x: 0, y: 0 });
     const [translate, setTranslate] = useState<null | { x: number; y: number }>(
-      null
+      null,
     );
     const deferredTranslate = useDeferredValue(translate);
 
@@ -102,7 +102,7 @@ export const createDraggableSheet = (Layer: Layer) => {
                   }px) scale(${Math.min(
                     1,
                     (startPointRef.current.y + deferredTranslate.y) /
-                      startPointRef.current.y
+                      startPointRef.current.y,
                   )})`,
                 }
               : { transition: "all 300ms" }

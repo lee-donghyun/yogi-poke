@@ -25,7 +25,7 @@ type Router = {
     history: History,
     options?: {
       replace?: boolean;
-    }
+    },
   ) => void;
   pathname: string;
   params: Record<string, string>;
@@ -45,7 +45,7 @@ const historyContext = createContext<History>(initialHistory);
 const setHistoryContext = createContext<Dispatch<SetStateAction<History>>>(
   () => {
     throw new Error("setHistoryContext");
-  }
+  },
 );
 const routerContext = createContext<Router>({} as Router);
 
@@ -160,7 +160,7 @@ const useCreateSingletonRouter = (path: string | undefined) => {
     return {
       ...history.query,
       ...Object.fromEntries(
-        pathParams?.map(([path, index]) => [path, pathnames[index]]) ?? []
+        pathParams?.map(([path, index]) => [path, pathnames[index]]) ?? [],
       ),
     };
   };

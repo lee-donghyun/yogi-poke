@@ -201,7 +201,7 @@ export const Setting = () => {
                       className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
                       onClick={() =>
                         window.open(
-                          `https://storage.googleapis.com/yogi-poke-assets/help${url}`
+                          `https://storage.googleapis.com/yogi-poke-assets/help${url}`,
                         )
                       }
                     >

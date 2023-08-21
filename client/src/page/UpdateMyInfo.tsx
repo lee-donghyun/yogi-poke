@@ -20,7 +20,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
   const push = useNotification();
   const { myInfo, patchUser } = useUser();
   const [data, setData] = useState<Form>(
-    myInfo ?? { name: "", profileImageUrl: null }
+    myInfo ?? { name: "", profileImageUrl: null },
   );
 
   const { trigger, isMutating } = useSWRMutation(
@@ -39,7 +39,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
     {
       onError: () => push({ content: "다시 시도해주세요." }),
       onSuccess: () => close(),
-    }
+    },
   );
 
   return (

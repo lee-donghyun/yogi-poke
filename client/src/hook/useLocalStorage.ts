@@ -16,7 +16,7 @@ const subscribe = (onStoreChange: Notifier) => {
 export const useLocalStorage = <T>(key: string, defaultValue: T) => {
   const value = useSyncExternalStore(
     subscribe,
-    () => localStorage.getItem(key) ?? JSON.stringify(defaultValue)
+    () => localStorage.getItem(key) ?? JSON.stringify(defaultValue),
   );
   const setValue = (value: T) => {
     localStorage.setItem(key, JSON.stringify(value));
