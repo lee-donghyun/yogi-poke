@@ -5,9 +5,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { yogiPokeApi } from "../service/api";
 import { SWRConfig } from "swr";
+
 import { useRouter } from "../lib/router2";
+import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/type";
 import { persisteToken } from "./PwaProvider";
 

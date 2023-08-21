@@ -1,18 +1,19 @@
-import { Register } from "./page/Register";
-import { SignIn } from "./page/SignIn";
-import { NotificationProvider } from "./component/Notification";
-import { Home } from "./page/Home";
-import { AuthProvider } from "./component/Auth";
-import { MyPage } from "./page/MyPage";
-import { BrowserRouter } from "./lib/router2";
-import { Search } from "./page/Search";
-import { PwaProvider } from "./component/PwaProvider";
-import { User } from "./page/User";
-import duration from "dayjs/plugin/duration";
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+import { AuthProvider } from "./component/Auth";
+import { NotificationProvider } from "./component/Notification";
+import { PwaProvider } from "./component/PwaProvider";
 import { StackedLayerProvider } from "./component/StackedLayerProvider";
-import { Setting } from "./page/Setting";
+import { BrowserRouter } from "./lib/router2";
+import { Home } from "./page/Home";
 import { Like } from "./page/Like";
+import { MyPage } from "./page/MyPage";
+import { Register } from "./page/Register";
+import { Search } from "./page/Search";
+import { Setting } from "./page/Setting";
+import { SignIn } from "./page/SignIn";
+import { User } from "./page/User";
 
 dayjs.extend(duration);
 
