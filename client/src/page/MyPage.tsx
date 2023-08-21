@@ -1,18 +1,19 @@
+import { useCallback, useRef } from "react";
 import useSWRInfinite from "swr/infinite";
+
 import { useUser } from "../component/Auth";
 import { BottomNavigation } from "../component/BottomNavigation";
+import { Star } from "../component/icon/Star";
 import { Navigation } from "../component/Navigation";
 import { PokeListItem } from "../component/PokeListItem";
-import { Link, useRouter } from "../lib/router2";
-import { useIntersectionObserver } from "../hook/useIntersectionObserver";
-import { useCallback, useRef } from "react";
-import { Stat } from "../component/Stat";
 import {
   createDraggableSheet,
   useStackedLayer,
 } from "../component/StackedLayerProvider";
+import { Stat } from "../component/Stat";
+import { useIntersectionObserver } from "../hook/useIntersectionObserver";
+import { Link, useRouter } from "../lib/router2";
 import { UpdateMyInfo } from "./UpdateMyInfo";
-import { Star } from "../component/icon/Star";
 
 const SearchIcon = () => (
   <svg

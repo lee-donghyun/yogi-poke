@@ -1,16 +1,17 @@
-import { useUser } from "../component/Auth";
-import { Navigation } from "../component/Navigation";
-import { DomainBottomNavigation } from "./MyPage";
 import { useState } from "react";
 import useSWR from "swr";
+
+import { useUser } from "../component/Auth";
+import { CircleXIcon } from "../component/icon/CircleX";
+import { Navigation } from "../component/Navigation";
 import { UserListItem } from "../component/UserListItem";
+import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
-import { validator } from "../service/validator";
 import { usePoke } from "../hook/usePoke";
 import { eventPokeProps } from "../service/event/firstFive";
 import { User } from "../service/type";
-import { CircleXIcon } from "../component/icon/CircleX";
-import { useCreatedAt } from "../hook/useCreatedAt";
+import { validator } from "../service/validator";
+import { DomainBottomNavigation } from "./MyPage";
 
 export const Search = () => {
   const { assertAuth } = useUser();

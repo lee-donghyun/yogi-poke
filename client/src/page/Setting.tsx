@@ -1,8 +1,9 @@
-import { useState, JSX, useRef } from "react";
+import { JSX, useRef,useState } from "react";
+
 import { useUser } from "../component/Auth";
 import { StackedNavigation } from "../component/Navigation";
-import { getPushNotificationSubscription } from "../service/util";
 import { releaseToken } from "../component/PwaProvider";
+import { getPushNotificationSubscription } from "../service/util";
 
 type Open = null | "알림" | "로그아웃" | "정보";
 

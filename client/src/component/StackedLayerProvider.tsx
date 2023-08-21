@@ -1,7 +1,7 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock-upgrade";
 import {
-  JSX,
   createContext,
+  JSX,
   useCallback,
   useContext,
   useDeferredValue,

@@ -1,14 +1,15 @@
-import useSWR from "swr";
-import { Navigation } from "../component/Navigation";
-import { useLocalStorage } from "../hook/useLocalStorage";
-import { LIKE_PERSIST_KEY } from "../service/const";
-import { DomainBottomNavigation } from "./MyPage";
-import { UserListItem } from "../component/UserListItem";
-import { User } from "../service/type";
-import { useRouter } from "../lib/router2";
-import { CircleXIcon } from "../component/icon/CircleX";
-import { useCreatedAt } from "../hook/useCreatedAt";
 import { useRef } from "react";
+import useSWR from "swr";
+
+import { CircleXIcon } from "../component/icon/CircleX";
+import { Navigation } from "../component/Navigation";
+import { UserListItem } from "../component/UserListItem";
+import { useCreatedAt } from "../hook/useCreatedAt";
+import { useLocalStorage } from "../hook/useLocalStorage";
+import { useRouter } from "../lib/router2";
+import { LIKE_PERSIST_KEY } from "../service/const";
+import { User } from "../service/type";
+import { DomainBottomNavigation } from "./MyPage";
 
 export const Like = () => {
   const { navigate } = useRouter();
