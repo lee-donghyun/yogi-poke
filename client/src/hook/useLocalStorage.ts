@@ -25,7 +25,7 @@ export const useLocalStorage = <T>(key: string, defaultValue: T) => {
     });
   };
   return [
-    try_(() => JSON.parse(value))._catch(() => defaultValue) as T,
+    try_(() => JSON.parse(value) as T)._catch(() => defaultValue),
     setValue,
   ] as const;
 };

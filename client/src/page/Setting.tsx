@@ -120,10 +120,10 @@ export const Setting = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
+        title="설정"
         onBack={() => {
           history.back();
         }}
-        title="설정"
       />
       <div className="pt-16"></div>
       <div className="p-5">
@@ -137,11 +137,13 @@ export const Setting = () => {
               children: (
                 <button
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
-                  onClick={async () => {
-                    const pushSubscription = isPushEnabled
-                      ? null
-                      : await getPushNotificationSubscription();
-                    patchUser({ pushSubscription });
+                  onClick={() => {
+                    void (async () => {
+                      const pushSubscription = isPushEnabled
+                        ? null
+                        : await getPushNotificationSubscription();
+                      void patchUser({ pushSubscription });
+                    })();
                   }}
                 >
                   <div className="pr-5">

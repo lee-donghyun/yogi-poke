@@ -28,9 +28,11 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
     async (key, { arg: form }: { arg: HTMLFormElement }) => {
       const formData = new FormData(form);
       const profileImageUrl =
-        data.profileImageUrl !== myInfo?.profileImageUrl
-          ? await yogiPokeApi.post(key, formData).then((res) => res.data)
-          : data.profileImageUrl;
+        (data.profileImageUrl !== myInfo?.profileImageUrl
+          ? await yogiPokeApi
+              .post(key, formData)
+              .then(({ data }: { data: string }) => data)
+          : data.profileImageUrl) ?? undefined;
       await patchUser({
         profileImageUrl,
         name: data.name,
@@ -64,7 +66,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
         <button
           className="justify-self-end disabled:opacity-60"
           disabled={isMutating}
-          onClick={() => formRef.current && trigger(formRef.current)}
+          onClick={() => formRef.current && void trigger(formRef.current)}
           type="button"
         >
           완료
@@ -85,7 +87,10 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
               name={FORM_NAME.PROFILE_IMAGE}
               type="file"
               onChange={(e) => {
-                const file = e.target.files?.item(0)!;
+                const file = e.target.files?.item(0);
+                if (!file) {
+                  return;
+                }
                 if (file.size > 4_000_000) {
                   push({ content: "더 작은 사진을 사용해주세요." });
                   return;

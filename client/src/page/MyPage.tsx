@@ -206,7 +206,7 @@ export const MyPage = () => {
   });
   assertAuth();
 
-  const { data, setSize, error, isLoading } = useSWRInfinite<Poke[]>(
+  const { data, setSize, error, isLoading } = useSWRInfinite<Poke[], unknown>(
     (index, previous) =>
       index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
         ? ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
@@ -216,7 +216,7 @@ export const MyPage = () => {
     () => !isLoading && !error && setSize((prev) => prev + 1),
     [isLoading, setSize, !!error],
   );
-  const intersectorRef = useIntersectionObserver(loadMore);
+  const intersectorRef = useIntersectionObserver(() => void loadMore());
   const prevData = useRef(data);
 
   return (

@@ -34,7 +34,7 @@ export const SignIn = () => {
     (api, { arg }: { arg: Form }) =>
       yogiPokeApi
         .post(api, arg)
-        .then(({ data }) => registerToken(data))
+        .then(({ data }: { data: string }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
           navigate({ pathname: redirect || "/my-page" }, { replace: true });
@@ -64,7 +64,7 @@ export const SignIn = () => {
       setStep(nextStep);
       document.getElementById(stepFieldNameMap[nextStep])?.focus();
     } else {
-      trigger(data);
+      void trigger(data);
     }
   };
 
@@ -77,10 +77,10 @@ export const SignIn = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
+        title="로그인"
         onBack={() => {
           navigate({ pathname: "/" }, { replace: true });
         }}
-        title="로그인"
       />
       <div className="h-40"></div>
       <form
@@ -104,10 +104,10 @@ export const SignIn = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
+            type="password"
             onFocus={() => {
               setStep(2);
             }}
-            type="password"
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -123,10 +123,10 @@ export const SignIn = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
+            type="text"
             onFocus={() => {
               setStep(1);
             }}
-            type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
