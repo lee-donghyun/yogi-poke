@@ -272,9 +272,9 @@ export const MyPage = () => {
               <p className="pt-6">처음으로 콕 찔러보세요!</p>
               <button
                 className="mt-12 rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
-                onClick={() =>
-                  { navigate({ pathname: "/search" }, { replace: true }); }
-                }
+                onClick={() => {
+                  navigate({ pathname: "/search" }, { replace: true });
+                }}
               >
                 콕 찌르기 👉
               </button>

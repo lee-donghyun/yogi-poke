@@ -103,9 +103,9 @@ export const AuthProvider = ({
   );
   const patchUser = useCallback(
     (myInfo: PatchUserPayload) =>
-      yogiPokeApi
-        .patch<MyInfo>("/user/my-info", myInfo)
-        .then((user) => { setMyInfo((p) => ({ ...p, ...user.data })); }),
+      yogiPokeApi.patch<MyInfo>("/user/my-info", myInfo).then((user) => {
+        setMyInfo((p) => ({ ...p, ...user.data }));
+      }),
     [],
   );
   const refreshUser = useCallback(

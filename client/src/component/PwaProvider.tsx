@@ -64,7 +64,9 @@ export const PwaProvider = ({
             yogiPokeApi.defaults.headers.Authorization = token;
           }
         })
-        .catch(() => { setPrefetch({ myInfo: null }); });
+        .catch(() => {
+          setPrefetch({ myInfo: null });
+        });
       return () => {
         ignore = true;
       };

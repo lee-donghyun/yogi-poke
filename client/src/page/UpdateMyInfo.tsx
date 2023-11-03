@@ -20,7 +20,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
   const push = useNotification();
   const { myInfo, patchUser } = useUser();
   const [data, setData] = useState<Form>(
-    myInfo ?? { name: "", profileImageUrl: null }
+    myInfo ?? { name: "", profileImageUrl: null },
   );
 
   const { trigger, isMutating } = useSWRMutation(
@@ -37,9 +37,13 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
       });
     },
     {
-      onError: () => { push({ content: "다시 시도해주세요." }); },
-      onSuccess: () => { close(); },
-    }
+      onError: () => {
+        push({ content: "다시 시도해주세요." });
+      },
+      onSuccess: () => {
+        close();
+      },
+    },
   );
 
   return (
@@ -83,7 +87,8 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
               onChange={(e) => {
                 const file = e.target.files?.item(0)!;
                 if (file.size > 4_000_000) {
-                  push({ content: "더 작은 사진을 사용해주세요." }); return;
+                  push({ content: "더 작은 사진을 사용해주세요." });
+                  return;
                 }
                 const profileImageUrl = URL.createObjectURL(file);
                 setData((p) => ({ ...p, profileImageUrl }));
@@ -101,9 +106,9 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
             id="name"
             type="text"
             value={data.name}
-            onChange={({ target: { value: name } }) =>
-              { setData((p) => ({ ...p, name })); }
-            }
+            onChange={({ target: { value: name } }) => {
+              setData((p) => ({ ...p, name }));
+            }}
           />
         </div>
       </form>

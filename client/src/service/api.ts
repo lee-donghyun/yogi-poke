@@ -6,7 +6,9 @@ export const yogiPokeApi = axios.create({
     Object.entries(paramObj)
       .reduce((acc, [key, value]) => {
         if (Array.isArray(value)) {
-          value.forEach((value) => { acc.append(key, value); });
+          value.forEach((value) => {
+            acc.append(key, value);
+          });
         } else {
           acc.append(key, value);
         }

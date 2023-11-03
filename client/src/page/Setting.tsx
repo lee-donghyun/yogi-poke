@@ -114,11 +114,17 @@ export const Setting = () => {
   assertAuth();
   const [open, setOpen] = useState<Open>(null);
   const isPushEnabled = !!myInfo?.pushSubscription;
-  const onOpenSubgroup = (title: Open) =>
-    { setOpen((open) => (open === title ? null : title)); };
+  const onOpenSubgroup = (title: Open) => {
+    setOpen((open) => (open === title ? null : title));
+  };
   return (
     <div className="min-h-screen">
-      <StackedNavigation onBack={() => { history.back(); }} title="설정" />
+      <StackedNavigation
+        onBack={() => {
+          history.back();
+        }}
+        title="설정"
+      />
       <div className="pt-16"></div>
       <div className="p-5">
         <SettingGroup

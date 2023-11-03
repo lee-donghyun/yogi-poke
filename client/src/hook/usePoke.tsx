@@ -37,17 +37,23 @@ export const usePoke = (
     {
       onError: (err) => {
         switch (err?.status) {
-          case 409:
-            { push({
+          case 409: {
+            push({
               content:
                 "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
-            }); return; }
-          case 403:
-            { push({
+            });
+            return;
+          }
+          case 403: {
+            push({
               content: `${err.email}님을 콕! 찌를 수 없습니다.`,
-            }); return; }
-          default:
-            { push({ content: "다시 시도해주세요." }); return; }
+            });
+            return;
+          }
+          default: {
+            push({ content: "다시 시도해주세요." });
+            return;
+          }
         }
       },
       onSuccess: (email) => {

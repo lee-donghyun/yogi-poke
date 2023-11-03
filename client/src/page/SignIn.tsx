@@ -40,7 +40,9 @@ export const SignIn = () => {
           navigate({ pathname: redirect || "/my-page" }, { replace: true });
         }),
     {
-      onError: () => { push({ content: "다시 시도해주세요." }); },
+      onError: () => {
+        push({ content: "다시 시도해주세요." });
+      },
       throwOnError: false,
     },
   );
@@ -50,8 +52,9 @@ export const SignIn = () => {
   });
 
   const onChange = useCallback(
-    (key: keyof Form) => (e: { target: { value: string } }) =>
-      { setData((p) => ({ ...p, [key]: e.target.value })); },
+    (key: keyof Form) => (e: { target: { value: string } }) => {
+      setData((p) => ({ ...p, [key]: e.target.value }));
+    },
     [],
   );
 
@@ -74,7 +77,9 @@ export const SignIn = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        onBack={() => { navigate({ pathname: "/" }, { replace: true }); }}
+        onBack={() => {
+          navigate({ pathname: "/" }, { replace: true });
+        }}
         title="로그인"
       />
       <div className="h-40"></div>
@@ -99,7 +104,9 @@ export const SignIn = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
-            onFocus={() => { setStep(2); }}
+            onFocus={() => {
+              setStep(2);
+            }}
             type="password"
           />
           {step === 2 && typeof currentFieldError === "string" && (
@@ -116,7 +123,9 @@ export const SignIn = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
-            onFocus={() => { setStep(1); }}
+            onFocus={() => {
+              setStep(1);
+            }}
             type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
