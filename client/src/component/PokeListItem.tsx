@@ -41,7 +41,7 @@ export const PokeListItem = ({
         <div className="ml-4 flex-1">
           <p className="relative font-medium">
             <span
-              onClick={() => navigate({ pathname: `/user/${targetUserEmail}` })}
+              onClick={() => { navigate({ pathname: `/user/${targetUserEmail}` }); }}
               role="link"
             >
               @{targetUserEmail}

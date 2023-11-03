@@ -100,7 +100,7 @@ export const User = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        onBack={() => history.back()}
+        onBack={() => { history.back(); }}
         title={`@${userEmail}`}
         actions={[
           <button
@@ -130,9 +130,9 @@ export const User = () => {
               className="active:opacity-60"
               type="button"
               onClick={() =>
-                isLiked
+                { isLiked
                   ? setLikes(likes.filter((id) => id !== data.id))
-                  : data && setLikes([...likes, data?.id])
+                  : data && setLikes([...likes, data.id]); }
               }
             >
               <span className="block scale-[80%] text-zinc-500">

@@ -9,17 +9,17 @@ import React, {
   useState,
 } from "react";
 
-type History = {
+interface History {
   pathname: string;
   query?: Record<string, string>;
-};
+}
 
-type RouterProps = {
+interface RouterProps {
   routes: Record<string, () => JSX.Element> & Record<"/404", () => JSX.Element>;
   children?: (Page: () => JSX.Element) => JSX.Element;
-};
+}
 
-type Router = {
+interface Router {
   path: string | undefined;
   navigate: (
     history: History,
@@ -29,7 +29,7 @@ type Router = {
   ) => void;
   pathname: string;
   params: Record<string, string>;
-};
+}
 
 if (window.location.pathname.endsWith("/")) {
   history.replaceState(undefined, "", window.location.pathname.slice(0, -1));

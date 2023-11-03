@@ -1,4 +1,4 @@
-export type MyInfo = {
+export interface MyInfo {
   email: string;
   id: number;
   name: string;
@@ -7,11 +7,11 @@ export type MyInfo = {
   token: string;
   profileImageUrl: null | string;
   pushSubscription: null | string;
-};
+}
 
-export type User = {
+export interface User {
   email: string;
   id: number;
   name: string;
   profileImageUrl: string | null;
-};
+}

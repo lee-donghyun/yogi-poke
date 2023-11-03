@@ -5,10 +5,10 @@ import { useUser } from "../component/Auth";
 import { useNotification } from "../component/Notification";
 import { yogiPokeApi } from "../service/api";
 
-type Form = {
+interface Form {
   name: string;
   profileImageUrl: string | null;
-};
+}
 
 const FORM_NAME = {
   PROFILE_IMAGE: "profileImageUrl",
@@ -20,7 +20,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
   const push = useNotification();
   const { myInfo, patchUser } = useUser();
   const [data, setData] = useState<Form>(
-    myInfo ?? { name: "", profileImageUrl: null },
+    myInfo ?? { name: "", profileImageUrl: null }
   );
 
   const { trigger, isMutating } = useSWRMutation(
@@ -37,9 +37,9 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
       });
     },
     {
-      onError: () => push({ content: "다시 시도해주세요." }),
-      onSuccess: () => close(),
-    },
+      onError: () => { push({ content: "다시 시도해주세요." }); },
+      onSuccess: () => { close(); },
+    }
   );
 
   return (
@@ -81,9 +81,9 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
               name={FORM_NAME.PROFILE_IMAGE}
               type="file"
               onChange={(e) => {
-                const file = e.target.files?.item(0) as File;
+                const file = e.target.files?.item(0)!;
                 if (file.size > 4_000_000) {
-                  return push({ content: "더 작은 사진을 사용해주세요." });
+                  push({ content: "더 작은 사진을 사용해주세요." }); return;
                 }
                 const profileImageUrl = URL.createObjectURL(file);
                 setData((p) => ({ ...p, profileImageUrl }));
@@ -102,7 +102,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
             type="text"
             value={data.name}
             onChange={({ target: { value: name } }) =>
-              setData((p) => ({ ...p, name }))
+              { setData((p) => ({ ...p, name })); }
             }
           />
         </div>

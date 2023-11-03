@@ -9,7 +9,7 @@ const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
 const IS_PWA_SEARCH_KEY = "is-pwa";
 const TRUE = "1";
-const splashElement = document.getElementById("splash") as HTMLElement;
+const splashElement = document.getElementById("splash")!;
 
 export const persisteToken = (token: string) => {
   localStorage.setItem(TOKEN_PERSIST_KEY, token);
@@ -34,14 +34,14 @@ const isPwaMode = () => {
 
 const closeSplash = (delay: number) => {
   setTimeout(() => {
-    splashElement?.classList.add("opacity-0", "pointer-events-none");
+    splashElement.classList.add("opacity-0", "pointer-events-none");
     enableBodyScroll(document.body);
   }, delay);
 };
 
-type Prefetch = {
+interface Prefetch {
   myInfo: null | MyInfo;
-};
+}
 
 export const PwaProvider = ({
   children,
@@ -64,7 +64,7 @@ export const PwaProvider = ({
             yogiPokeApi.defaults.headers.Authorization = token;
           }
         })
-        .catch(() => setPrefetch({ myInfo: null }));
+        .catch(() => { setPrefetch({ myInfo: null }); });
       return () => {
         ignore = true;
       };

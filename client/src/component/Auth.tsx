@@ -12,11 +12,11 @@ import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/type";
 import { persisteToken } from "./PwaProvider";
 
-type PatchUserPayload = {
+interface PatchUserPayload {
   pushSubscription?: PushSubscriptionJSON | null;
   profileImageUrl?: string;
   name?: string;
-};
+}
 
 const authContext = createContext<{
   myInfo: MyInfo | null;
@@ -105,7 +105,7 @@ export const AuthProvider = ({
     (myInfo: PatchUserPayload) =>
       yogiPokeApi
         .patch<MyInfo>("/user/my-info", myInfo)
-        .then((user) => setMyInfo((p) => ({ ...p, ...user.data }))),
+        .then((user) => { setMyInfo((p) => ({ ...p, ...user.data })); }),
     [],
   );
   const refreshUser = useCallback(
