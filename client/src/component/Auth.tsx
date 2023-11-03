@@ -69,10 +69,10 @@ export const useUser = ({
 
   useEffect(() => {
     if (revalidateIfHasToken && isLoggedIn) {
-      refreshUser();
-      self.addEventListener("focus", refreshUser);
+      void refreshUser();
+      self.addEventListener("focus", () => void refreshUser());
       return () => {
-        self.removeEventListener("focus", refreshUser);
+        self.removeEventListener("focus", () => void refreshUser());
       };
     }
   }, [revalidateIfHasToken, isLoggedIn, refreshUser]);
@@ -94,7 +94,7 @@ export const AuthProvider = ({
         .get("/user/my-info", {
           headers: { Authorization: token },
         })
-        .then(({ data }) => {
+        .then(({ data }: { data: Exclude<MyInfo, "token"> }) => {
           setMyInfo({ ...data, token });
           persisteToken(token);
           yogiPokeApi.defaults.headers.Authorization = token;
@@ -110,9 +110,11 @@ export const AuthProvider = ({
   );
   const refreshUser = useCallback(
     () =>
-      yogiPokeApi.get("/user/my-info").then(({ data }) => {
-        setMyInfo((p) => ({ ...p, ...data }));
-      }),
+      yogiPokeApi
+        .get("/user/my-info")
+        .then(({ data }: { data: Exclude<MyInfo, "token"> }) => {
+          setMyInfo((p) => ({ ...p, ...data }));
+        }),
     [],
   );
 
@@ -128,9 +130,10 @@ export const AuthProvider = ({
     >
       <SWRConfig
         value={{
-          fetcher: ([key, params]) =>
+          fetcher: ([key, params]: [string, object]) =>
             yogiPokeApi
               .get(key, { params, headers: { Authorization: myInfo?.token } })
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
               .then((res) => res.data),
         }}
       >

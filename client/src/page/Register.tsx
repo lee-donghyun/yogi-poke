@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
@@ -37,7 +38,7 @@ export const Register = () => {
     (api, { arg }: { arg: Form & { referrerId: number | null } }) =>
       yogiPokeApi
         .post(api, arg)
-        .then(({ data }) => registerToken(data))
+        .then(({ data }: { data: string }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
           navigate({ pathname: redirect || "/search" }, { replace: true });
@@ -50,8 +51,8 @@ export const Register = () => {
             .catch(console.error);
         }),
     {
-      onError: (err) => {
-        switch (err?.response?.status) {
+      onError: (err: AxiosError) => {
+        switch (err.response?.status) {
           case 409:
             push({ content: "이미 사용중인 아이디입니다." });
             break;
@@ -82,7 +83,10 @@ export const Register = () => {
       setStep(nextStep);
       document.getElementById(stepFieldNameMap[nextStep])?.focus();
     } else {
-      trigger({ ...data, referrerId: params.tag ? Number(params.tag) : null });
+      void trigger({
+        ...data,
+        referrerId: params.tag ? Number(params.tag) : null,
+      });
     }
   };
 
@@ -95,10 +99,10 @@ export const Register = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
+        title="회원가입"
         onBack={() => {
           navigate({ pathname: "/" }, { replace: true });
         }}
-        title="회원가입"
       />
       <div className="h-40"></div>
       <form
@@ -122,10 +126,10 @@ export const Register = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
+            type="password"
             onFocus={() => {
               setStep(3);
             }}
-            type="password"
           />
           {step === 3 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -144,10 +148,10 @@ export const Register = () => {
             id="name"
             name="name"
             onChange={onChange("name")}
+            type="text"
             onFocus={() => {
               setStep(2);
             }}
-            type="text"
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -163,10 +167,10 @@ export const Register = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
+            type="text"
             onFocus={() => {
               setStep(1);
             }}
-            type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
