@@ -20,7 +20,7 @@ export const useLocalStorage = <T>(key: string, defaultValue: T) => {
   );
   const setValue = (value: T) => {
     localStorage.setItem(key, JSON.stringify(value));
-    LISTENERS.forEach((l) => l());
+    LISTENERS.forEach((l) => { l(); });
   };
   return [
     try_(() => JSON.parse(value))._catch(() => defaultValue) as T,

@@ -1,10 +1,10 @@
 import { createContext, JSX, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 
-type NotificationData = {
+interface NotificationData {
   content: string;
   id: number;
-};
+}
 
 const notificationContext = createContext<
   (notification: Omit<NotificationData, "id">) => void

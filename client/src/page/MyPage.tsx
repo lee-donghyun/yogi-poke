@@ -173,28 +173,28 @@ export const DomainBottomNavigation = () => {
     />
   );
 };
-type Poke = {
+interface Poke {
   id: number;
   createdAt: string;
   fromUserId: number;
   toUserId: number;
   relation: Relation;
-};
+}
 
-type Relation = {
+interface Relation {
   fromUserId: number;
   toUserId: number;
   isAccepted: boolean;
   fromUser: User;
   toUser: User;
-};
+}
 
-type User = {
+interface User {
   email: string;
   id: number;
   name: string;
   profileImageUrl: null | string;
-};
+}
 
 const POKE_LIST_LIMIT = 20;
 
@@ -273,7 +273,7 @@ export const MyPage = () => {
               <button
                 className="mt-12 rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
                 onClick={() =>
-                  navigate({ pathname: "/search" }, { replace: true })
+                  { navigate({ pathname: "/search" }, { replace: true }); }
                 }
               >
                 콕 찌르기 👉

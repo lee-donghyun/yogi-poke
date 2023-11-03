@@ -47,7 +47,7 @@ export const Search = () => {
           <span className="block w-5 text-xl font-bold">@</span>
           <input
             className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
-            onChange={({ target: { value } }) => setEmail(value)}
+            onChange={({ target: { value } }) => { setEmail(value); }}
             placeholder="콕콕! 찌를 상대방의 아이디를 입력하세요!"
             type="text"
             value={email}
@@ -58,7 +58,7 @@ export const Search = () => {
             <UserListItem
               key={user.email + dataUpdatedAt}
               animation={{ delayTimes: i }}
-              onClick={() => setSelected(user)}
+              onClick={() => { setSelected(user); }}
               selected={selected?.email === user.email}
               userEmail={user.email}
               userName={user.name}
@@ -85,7 +85,7 @@ export const Search = () => {
             disabled={selected === null || isLoading || isMutating}
             onClick={() =>
               typeof selected?.email === "string" &&
-              trigger({ email: selected.email }).then(() => setSelected(null))
+              trigger({ email: selected.email }).then(() => { setSelected(null); })
             }
           >
             콕 찌르기 👉
