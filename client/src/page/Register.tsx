@@ -44,7 +44,9 @@ export const Register = () => {
 
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }))
-            .then(() => { push({ content: "이제 콕 찔리면 알림이 울립니다." }); })
+            .then(() => {
+              push({ content: "이제 콕 찔리면 알림이 울립니다." });
+            })
             .catch(console.error);
         }),
     {
@@ -68,8 +70,9 @@ export const Register = () => {
   });
 
   const onChange = useCallback(
-    (key: keyof Form) => (e: { target: { value: string } }) =>
-      { setData((p) => ({ ...p, [key]: e.target.value })); },
+    (key: keyof Form) => (e: { target: { value: string } }) => {
+      setData((p) => ({ ...p, [key]: e.target.value }));
+    },
     [],
   );
 
@@ -92,7 +95,9 @@ export const Register = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        onBack={() => { navigate({ pathname: "/" }, { replace: true }); }}
+        onBack={() => {
+          navigate({ pathname: "/" }, { replace: true });
+        }}
         title="회원가입"
       />
       <div className="h-40"></div>
@@ -117,7 +122,9 @@ export const Register = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
-            onFocus={() => { setStep(3); }}
+            onFocus={() => {
+              setStep(3);
+            }}
             type="password"
           />
           {step === 3 && typeof currentFieldError === "string" && (
@@ -137,7 +144,9 @@ export const Register = () => {
             id="name"
             name="name"
             onChange={onChange("name")}
-            onFocus={() => { setStep(2); }}
+            onFocus={() => {
+              setStep(2);
+            }}
             type="text"
           />
           {step === 2 && typeof currentFieldError === "string" && (
@@ -154,7 +163,9 @@ export const Register = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
-            onFocus={() => { setStep(1); }}
+            onFocus={() => {
+              setStep(1);
+            }}
             type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
