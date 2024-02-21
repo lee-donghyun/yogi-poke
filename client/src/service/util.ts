@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import dayjs from "dayjs";
 
 export const getReadableDateOffset = (date: string) => {
@@ -30,6 +31,7 @@ export const getPushNotificationSubscription = async () => {
   const registration = await navigator.serviceWorker.register(
     "/worker/notification.js",
   );
+
   return new Promise<PushSubscription>((res) => {
     if (registration.installing) {
       registration.installing.addEventListener("statechange", async (e) => {

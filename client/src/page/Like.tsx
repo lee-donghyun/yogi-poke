@@ -29,11 +29,13 @@ export const Like = () => {
             <UserListItem
               key={user.email + dataUpdatedAt}
               animation={prev.current === data ? null : { delayTimes: i }}
-              onClick={() => navigate({ pathname: `/user/${user.email}` })}
               selected={false}
               userEmail={user.email}
               userName={user.name}
               userProfileImageUrl={user.profileImageUrl}
+              onClick={() => {
+                navigate({ pathname: `/user/${user.email}` });
+              }}
             />
           ))}
           {noLikes && (
