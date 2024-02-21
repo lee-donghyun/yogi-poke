@@ -2,14 +2,14 @@ import { enableBodyScroll } from "body-scroll-lock-upgrade";
 import { JSX, useEffect, useMemo, useState } from "react";
 
 import { yogiPokeApi } from "../service/api";
-import { MyInfo } from "../service/type";
+import { MyInfo } from "../service/dataType";
 import { Introduction } from "./Introduction";
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
 const IS_PWA_SEARCH_KEY = "is-pwa";
 const TRUE = "1";
-const splashElement = document.getElementById("splash") as HTMLElement;
+const splashElement = document.getElementById("splash");
 
 export const persisteToken = (token: string) => {
   localStorage.setItem(TOKEN_PERSIST_KEY, token);
@@ -39,9 +39,9 @@ const closeSplash = (delay: number) => {
   }, delay);
 };
 
-type Prefetch = {
+interface Prefetch {
   myInfo: null | MyInfo;
-};
+}
 
 export const PwaProvider = ({
   children,
@@ -50,7 +50,7 @@ export const PwaProvider = ({
 }) => {
   const [prefetch, setPrefetch] = useState<null | Prefetch>(null);
 
-  const isPwa = isPwaMode() || true;
+  const isPwa = isPwaMode();
   const token = useMemo(() => localStorage.getItem(TOKEN_PERSIST_KEY), []);
 
   useEffect(() => {
@@ -64,7 +64,9 @@ export const PwaProvider = ({
             yogiPokeApi.defaults.headers.Authorization = token;
           }
         })
-        .catch(() => setPrefetch({ myInfo: null }));
+        .catch(() => {
+          setPrefetch({ myInfo: null });
+        });
       return () => {
         ignore = true;
       };

@@ -9,14 +9,15 @@ import { SWRConfig } from "swr";
 
 import { useRouter } from "../lib/router2";
 import { yogiPokeApi } from "../service/api";
-import { MyInfo } from "../service/type";
+import { MyInfo } from "../service/dataType";
+import { VoidFunction } from "../service/type";
 import { persisteToken } from "./PwaProvider";
 
-type PatchUserPayload = {
+interface PatchUserPayload {
   pushSubscription?: PushSubscriptionJSON | null;
   profileImageUrl?: string;
   name?: string;
-};
+}
 
 const authContext = createContext<{
   myInfo: MyInfo | null;
@@ -69,10 +70,10 @@ export const useUser = ({
 
   useEffect(() => {
     if (revalidateIfHasToken && isLoggedIn) {
-      refreshUser();
-      self.addEventListener("focus", refreshUser);
+      void refreshUser();
+      self.addEventListener("focus", refreshUser as VoidFunction);
       return () => {
-        self.removeEventListener("focus", refreshUser);
+        self.removeEventListener("focus", refreshUser as VoidFunction);
       };
     }
   }, [revalidateIfHasToken, isLoggedIn, refreshUser]);
@@ -94,7 +95,7 @@ export const AuthProvider = ({
         .get("/user/my-info", {
           headers: { Authorization: token },
         })
-        .then(({ data }) => {
+        .then(({ data }: { data: Exclude<MyInfo, "token"> }) => {
           setMyInfo({ ...data, token });
           persisteToken(token);
           yogiPokeApi.defaults.headers.Authorization = token;
@@ -103,16 +104,18 @@ export const AuthProvider = ({
   );
   const patchUser = useCallback(
     (myInfo: PatchUserPayload) =>
-      yogiPokeApi
-        .patch<MyInfo>("/user/my-info", myInfo)
-        .then((user) => setMyInfo((p) => ({ ...p, ...user.data }))),
+      yogiPokeApi.patch<MyInfo>("/user/my-info", myInfo).then((user) => {
+        setMyInfo((p) => ({ ...p, ...user.data }));
+      }),
     [],
   );
   const refreshUser = useCallback(
     () =>
-      yogiPokeApi.get("/user/my-info").then(({ data }) => {
-        setMyInfo((p) => ({ ...p, ...data }));
-      }),
+      yogiPokeApi
+        .get("/user/my-info")
+        .then(({ data }: { data: Exclude<MyInfo, "token"> }) => {
+          setMyInfo((p) => ({ ...p, ...data }));
+        }),
     [],
   );
 
@@ -128,9 +131,12 @@ export const AuthProvider = ({
     >
       <SWRConfig
         value={{
-          fetcher: ([key, params]) =>
+          fetcher: ([key, params]: [string, object]) =>
             yogiPokeApi
-              .get(key, { params, headers: { Authorization: myInfo?.token } })
+              .get<unknown>(key, {
+                params,
+                headers: { Authorization: myInfo?.token },
+              })
               .then((res) => res.data),
         }}
       >
