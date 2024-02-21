@@ -213,10 +213,11 @@ export const MyPage = () => {
         : null,
   );
   const loadMore = useCallback(
-    () => !isLoading && !error && setSize((prev) => prev + 1),
+    () => !isLoading && !error && void setSize((prev) => prev + 1),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLoading, setSize, !!error],
   );
-  const intersectorRef = useIntersectionObserver(() => void loadMore());
+  const intersectorRef = useIntersectionObserver(loadMore);
   const prevData = useRef(data);
 
   return (

@@ -8,8 +8,8 @@ import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { usePoke } from "../hook/usePoke";
+import { User } from "../service/dataType";
 import { eventPokeProps } from "../service/event/firstFive";
-import { User } from "../service/type";
 import { validator } from "../service/validator";
 import { DomainBottomNavigation } from "./MyPage";
 
