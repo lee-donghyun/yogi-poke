@@ -100,7 +100,6 @@ export const User = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        onBack={() => history.back()}
         title={`@${userEmail}`}
         actions={[
           <button
@@ -114,6 +113,9 @@ export const User = () => {
             <BlockIcon />
           </button>,
         ]}
+        onBack={() => {
+          history.back();
+        }}
       />
       <div className="p-5">
         <div className="flex justify-center pt-16">
@@ -129,11 +131,11 @@ export const User = () => {
               key="edit"
               className="active:opacity-60"
               type="button"
-              onClick={() =>
+              onClick={() => {
                 isLiked
                   ? setLikes(likes.filter((id) => id !== data.id))
-                  : data && setLikes([...likes, data?.id])
-              }
+                  : data && setLikes([...likes, data.id]);
+              }}
             >
               <span className="block scale-[80%] text-zinc-500">
                 {isLiked ? (
@@ -158,7 +160,9 @@ export const User = () => {
         <button
           className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={!isPokable || isLoading || isMutating}
-          onClick={() => trigger({ email: userEmail }).then(() => mutate())}
+          onClick={() =>
+            void trigger({ email: userEmail }).then(() => mutate())
+          }
         >
           콕 찌르기 👉
         </button>

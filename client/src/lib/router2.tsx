@@ -9,17 +9,17 @@ import React, {
   useState,
 } from "react";
 
-type History = {
+interface History {
   pathname: string;
   query?: Record<string, string>;
-};
+}
 
-type RouterProps = {
+interface RouterProps {
   routes: Record<string, () => JSX.Element> & Record<"/404", () => JSX.Element>;
   children?: (Page: () => JSX.Element) => JSX.Element;
-};
+}
 
-type Router = {
+interface Router {
   path: string | undefined;
   navigate: (
     history: History,
@@ -29,7 +29,7 @@ type Router = {
   ) => void;
   pathname: string;
   params: Record<string, string>;
-};
+}
 
 if (window.location.pathname.endsWith("/")) {
   history.replaceState(undefined, "", window.location.pathname.slice(0, -1));
@@ -64,7 +64,7 @@ const EventListener = ({ children }: { children: React.ReactNode }) => {
   const setHistory = useContext(setHistoryContext);
   useEffect(() => {
     const onPopState = (e: PopStateEvent) => {
-      setHistory(e.state || initialHistory);
+      setHistory((e.state as History | undefined) ?? initialHistory);
     };
     window.addEventListener("popstate", onPopState);
     return () => {
@@ -112,7 +112,9 @@ export const Link = ({
     >,
     "href"
   >) => {
-  const url = query ? `${pathname}?${new URLSearchParams(query)}` : pathname;
+  const url = query
+    ? `${pathname}?${new URLSearchParams(query).toString()}`
+    : pathname;
   const router = useRouter();
   return (
     <a
@@ -144,7 +146,7 @@ const useCreateSingletonRouter = (path: string | undefined) => {
   const setHistory = useContext(setHistoryContext);
   const navigate = (history: History, options?: { replace?: boolean }) => {
     const url = history.query
-      ? `${history.pathname}?${new URLSearchParams(history.query)}`
+      ? `${history.pathname}?${new URLSearchParams(history.query).toString()}`
       : history.pathname;
     setHistory(history);
     options?.replace

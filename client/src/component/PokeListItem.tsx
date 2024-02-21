@@ -41,8 +41,10 @@ export const PokeListItem = ({
         <div className="ml-4 flex-1">
           <p className="relative font-medium">
             <span
-              onClick={() => navigate({ pathname: `/user/${targetUserEmail}` })}
               role="link"
+              onClick={() => {
+                navigate({ pathname: `/user/${targetUserEmail}` });
+              }}
             >
               @{targetUserEmail}
             </span>
@@ -73,7 +75,7 @@ export const PokeListItem = ({
             <button
               className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
               disabled={isMutating}
-              onClick={() => trigger({ email: targetUserEmail })}
+              onClick={() => void trigger({ email: targetUserEmail })}
             >
               나도 콕! 찌르기 👉
             </button>

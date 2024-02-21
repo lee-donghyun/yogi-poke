@@ -7,6 +7,11 @@ import { useStackedLayer } from "../component/StackedLayerProvider";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/type";
 
+interface PokeError {
+  status: number;
+  email: string;
+}
+
 export const usePoke = (
   {
     onSuccess,
@@ -32,26 +37,35 @@ export const usePoke = (
         .post(key, arg)
         .then(() => arg.email)
         .catch((err: AxiosError) => {
-          throw { status: err.response?.status, email: arg.email };
+          throw new Error("failed to poke", {
+            cause: { status: err.response?.status, email: arg.email },
+          });
         }),
     {
-      onError: (err) => {
-        switch (err?.status) {
-          case 409:
-            return push({
+      onError: (err: Error) => {
+        const cause = (err as { cause: PokeError }).cause;
+        switch (cause.status) {
+          case 409: {
+            push({
               content:
                 "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
             });
-          case 403:
-            return push({
-              content: `${err.email}님을 콕! 찌를 수 없습니다.`,
+            return;
+          }
+          case 403: {
+            push({
+              content: `${cause.email}님을 콕! 찌를 수 없습니다.`,
             });
-          default:
-            return push({ content: "다시 시도해주세요." });
+            return;
+          }
+          default: {
+            push({ content: "다시 시도해주세요." });
+            return;
+          }
         }
       },
       onSuccess: (email) => {
-        refreshUser();
+        void refreshUser();
         onSuccess({ stack, push, meta: { email, myInfo } });
       },
     },

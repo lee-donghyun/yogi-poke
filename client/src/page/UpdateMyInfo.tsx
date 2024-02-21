@@ -5,10 +5,10 @@ import { useUser } from "../component/Auth";
 import { useNotification } from "../component/Notification";
 import { yogiPokeApi } from "../service/api";
 
-type Form = {
+interface Form {
   name: string;
   profileImageUrl: string | null;
-};
+}
 
 const FORM_NAME = {
   PROFILE_IMAGE: "profileImageUrl",
@@ -28,17 +28,23 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
     async (key, { arg: form }: { arg: HTMLFormElement }) => {
       const formData = new FormData(form);
       const profileImageUrl =
-        data.profileImageUrl !== myInfo?.profileImageUrl
-          ? await yogiPokeApi.post(key, formData).then((res) => res.data)
-          : data.profileImageUrl;
+        (data.profileImageUrl !== myInfo?.profileImageUrl
+          ? await yogiPokeApi
+              .post(key, formData)
+              .then(({ data }: { data: string }) => data)
+          : data.profileImageUrl) ?? undefined;
       await patchUser({
         profileImageUrl,
         name: data.name,
       });
     },
     {
-      onError: () => push({ content: "다시 시도해주세요." }),
-      onSuccess: () => close(),
+      onError: () => {
+        push({ content: "다시 시도해주세요." });
+      },
+      onSuccess: () => {
+        close();
+      },
     },
   );
 
@@ -60,7 +66,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
         <button
           className="justify-self-end disabled:opacity-60"
           disabled={isMutating}
-          onClick={() => formRef.current && trigger(formRef.current)}
+          onClick={() => formRef.current && void trigger(formRef.current)}
           type="button"
         >
           완료
@@ -81,9 +87,13 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
               name={FORM_NAME.PROFILE_IMAGE}
               type="file"
               onChange={(e) => {
-                const file = e.target.files?.item(0) as File;
+                const file = e.target.files?.item(0);
+                if (!file) {
+                  return;
+                }
                 if (file.size > 4_000_000) {
-                  return push({ content: "더 작은 사진을 사용해주세요." });
+                  push({ content: "더 작은 사진을 사용해주세요." });
+                  return;
                 }
                 const profileImageUrl = URL.createObjectURL(file);
                 setData((p) => ({ ...p, profileImageUrl }));
@@ -101,9 +111,9 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
             id="name"
             type="text"
             value={data.name}
-            onChange={({ target: { value: name } }) =>
-              setData((p) => ({ ...p, name }))
-            }
+            onChange={({ target: { value: name } }) => {
+              setData((p) => ({ ...p, name }));
+            }}
           />
         </div>
       </form>
