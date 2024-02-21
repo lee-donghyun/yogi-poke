@@ -214,6 +214,7 @@ export const MyPage = () => {
   );
   const loadMore = useCallback(
     () => !isLoading && !error && void setSize((prev) => prev + 1),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLoading, setSize, !!error],
   );
   const intersectorRef = useIntersectionObserver(loadMore);

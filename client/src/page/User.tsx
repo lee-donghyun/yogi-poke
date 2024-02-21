@@ -47,6 +47,7 @@ const Timer = ({ to }: { to: Dayjs }) => {
     return () => {
       clearInterval(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const render = useMemo(
     () => (
@@ -54,6 +55,7 @@ const Timer = ({ to }: { to: Dayjs }) => {
         {dayjs.duration(to.diff() + DAY_IN_UNIX).format(format)}
       </span>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
