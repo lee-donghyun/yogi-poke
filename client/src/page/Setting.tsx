@@ -3,6 +3,7 @@ import { JSX, useRef, useState } from "react";
 import { useUser } from "../component/Auth";
 import { StackedNavigation } from "../component/Navigation";
 import { releaseToken } from "../component/PwaProvider";
+import { VoidFunction } from "../service/type";
 import { getPushNotificationSubscription } from "../service/util";
 
 type Open = null | "알림" | "로그아웃" | "정보";
@@ -114,11 +115,17 @@ export const Setting = () => {
   assertAuth();
   const [open, setOpen] = useState<Open>(null);
   const isPushEnabled = !!myInfo?.pushSubscription;
-  const onOpenSubgroup = (title: Open) =>
+  const onOpenSubgroup = (title: Open) => {
     setOpen((open) => (open === title ? null : title));
+  };
   return (
     <div className="min-h-screen">
-      <StackedNavigation onBack={() => history.back()} title="설정" />
+      <StackedNavigation
+        title="설정"
+        onBack={() => {
+          history.back();
+        }}
+      />
       <div className="pt-16"></div>
       <div className="p-5">
         <SettingGroup
@@ -131,12 +138,14 @@ export const Setting = () => {
               children: (
                 <button
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
-                  onClick={async () => {
-                    const pushSubscription = isPushEnabled
-                      ? null
-                      : await getPushNotificationSubscription();
-                    patchUser({ pushSubscription });
-                  }}
+                  onClick={
+                    (async () => {
+                      const pushSubscription = isPushEnabled
+                        ? null
+                        : await getPushNotificationSubscription();
+                      void patchUser({ pushSubscription });
+                    }) as VoidFunction
+                  }
                 >
                   <div className="pr-5">
                     <p>콕! 찌르기</p>

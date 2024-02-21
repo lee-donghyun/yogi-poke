@@ -8,7 +8,7 @@ import { useCreatedAt } from "../hook/useCreatedAt";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { useRouter } from "../lib/router2";
 import { LIKE_PERSIST_KEY } from "../service/const";
-import { User } from "../service/type";
+import { User } from "../service/dataType";
 import { DomainBottomNavigation } from "./MyPage";
 
 export const Like = () => {
@@ -29,11 +29,13 @@ export const Like = () => {
             <UserListItem
               key={user.email + dataUpdatedAt}
               animation={prev.current === data ? null : { delayTimes: i }}
-              onClick={() => navigate({ pathname: `/user/${user.email}` })}
               selected={false}
               userEmail={user.email}
               userName={user.name}
               userProfileImageUrl={user.profileImageUrl}
+              onClick={() => {
+                navigate({ pathname: `/user/${user.email}` });
+              }}
             />
           ))}
           {noLikes && (

@@ -1,3 +1,5 @@
+type Callback<T> = () => T;
+
 type Try<T> = (f: () => T) => {
   _catch: (f: () => T) => T;
 };

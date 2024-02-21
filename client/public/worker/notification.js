@@ -19,6 +19,6 @@ self.addEventListener("notificationclick", (event) => {
             .then((client) => client.navigate(urlToOpen));
         }
         return self.clients.openWindow(urlToOpen);
-      })
+      }),
   );
 });

@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
@@ -16,11 +17,11 @@ const cx = {
   helper: "text-sm text-zinc-600",
 };
 
-type Form = {
+interface Form {
   email: string;
   name: string;
   password: string;
-};
+}
 const stepFieldNameMap = {
   1: "email",
   2: "name",
@@ -37,19 +38,21 @@ export const Register = () => {
     (api, { arg }: { arg: Form & { referrerId: number | null } }) =>
       yogiPokeApi
         .post(api, arg)
-        .then(({ data }) => registerToken(data))
+        .then(({ data }: { data: string }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
           navigate({ pathname: redirect || "/search" }, { replace: true });
 
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }))
-            .then(() => push({ content: "이제 콕 찔리면 알림이 울립니다." }))
+            .then(() => {
+              push({ content: "이제 콕 찔리면 알림이 울립니다." });
+            })
             .catch(console.error);
         }),
     {
-      onError: (err) => {
-        switch (err?.response?.status) {
+      onError: (err: AxiosError) => {
+        switch (err.response?.status) {
           case 409:
             push({ content: "이미 사용중인 아이디입니다." });
             break;
@@ -68,8 +71,9 @@ export const Register = () => {
   });
 
   const onChange = useCallback(
-    (key: keyof Form) => (e: { target: { value: string } }) =>
-      setData((p) => ({ ...p, [key]: e.target.value })),
+    (key: keyof Form) => (e: { target: { value: string } }) => {
+      setData((p) => ({ ...p, [key]: e.target.value }));
+    },
     [],
   );
 
@@ -79,7 +83,10 @@ export const Register = () => {
       setStep(nextStep);
       document.getElementById(stepFieldNameMap[nextStep])?.focus();
     } else {
-      trigger({ ...data, referrerId: params.tag ? Number(params.tag) : null });
+      void trigger({
+        ...data,
+        referrerId: params.tag ? Number(params.tag) : null,
+      });
     }
   };
 
@@ -92,8 +99,10 @@ export const Register = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        onBack={() => navigate({ pathname: "/" }, { replace: true })}
         title="회원가입"
+        onBack={() => {
+          navigate({ pathname: "/" }, { replace: true });
+        }}
       />
       <div className="h-40"></div>
       <form
@@ -117,8 +126,10 @@ export const Register = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
-            onFocus={() => setStep(3)}
             type="password"
+            onFocus={() => {
+              setStep(3);
+            }}
           />
           {step === 3 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -137,8 +148,10 @@ export const Register = () => {
             id="name"
             name="name"
             onChange={onChange("name")}
-            onFocus={() => setStep(2)}
             type="text"
+            onFocus={() => {
+              setStep(2);
+            }}
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -154,8 +167,10 @@ export const Register = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
-            onFocus={() => setStep(1)}
             type="text"
+            onFocus={() => {
+              setStep(1);
+            }}
           />
           {step === 1 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>

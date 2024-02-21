@@ -173,28 +173,28 @@ export const DomainBottomNavigation = () => {
     />
   );
 };
-type Poke = {
+interface Poke {
   id: number;
   createdAt: string;
   fromUserId: number;
   toUserId: number;
   relation: Relation;
-};
+}
 
-type Relation = {
+interface Relation {
   fromUserId: number;
   toUserId: number;
   isAccepted: boolean;
   fromUser: User;
   toUser: User;
-};
+}
 
-type User = {
+interface User {
   email: string;
   id: number;
   name: string;
   profileImageUrl: null | string;
-};
+}
 
 const POKE_LIST_LIMIT = 20;
 
@@ -206,14 +206,15 @@ export const MyPage = () => {
   });
   assertAuth();
 
-  const { data, setSize, error, isLoading } = useSWRInfinite<Poke[]>(
+  const { data, setSize, error, isLoading } = useSWRInfinite<Poke[], unknown>(
     (index, previous) =>
       index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
         ? ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
         : null,
   );
   const loadMore = useCallback(
-    () => !isLoading && !error && setSize((prev) => prev + 1),
+    () => !isLoading && !error && void setSize((prev) => prev + 1),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLoading, setSize, !!error],
   );
   const intersectorRef = useIntersectionObserver(loadMore);
@@ -272,9 +273,9 @@ export const MyPage = () => {
               <p className="pt-6">처음으로 콕 찔러보세요!</p>
               <button
                 className="mt-12 rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
-                onClick={() =>
-                  navigate({ pathname: "/search" }, { replace: true })
-                }
+                onClick={() => {
+                  navigate({ pathname: "/search" }, { replace: true });
+                }}
               >
                 콕 찌르기 👉
               </button>
