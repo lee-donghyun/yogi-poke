@@ -213,10 +213,10 @@ export const MyPage = () => {
         : null,
   );
   const loadMore = useCallback(
-    () => !isLoading && !error && setSize((prev) => prev + 1),
+    () => !isLoading && !error && void setSize((prev) => prev + 1),
     [isLoading, setSize, !!error],
   );
-  const intersectorRef = useIntersectionObserver(() => void loadMore());
+  const intersectorRef = useIntersectionObserver(loadMore);
   const prevData = useRef(data);
 
   return (
