@@ -70,6 +70,7 @@ const EventListener = ({ children }: { children: React.ReactNode }) => {
     return () => {
       window.removeEventListener("popstate", onPopState);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <>{children}</>;
 };

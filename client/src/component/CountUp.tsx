@@ -35,6 +35,7 @@ export const CountUp = ({
       clearInterval(timer);
     };
   }, [duration, to]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const render = useMemo(() => <span ref={ref}>{from}</span>, []);
   return render;
 };

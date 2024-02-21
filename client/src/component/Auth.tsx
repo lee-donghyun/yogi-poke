@@ -9,7 +9,8 @@ import { SWRConfig } from "swr";
 
 import { useRouter } from "../lib/router2";
 import { yogiPokeApi } from "../service/api";
-import { MyInfo } from "../service/type";
+import { MyInfo } from "../service/dataType";
+import { VoidFunction } from "../service/type";
 import { persisteToken } from "./PwaProvider";
 
 interface PatchUserPayload {
@@ -70,9 +71,9 @@ export const useUser = ({
   useEffect(() => {
     if (revalidateIfHasToken && isLoggedIn) {
       void refreshUser();
-      self.addEventListener("focus", () => void refreshUser());
+      self.addEventListener("focus", refreshUser as VoidFunction);
       return () => {
-        self.removeEventListener("focus", () => void refreshUser());
+        self.removeEventListener("focus", refreshUser as VoidFunction);
       };
     }
   }, [revalidateIfHasToken, isLoggedIn, refreshUser]);
@@ -132,8 +133,10 @@ export const AuthProvider = ({
         value={{
           fetcher: ([key, params]: [string, object]) =>
             yogiPokeApi
-              .get(key, { params, headers: { Authorization: myInfo?.token } })
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+              .get<unknown>(key, {
+                params,
+                headers: { Authorization: myInfo?.token },
+              })
               .then((res) => res.data),
         }}
       >
