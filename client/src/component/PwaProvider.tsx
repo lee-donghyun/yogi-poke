@@ -2,7 +2,7 @@ import { enableBodyScroll } from "body-scroll-lock-upgrade";
 import { JSX, useEffect, useMemo, useState } from "react";
 
 import { yogiPokeApi } from "../service/api";
-import { MyInfo } from "../service/type";
+import { MyInfo } from "../service/dataType";
 import { Introduction } from "./Introduction";
 
 const TOKEN_PERSIST_KEY = "TOKEN";
