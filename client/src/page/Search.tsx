@@ -2,6 +2,7 @@ import { useState } from "react";
 import useSWR from "swr";
 
 import { useUser } from "../component/Auth";
+import { DomainBottomNavigation } from "../component/DomainBottomNavigation";
 import { CircleXIcon } from "../component/icon/CircleX";
 import { Navigation } from "../component/Navigation";
 import { UserListItem } from "../component/UserListItem";
@@ -11,7 +12,6 @@ import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
 import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
-import { DomainBottomNavigation } from "./MyPage";
 
 export const Search = () => {
   const { assertAuth } = useUser();
