@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import useSWR from "swr";
 
-import { DomainBottomNavigation } from "../component/DomainBottomNavigation";
+import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { CircleXIcon } from "../component/icon/CircleX";
 import { Navigation } from "../component/Navigation";
 import { UserListItem } from "../component/UserListItem";
