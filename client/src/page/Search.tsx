@@ -2,7 +2,7 @@ import { useState } from "react";
 import useSWR from "swr";
 
 import { useUser } from "../component/Auth";
-import { DomainBottomNavigation } from "../component/DomainBottomNavigation";
+import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { CircleXIcon } from "../component/icon/CircleX";
 import { Navigation } from "../component/Navigation";
 import { UserListItem } from "../component/UserListItem";

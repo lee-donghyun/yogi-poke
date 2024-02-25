@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import useSWRInfinite from "swr/infinite";
 
 import { useUser } from "../component/Auth";
-import { DomainBottomNavigation } from "../component/DomainBottomNavigation";
+import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { Blink } from "../component/icon/Blink";
 import { Edit } from "../component/icon/Edit";
 import { Menu } from "../component/icon/Menu";
