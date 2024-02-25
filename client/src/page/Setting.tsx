@@ -1,114 +1,15 @@
-import { JSX, useRef, useState } from "react";
+import { useState } from "react";
 
 import { useUser } from "../component/Auth";
+import { CheckCircleOutline } from "../component/icon/CheckCircleOutline";
+import { CheckCircleSolid } from "../component/icon/CheckCircleSolid";
 import { StackedNavigation } from "../component/Navigation";
 import { releaseToken } from "../component/PwaProvider";
+import { SettingGroup } from "../component/SettingGroup";
 import { VoidFunction } from "../service/type";
 import { getPushNotificationSubscription } from "../service/util";
 
 type Open = null | "알림" | "로그아웃" | "정보";
-
-const ChevronRightIcon = () => (
-  <svg
-    className="h-6 w-6"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.5}
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M8.25 4.5l7.5 7.5-7.5 7.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const CheckCircleOutlineIcon = () => (
-  <svg
-    className="h-6 w-6"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.5}
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const CheckCircleSolidIcon = () => (
-  <svg
-    className="h-6 w-6"
-    fill="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      clipRule="evenodd"
-      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-      fillRule="evenodd"
-    />
-  </svg>
-);
-
-const SettingGroup = <T extends string>({
-  subGroups,
-  title,
-  onOpenSubgroup,
-}: {
-  title: string;
-  subGroups: {
-    open: boolean;
-    title: T;
-    children: JSX.Element;
-  }[];
-  onOpenSubgroup: (title: T) => void;
-}) => {
-  const chidlrenRef = useRef<HTMLDivElement>(null);
-  return (
-    <div className="bg-white pb-10">
-      <h4 className="text-sm font-medium text-zinc-400">{title}</h4>
-      <div>
-        {subGroups.map((subGroup) => (
-          <div key={subGroup.title}>
-            <div
-              className="flex items-center justify-between py-4 text-lg font-medium"
-              onClick={() => {
-                onOpenSubgroup(subGroup.title);
-              }}
-            >
-              {subGroup.title}
-              <span
-                className={`duration-300 ${
-                  subGroup.open ? "rotate-90" : "text-zinc-700"
-                }`}
-              >
-                <ChevronRightIcon />
-              </span>
-            </div>
-            <div
-              className="overflow-hidden duration-300"
-              style={
-                subGroup.open
-                  ? { height: chidlrenRef.current?.offsetHeight, opacity: 1 }
-                  : { height: 0, opacity: 0 }
-              }
-            >
-              <div ref={chidlrenRef} className="rounded-xl bg-zinc-50 px-3">
-                {subGroup.children}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 export const Setting = () => {
   const { myInfo, patchUser, assertAuth } = useUser();
@@ -159,9 +60,9 @@ export const Setting = () => {
                     }
                   >
                     {isPushEnabled ? (
-                      <CheckCircleSolidIcon />
+                      <CheckCircleSolid />
                     ) : (
-                      <CheckCircleOutlineIcon />
+                      <CheckCircleOutline />
                     )}
                   </span>
                 </button>
