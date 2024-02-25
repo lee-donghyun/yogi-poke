@@ -1,66 +1,30 @@
-import dayjs, { Dayjs, isDayjs } from "dayjs";
-import { useEffect, useMemo, useRef } from "react";
+import dayjs, { isDayjs } from "dayjs";
 import useSWR from "swr";
 
 import { useUser } from "../component/Auth";
+import { Block } from "../component/icon/Block";
 import { Star, StarSolid } from "../component/icon/Star";
 import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
 import { Stat } from "../component/Stat";
+import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { usePoke } from "../hook/usePoke";
 import { useRouter } from "../lib/router2";
 import { LIKE_PERSIST_KEY } from "../service/const";
 import { eventPokeProps } from "../service/event/firstFive";
 
-const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
-const MINUTE_IN_UNIX = 1000 * 60;
+export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
+export const MINUTE_IN_UNIX = 1000 * 60;
 
-const BlockIcon = () => (
-  <svg
-    className="h-6 w-6"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.5}
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const Timer = ({ to }: { to: Dayjs }) => {
-  const format = "H시간 m분";
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (ref.current) {
-        ref.current.innerText = dayjs
-          .duration(to.diff() + DAY_IN_UNIX)
-          .format(format);
-      }
-    }, MINUTE_IN_UNIX);
-    return () => {
-      clearInterval(timer);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const render = useMemo(
-    () => (
-      <span ref={ref}>
-        {dayjs.duration(to.diff() + DAY_IN_UNIX).format(format)}
-      </span>
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  return render;
-};
+interface UserData {
+  email: string;
+  id: number;
+  name: string;
+  profileImageUrl: null | string;
+  pokeds: number;
+  pokes: number;
+}
 
 export const User = () => {
   const { myInfo, assertAuth } = useUser();
@@ -70,26 +34,19 @@ export const User = () => {
   const push = useNotification();
   const { trigger, isMutating } = usePoke(eventPokeProps);
 
-  const { data } = useSWR<{
-    email: string;
+  const { data } = useSWR<UserData>([`/user/${userEmail}`]);
+  interface UserPokeData {
+    createdAt: string;
     id: number;
-    name: string;
-    profileImageUrl: null | string;
-    pokeds: number;
-    pokes: number;
-  }>([`/user/${userEmail}`]);
+    realtionFromUserId: number;
+    realtionToUserId: number;
+  }
+
   const {
     data: pokes,
     isLoading,
     mutate,
-  } = useSWR<
-    {
-      createdAt: string;
-      id: number;
-      realtionFromUserId: number;
-      realtionToUserId: number;
-    }[]
-  >([`/mate/poke/${userEmail}`, { limit: 1 }]);
+  } = useSWR<UserPokeData[]>([`/mate/poke/${userEmail}`, { limit: 1 }]);
 
   const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
   const isLiked = typeof data?.id === "number" && likes.includes(data.id);
@@ -112,7 +69,7 @@ export const User = () => {
               push({ content: "사용자를 차단하려면 관리자에게 문의하세요." });
             }}
           >
-            <BlockIcon />
+            <Block />
           </button>,
         ]}
         onBack={() => {
