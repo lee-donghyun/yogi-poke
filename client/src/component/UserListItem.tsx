@@ -1,11 +1,4 @@
-export const UserListItem = ({
-  userEmail,
-  userName,
-  selected,
-  userProfileImageUrl,
-  onClick,
-  animation,
-}: {
+interface UserListItemProps {
   userEmail: string;
   userName: string;
   userProfileImageUrl: string | null;
@@ -14,7 +7,16 @@ export const UserListItem = ({
   } | null;
   selected: boolean;
   onClick: () => void;
-}) => {
+}
+
+export const UserListItem = ({
+  userEmail,
+  userName,
+  selected,
+  userProfileImageUrl,
+  onClick,
+  animation,
+}: UserListItemProps) => {
   return (
     <button
       onClick={onClick}
