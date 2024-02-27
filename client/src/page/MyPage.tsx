@@ -1,4 +1,5 @@
 import { useCallback, useRef } from "react";
+import { useRouter } from "router2";
 import useSWRInfinite from "swr/infinite";
 
 import { useUser } from "../component/Auth";
@@ -15,7 +16,6 @@ import {
 } from "../component/StackedLayerProvider";
 import { Stat } from "../component/Stat";
 import { useIntersectionObserver } from "../hook/useIntersectionObserver";
-import { useRouter } from "../lib/router2";
 import { UpdateMyInfo } from "./UpdateMyInfo";
 
 const MenuSheet = createDraggableSheet(({ close }) => {

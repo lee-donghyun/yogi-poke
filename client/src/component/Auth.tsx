@@ -5,9 +5,9 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useRouter } from "router2";
 import { SWRConfig } from "swr";
 
-import { useRouter } from "../lib/router2";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/dataType";
 import { VoidFunction } from "../service/type";

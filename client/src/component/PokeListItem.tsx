@@ -1,5 +1,6 @@
+import { useRouter } from "router2";
+
 import { usePoke } from "../hook/usePoke";
-import { useRouter } from "../lib/router2";
 import { eventPokeProps } from "../service/event/firstFive";
 import { getReadableDateOffset } from "../service/util";
 

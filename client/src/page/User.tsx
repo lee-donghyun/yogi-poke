@@ -1,4 +1,5 @@
 import dayjs, { isDayjs } from "dayjs";
+import { useRouter } from "router2";
 import useSWR from "swr";
 
 import { useUser } from "../component/Auth";
@@ -10,7 +11,6 @@ import { Stat } from "../component/Stat";
 import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { usePoke } from "../hook/usePoke";
-import { useRouter } from "../lib/router2";
 import { LIKE_PERSIST_KEY } from "../service/const";
 import { eventPokeProps } from "../service/event/firstFive";
 
