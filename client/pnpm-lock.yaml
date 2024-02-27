@@ -17,8 +17,8 @@ dependencies:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   router2:
-    specifier: ^3.0.0
-    version: 3.0.0(@types/react-dom@18.2.19)(@types/react@18.2.57)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+    specifier: ^4.0.0
+    version: 4.0.0(@types/react-dom@18.2.19)(@types/react@18.2.57)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
   swr:
     specifier: ^2.2.5
     version: 2.2.5(react@18.2.0)
@@ -2499,8 +2499,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /router2@3.0.0(@types/react-dom@18.2.19)(@types/react@18.2.57)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-r0CyMZD9YbQqrletLYe/sqblL0Egl5oqkkZdnniOQF7xXzNT4yGjnUILZAeaYgZ2YsCp34m9CZ094hAumf+37g==}
+  /router2@4.0.0(@types/react-dom@18.2.19)(@types/react@18.2.57)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-eQYDMKqBQZ714zlmsE5VuLi2tOCJ70cKt3kL8mFrMzpYFKADexdvm3WjcrP5rkjyt1PAxajfEJ+EYH3zEGelpQ==}
     peerDependencies:
       '@types/react': ^18.2.59
       '@types/react-dom': ^18.2.19
