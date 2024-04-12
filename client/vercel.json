@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://yogi-poke-bkwhz5cr5q-du.a.run.app/:path*"
+      "destination": "https://api.yogi-poke.social/:path*"
     },
     {
       "source": "/me/:email",
-      "destination": "https://yogi-poke-bkwhz5cr5q-du.a.run.app/util/document/:email"
+      "destination": "https://api.yogi-poke.social/util/document/:email"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
