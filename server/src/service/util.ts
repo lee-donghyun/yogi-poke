@@ -1,12 +1,15 @@
-import { Storage } from '@google-cloud/storage';
+import { Client } from 'minio';
 import Jimp from 'jimp';
 import path from 'path';
 import { db } from '../repository/prisma';
 
 export const getPath = (relativePath: string) =>
   path.resolve(__dirname, relativePath);
-const storage = new Storage({
-  keyFilename: getPath('../../certification/gcp_key.json'),
+const storage = new Client({
+  endPoint: 'http://localhost',
+  port: 9000,
+  accessKey: process.env.ASSET_ACCESS_KEY || 'DEFAULT_ASSET_ACCESS_KEY',
+  secretKey: process.env.ASSET_SECRET_KEY || 'DEFAULT_ASSET_SECRET_KEY',
 });
 const bucketId = process.env.ASSET_BUCKET_ID || 'ASSET_BUCKET_ID';
 
@@ -15,9 +18,8 @@ export const uploadAndGetStorageUrl = async (
   { type, title }: { type: string; title: string },
 ) => {
   const fileName = `${title}.${type}`;
-  const assets = storage.bucket(bucketId);
-  await assets.file(fileName).save(buffer);
-  return `https://storage.googleapis.com/${bucketId}/${fileName}`;
+  await storage.putObject(bucketId, fileName, buffer);
+  return `https://api.yogi-poke.social/util/assets/${bucketId}/${fileName}`;
 };
 
 export const getWebManifest = (tag: string | null) => {
