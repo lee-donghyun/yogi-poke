@@ -1,11 +1,11 @@
 import { AxiosError } from "axios";
 import { useCallback, useState } from "react";
+import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
 import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
-import { useRouter } from "../lib/router2";
 import { yogiPokeApi } from "../service/api";
 import { getPushNotificationSubscription } from "../service/util";
 import { validator } from "../service/validator";

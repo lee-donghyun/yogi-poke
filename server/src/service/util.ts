@@ -3,7 +3,8 @@ import Jimp from 'jimp';
 import path from 'path';
 import { db } from '../repository/prisma';
 
-const getPath = (relativePath: string) => path.resolve(__dirname, relativePath);
+export const getPath = (relativePath: string) =>
+  path.resolve(__dirname, relativePath);
 const storage = new Storage({
   keyFilename: getPath('../../certification/gcp_key.json'),
 });
@@ -11,7 +12,7 @@ const bucketId = process.env.ASSET_BUCKET_ID || 'ASSET_BUCKET_ID';
 
 export const uploadAndGetStorageUrl = async (
   buffer: Buffer,
-  { type, title }: { type: string; title: string }
+  { type, title }: { type: string; title: string },
 ) => {
   const fileName = `${title}.${type}`;
   const assets = storage.bucket(bucketId);
@@ -64,17 +65,17 @@ export const getDocument = async (tag: string | null) => {
   if (user) {
     const logoImageJimp = await Jimp.read(getPath('../../public/logo.png'));
     const profileImageJimp = await Jimp.read(
-      user.profileImageUrl ?? getPath('../../public/default_user_profile.png')
+      user.profileImageUrl ?? getPath('../../public/default_user_profile.png'),
     );
     profileImageJimp.resize(200, 200);
     const ogImageJimp = logoImageJimp.composite(
       profileImageJimp.circle(),
       logoImageJimp.getWidth() - 280,
-      logoImageJimp.getHeight() / 2 - 100
+      logoImageJimp.getHeight() / 2 - 100,
     );
     const ogImageUrl = await uploadAndGetStorageUrl(
       await ogImageJimp.getBufferAsync('image/png'),
-      { type: 'png', title: `og-image/${user.id}` }
+      { type: 'png', title: `og-image/${user.id}` },
     );
     return `<!DOCTYPE html>
     <html lang="ko">
@@ -109,4 +110,14 @@ export const getDocument = async (tag: string | null) => {
     <body>
     </body>
   </html>`;
+};
+
+export const checkHealth = async () => {
+  try {
+    await db.$queryRaw`SELECT 1;`;
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 };

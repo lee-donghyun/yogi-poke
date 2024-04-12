@@ -6,8 +6,17 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
 import { Error2 } from './utils/error';
 import fastifyMultipart from '@fastify/multipart';
+import fs from 'fs';
+import { getPath } from './service/util';
 
-const app = fastify({ logger: true });
+const app = fastify({
+  logger: true,
+  https: {
+    key: fs.readFileSync(getPath('../../certification/private.key')),
+    cert: fs.readFileSync(getPath('../../certification/certificate.crt')),
+    ca: fs.readFileSync(getPath('../../certification/ca_bundle.crt')),
+  },
+});
 
 app.register(fastifySwagger);
 app.register(fastifySwaggerUi);
