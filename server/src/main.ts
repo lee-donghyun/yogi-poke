@@ -12,10 +12,10 @@ import path from 'path';
 const app = fastify({
   logger: true,
   https: {
+    key: fs.readFileSync(path.join(__dirname, '../certification/private.key')),
     cert: fs.readFileSync(
-      path.join(__dirname, '../certification/privateKey.key')
+      path.join(__dirname, '../certification/certificate.crt')
     ),
-    ca: fs.readFileSync(path.join(__dirname, '../certification/ca.key')),
   },
 });
 
