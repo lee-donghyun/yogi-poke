@@ -16,6 +16,7 @@ const app = fastify({
     cert: fs.readFileSync(
       path.join(__dirname, '../certification/certificate.crt')
     ),
+    ca: fs.readFileSync(path.join(__dirname, '../certification/ca_bundle.crt')),
   },
 });
 
