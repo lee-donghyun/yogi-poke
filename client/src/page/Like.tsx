@@ -1,15 +1,15 @@
 import { useRef } from "react";
+import { useRouter } from "router2";
 import useSWR from "swr";
 
+import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { CircleXIcon } from "../component/icon/CircleX";
 import { Navigation } from "../component/Navigation";
 import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useLocalStorage } from "../hook/useLocalStorage";
-import { useRouter } from "../lib/router2";
 import { LIKE_PERSIST_KEY } from "../service/const";
 import { User } from "../service/dataType";
-import { DomainBottomNavigation } from "./MyPage";
 
 export const Like = () => {
   const { navigate } = useRouter();

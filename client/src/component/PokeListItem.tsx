@@ -1,16 +1,10 @@
+import { useRouter } from "router2";
+
 import { usePoke } from "../hook/usePoke";
-import { useRouter } from "../lib/router2";
 import { eventPokeProps } from "../service/event/firstFive";
 import { getReadableDateOffset } from "../service/util";
 
-export const PokeListItem = ({
-  type,
-  targetUserEmail,
-  targetUserName,
-  targetUserProfileImageUrl,
-  date,
-  animation,
-}: {
+interface PocketListItemProps {
   type: "poke" | "poked";
   targetUserName: string;
   targetUserEmail: string;
@@ -19,7 +13,16 @@ export const PokeListItem = ({
   animation: {
     delayTimes: number;
   } | null;
-}) => {
+}
+
+export const PokeListItem = ({
+  type,
+  targetUserEmail,
+  targetUserName,
+  targetUserProfileImageUrl,
+  date,
+  animation,
+}: PocketListItemProps) => {
   const { trigger, isMutating } = usePoke(eventPokeProps);
   const { navigate } = useRouter();
   return (

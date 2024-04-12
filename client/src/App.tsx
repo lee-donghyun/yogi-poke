@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import { BrowserRouter } from "router2";
 
 import { AuthProvider } from "./component/Auth";
 import { NotificationProvider } from "./component/Notification";
 import { PwaProvider } from "./component/PwaProvider";
 import { StackedLayerProvider } from "./component/StackedLayerProvider";
-import { BrowserRouter } from "./lib/router2";
 import { Home } from "./page/Home";
 import { Like } from "./page/Like";
 import { MyPage } from "./page/MyPage";
