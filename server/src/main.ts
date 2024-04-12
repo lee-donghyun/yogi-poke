@@ -12,9 +12,9 @@ import { getPath } from './service/util';
 const app = fastify({
   logger: true,
   https: {
-    key: fs.readFileSync(getPath('../certification/private.key')),
-    cert: fs.readFileSync(getPath('../certification/certificate.crt')),
-    ca: fs.readFileSync(getPath('../certification/ca_bundle.crt')),
+    key: fs.readFileSync(getPath('../../certification/private.key')),
+    cert: fs.readFileSync(getPath('../../certification/certificate.crt')),
+    ca: fs.readFileSync(getPath('../../certification/ca_bundle.crt')),
   },
 });
 
