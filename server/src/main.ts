@@ -15,6 +15,7 @@ const app = fastify({
     cert: fs.readFileSync(
       path.join(__dirname, '../certification/privateKey.key')
     ),
+    ca: fs.readFileSync(path.join(__dirname, '../certification/ca.key')),
   },
 });
 
