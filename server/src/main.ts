@@ -6,8 +6,17 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
 import { Error2 } from './utils/error';
 import fastifyMultipart from '@fastify/multipart';
+import fs from 'fs';
+import path from 'path';
 
-const app = fastify({ logger: true });
+const app = fastify({
+  logger: true,
+  https: {
+    cert: fs.readFileSync(
+      path.join(__dirname, '../certification/privateKey.key')
+    ),
+  },
+});
 
 app.register(fastifySwagger);
 app.register(fastifySwaggerUi);
