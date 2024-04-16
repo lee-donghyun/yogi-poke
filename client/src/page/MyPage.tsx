@@ -70,10 +70,10 @@ const POKE_LIST_LIMIT = 20;
 export const MyPage = () => {
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
-  const { assertAuth, myInfo } = useUser({
+  const { myInfo } = useUser({
     revalidateIfHasToken: true,
+    assertAuth: true,
   });
-  assertAuth();
 
   const { data, setSize, error, isLoading } = useSWRInfinite<Poke[], unknown>(
     (index, previous) =>

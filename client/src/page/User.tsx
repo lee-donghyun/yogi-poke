@@ -26,21 +26,22 @@ interface UserData {
   pokes: number;
 }
 
+interface UserPokeData {
+  createdAt: string;
+  id: number;
+  realtionFromUserId: number;
+  realtionToUserId: number;
+}
+
 export const User = () => {
-  const { myInfo, assertAuth } = useUser();
-  assertAuth();
+  const { myInfo } = useUser({ assertAuth: true });
+
   const { params } = useRouter();
   const userEmail = params[":userId"];
   const push = useNotification();
   const { trigger, isMutating } = usePoke(eventPokeProps);
 
   const { data } = useSWR<UserData>([`/user/${userEmail}`]);
-  interface UserPokeData {
-    createdAt: string;
-    id: number;
-    realtionFromUserId: number;
-    realtionToUserId: number;
-  }
 
   const {
     data: pokes,
