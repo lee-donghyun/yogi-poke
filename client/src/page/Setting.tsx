@@ -12,8 +12,7 @@ import { getPushNotificationSubscription } from "../service/util";
 type Open = null | "알림" | "로그아웃" | "정보";
 
 export const Setting = () => {
-  const { myInfo, patchUser, assertAuth } = useUser();
-  assertAuth();
+  const { myInfo, patchUser } = useUser({ assertAuth: true });
   const [open, setOpen] = useState<Open>(null);
   const isPushEnabled = !!myInfo?.pushSubscription;
   const onOpenSubgroup = (title: Open) => {
