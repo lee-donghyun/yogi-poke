@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { RequestRelationDto } from './dto/request-relation.dto';
@@ -13,6 +15,7 @@ import { JwtPayload } from 'src/auth/auth.interface';
 import { UserService } from 'src/user/user.service';
 import { MateService } from './mate.service';
 import { PushService } from 'src/push/push.service';
+import { GetPokeListDto } from './dto/get-poke-list.dto';
 
 @Controller('mate')
 @UseGuards(AuthGuard)
@@ -57,5 +60,17 @@ export class MateController {
         })
         .catch();
     }
+  }
+
+  @Get('poke')
+  async getRelatedPokesList(
+    @User() user: JwtPayload,
+    @Query() query: GetPokeListDto,
+  ) {
+    const relatedPokes = await this.mateService.getRelatedPokesList(user.id, {
+      limit: query.limit ?? 20,
+      page: query.page ?? 1,
+    });
+    return relatedPokes;
   }
 }
