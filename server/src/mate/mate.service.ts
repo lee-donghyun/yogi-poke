@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DateUtilService } from 'src/util/date-util/date-util.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Pagination } from './mate.interface';
 
 @Injectable()
 export class MateService {
@@ -63,4 +64,48 @@ export class MateService {
       },
     });
   }
+
+  getRelatedPokesList = async (userId: number, { limit, page }: Pagination) => {
+    return this.db.poke.findMany({
+      skip: limit * (page - 1),
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      where: {
+        OR: [
+          {
+            realtionFromUserId: userId,
+          },
+          {
+            realtionToUserId: userId,
+          },
+        ],
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        realtionFromUserId: true,
+        realtionToUserId: true,
+        relation: {
+          select: {
+            fromUser: {
+              select: {
+                email: true,
+                id: true,
+                name: true,
+                profileImageUrl: true,
+              },
+            },
+            toUser: {
+              select: {
+                email: true,
+                id: true,
+                name: true,
+                profileImageUrl: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  };
 }
