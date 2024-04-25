@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { DateUtilService } from 'src/date-util/date-util.service';
+import { DateUtilService } from 'src/util/date-util/date-util.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
