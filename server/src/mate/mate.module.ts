@@ -5,11 +5,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UserModule } from 'src/user/user.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { PushModule } from 'src/push/push.module';
-import { DateUtilService } from 'src/date-util/date-util.service';
+import { UtilModule } from 'src/util/util.module';
 
 @Module({
-  imports: [UserModule, AuthModule, PushModule],
+  imports: [UserModule, AuthModule, PushModule, UtilModule],
   controllers: [MateController],
-  providers: [MateService, PrismaService, DateUtilService],
+  providers: [MateService, PrismaService],
 })
 export class MateModule {}
