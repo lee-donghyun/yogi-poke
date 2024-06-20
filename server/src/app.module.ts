@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MateModule } from './mate/mate.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -8,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: ['.env.dev', '.env.prod'],
     }),
     MateModule,
+    UserModule,
   ],
 })
 export class AppModule {}

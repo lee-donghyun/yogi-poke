@@ -21,4 +21,37 @@ export class UserService {
     }
     return found;
   }
+  async isUsedEmail(email: string) {
+    return this.db.user
+      .findFirst({
+        where: { email },
+      })
+      .then((res) => res !== null);
+  }
+  async registerUser(user: {
+    email: string;
+    password: string;
+    name: string;
+    referrerId?: number;
+  }) {
+    if (await this.isUsedEmail(user.email)) {
+      throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
+    }
+    const isValidReferrerId = user.referrerId
+      ? await this.db.user.findFirst({
+          where: { id: user.referrerId },
+        })
+      : null;
+    return this.db.user.create({
+      data: { ...user, referrerId: isValidReferrerId?.id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        profileImageUrl: true,
+        pushSubscription: true,
+      },
+    });
+  }
 }
