@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { verify } from 'jsonwebtoken';
+import { verify, sign } from 'jsonwebtoken';
 import { JwtPayload } from './auth.interface';
 
 @Injectable()
@@ -22,5 +22,8 @@ export class AuthService {
     } catch {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
+  }
+  async createUserToken(user: JwtPayload) {
+    return sign(user, AuthService.JWT_SECRET);
   }
 }
