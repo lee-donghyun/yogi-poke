@@ -108,4 +108,54 @@ export class MateService {
       },
     });
   };
+
+  getUserRelatedPokeList = async (
+    userId1: number,
+    userId2: number,
+    { limit, page }: Pagination,
+  ) => {
+    return this.db.poke.findMany({
+      skip: limit * (page - 1),
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      where: {
+        OR: [
+          {
+            realtionFromUserId: userId1,
+            realtionToUserId: userId2,
+          },
+          {
+            realtionFromUserId: userId2,
+            realtionToUserId: userId1,
+          },
+        ],
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        realtionFromUserId: true,
+        realtionToUserId: true,
+        relation: {
+          select: {
+            fromUser: {
+              select: {
+                email: true,
+                id: true,
+                name: true,
+                profileImageUrl: true,
+              },
+            },
+            toUser: {
+              select: {
+                email: true,
+                id: true,
+                name: true,
+                profileImageUrl: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  };
 }
