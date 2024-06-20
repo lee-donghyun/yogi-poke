@@ -80,32 +80,6 @@ export class MateService {
           },
         ],
       },
-      select: {
-        id: true,
-        createdAt: true,
-        realtionFromUserId: true,
-        realtionToUserId: true,
-        relation: {
-          select: {
-            fromUser: {
-              select: {
-                email: true,
-                id: true,
-                name: true,
-                profileImageUrl: true,
-              },
-            },
-            toUser: {
-              select: {
-                email: true,
-                id: true,
-                name: true,
-                profileImageUrl: true,
-              },
-            },
-          },
-        },
-      },
     });
   };
 
@@ -130,32 +104,21 @@ export class MateService {
           },
         ],
       },
-      select: {
-        id: true,
-        createdAt: true,
-        realtionFromUserId: true,
-        realtionToUserId: true,
-        relation: {
-          select: {
-            fromUser: {
-              select: {
-                email: true,
-                id: true,
-                name: true,
-                profileImageUrl: true,
-              },
-            },
-            toUser: {
-              select: {
-                email: true,
-                id: true,
-                name: true,
-                profileImageUrl: true,
-              },
-            },
-          },
-        },
-      },
     });
   };
+
+  async getPokedCount({
+    fromUserId,
+    toUserId,
+  }: {
+    fromUserId?: number;
+    toUserId?: number;
+  }) {
+    return this.db.poke.count({
+      where: {
+        realtionFromUserId: fromUserId,
+        realtionToUserId: toUserId,
+      },
+    });
+  }
 }
