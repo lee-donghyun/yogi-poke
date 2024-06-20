@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -16,6 +17,10 @@ import { UserService } from 'src/user/user.service';
 import { MateService } from './mate.service';
 import { PushService } from 'src/push/push.service';
 import { GetPokeListDto } from './dto/get-poke-list.dto';
+import {
+  GetUserRelatedPokeListDto,
+  GetUserRelatedPokeListParamDto,
+} from './dto/get-user-related-poke-list.dto';
 
 @Controller('mate')
 @UseGuards(AuthGuard)
@@ -71,6 +76,27 @@ export class MateController {
       limit: query.limit ?? 20,
       page: query.page ?? 1,
     });
+    return relatedPokes;
+  }
+
+  @Get('poke/:email')
+  async getUserRelatedPokeList(
+    @User() user: JwtPayload,
+    @Query() query: GetUserRelatedPokeListDto,
+    @Param() param: GetUserRelatedPokeListParamDto,
+  ) {
+    const { id: userId1 } = user;
+    const { id: userId2 } = await this.userService.getUser({
+      email: param.email,
+    });
+    const relatedPokes = await this.mateService.getUserRelatedPokeList(
+      userId1,
+      userId2,
+      {
+        limit: query.limit ?? 20,
+        page: query.page ?? 1,
+      },
+    );
     return relatedPokes;
   }
 }
