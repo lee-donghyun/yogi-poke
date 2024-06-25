@@ -8,6 +8,7 @@ export class FileUtilService implements OnModuleInit {
     this.minioClient = new MinioClient({
       endPoint: '127.0.0.1',
       port: 9000,
+      useSSL: false,
       accessKey: 'cGaxeb4LIXbEYXWeiGDW',
       secretKey: 'CnIDRgQtgpgjVy1qEpiA9JP0QdbtpxZ27saB2yCa',
     });
@@ -18,7 +19,7 @@ export class FileUtilService implements OnModuleInit {
       file.filename,
       file.buffer,
     );
-    return `${process.env.API_URL}/image/${file.filename}`;
+    return `${process.env.SERVER_URL}/util/image/${file.filename}`;
   }
 
   async getImage(name: string) {
