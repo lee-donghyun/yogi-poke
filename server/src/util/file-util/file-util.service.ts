@@ -18,14 +18,14 @@ export class FileUtilService implements OnModuleInit {
       secretKey: process.env.STORAGE_SECRET_KEY,
     });
   }
-  async uploadImageAndGetUrl(file: Express.Multer.File) {
+  async uploadAndGetUrl(buffer: Buffer, fileName: string) {
     try {
       await this.minioClient.putObject(
         process.env.STORAGE_ASSET_BUCKET_ID,
-        file.filename,
-        file.buffer,
+        fileName,
+        buffer,
       );
-      return `${process.env.SERVER_URL}/util/image/${file.filename}`;
+      return `${process.env.SERVER_URL}/util/object/${fileName}`;
     } catch {
       throw new HttpException(
         'Failed to upload image',
@@ -34,7 +34,7 @@ export class FileUtilService implements OnModuleInit {
     }
   }
 
-  async getImage(name: string) {
+  async getFile(name: string) {
     try {
       const object = await this.minioClient.getObject(
         process.env.STORAGE_ASSET_BUCKET_ID,
