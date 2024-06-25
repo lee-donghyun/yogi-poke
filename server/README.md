@@ -50,6 +50,9 @@ docker create \
    minio/minio:latest server /data --console-address ":9001"
 ```
 
+콘솔에 접속하여, `.env`의 `ASSET_BUCKET_ID`를 참고하여, bucket을 만든다.
+`token`을 만들어, `.env`의 `STORAGE_ACCESS_KEY` ,`STORAGE_SECRET_KEY`에 저장한다.
+
 ### 컨테이너 실행
 
 ```sh
