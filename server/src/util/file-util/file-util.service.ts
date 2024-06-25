@@ -6,7 +6,7 @@ export class FileUtilService implements OnModuleInit {
   private minioClient: MinioClient;
   async onModuleInit() {
     this.minioClient = new MinioClient({
-      endPoint: 'http://127.0.0.1:9000',
+      endPoint: '127.0.0.1',
       port: 9000,
       accessKey: 'cGaxeb4LIXbEYXWeiGDW',
       secretKey: 'CnIDRgQtgpgjVy1qEpiA9JP0QdbtpxZ27saB2yCa',
