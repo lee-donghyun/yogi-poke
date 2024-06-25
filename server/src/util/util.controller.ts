@@ -17,10 +17,11 @@ import { FileUtilService } from './file-util/file-util.service';
 import { JwtPayload } from 'src/auth/auth.interface';
 import { User } from 'src/auth/auth.decorator';
 
-@UseGuards(AuthGuard)
 @Controller('util')
 export class UtilController {
   constructor(private readonly fileUtilService: FileUtilService) {}
+
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post('/image')
   async uploadImage(
@@ -35,8 +36,11 @@ export class UtilController {
     )
     file: Express.Multer.File,
   ) {
-    file.filename = `${user.email}-${Date.now()}`;
-    return this.fileUtilService.uploadImageAndGetUrl(file);
+    const type = file.mimetype.split('/')[1];
+    const title = `${user.email}-${Date.now()}`;
+    file.filename = `${title}.${type}`;
+    const url = await this.fileUtilService.uploadImageAndGetUrl(file);
+    return url;
   }
 
   @Get('/image/:filename')
