@@ -9,8 +9,8 @@ import { UtilModule } from './util/util.module';
     ConfigModule.forRoot({
       envFilePath: ['.env.dev', '.env.prod'],
     }),
-    MateModule,
     UserModule,
+    MateModule,
     UtilModule,
   ],
 })
