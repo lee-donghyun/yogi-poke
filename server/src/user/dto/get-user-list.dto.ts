@@ -1,4 +1,4 @@
-import { IsArray, IsEmail, IsNumber, IsOptional } from 'class-validator';
+import { IsArray, IsNumber, IsOptional } from 'class-validator';
 
 export class GetUserListParamDto {
   @IsNumber()
@@ -9,7 +9,6 @@ export class GetUserListParamDto {
   @IsOptional()
   page: number;
 
-  @IsEmail()
   @IsOptional()
   email: string;
 
