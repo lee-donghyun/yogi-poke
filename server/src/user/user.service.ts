@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Pagination } from './user.interface';
+import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -38,13 +39,22 @@ export class UserService {
     if (await this.isUsedEmail(user.email)) {
       throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
     }
+
     const isValidReferrerId = user.referrerId
       ? await this.db.user.findFirst({
           where: { id: user.referrerId },
         })
       : null;
+
+    const encryptedPassword = await hash(user.password, 10);
+
     return this.db.user.create({
-      data: { ...user, referrerId: isValidReferrerId?.id },
+      data: {
+        email: user.email,
+        name: user.name,
+        password: encryptedPassword,
+        referrerId: isValidReferrerId?.id,
+      },
       select: {
         id: true,
         email: true,
@@ -57,9 +67,15 @@ export class UserService {
   }
 
   async getUserByEmailAndPassword(user: { email: string; password: string }) {
-    const found = await this.db.user.findFirst({ where: user });
+    const found = await this.db.user.findFirst({
+      where: { email: user.email },
+    });
     if (found === null) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    const isValidPassword = await compare(user.password, found.password);
+    if (!isValidPassword) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
     return found;
   }
@@ -71,9 +87,10 @@ export class UserService {
     profileImageUrl?: string;
     pushSubscription?: string;
   }) {
+    const encryptedPassword = user.password && (await hash(user.password, 10));
     const updated = await this.db.user.update({
       where: { id: user.id },
-      data: user,
+      data: { ...user, ...(user.password && { password: encryptedPassword }) },
       select: {
         id: true,
         email: true,
