@@ -1,0 +1,150 @@
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Pagination } from './user.interface';
+import { compare, hash } from 'bcrypt';
+import { Prisma } from '@prisma/client';
+
+@Injectable()
+export class UserService {
+  constructor(private db: PrismaService) {}
+  async getUser(user: { email: string }) {
+    const found = await this.db.user.findFirst({
+      where: user,
+      select: {
+        createdAt: true,
+        email: true,
+        id: true,
+        name: true,
+        profileImageUrl: true,
+        pushSubscription: true,
+      },
+    });
+    if (found === null) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    return found;
+  }
+  async isUsedEmail(email: string) {
+    return this.db.user
+      .findFirst({
+        where: { email },
+      })
+      .then((res) => res !== null);
+  }
+  async registerUser(user: {
+    email: string;
+    password: string;
+    name: string;
+    referrerId?: number;
+  }) {
+    if (await this.isUsedEmail(user.email)) {
+      throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
+    }
+
+    const isValidReferrerId = user.referrerId
+      ? await this.db.user.findFirst({
+          where: { id: user.referrerId },
+        })
+      : null;
+
+    const encryptedPassword = await hash(user.password, 10);
+
+    return this.db.user.create({
+      data: {
+        email: user.email,
+        name: user.name,
+        password: encryptedPassword,
+        referrerId: isValidReferrerId?.id,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        createdAt: true,
+        profileImageUrl: true,
+        pushSubscription: true,
+      },
+    });
+  }
+
+  async getUserByEmailAndPassword(user: { email: string; password: string }) {
+    const found = await this.db.user.findFirst({
+      where: { email: user.email },
+    });
+    if (found === null) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+    const isValidPassword = await compare(user.password, found.password);
+    if (!isValidPassword) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+    return found;
+  }
+
+  async patchUser({
+    id,
+    name,
+    pushSubscription,
+    profileImageUrl,
+  }: {
+    id: number;
+    password?: string;
+    name?: string;
+    pushSubscription?: PushSubscriptionJSON | null;
+    profileImageUrl?: string;
+  }) {
+    return this.db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        pushSubscription:
+          pushSubscription === null
+            ? Prisma.DbNull
+            : pushSubscription === undefined
+            ? undefined
+            : JSON.stringify(pushSubscription),
+        profileImageUrl,
+      },
+    });
+  }
+
+  async getUserList(
+    { email, ids }: { email?: string; ids?: number[] },
+    { limit, page }: Pagination,
+    selfId?: number,
+  ) {
+    return this.db.user.findMany({
+      skip: limit * (page - 1),
+      take: limit,
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                email: {
+                  startsWith: email,
+                },
+              },
+              {
+                id: {
+                  in: ids ?? [],
+                },
+              },
+            ],
+          },
+          {
+            NOT: { id: selfId },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        profileImageUrl: true,
+      },
+    });
+  }
+}

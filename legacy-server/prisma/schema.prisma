@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  name             String
+  email            String   @unique
+  password         String
+  pushSubscription Json?
+  profileImageUrl  String?
+  referrerId       Int?
+
+  goingRelations  Relation[] @relation(name: "from")
+  comingRelations Relation[] @relation(name: "to")
+}
+
+model Relation {
+  fromUser   User    @relation(fields: [fromUserId], references: [id], name: "from")
+  fromUserId Int
+  toUser     User    @relation(fields: [toUserId], references: [id], name: "to")
+  toUserId   Int
+  isAccepted Boolean @default(true)
+  Poke       Poke[]
+
+  @@id([fromUserId, toUserId])
+}
+
+model Poke {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  relation           Relation @relation(fields: [realtionFromUserId, realtionToUserId], references: [fromUserId, toUserId])
+  realtionFromUserId Int
+  realtionToUserId   Int
+}
