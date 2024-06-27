@@ -14,8 +14,7 @@ import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
 
 export const Search = () => {
-  const { assertAuth } = useUser();
-  assertAuth();
+  useUser({ assertAuth: true });
 
   const [email, setEmail] = useState("");
   const deferredEmail = useDebouncedValue(email, 300);

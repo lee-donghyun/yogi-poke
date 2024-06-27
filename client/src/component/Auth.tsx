@@ -43,6 +43,7 @@ const authContext = createContext<{
 
 export const useUser = ({
   revalidateIfHasToken,
+  assertAuth,
 }: {
   /**
    * 훅이 호출될때 최신 정보임을 확인합니다. 토큰이 있는 경우에만 활성화됩니다.
@@ -50,23 +51,25 @@ export const useUser = ({
    * @default false
    */
   revalidateIfHasToken?: boolean;
+  /**
+   * 로그인이 되어있지 않은 경우 로그인 페이지로 이동합니다.
+   */
+  assertAuth?: boolean;
 } = {}) => {
   const { navigate, path } = useRouter();
   const auth = useContext(authContext);
 
   const { isLoggedIn, refreshUser } = auth;
 
-  const assertAuth = () => {
-    if (!isLoggedIn) {
-      navigate(
-        {
-          pathname: "/sign-in",
-          ...(path && { query: { returnUrl: path } }),
-        },
-        { replace: true },
-      );
-    }
-  };
+  if (assertAuth && !isLoggedIn) {
+    navigate(
+      {
+        pathname: "/sign-in",
+        ...(path && { query: { returnUrl: path } }),
+      },
+      { replace: true },
+    );
+  }
 
   useEffect(() => {
     if (revalidateIfHasToken && isLoggedIn) {
@@ -78,7 +81,7 @@ export const useUser = ({
     }
   }, [revalidateIfHasToken, isLoggedIn, refreshUser]);
 
-  return { ...auth, assertAuth };
+  return { ...auth };
 };
 
 export const AuthProvider = ({
