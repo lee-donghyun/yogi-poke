@@ -30,7 +30,7 @@ export class UtilController {
   ) {}
 
   @UseGuards(AuthGuard)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('profileImageUrl'))
   @Post('/image')
   async uploadImage(
     @User() user: JwtPayload,
