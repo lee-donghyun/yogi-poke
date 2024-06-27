@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Pagination } from './user.interface';
 import { compare, hash } from 'bcrypt';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -80,27 +81,33 @@ export class UserService {
     return found;
   }
 
-  async patchUser(user: {
+  async patchUser({
+    id,
+    name,
+    pushSubscription,
+    profileImageUrl,
+  }: {
     id: number;
-    name?: string;
     password?: string;
+    name?: string;
+    pushSubscription?: PushSubscriptionJSON | null;
     profileImageUrl?: string;
-    pushSubscription?: string;
   }) {
-    const encryptedPassword = user.password && (await hash(user.password, 10));
-    const updated = await this.db.user.update({
-      where: { id: user.id },
-      data: { ...user, ...(user.password && { password: encryptedPassword }) },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        createdAt: true,
-        profileImageUrl: true,
-        pushSubscription: true,
+    return this.db.user.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        pushSubscription:
+          pushSubscription === null
+            ? Prisma.DbNull
+            : pushSubscription === undefined
+            ? undefined
+            : JSON.stringify(pushSubscription),
+        profileImageUrl,
       },
     });
-    return updated;
   }
 
   async getUserList(

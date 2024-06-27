@@ -1,4 +1,4 @@
-import { IsJSON, IsOptional, IsString } from 'class-validator';
+import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export class PatchUserDto {
   @IsString()
@@ -9,10 +9,9 @@ export class PatchUserDto {
   @IsOptional()
   name?: string;
 
-  @IsString()
   @IsOptional()
-  @IsJSON()
-  pushSubscription?: string;
+  @IsObject()
+  pushSubscription?: PushSubscriptionJSON;
 
   @IsString()
   @IsOptional()
