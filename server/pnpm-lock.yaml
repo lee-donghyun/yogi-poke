@@ -81,6 +81,9 @@ importers:
       '@types/supertest':
         specifier: ^2.0.11
         version: 2.0.16
+      '@types/web-push':
+        specifier: ^3.6.3
+        version: 3.6.3
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.0.0
         version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@4.9.5))(eslint@8.57.0)(typescript@4.9.5)
@@ -864,6 +867,9 @@ packages:
 
   '@types/validator@13.11.9':
     resolution: {integrity: sha512-FCTsikRozryfayPuiI46QzH3fnrOoctTjvOYZkho9BTFLCOZ2rgZJHMOVgCOfttjPJcgOx52EpkY0CMfy87MIw==}
+
+  '@types/web-push@3.6.3':
+    resolution: {integrity: sha512-v3oT4mMJsHeJ/rraliZ+7TbZtr5bQQuxcgD7C3/1q/zkAj29c8RE0F9lVZVu3hiQe5Z9fYcBreV7TLnfKR+4mg==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -4370,6 +4376,10 @@ snapshots:
       '@types/superagent': 8.1.6
 
   '@types/validator@13.11.9': {}
+
+  '@types/web-push@3.6.3':
+    dependencies:
+      '@types/node': 16.18.96
 
   '@types/yargs-parser@21.0.3': {}
 
