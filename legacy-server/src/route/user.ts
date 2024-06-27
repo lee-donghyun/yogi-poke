@@ -27,7 +27,7 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
       const user = await registerUser(body);
       rep.status(201);
       return createUserToken(user);
-    }
+    },
   );
   instance.get(
     '/my-info',
@@ -40,11 +40,11 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
       const pokes = await getPokedCount({ fromUserId: user.id });
       const pokeds = await getPokedCount({ toUserId: user.id });
       return { ...user, pokes, pokeds };
-    }
+    },
   );
   instance.post('/sign-in', { schema: signInUserDto.schema }, async (req) => {
     const user = await getUserByEmailAndPassword(
-      req.body as typeof signInUserDto.type.body
+      req.body as typeof signInUserDto.type.body,
     );
     return createUserToken(user);
   });
@@ -59,7 +59,7 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
         ...body,
       });
       return updated;
-    }
+    },
   );
   instance.get('/', { schema: getUserListDto.schema }, async (req) => {
     const user = assertAuth(req.user);
@@ -67,7 +67,7 @@ export const userRouter: FastifyPluginAsync = async (instance) => {
     return getUserList(
       { email: query.email, ids: query.ids },
       { limit: query.limit ?? 20, page: query.page ?? 1 },
-      user.id
+      user.id,
     );
   });
   instance.get('/:email', { schema: getUserDto.schema }, async (req) => {

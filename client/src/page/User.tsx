@@ -26,26 +26,27 @@ interface UserData {
   pokes: number;
 }
 
+interface UserPokeData {
+  createdAt: string;
+  id: number;
+  realtionFromUserId: number;
+  realtionToUserId: number;
+}
+
 export const User = () => {
-  const { myInfo, assertAuth } = useUser();
-  assertAuth();
+  const { myInfo } = useUser({ assertAuth: true });
+
   const { params } = useRouter();
   const userEmail = params[":userId"];
   const push = useNotification();
   const { trigger, isMutating } = usePoke(eventPokeProps);
 
-  const { data } = useSWR<UserData>([`/user/${userEmail}`]);
-  interface UserPokeData {
-    createdAt: string;
-    id: number;
-    realtionFromUserId: number;
-    realtionToUserId: number;
-  }
+  const { data, mutate: mutateUser } = useSWR<UserData>([`/user/${userEmail}`]);
 
   const {
     data: pokes,
     isLoading,
-    mutate,
+    mutate: mutateUserPoke,
   } = useSWR<UserPokeData[]>([`/mate/poke/${userEmail}`, { limit: 1 }]);
 
   const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
@@ -120,7 +121,9 @@ export const User = () => {
           className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={!isPokable || isLoading || isMutating}
           onClick={() =>
-            void trigger({ email: userEmail }).then(() => mutate())
+            void trigger({ email: userEmail }).then(() =>
+              Promise.allSettled([mutateUserPoke(), mutateUser()]),
+            )
           }
         >
           콕 찌르기 👉
