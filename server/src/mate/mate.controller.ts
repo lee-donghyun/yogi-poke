@@ -58,12 +58,10 @@ export class MateController {
 
     await this.mateService.pokeMate(fromUserId, toUserId);
     if (pushSubscription !== null) {
-      this.pushService
-        .sendPushNotification(toUserId, {
-          title: '요기콕콕!',
-          body: `${email}님이 회원님을 콕 찔렀어요!`,
-        })
-        .catch();
+      this.pushService.sendPushNotification(toUserId, {
+        title: '요기콕콕!',
+        body: `@${email}님이 회원님을 콕 찔렀어요!`,
+      });
     }
   }
 
