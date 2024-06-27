@@ -1,11 +1,14 @@
-import { IsArray, IsNumber, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsInt, IsOptional } from 'class-validator';
 
 export class GetUserListParamDto {
-  @IsNumber()
+  @IsInt()
+  @Type(() => Number)
   @IsOptional()
   limit: number;
 
-  @IsNumber()
+  @IsInt()
+  @Type(() => Number)
   @IsOptional()
   page: number;
 
@@ -13,7 +16,8 @@ export class GetUserListParamDto {
   email: string;
 
   @IsArray()
-  @IsNumber({}, { each: true })
+  @Type(() => Number)
+  @IsInt({ each: true })
   @IsOptional()
   ids: number[];
 }
