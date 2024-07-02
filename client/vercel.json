@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://base.iptime.org/:path*"
+      "destination": "http://base.iptime.org/:path*"
     },
     {
       "source": "/me/:email",
-      "destination": "https://base.iptime.org/util/document/:email"
+      "destination": "http://base.iptime.org/util/document/:email"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
