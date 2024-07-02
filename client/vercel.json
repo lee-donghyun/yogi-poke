@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.yogi-poke.social/:path*"
+      "destination": "https://base.iptime.org/:path*"
     },
     {
       "source": "/me/:email",
-      "destination": "https://api.yogi-poke.social/util/document/:email"
+      "destination": "https://base.iptime.org/util/document/:email"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
