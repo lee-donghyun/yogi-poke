@@ -8,8 +8,8 @@ RUN mv .env.prod .env
 RUN corepack enable pnpm
 RUN pnpm i
 
-RUN npm run build
 RUN npx prisma generate
+RUN npm run build
 
 EXPOSE 8080
 
