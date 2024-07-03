@@ -26,7 +26,8 @@ export class FileUtilService implements OnModuleInit {
         buffer,
       );
       return `${process.env.SERVER_URL}/util/object/${fileName}`;
-    } catch {
+    } catch (err) {
+      console.log(err);
       throw new HttpException(
         'Failed to upload image',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -41,7 +42,8 @@ export class FileUtilService implements OnModuleInit {
         name,
       );
       return object;
-    } catch {
+    } catch (err) {
+      console.log(err);
       throw new HttpException('No Such File', HttpStatus.NOT_FOUND);
     }
   }
