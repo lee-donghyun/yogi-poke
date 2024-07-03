@@ -6,7 +6,7 @@
     },
     {
       "source": "/me/:email",
-      "destination": "https://yogi-poke-api.is-not-a.store/:email"
+      "destination": "https://yogi-poke-api.is-not-a.store/util/document/:email"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
