@@ -6,6 +6,7 @@ import { useUser } from "../component/Auth";
 import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
 import { yogiPokeApi } from "../service/api";
+import { getPushNotificationSubscription } from "../service/util";
 import { validator } from "../service/validator";
 
 const cx = {
@@ -26,7 +27,7 @@ const stepFieldNameMap = {
 export const SignIn = () => {
   const push = useNotification();
   const { navigate, params } = useRouter();
-  const { registerToken, isLoggedIn } = useUser();
+  const { registerToken, isLoggedIn, patchUser } = useUser();
 
   const [step, setStep] = useState<1 | 2>(1);
   const { trigger, isMutating } = useSWRMutation(
@@ -38,6 +39,13 @@ export const SignIn = () => {
         .then(() => {
           const redirect = params.returnUrl;
           navigate({ pathname: redirect || "/my-page" }, { replace: true });
+
+          getPushNotificationSubscription()
+            .then((pushSubscription) => patchUser({ pushSubscription }))
+            .then(() => {
+              push({ content: "이제 콕 찔리면 알림이 울립니다." });
+            })
+            .catch(console.error);
         }),
     {
       onError: () => {
