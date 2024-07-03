@@ -7,9 +7,9 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     httpsOptions: {
-      cert: readFileSync(join(__dirname, '../certification/fullchain.pem')),
+      cert: readFileSync(join(__dirname, '../certification/cert.pem')),
+      ca: readFileSync(join(__dirname, '../certification/chain.pem')),
       key: readFileSync(join(__dirname, '../certification/privkey.pem')),
-      ca: readFileSync(join(__dirname, '../certification/ca_bundle.crt')),
     },
   });
   app.enableCors({ origin: process.env.CLIENT_URL });
