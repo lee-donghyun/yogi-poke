@@ -93,7 +93,7 @@ export class DocumentUtilService {
         <title>요기콕콕!</title>
         <meta property="og:title" content="${og.title}">
         <meta property="og:site_name" content="요기콕콕!">
-        <meta property="og:url" content="https://www.yogi-poke.social">
+        <meta property="og:url" content="https://yogi-poke.vercel.app">
         <meta property="og:description" content="링크를 눌러서 요기콕콕!앱을 설치하세요.">
         <meta property="og:type" content="profile">
         <meta property="og:image" content="${og.image}">
