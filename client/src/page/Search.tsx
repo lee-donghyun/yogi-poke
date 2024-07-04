@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useRouter } from "router2";
 import useSWR from "swr";
 
 import { useUser } from "../component/Auth";
 import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { CircleXIcon } from "../component/icon/CircleX";
+import { QrCode } from "../component/icon/QrCode";
 import { Navigation } from "../component/Navigation";
+import { useStackedLayer } from "../component/StackedLayerProvider";
 import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
@@ -12,11 +15,20 @@ import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
 import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
+import { QrScannerSheet } from "./Search.QrScannerSheet";
 
 export const Search = () => {
   useUser({ assertAuth: true });
+  const overlay = useStackedLayer();
+  const { params, navigate } = useRouter();
 
-  const [email, setEmail] = useState("");
+  const email = params?.email ?? "";
+  const setEmail = (email: string) => {
+    navigate(
+      { pathname: "/search", ...(email && { query: { email } }) },
+      { replace: true },
+    );
+  };
   const deferredEmail = useDebouncedValue(email, 300);
   const [selected, setSelected] = useState<null | User>(null);
 
@@ -39,9 +51,20 @@ export const Search = () => {
     <div className="min-h-screen">
       <Navigation />
       <div className="p-5">
-        <p className="pt-32 text-2xl font-bold text-zinc-800">
-          누구를 콕콕! 찌를까요?
-        </p>
+        <div className="flex justify-between pt-32">
+          <p className="text-2xl font-bold text-zinc-800">
+            누구를 콕콕! 찌를까요?
+          </p>
+          <button
+            className="text-zinc-500"
+            type="button"
+            onClick={() => {
+              overlay(QrScannerSheet);
+            }}
+          >
+            <QrCode />
+          </button>
+        </div>
         <div className="flex items-center pt-10">
           <span className="block w-5 text-xl font-bold">@</span>
           <input
