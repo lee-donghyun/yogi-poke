@@ -1,9 +1,8 @@
-import { createContext, JSX, useContext, useState } from "react";
+import { createContext, JSX, ReactNode, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface NotificationData {
-  content: string;
-  className?: string;
+  content: ReactNode;
   id: number;
 }
 
@@ -65,7 +64,7 @@ export const NotificationProvider = ({
                 key={n.id}
                 className={`absolute inset-x-5 top-5 rounded-xl p-5 shadow-lg backdrop-blur backdrop-brightness-95 duration-300 ${
                   cursor === i * 2 ? "from-top" : "to-top"
-                } ${n.className ?? ""}`}
+                }`}
               >
                 {n.content}
               </div>
