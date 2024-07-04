@@ -1,10 +1,17 @@
-import { useState } from "react";
+import QrScanner from "qr-scanner";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "router2";
 import useSWR from "swr";
 
 import { useUser } from "../component/Auth";
 import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { CircleXIcon } from "../component/icon/CircleX";
+import { QrCode } from "../component/icon/QrCode";
 import { Navigation } from "../component/Navigation";
+import {
+  createDraggableSheet,
+  useStackedLayer,
+} from "../component/StackedLayerProvider";
 import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
@@ -13,10 +20,61 @@ import { User } from "../service/dataType";
 import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
 
+const QrScannerSheet = createDraggableSheet(({ close }) => {
+  const ref = useRef<HTMLVideoElement>(null);
+  const { navigate } = useRouter();
+
+  useEffect(() => {
+    if (ref.current === null) return;
+    const scanner = new QrScanner(
+      ref.current,
+      (scanner) => {
+        const email = scanner.data.split("https://yogi-poke.vercel.app/me/")[1];
+        if (typeof email !== "string") return;
+        close();
+        navigate({ pathname: "/search", query: { email } }, { replace: true });
+      },
+      {
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+      },
+    );
+    const startScanning = scanner.start();
+    return () => {
+      void startScanning.finally(() => {
+        scanner.destroy();
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="p-5 pb-32">
+      <p className="text-lg font-semibold text-zinc-800">QR 코드 스캔</p>
+      <p className="pt-3 text-zinc-600">
+        상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요.
+      </p>
+      <div className="pt-7"></div>
+      <video
+        ref={ref}
+        className="aspect-square w-full rounded-md bg-zinc-100 object-cover"
+      ></video>
+    </div>
+  );
+});
+
 export const Search = () => {
   useUser({ assertAuth: true });
+  const overlay = useStackedLayer();
+  const { params, navigate } = useRouter();
 
-  const [email, setEmail] = useState("");
+  const email = params?.email ?? "";
+  const setEmail = (email: string) => {
+    navigate(
+      { pathname: "/search", ...(email && { query: { email } }) },
+      { replace: true },
+    );
+  };
   const deferredEmail = useDebouncedValue(email, 300);
   const [selected, setSelected] = useState<null | User>(null);
 
@@ -39,9 +97,20 @@ export const Search = () => {
     <div className="min-h-screen">
       <Navigation />
       <div className="p-5">
-        <p className="pt-32 text-2xl font-bold text-zinc-800">
-          누구를 콕콕! 찌를까요?
-        </p>
+        <div className="flex justify-between pt-32">
+          <p className="text-2xl font-bold text-zinc-800">
+            누구를 콕콕! 찌를까요?
+          </p>
+          <button
+            className="text-zinc-500"
+            type="button"
+            onClick={() => {
+              overlay(QrScannerSheet);
+            }}
+          >
+            <QrCode />
+          </button>
+        </div>
         <div className="flex items-center pt-10">
           <span className="block w-5 text-xl font-bold">@</span>
           <input
