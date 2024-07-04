@@ -2,42 +2,30 @@ import { QRCodeSVG } from "qrcode.react";
 
 import { useUser } from "../component/Auth";
 import { useNotification } from "../component/Notification";
+import { createDraggableSheet } from "../component/StackedLayerProvider";
 
-export const SharedProfile = ({ close }: { close: () => void }) => {
+export const SharedProfile = createDraggableSheet(({ close }) => {
   const push = useNotification();
   const { myInfo } = useUser();
-  const shareUrl = `${import.meta.env.BASE_URL}/me/${myInfo?.email}`;
+  const shareUrl = `https://yogi-poke.vercel.app/me/${myInfo?.email}`;
   return (
-    <div className="relative min-h-[calc(100vh-env(safe-area-inset-bottom)-env(safe-area-inset-top))] bg-black">
-      <div
-        className="relative z-10 grid bg-black p-5"
-        style={{ gridTemplateColumns: "80px 1fr 80px" }}
-      >
-        <button
-          className="justify-self-start text-zinc-400 disabled:opacity-60"
-          onClick={close}
-          type="button"
-        >
-          취소
-        </button>
-        <p className="text-center font-medium text-white">프로필 공유</p>
-        <span></span>
-      </div>
-      <div className="absolute inset-0 z-0 flex size-full flex-col items-center justify-center gap-5">
-        <p className="text-lg font-bold text-white">@{myInfo?.email}</p>
+    <div className="pb-20 pt-8">
+      <div className="flex size-full flex-col items-center">
         <QRCodeSVG
-          bgColor="#000000"
-          className="rounded-md"
-          fgColor="#ffffff"
+          bgColor="#fff"
+          className="rounded-md shadow-lg"
+          fgColor="#000"
           size={208}
           value={shareUrl}
         />
-        <div className="flex w-52 gap-3">
+        <p className="pt-5 text-xl font-bold text-black">@{myInfo?.email}</p>
+        <div className="flex w-52 gap-3 pt-8">
           {[
             navigator?.share && {
               key: "share",
               text: "공유하기",
               onClick: () => {
+                close();
                 void navigator.share({
                   title: "프로필 공유",
                   text: `${myInfo?.email}의 프로필`,
@@ -52,7 +40,6 @@ export const SharedProfile = ({ close }: { close: () => void }) => {
                 void navigator?.clipboard.writeText(shareUrl).then(() => {
                   push({
                     content: "클립보드에 복사되었습니다.",
-                    className: "text-white",
                   });
                 });
               },
@@ -63,7 +50,7 @@ export const SharedProfile = ({ close }: { close: () => void }) => {
               (props: { key: string; text: string; onClick: () => void }) => (
                 <button
                   key={props.key}
-                  className="block flex-1 rounded-md border-2 px-2 py-1 text-sm text-white"
+                  className="block flex-1 rounded-md border-2 border-black bg-white px-2 py-1 text-sm font-medium active:opacity-60"
                   onClick={props.onClick}
                   type="button"
                 >
@@ -75,4 +62,4 @@ export const SharedProfile = ({ close }: { close: () => void }) => {
       </div>
     </div>
   );
-};
+});
