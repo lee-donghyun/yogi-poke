@@ -1,8 +1,12 @@
-import { QRCodeSVG } from "qrcode.react";
+import { lazy, Suspense } from "react";
 
 import { useUser } from "../component/Auth";
 import { useNotification } from "../component/Notification";
 import { createDraggableSheet } from "../component/StackedLayerProvider";
+
+const QRCodeSVG = lazy(() =>
+  import("qrcode.react").then((mod) => ({ default: mod.QRCodeSVG })),
+);
 
 export const SharedProfile = createDraggableSheet(({ close }) => {
   const push = useNotification();
@@ -11,13 +15,19 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
   return (
     <div className="pb-20 pt-8">
       <div className="flex size-full flex-col items-center">
-        <QRCodeSVG
-          bgColor="#fff"
-          className="rounded-md shadow-lg"
-          fgColor="#000"
-          size={208}
-          value={shareUrl}
-        />
+        <Suspense
+          fallback={
+            <div className="size-52 animate-pulse rounded-md bg-zinc-100 shadow-lg" />
+          }
+        >
+          <QRCodeSVG
+            bgColor="#fff"
+            className="rounded-md shadow-lg"
+            fgColor="#000"
+            size={208}
+            value={shareUrl}
+          />
+        </Suspense>
         <p className="pt-5 text-xl font-bold text-black">@{myInfo?.email}</p>
         <div className="flex w-52 gap-3 pt-8">
           {[
