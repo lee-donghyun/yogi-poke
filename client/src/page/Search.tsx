@@ -1,5 +1,4 @@
-import QrScanner from "qr-scanner";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
 
@@ -8,10 +7,7 @@ import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBott
 import { CircleXIcon } from "../component/icon/CircleX";
 import { QrCode } from "../component/icon/QrCode";
 import { Navigation } from "../component/Navigation";
-import {
-  createDraggableSheet,
-  useStackedLayer,
-} from "../component/StackedLayerProvider";
+import { useStackedLayer } from "../component/StackedLayerProvider";
 import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
@@ -19,49 +15,7 @@ import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
 import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
-
-const QrScannerSheet = createDraggableSheet(({ close }) => {
-  const ref = useRef<HTMLVideoElement>(null);
-  const { navigate } = useRouter();
-
-  useEffect(() => {
-    if (ref.current === null) return;
-    const scanner = new QrScanner(
-      ref.current,
-      (scanner) => {
-        const email = scanner.data.split("https://yogi-poke.vercel.app/me/")[1];
-        if (typeof email !== "string") return;
-        close();
-        navigate({ pathname: "/search", query: { email } }, { replace: true });
-      },
-      {
-        highlightScanRegion: true,
-        highlightCodeOutline: true,
-      },
-    );
-    const startScanning = scanner.start();
-    return () => {
-      void startScanning.finally(() => {
-        scanner.destroy();
-      });
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <div className="p-5 pb-32">
-      <p className="text-lg font-semibold text-zinc-800">QR 코드 스캔</p>
-      <p className="pt-3 text-zinc-600">
-        상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요.
-      </p>
-      <div className="pt-7"></div>
-      <video
-        ref={ref}
-        className="aspect-square w-full rounded-md bg-zinc-100 object-cover"
-      ></video>
-    </div>
-  );
-});
+import { QrScannerSheet } from "./Search.QrScannerSheet";
 
 export const Search = () => {
   useUser({ assertAuth: true });
