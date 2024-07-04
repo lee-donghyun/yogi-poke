@@ -4,6 +4,7 @@ import useSWRInfinite from "swr/infinite";
 
 import { useUser } from "../component/Auth";
 import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
+import { ArrowUpOnSquare } from "../component/icon/ArrowUpOnSquare";
 import { Blink } from "../component/icon/Blink";
 import { Edit } from "../component/icon/Edit";
 import { Menu } from "../component/icon/Menu";
@@ -16,6 +17,7 @@ import {
 } from "../component/StackedLayerProvider";
 import { Stat } from "../component/Stat";
 import { useIntersectionObserver } from "../hook/useIntersectionObserver";
+import { SharedProfile } from "./SharedProfile";
 import { UpdateMyInfo } from "./UpdateMyInfo";
 
 const MenuSheet = createDraggableSheet(({ close }) => {
@@ -115,18 +117,30 @@ export const MyPage = () => {
         <div className="mt-10">
           <div className="flex items-end justify-between">
             <p className="text-xl font-bold">@{myInfo?.email}</p>
-            <button
-              key="edit"
-              className="active:opacity-60"
-              type="button"
-              onClick={() => {
-                overlay(UpdateMyInfo);
-              }}
-            >
-              <span className="block scale-[80%] text-zinc-500">
-                <Edit />
-              </span>
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="active:opacity-60"
+                type="button"
+                onClick={() => {
+                  overlay(UpdateMyInfo);
+                }}
+              >
+                <span className="block scale-[80%] text-zinc-500">
+                  <Edit />
+                </span>
+              </button>
+              <button
+                className="active:opacity-60"
+                type="button"
+                onClick={() => {
+                  overlay(SharedProfile);
+                }}
+              >
+                <span className="block scale-[80%] text-zinc-500">
+                  <ArrowUpOnSquare />
+                </span>
+              </button>
+            </div>
           </div>
           <p className="mt-1">{myInfo?.name ?? <div className="h-6" />}</p>
         </div>

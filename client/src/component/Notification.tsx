@@ -1,8 +1,8 @@
-import { createContext, JSX, useContext, useState } from "react";
+import { createContext, JSX, ReactNode, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface NotificationData {
-  content: string;
+  content: ReactNode;
   id: number;
 }
 
