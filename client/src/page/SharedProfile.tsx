@@ -27,8 +27,7 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
               onClick: () => {
                 close();
                 void navigator.share({
-                  title: "프로필 공유",
-                  text: `${myInfo?.email}의 프로필`,
+                  title: `(@${myInfo?.email}) - 요기콕콕! 프로필 공유`,
                   url: shareUrl,
                 });
               },
