@@ -32,3 +32,22 @@ class If<T> {
 
 export const if_ = <T>(condition: boolean, value: () => T): If<T> =>
   new If<T>(condition, value);
+
+class Switch<V, T> {
+  private value: V;
+  private result?: T;
+  constructor(value: V) {
+    this.value = value;
+  }
+  case(condition: V, callback: Callback<T>): this {
+    if (this.value === condition) {
+      this.result = callback();
+    }
+    return this;
+  }
+  default(callback: Callback<T>): T {
+    return this.result ?? callback();
+  }
+}
+
+export const switch_ = <V, T>(value: V) => new Switch<V, T>(value);

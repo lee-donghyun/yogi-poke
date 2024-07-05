@@ -1,7 +1,7 @@
 import { Link, useRouter } from "router2";
 
 import { useUser } from "../component/Auth";
-import { Introduction } from "../component/Introduction";
+import { Introduction } from "./Introduction";
 
 export const Home = () => {
   const { navigate, params } = useRouter();
