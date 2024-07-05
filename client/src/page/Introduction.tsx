@@ -1,36 +1,54 @@
-import { ArrowUpOnSquare } from "./icon/ArrowUpOnSquare";
-import { DevicePhoneMobile } from "./icon/DevicePhoneMobile";
+import { ArrowUpOnSquare } from "../component/icon/ArrowUpOnSquare";
+import { DevicePhoneMobile } from "../component/icon/DevicePhoneMobile";
+import { useStackedLayer } from "../component/StackedLayerProvider";
+import {
+  instructionSheet,
+  platform,
+  pwaHelpUrl,
+} from "./Introduction.Platform";
 
 export const Introduction = () => {
+  const overlay = useStackedLayer();
   return (
-    <div className="pb-60">
+    <div className="min-h-screen pb-60">
       <div className="flex px-5 pt-32">
         <img
           alt="요기콕콕👉"
-          className="size-24 rounded-3xl border"
+          className="size-28 rounded-3xl border"
           src="/asset/icon.jpg"
         />
-        <div className="flex flex-col items-start justify-between pl-5 pt-2">
+        <div className="flex flex-1 flex-col justify-between pl-5 pt-2">
           <div>
             <h1 className="text-xl font-bold">요기콕콕!</h1>
             <p className="pt-1 text-sm text-zinc-600">
               빠르고 간결한 최신 소셜 미디어
             </p>
           </div>
-          {typeof navigator?.share !== "function" && (
+          <div className="flex items-center justify-between">
             <button
-              className="-translate-x-1 p-1 text-blue-500 active:opacity-60"
+              className="rounded-full bg-blue-500 px-5 py-0.5 font-medium text-white active:opacity-60"
               type="button"
               onClick={() => {
-                void navigator.share({
-                  title: "요기콕콕!",
-                  url: "https://yogi-poke.vercel.app",
-                });
+                overlay(instructionSheet);
               }}
             >
-              <ArrowUpOnSquare />
+              설치
             </button>
-          )}
+            {typeof navigator?.share !== "function" && (
+              <button
+                className="-mb-1 p-1 text-blue-500 active:opacity-60"
+                type="button"
+                onClick={() => {
+                  void navigator.share({
+                    title: "요기콕콕!",
+                    url: "https://yogi-poke.vercel.app?mtag=1",
+                  });
+                }}
+              >
+                <ArrowUpOnSquare />
+              </button>
+            )}
+          </div>
         </div>
       </div>
       <div className="mx-6 mt-4 border-t pt-3">
@@ -61,12 +79,12 @@ export const Introduction = () => {
       </div>
       <a
         className="flex items-center px-5 pt-3 text-blue-500 active:opacity-60"
-        href="https://support.apple.com/ko-kr/guide/iphone/iph42ab2f3a7/17.0/ios/17.0#iph4f9a47bbc"
+        href={pwaHelpUrl}
         rel="noreferrer"
         target="_blank"
       >
         <DevicePhoneMobile />
-        <p className="pl-1 text-sm">iPhone을 위한 웹 어플리케이션</p>
+        <p className="pl-1 text-sm">{platform}를 위한 웹 어플리케이션</p>
       </a>
     </div>
   );
