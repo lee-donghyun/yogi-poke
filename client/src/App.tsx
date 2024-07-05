@@ -33,17 +33,17 @@ export const App = () => {
       }}
     >
       {(Page) => (
-        <NotificationProvider>
-          <StackedLayerProvider>
-            <PwaProvider>
-              {(prefetch) => (
-                <AuthProvider myInfo={prefetch.myInfo}>
+        <PwaProvider>
+          {(prefetch) => (
+            <AuthProvider myInfo={prefetch.myInfo}>
+              <NotificationProvider>
+                <StackedLayerProvider>
                   <Page />
-                </AuthProvider>
-              )}
-            </PwaProvider>
-          </StackedLayerProvider>
-        </NotificationProvider>
+                </StackedLayerProvider>
+              </NotificationProvider>
+            </AuthProvider>
+          )}
+        </PwaProvider>
       )}
     </BrowserRouter>
   );
