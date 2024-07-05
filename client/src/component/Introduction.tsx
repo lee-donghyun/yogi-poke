@@ -4,20 +4,22 @@ import { DevicePhoneMobile } from "./icon/DevicePhoneMobile";
 export const Introduction = () => {
   return (
     <div className="pb-60">
-      <div className="flex px-6 pt-32">
+      <div className="flex px-5 pt-32">
         <img
           alt="요기콕콕👉"
-          className="size-28 rounded-3xl border"
+          className="size-24 rounded-3xl border"
           src="/asset/icon.jpg"
         />
-        <div className="pl-5 pt-2">
-          <h1 className="text-xl font-bold">요기콕콕!</h1>
-          <p className="pt-1 text-sm text-zinc-600">
-            빠르고 간결한 최신 소셜 미디어
-          </p>
-          {typeof navigator?.share === "function" && (
+        <div className="flex flex-col items-start justify-between pl-5 pt-2">
+          <div>
+            <h1 className="text-xl font-bold">요기콕콕!</h1>
+            <p className="pt-1 text-sm text-zinc-600">
+              빠르고 간결한 최신 소셜 미디어
+            </p>
+          </div>
+          {typeof navigator?.share !== "function" && (
             <button
-              className="-ml-1 mt-2 p-1 text-blue-500 active:opacity-60"
+              className="-translate-x-1 p-1 text-blue-500 active:opacity-60"
               type="button"
               onClick={() => {
                 void navigator.share({
@@ -38,10 +40,10 @@ export const Introduction = () => {
           프로필 공유를 위한 QR코드와 스캐너가 추가됩니다.
         </p>
       </div>
-      <div className="mx-6 mt-8 border-t pt-3">
+      <div className="mx-5 mt-8 border-t pt-3">
         <h2 className="text-lg font-bold text-zinc-900">미리보기</h2>
       </div>
-      <div className="flex max-w-full snap-x snap-mandatory gap-3 overflow-x-scroll scroll-smooth px-6 pt-2">
+      <div className="flex max-w-full snap-x snap-mandatory gap-3 overflow-x-scroll scroll-smooth px-5 pt-2">
         {[
           "/preview/home.png",
           "/preview/user.png",
@@ -58,7 +60,7 @@ export const Introduction = () => {
         ))}
       </div>
       <a
-        className="flex items-center px-6 pt-3 text-blue-500 active:opacity-60"
+        className="flex items-center px-5 pt-3 text-blue-500 active:opacity-60"
         href="https://support.apple.com/ko-kr/guide/iphone/iph42ab2f3a7/17.0/ios/17.0#iph4f9a47bbc"
         rel="noreferrer"
         target="_blank"
