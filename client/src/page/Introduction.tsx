@@ -34,7 +34,7 @@ export const Introduction = () => {
             >
               설치
             </button>
-            {typeof navigator?.share !== "function" && (
+            {typeof navigator?.share === "function" && (
               <button
                 className="-mb-1 p-1 text-blue-500 active:opacity-60"
                 type="button"
