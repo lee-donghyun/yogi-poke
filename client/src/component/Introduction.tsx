@@ -1,28 +1,71 @@
+import { ArrowUpOnSquare } from "./icon/ArrowUpOnSquare";
+import { DevicePhoneMobile } from "./icon/DevicePhoneMobile";
+
 export const Introduction = () => {
   return (
-    <div>
-      <div className="py-10">
-        <img alt="요기콕콕👉" className="h-32" src="/asset/logo.png" />
+    <div className="pb-60">
+      <div className="flex px-6 pt-32">
+        <img
+          alt="요기콕콕👉"
+          className="size-28 rounded-3xl border"
+          src="/asset/icon.jpg"
+        />
+        <div className="pl-5 pt-2">
+          <h1 className="text-xl font-bold">요기콕콕!</h1>
+          <p className="pt-1 text-sm text-zinc-600">
+            빠르고 간결한 최신 소셜 미디어
+          </p>
+          {typeof navigator?.share === "function" && (
+            <button
+              className="-ml-1 mt-2 p-1 text-blue-500 active:opacity-60"
+              type="button"
+              onClick={() => {
+                void navigator.share({
+                  title: "요기콕콕!",
+                  url: "https://yogi-poke.vercel.app",
+                });
+              }}
+            >
+              <ArrowUpOnSquare />
+            </button>
+          )}
+        </div>
       </div>
-      <div className="p-5">
-        <p className="text-xl">
-          👋 지금 이 순간, 새로운 소셜 미디어 혁신이 시작됩니다.
+      <div className="mx-6 mt-4 border-t pt-3">
+        <h2 className="text-lg font-bold text-zinc-900">새로운 소식</h2>
+        <p className="pt-1 text-xs text-zinc-500">버전 24.07.05</p>
+        <p className="pt-2 text-sm text-zinc-600">
+          프로필 공유를 위한 QR코드와 스캐너가 추가됩니다.
         </p>
-        <p className="mt-5">
-          우리의 새로운 서비스,{" "}
-          <span className="text-lg font-medium">&quot;요기콕콕!👉&quot;</span>이
-          찾아왔습니다! 요기콕콕!은 친구들과의 소통을 더욱 편리하고 재미있게
-          만들어주는 기능입니다. 언제든지 당신의 친구에게 간단하고 빠르게
-          &quot;콕 찌르기&quot;를 보낼 수 있습니다.
-        </p>
-        <p className="mt-5">
-          그저 한 번의 클릭으로 당신의 존재를 알려주고, 관심과 애정을 전달할 수
-          있습니다. 친구가 멀리 떨어져 있을 때도 요기콕콕!은 그들에게 가까움을
-          전달합니다. 새로운 소식, 축하의 메시지, 또는 그냥 인사를 보내고 싶을
-          때, 당신은 콕 찌르기로 간편하게 소통할 수 있습니다.
-        </p>
-        <p className="mt-5">함께 더 가까워지는 소통의 즐거움을 경험하세요!</p>
       </div>
+      <div className="mx-6 mt-8 border-t pt-3">
+        <h2 className="text-lg font-bold text-zinc-900">미리보기</h2>
+      </div>
+      <div className="flex max-w-full snap-x snap-mandatory gap-3 overflow-x-scroll scroll-smooth px-6 pt-2">
+        {[
+          "/preview/home.png",
+          "/preview/user.png",
+          "/preview/like.png",
+          "/preview/notification.png",
+          "/preview/profile-qr.png",
+        ].map((src) => (
+          <img
+            key={src}
+            alt=""
+            className="w-44 snap-start scroll-mx-6 rounded-2xl border"
+            src={src}
+          />
+        ))}
+      </div>
+      <a
+        className="flex items-center px-6 pt-3 text-blue-500 active:opacity-60"
+        href="https://support.apple.com/ko-kr/guide/iphone/iph42ab2f3a7/17.0/ios/17.0#iph4f9a47bbc"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <DevicePhoneMobile />
+        <p className="pl-1 text-sm">iPhone을 위한 웹 어플리케이션</p>
+      </a>
     </div>
   );
 };
