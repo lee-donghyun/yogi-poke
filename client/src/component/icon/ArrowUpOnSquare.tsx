@@ -1,6 +1,10 @@
-export const ArrowUpOnSquare = () => (
+export const ArrowUpOnSquare = ({
+  className = "size-6",
+}: {
+  className?: string;
+}) => (
   <svg
-    className="size-6"
+    className={className}
     fill="none"
     stroke="currentColor"
     strokeWidth={1.5}
