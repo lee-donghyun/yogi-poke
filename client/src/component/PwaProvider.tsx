@@ -1,9 +1,12 @@
 import { enableBodyScroll } from "body-scroll-lock-upgrade";
-import { JSX, useEffect, useMemo, useState } from "react";
+import { JSX, lazy, Suspense, useEffect, useMemo, useState } from "react";
 
-import { Introduction } from "../page/Introduction";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/dataType";
+
+const Introduction = lazy(() =>
+  import("../page/Introduction").then((mod) => ({ default: mod.Introduction })),
+);
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
@@ -75,7 +78,11 @@ export const PwaProvider = ({
 
   if (!isPwa) {
     closeSplash(500);
-    return <Introduction />;
+    return (
+      <Suspense>
+        <Introduction />
+      </Suspense>
+    );
   }
   if (token === null) {
     closeSplash(500);
