@@ -19,32 +19,30 @@ dayjs.extend(duration);
 
 export const App = () => {
   return (
-    <PwaProvider>
-      {(prefetch) => (
-        <AuthProvider myInfo={prefetch.myInfo}>
-          <BrowserRouter
-            routes={{
-              "/": Home,
-              "/register": Register,
-              "/sign-in": SignIn,
-              "/my-page": MyPage,
-              "/search": Search,
-              "/user/:userId": User,
-              "/setting": Setting,
-              "/like": Like,
-              "/404": () => <>not found</>,
-            }}
-          >
-            {(Page) => (
-              <NotificationProvider>
-                <StackedLayerProvider>
-                  <Page />
-                </StackedLayerProvider>
-              </NotificationProvider>
-            )}
-          </BrowserRouter>
-        </AuthProvider>
-      )}
-    </PwaProvider>
+    <NotificationProvider>
+      <StackedLayerProvider>
+        <PwaProvider>
+          {(prefetch) => (
+            <AuthProvider myInfo={prefetch.myInfo}>
+              <BrowserRouter
+                routes={{
+                  "/": Home,
+                  "/register": Register,
+                  "/sign-in": SignIn,
+                  "/my-page": MyPage,
+                  "/search": Search,
+                  "/user/:userId": User,
+                  "/setting": Setting,
+                  "/like": Like,
+                  "/404": () => <>not found</>,
+                }}
+              >
+                {(Page) => <Page />}
+              </BrowserRouter>
+            </AuthProvider>
+          )}
+        </PwaProvider>
+      </StackedLayerProvider>
+    </NotificationProvider>
   );
 };
