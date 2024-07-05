@@ -1,9 +1,9 @@
 import { enableBodyScroll } from "body-scroll-lock-upgrade";
 import { JSX, useEffect, useMemo, useState } from "react";
 
+import { Introduction } from "../page/Introduction";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/dataType";
-import { Introduction } from "./Introduction";
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
@@ -75,15 +75,7 @@ export const PwaProvider = ({
 
   if (!isPwa) {
     closeSplash(500);
-    return (
-      <div className="min-h-screen">
-        <Introduction />
-        <div className="fixed inset-x-10 bottom-8 animate-bounce rounded-lg bg-black">
-          <p className="p-4 text-white">홈 화면에 추가하여 시작하세요!</p>
-          <div className="absolute -bottom-2 left-1/2 h-5 w-5 -translate-x-1/2 rotate-45 bg-black"></div>
-        </div>
-      </div>
-    );
+    return <Introduction />;
   }
   if (token === null) {
     closeSplash(500);
