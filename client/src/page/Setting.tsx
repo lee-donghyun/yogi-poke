@@ -110,7 +110,7 @@ export const Setting = () => {
                       className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
                       onClick={() =>
                         window.open(
-                          `https://yogi-poke-api.is-not-a.store/util/object/${url}`,
+                          `https://static.is-not-a.store/yogi-poke-assets/${url}`,
                         )
                       }
                     >
