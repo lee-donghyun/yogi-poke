@@ -82,4 +82,9 @@ export class UtilController {
     res.redirect(HttpStatus.TEMPORARY_REDIRECT, clientUrl);
     return;
   }
+
+  @Get('/health-check')
+  async healthCheck() {
+    return 'OK';
+  }
 }
