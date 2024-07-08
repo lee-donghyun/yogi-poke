@@ -1,0 +1,50 @@
+name: Update Server Container
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "server/**"
+
+jobs:
+  update-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@latest
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@latest
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@latest
+        with:
+          context: ./server
+          platform: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/yogi-poke:latest
+
+      - name: Send request to remove container
+        run: |
+          curl -X POST http://yogi-poke-api.is-not-a.store:708/remove-container \
+               -H "Authorization: ${{ secrets.CI_SERVER_TOKEN }}" \
+               -H "Content-Type: application/json" \
+               -d '{"container_id": "yogi_poke_server"}'
+
+      - name: Send request to start container
+        run: |
+          curl -X POST http://yogi-poke-api.is-not-a.store:708/start-container \
+               -H "Authorization: ${{ secrets.CI_SERVER_TOKEN }}" \
+               -H "Content-Type: application/json" \
+               -d '{
+                     "image_name": "donghyunlee022/yogi-poke:latest",
+                     "container_name": "yogi_poke_server",
+                     "ports": {
+                       "8080": 8080
+                     }
+                   }'
