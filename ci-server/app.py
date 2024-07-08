@@ -19,27 +19,8 @@ def before_request():
         return jsonify({"error": "Invalid or missing token"}), 403
 
 
-@app.route("/remove-container", methods=["POST"])
-def remove_container():
-    data = request.get_json()
-    container_id = data.get("container_id")
-
-    try:
-        container = client.containers.get(container_id)
-        container.stop()
-        container.remove()
-        return jsonify(
-            {
-                "status": "success",
-                "message": f"Container {container_id} removed successfully.",
-            }
-        )
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-
-@app.route("/start-container", methods=["POST"])
-def start_container():
+@app.route("/upgrade-container", methods=["POST"])
+def upgrade_container():
     data = request.get_json()
     image_name = data.get("image_name")
     container_name = data.get("container_name")
@@ -47,6 +28,11 @@ def start_container():
 
     try:
         client.images.pull(image_name)
+
+        old = client.containers.get(container_name)
+        old.stop()
+        old.remove()
+
         container = client.containers.run(
             image_name, name=container_name, ports=ports, detach=True
         )
@@ -65,3 +51,4 @@ if __name__ == "__main__":
     from waitress import serve
 
     serve(app, host="0.0.0.0", port=5000)
+    print("Server is running on port 5000")
