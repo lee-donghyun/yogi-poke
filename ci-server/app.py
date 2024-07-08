@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify
-import requests
-import ipaddress
 import docker
 
 app = Flask(__name__)
