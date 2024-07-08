@@ -31,9 +31,10 @@ jobs:
 
       - name: Send request to upgrade container
         run: |
-          curl -X POST http://yogi-poke-api.is-not-a.store:708/upgrade-container \
+          curl -X POST https://ci-server.is-not-a.store/upgrade-container \
                -H "Authorization: ${{ secrets.CI_SERVER_TOKEN }}" \
-               -H "Content-Type: application/json" \
+               -H "Content-Type: application/json" \              
+               --max-time 300 \
                -d '{
                      "image_name": "donghyunlee022/yogi-poke:latest",
                      "container_name": "yogi_poke_server",
