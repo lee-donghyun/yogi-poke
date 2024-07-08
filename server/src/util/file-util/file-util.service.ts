@@ -25,26 +25,13 @@ export class FileUtilService implements OnModuleInit {
         fileName,
         buffer,
       );
-      return `${process.env.SERVER_URL}/util/object/${fileName}`;
+      return `https://static.is-not-a.store/${process.env.STORAGE_ASSET_BUCKET_ID}/${fileName}`;
     } catch (err) {
       console.log(err);
       throw new HttpException(
         'Failed to upload image',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
-    }
-  }
-
-  async getFile(name: string) {
-    try {
-      const object = await this.minioClient.getObject(
-        process.env.STORAGE_ASSET_BUCKET_ID,
-        name,
-      );
-      return object;
-    } catch (err) {
-      console.log(err);
-      throw new HttpException('No Such File', HttpStatus.NOT_FOUND);
     }
   }
 }
