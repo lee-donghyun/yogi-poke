@@ -79,8 +79,6 @@ pnpm run start:dev
 
 ## 배포
 
-Storage와 Database는 상기한 것과 같이 구성한다. 서버 앱은 docker를 이용하여 배포한다.
+Storage와 Database는 상기한 것과 같이 구성한다. 서버 앱은 github actions를 통해 자동으로 배포된다.
 
-```sh
-docker build . --tag donghyunlee022/yogi-poke:latest --platform linux/amd64
-```
+`/.github/workflows/server.yaml` 참고
