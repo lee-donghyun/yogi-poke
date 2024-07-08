@@ -1,11 +1,12 @@
 name: Update Server Container
 
-# on:
-#   push:
-#     branches:
-#       - master
-# paths:
-#   - "server/**"
+on:
+  push
+  # push:
+  #   branches:
+  #     - master
+  # paths:
+  #   - "server/**"
 
 jobs:
   update-server:
