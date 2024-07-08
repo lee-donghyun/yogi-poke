@@ -32,6 +32,7 @@ def upgrade_container():
         old = client.containers.get(container_name)
         old.stop()
         old.remove()
+        old.image.remove()
 
         container = client.containers.run(
             image_name, name=container_name, ports=ports, detach=True
