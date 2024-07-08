@@ -1,12 +1,11 @@
 name: Update Server Container
 
 on:
-  push
-  # push:
-  #   branches:
-  #     - master
-  # paths:
-  #   - "server/**"
+  push:
+    branches:
+      - master
+    paths:
+      - "server/**"
 
 jobs:
   update-server:
@@ -22,13 +21,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: ./server
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/yogi-poke:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/yogi-poke:latest
 
       - name: Send request to remove container
         run: |
