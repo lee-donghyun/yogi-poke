@@ -17,14 +17,14 @@ jobs:
 
       - name: Send request to remove container
         run: |
-          curl -X POST http://ci-server.is-not-a.store/remove-container \
+          curl -X POST http://yogi-poke-api.is-not-a.store:708/remove-container \
                -H "Authorization: ${{ secrets.CI_SERVER_TOKEN }}" \
                -H "Content-Type: application/json" \
                -d '{"container_id": "yogi_poke_server"}'
 
       - name: Send request to start container
         run: |
-          curl -X POST http://ci-server.is-not-a.store/start-container \
+          curl -X POST http://yogi-poke-api.is-not-a.store:708/start-container \
                -H "Authorization: ${{ secrets.CI_SERVER_TOKEN }}" \
                -H "Content-Type: application/json" \
                -d '{
