@@ -54,12 +54,6 @@ export class UtilController {
     return url;
   }
 
-  @Get('/object/:filename')
-  async getImage(@Param('filename') filename: string) {
-    const file = await this.fileUtilService.getFile(filename);
-    return new StreamableFile(file);
-  }
-
   @Get('/web-manifest')
   async getWebManifest(@Headers('referer') referer: string) {
     const tag = referer ? new URL(referer).searchParams.get('tag') : null;
