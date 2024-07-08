@@ -6,6 +6,10 @@
 
 ![요기콕콕! 전체 구조](./docs/system-wide-diagram.png)
 
+## CI 구조
+
+![요기콕콕! ci 구조](./docs/ci-diagram.png)
+
 ## 포함된 프로젝트
 
 ### client
@@ -15,6 +19,10 @@
 ### server
 
 요기콕콕! 서버
+
+### ci-server
+
+서버에서 실행되는 CI 서버
 
 ### legacy-server
 
