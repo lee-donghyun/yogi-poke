@@ -9,7 +9,6 @@ import {
   ParseFilePipe,
   Post,
   Res,
-  StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,

@@ -19,6 +19,3 @@ services:
   #   volumes:
   #     - ./certs:/etc/letsencrypt:rw
   #   command: certonly --standalone --email leedonghyun022@gmail.com --agree-tos --no-eff-email -d yogi-poke-api.is-not-a.store -d ci-server.is-not-a.store -d static.is-not-a.store -d yogi-poke-database.is-not-a.store -d static.console.is-not-a.store
-
-
-
