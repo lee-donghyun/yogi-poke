@@ -1,12 +1,12 @@
-FROM python:3.12-alpine
+FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY . ./
 
-COPY app.py .
+RUN corepack enable pnpm
+RUN pnpm i
 
-EXPOSE 5000
+EXPOSE 708
 
-CMD ["python", "app.py"]
+CMD ["npm", "run", "start"]
