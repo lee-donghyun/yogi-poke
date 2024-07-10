@@ -10,8 +10,17 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-type Layer = (props: { close: () => void }) => JSX.Element;
-const stackedLayerContext = createContext<(layer: Layer) => void>(() => {
+type Layer<Context = never> = (props: {
+  close: () => void;
+  context: Context;
+}) => JSX.Element;
+
+interface Push {
+  <T>(Component: Layer<T>, context: T): void;
+  (Component: Layer<never>): void;
+}
+
+const stackedLayerContext = createContext<Push>(() => {
   throw new Error(
     "useStackedLayer hook must be called in StackedLayerProvider context",
   );
@@ -27,16 +36,19 @@ export const StackedLayerProvider = ({
 }) => {
   const [show, setShow] = useState(false);
   const [Layer, setLayer] = useState<Layer | null>(null);
+  const [context, setContext] = useState<never>(null as never);
   const childrenContainerRef = useRef<HTMLDivElement>(null);
-  const push = useCallback((Component: Layer) => {
+  const push = useCallback((Component, context) => {
     setLayer(() => Component);
     setShow(true);
+    setContext(context as never);
     if (childrenContainerRef.current) {
       disableBodyScroll(childrenContainerRef.current);
     }
-  }, []);
+  }, []) as Push;
   const pop = useCallback(() => {
     setShow(false);
+    setContext(null as never);
     setTimeout(() => {
       setShow((show) => {
         if (!show) {
@@ -71,7 +83,7 @@ export const StackedLayerProvider = ({
               show ? "stacked-layer-from" : "stacked-layer-to"
             }`}
           >
-            <Layer close={pop} />
+            <Layer close={pop} context={context} />
           </div>,
           document.body,
         )}
@@ -79,11 +91,15 @@ export const StackedLayerProvider = ({
   );
 };
 
-export const createDraggableSheet = (Layer: Layer) => {
+export const createLayer = (Layer: Layer): Layer<never> => Layer;
+
+export const createDraggableSheet = <Context extends object = never>(
+  Layer: Layer<Context>,
+) => {
   if (import.meta.env.DEV) {
     console.warn("DraggableSheet is created. This must be created once.");
   }
-  const DraggableSheet = ({ close }: { close: () => void }) => {
+  const DraggableSheet: Layer<Context> = ({ close, context }) => {
     const startPointRef = useRef({ x: 0, y: 0 });
     const [translate, setTranslate] = useState<null | { x: number; y: number }>(
       null,
@@ -139,7 +155,7 @@ export const createDraggableSheet = (Layer: Layer) => {
             <div className="h-2 w-12 rounded-full bg-zinc-500"></div>
           </div>
           <div>
-            <Layer close={close} />
+            <Layer close={close} context={context} />
           </div>
         </div>
       </div>

@@ -115,10 +115,13 @@ export const Search = () => {
             {(showPokeOptionOpen || pokeOptionOpen) && (
               <button
                 key={pokeOptionOpen ? "open" : "close"}
-                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} animate-fade-up absolute bottom-14 right-0 whitespace-pre rounded-full bg-zinc-900 p-3 text-white duration-200 ease-out active:bg-zinc-300`}
+                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} absolute bottom-14 right-0 animate-fade-up whitespace-pre rounded-full bg-zinc-900 px-4 py-3 text-white duration-200 ease-out active:bg-zinc-300`}
                 type="button"
                 onClick={() => {
-                  overlay(PokeWithEmoji);
+                  if (typeof selected?.email !== "string") {
+                    return;
+                  }
+                  overlay(PokeWithEmoji, { email: selected.email });
                 }}
               >
                 이모티콘 찌르기 😊
