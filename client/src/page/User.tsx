@@ -12,7 +12,6 @@ import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { usePoke } from "../hook/usePoke";
 import { LIKE_PERSIST_KEY } from "../service/const";
-import { eventPokeProps } from "../service/event/firstFive";
 
 export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 export const MINUTE_IN_UNIX = 1000 * 60;
@@ -39,7 +38,7 @@ export const User = () => {
   const { params } = useRouter();
   const userEmail = params[":userId"];
   const push = useNotification();
-  const { trigger, isMutating } = usePoke(eventPokeProps);
+  const { trigger, isMutating } = usePoke();
 
   const { data, mutate: mutateUser } = useSWR<UserData>([`/user/${userEmail}`]);
 

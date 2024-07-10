@@ -1,7 +1,6 @@
 import { useRouter } from "router2";
 
 import { usePoke } from "../hook/usePoke";
-import { eventPokeProps } from "../service/event/firstFive";
 import { getReadableDateOffset } from "../service/util";
 
 interface PocketListItemProps {
@@ -23,7 +22,7 @@ export const PokeListItem = ({
   date,
   animation,
 }: PocketListItemProps) => {
-  const { trigger, isMutating } = usePoke(eventPokeProps);
+  const { trigger, isMutating } = usePoke();
   const { navigate } = useRouter();
   return (
     <div
