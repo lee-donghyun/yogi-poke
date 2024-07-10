@@ -1,5 +1,6 @@
 import { ArrowUpOnSquare } from "../component/icon/ArrowUpOnSquare";
 import { DevicePhoneMobile } from "../component/icon/DevicePhoneMobile";
+import { Img } from "../component/Img";
 import { useStackedLayer } from "../component/StackedLayerProvider";
 import {
   instructionSheet,
@@ -12,7 +13,7 @@ export const Introduction = () => {
   return (
     <div className="min-h-screen pb-60">
       <div className="flex px-5 pt-32">
-        <img
+        <Img
           alt="요기콕콕👉"
           className="size-28 rounded-3xl border"
           src="/asset/icon.jpg"
@@ -69,7 +70,7 @@ export const Introduction = () => {
           "/preview/notification.png",
           "/preview/profile-qr.png",
         ].map((src) => (
-          <img
+          <Img
             key={src}
             alt=""
             className="w-44 snap-start scroll-mx-6 rounded-2xl border"

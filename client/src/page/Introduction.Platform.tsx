@@ -1,4 +1,5 @@
 import { ArrowUpOnSquare } from "../component/icon/ArrowUpOnSquare";
+import { Img } from "../component/Img";
 import { createDraggableSheet } from "../component/StackedLayerProvider";
 import { switch_ } from "../lib/expify";
 
@@ -49,7 +50,7 @@ const iosInstruction = () => (
         옵션 목록을 아래로 스크롤한 다음, ‘홈 화면에 추가’를 탭하십시오.
       </li>
     </ol>
-    <img
+    <Img
       alt="아이폰 홈 화면에 추가 미리보기"
       className="h-96 pt-3"
       src="/preview/add-to-home-screen.png"

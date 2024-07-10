@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
+import { Img } from "../component/Img";
 import { useNotification } from "../component/Notification";
 import { yogiPokeApi } from "../service/api";
 
@@ -75,7 +76,7 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
       <form ref={formRef} className="h-full overflow-y-scroll p-5">
         <div className="flex justify-center">
           <label className="flex flex-col items-center gap-2">
-            <img
+            <Img
               className="h-20 w-20 rounded-full bg-zinc-200 object-cover"
               src={data.profileImageUrl ?? "/asset/default_user_profile.png"}
             />

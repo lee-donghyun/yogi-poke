@@ -4,6 +4,7 @@ import { useUser } from "./Auth";
 import { BottomNavigation } from "./BottomNavigation";
 import { Search } from "./icon/Search";
 import { Star } from "./icon/Star";
+import { Img } from "./Img";
 
 export const DomainBottomNavigation = () => {
   const { path } = useRouter();
@@ -33,7 +34,7 @@ export const DomainBottomNavigation = () => {
           className="flex flex-1 justify-center"
           pathname="/my-page"
         >
-          <img
+          <Img
             alt=""
             className={`h-6 w-6 rounded-full border-[1.5px] bg-zinc-200 object-cover ${path === "/my-page" ? "border-black" : "border-transparent"}`}
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}

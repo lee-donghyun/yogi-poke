@@ -1,6 +1,7 @@
 import { Link, useRouter } from "router2";
 
 import { useUser } from "../component/Auth";
+import { Img } from "../component/Img";
 
 export const Home = () => {
   const { navigate, params } = useRouter();
@@ -11,7 +12,7 @@ export const Home = () => {
   }
   return (
     <div>
-      <img alt="" className="mx-auto mt-20 size-60" src="/asset/icon.jpg" />
+      <Img alt="" className="mx-auto mt-20 size-60" src="/asset/icon.jpg" />
       <div className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
         <Link replace pathname="/register" query={params}>
           <button className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60">

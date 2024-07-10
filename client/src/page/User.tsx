@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { useUser } from "../component/Auth";
 import { Block } from "../component/icon/Block";
 import { Star, StarSolid } from "../component/icon/Star";
+import { Img } from "../component/Img";
 import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
 import { Stat } from "../component/Stat";
@@ -79,7 +80,7 @@ export const User = () => {
       />
       <div className="p-5">
         <div className="flex justify-center pt-16">
-          <img
+          <Img
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />

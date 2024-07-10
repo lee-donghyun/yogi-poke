@@ -3,6 +3,7 @@ import { useRouter } from "router2";
 import { usePoke } from "../hook/usePoke";
 import { eventPokeProps } from "../service/event/firstFive";
 import { getReadableDateOffset } from "../service/util";
+import { Img } from "./Img";
 
 interface PocketListItemProps {
   type: "poke" | "poked";
@@ -36,7 +37,7 @@ export const PokeListItem = ({
       })}
     >
       <div className="flex">
-        <img
+        <Img
           alt={`${targetUserName} 프로필 이미지`}
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
           src={targetUserProfileImageUrl ?? "/asset/default_user_profile.png"}

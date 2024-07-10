@@ -9,6 +9,7 @@ import { Blink } from "../component/icon/Blink";
 import { Edit } from "../component/icon/Edit";
 import { Menu } from "../component/icon/Menu";
 import { Setting } from "../component/icon/Setting";
+import { Img } from "../component/Img";
 import { Navigation } from "../component/Navigation";
 import { PokeListItem } from "../component/PokeListItem";
 import {
@@ -109,7 +110,7 @@ export const MyPage = () => {
       />
       <div className="p-5">
         <div className="flex justify-center pt-16">
-          <img
+          <Img
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />

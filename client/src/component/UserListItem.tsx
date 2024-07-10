@@ -1,3 +1,5 @@
+import { Img } from "./Img";
+
 interface UserListItemProps {
   userEmail: string;
   userName: string;
@@ -33,7 +35,7 @@ export const UserListItem = ({
       }
     >
       <div className="flex">
-        <img
+        <Img
           alt=""
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
           src={userProfileImageUrl ?? "/asset/default_user_profile.png"}
