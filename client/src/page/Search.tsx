@@ -125,20 +125,23 @@ export const Search = () => {
               </button>
             )}
             <button
-              className="relative rounded-full bg-black p-3 text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300"
+              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300`}
               disabled={selected === null || isLoading || isMutating}
               onClick={
                 pokeOptionOpen
                   ? () =>
                       typeof selected?.email === "string" &&
-                      void trigger({ email: selected.email }).then(() => {
+                      void trigger({
+                        type: "normal",
+                        email: selected.email,
+                      }).then(() => {
                         setSelected(null);
                         setPokeOptionOpen(false);
                       })
                   : () => setPokeOptionOpen(true)
               }
             >
-              콕 찌르기 👉
+              {pokeOptionOpen && "바로 "}콕 찌르기 👉
             </button>
           </div>
         </div>
