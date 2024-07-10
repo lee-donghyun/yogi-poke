@@ -13,7 +13,6 @@ import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
-import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
 import { QrScannerSheet } from "./Search.QrScannerSheet";
 
@@ -45,7 +44,9 @@ export const Search = () => {
   );
   const dataUpdatedAt = useCreatedAt(data);
 
-  const { trigger, isMutating } = usePoke(eventPokeProps);
+  const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
+
+  const { trigger, isMutating } = usePoke();
 
   return (
     <div className="min-h-screen">
@@ -106,18 +107,28 @@ export const Search = () => {
           )}
         </div>
         <div className="flex justify-end pt-9">
-          <button
-            className="rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
-            disabled={selected === null || isLoading || isMutating}
-            onClick={() =>
-              typeof selected?.email === "string" &&
-              void trigger({ email: selected.email }).then(() => {
-                setSelected(null);
-              })
-            }
-          >
-            콕 찌르기 👉
-          </button>
+          <div className="relative">
+            {pokeOptionOpen && (
+              <button className="animate-fade-up animate-duration-200 absolute bottom-14 right-0 whitespace-pre rounded-full bg-zinc-900 p-3 text-white ease-out active:bg-zinc-300">
+                이모티콘 찌르기 😊
+              </button>
+            )}
+            <button
+              className="relative rounded-full bg-black p-3 text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300"
+              disabled={selected === null || isLoading || isMutating}
+              onClick={
+                pokeOptionOpen
+                  ? () =>
+                      typeof selected?.email === "string" &&
+                      void trigger({ email: selected.email }).then(() => {
+                        setSelected(null);
+                      })
+                  : () => setPokeOptionOpen(true)
+              }
+            >
+              콕 찌르기 👉
+            </button>
+          </div>
         </div>
       </div>
       <DomainBottomNavigation />
