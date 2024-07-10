@@ -14,6 +14,7 @@ import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
 import { validator } from "../service/validator";
+import { PokeWithEmoji } from "./Search.PokeWithEmoji";
 import { QrScannerSheet } from "./Search.QrScannerSheet";
 
 export const Search = () => {
@@ -39,14 +40,16 @@ export const Search = () => {
       keepPreviousData: true,
       onSuccess: () => {
         setSelected(null);
+        setPokeOptionOpen(false);
       },
     },
   );
   const dataUpdatedAt = useCreatedAt(data);
 
-  const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
-
   const { trigger, isMutating } = usePoke();
+
+  const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
+  const showPokeOptionOpen = useDebouncedValue(pokeOptionOpen, 500);
 
   return (
     <div className="min-h-screen">
@@ -89,6 +92,7 @@ export const Search = () => {
               userProfileImageUrl={user.profileImageUrl}
               onClick={() => {
                 setSelected(user);
+                setPokeOptionOpen(false);
               }}
             />
           ))}
@@ -108,8 +112,15 @@ export const Search = () => {
         </div>
         <div className="flex justify-end pt-9">
           <div className="relative">
-            {pokeOptionOpen && (
-              <button className="animate-fade-up animate-duration-200 absolute bottom-14 right-0 whitespace-pre rounded-full bg-zinc-900 p-3 text-white ease-out active:bg-zinc-300">
+            {(showPokeOptionOpen || pokeOptionOpen) && (
+              <button
+                key={pokeOptionOpen ? "open" : "close"}
+                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} animate-fade-up absolute bottom-14 right-0 whitespace-pre rounded-full bg-zinc-900 p-3 text-white duration-200 ease-out active:bg-zinc-300`}
+                type="button"
+                onClick={() => {
+                  overlay(PokeWithEmoji);
+                }}
+              >
                 이모티콘 찌르기 😊
               </button>
             )}
@@ -122,6 +133,7 @@ export const Search = () => {
                       typeof selected?.email === "string" &&
                       void trigger({ email: selected.email }).then(() => {
                         setSelected(null);
+                        setPokeOptionOpen(false);
                       })
                   : () => setPokeOptionOpen(true)
               }
