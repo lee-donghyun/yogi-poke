@@ -57,6 +57,7 @@ app.get("/deploy-server-container", async (req, res) => {
       ExposedPorts: { 8080: {} },
       HostConfig: {
         PortBindings: BODY.ports,
+        ExtraHosts: ["host.docker.internal:host-gateway"],
       },
     });
 
