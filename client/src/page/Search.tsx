@@ -13,8 +13,8 @@ import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
-import { eventPokeProps } from "../service/event/firstFive";
 import { validator } from "../service/validator";
+import { PokeWithEmoji } from "./Search.PokeWithEmoji";
 import { QrScannerSheet } from "./Search.QrScannerSheet";
 
 export const Search = () => {
@@ -40,12 +40,16 @@ export const Search = () => {
       keepPreviousData: true,
       onSuccess: () => {
         setSelected(null);
+        setPokeOptionOpen(false);
       },
     },
   );
   const dataUpdatedAt = useCreatedAt(data);
 
-  const { trigger, isMutating } = usePoke(eventPokeProps);
+  const { trigger, isMutating } = usePoke();
+
+  const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
+  const showPokeOptionOpen = useDebouncedValue(pokeOptionOpen, 500);
 
   return (
     <div className="min-h-screen">
@@ -88,6 +92,7 @@ export const Search = () => {
               userProfileImageUrl={user.profileImageUrl}
               onClick={() => {
                 setSelected(user);
+                setPokeOptionOpen(false);
               }}
             />
           ))}
@@ -106,18 +111,42 @@ export const Search = () => {
           )}
         </div>
         <div className="flex justify-end pt-9">
-          <button
-            className="rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
-            disabled={selected === null || isLoading || isMutating}
-            onClick={() =>
-              typeof selected?.email === "string" &&
-              void trigger({ email: selected.email }).then(() => {
-                setSelected(null);
-              })
-            }
-          >
-            콕 찌르기 👉
-          </button>
+          <div className="relative">
+            {(showPokeOptionOpen || pokeOptionOpen) && (
+              <button
+                key={pokeOptionOpen ? "open" : "close"}
+                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} absolute bottom-14 right-0 animate-fade-up whitespace-pre rounded-full bg-zinc-900 px-4 py-3 text-white duration-200 ease-out active:bg-zinc-300`}
+                type="button"
+                onClick={() => {
+                  if (typeof selected?.email !== "string") {
+                    return;
+                  }
+                  overlay(PokeWithEmoji, { email: selected.email });
+                }}
+              >
+                이모티콘 찌르기 😊
+              </button>
+            )}
+            <button
+              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300`}
+              disabled={selected === null || isLoading || isMutating}
+              onClick={
+                pokeOptionOpen
+                  ? () =>
+                      typeof selected?.email === "string" &&
+                      void trigger({
+                        email: selected.email,
+                        payload: { type: "normal" },
+                      }).then(() => {
+                        setSelected(null);
+                        setPokeOptionOpen(false);
+                      })
+                  : () => setPokeOptionOpen(true)
+              }
+            >
+              {pokeOptionOpen && "바로 "}콕 찌르기 👉
+            </button>
+          </div>
         </div>
       </div>
       <DomainBottomNavigation />

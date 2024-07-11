@@ -31,20 +31,6 @@ export class MateController {
     private pushService: PushService,
   ) {}
 
-  @Post('relation')
-  async createRelation(
-    @User() user: JwtPayload,
-    @Body() requestRelationDto: RequestRelationDto,
-  ) {
-    const { id: fromUserId } = user;
-    const { id: toUserId } = await this.userService.getUser({
-      email: requestRelationDto.email,
-    });
-
-    const made = await this.mateService.createRelation(fromUserId, toUserId);
-    return made;
-  }
-
   @Post('poke')
   @HttpCode(HttpStatus.CREATED)
   async pokeMate(
@@ -56,11 +42,18 @@ export class MateController {
       email: requestRelationDto.email,
     });
 
-    await this.mateService.pokeMate(fromUserId, toUserId);
+    await this.mateService.pokeMate(
+      fromUserId,
+      toUserId,
+      requestRelationDto.payload,
+    );
     if (pushSubscription !== null) {
       this.pushService.sendPushNotification(toUserId, {
-        title: '요기콕콕!',
-        body: `@${email}님이 회원님을 콕 찔렀어요!`,
+        title: `@${email}`,
+        body:
+          requestRelationDto.payload.type === 'normal'
+            ? `콕!`
+            : requestRelationDto.payload.message,
       });
     }
   }

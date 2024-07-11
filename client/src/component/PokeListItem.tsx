@@ -1,29 +1,67 @@
 import { useRouter } from "router2";
 
 import { usePoke } from "../hook/usePoke";
-import { eventPokeProps } from "../service/event/firstFive";
+import { Poke, User } from "../service/dataType";
 import { getReadableDateOffset } from "../service/util";
 
 interface PocketListItemProps {
   type: "poke" | "poked";
-  targetUserName: string;
-  targetUserEmail: string;
-  targetUserProfileImageUrl: string | null;
+  targetUser: User;
   date: string;
   animation: {
     delayTimes: number;
   } | null;
+  payload: Poke["payload"];
 }
+
+const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
+  <p className="text-sm text-zinc-800">
+    회원님이 <span className="font-semibold">{targetUserName}</span>
+    님을 콕 찔렀습니다
+  </p>
+);
+
+const NormalPokedBody = ({ targetUserName }: { targetUserName: string }) => (
+  <p className="text-sm text-zinc-800">
+    <span className="font-semibold">{targetUserName}</span>님이 회원님을 콕
+    찔렀습니다
+  </p>
+);
+
+const EmojiPokeBody = ({
+  targetUserName,
+  message,
+}: {
+  targetUserName: string;
+  message: string;
+}) => (
+  <p className="text-sm text-zinc-800">
+    회원님이 <span className="font-semibold">{targetUserName}</span>
+    님에게 메세지를 보냈습니다: {message}
+  </p>
+);
+
+const EmojiPokedBody = ({
+  targetUserName,
+  message,
+}: {
+  targetUserName: string;
+  message: string;
+}) => (
+  <p className="text-sm text-zinc-800">
+    <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+    메세지를 보냈습니다: {message}
+  </p>
+);
 
 export const PokeListItem = ({
   type,
-  targetUserEmail,
-  targetUserName,
-  targetUserProfileImageUrl,
+  targetUser,
   date,
   animation,
+  payload,
 }: PocketListItemProps) => {
-  const { trigger, isMutating } = usePoke(eventPokeProps);
+  const { trigger, isMutating } = usePoke();
   const { navigate } = useRouter();
   return (
     <div
@@ -37,48 +75,52 @@ export const PokeListItem = ({
     >
       <div className="flex">
         <img
-          alt={`${targetUserName} 프로필 이미지`}
+          alt={`${targetUser.name} 프로필 이미지`}
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
-          src={targetUserProfileImageUrl ?? "/asset/default_user_profile.png"}
+          src={targetUser.profileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-4 flex-1">
           <p className="relative font-medium">
             <span
               role="link"
               onClick={() => {
-                navigate({ pathname: `/user/${targetUserEmail}` });
+                navigate({ pathname: `/user/${targetUser.email}` });
               }}
             >
-              @{targetUserEmail}
+              @{targetUser.email}
             </span>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
               {getReadableDateOffset(date)}
             </span>
           </p>
-          <p className="text-sm text-zinc-800">
-            {
-              {
-                poked: (
-                  <>
-                    <span className="font-semibold">{targetUserName}</span>님이
-                    회원님을 콕 찔렀습니다
-                  </>
-                ),
-                poke: (
-                  <>
-                    회원님이{" "}
-                    <span className="font-semibold">{targetUserName}</span>님을
-                    콕 찔렀습니다
-                  </>
-                ),
-              }[type]
-            }
-          </p>
+          {payload.type === "normal" && type === "poke" && (
+            <NormalPokeBody targetUserName={targetUser.name} />
+          )}
+          {payload.type === "normal" && type === "poked" && (
+            <NormalPokedBody targetUserName={targetUser.name} />
+          )}
+          {payload.type === "emoji" && type === "poke" && (
+            <EmojiPokeBody
+              message={payload.message}
+              targetUserName={targetUser.name}
+            />
+          )}
+          {payload.type === "emoji" && type === "poked" && (
+            <EmojiPokedBody
+              message={payload.message}
+              targetUserName={targetUser.name}
+            />
+          )}
           {type === "poked" && (
             <button
               className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
               disabled={isMutating}
-              onClick={() => void trigger({ email: targetUserEmail })}
+              onClick={() =>
+                void trigger({
+                  email: targetUser.email,
+                  payload: { type: "normal" },
+                })
+              }
             >
               나도 콕! 찌르기 👉
             </button>
