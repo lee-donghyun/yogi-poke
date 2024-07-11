@@ -75,6 +75,7 @@ export class UserController {
     return this.userService.getUserList(
       { email: param.email, ids: param.ids },
       { limit: param.limit ?? 20, page: param.page ?? 1 },
+      param.orderBy ?? 'desc',
       userPayload.id,
     );
   }

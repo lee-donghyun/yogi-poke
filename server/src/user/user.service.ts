@@ -113,6 +113,7 @@ export class UserService {
   async getUserList(
     { email, ids }: { email?: string; ids?: number[] },
     { limit, page }: Pagination,
+    orderBy: Prisma.SortOrder,
     selfId?: number,
   ) {
     return this.db.user.findMany({
@@ -145,6 +146,7 @@ export class UserService {
         name: true,
         profileImageUrl: true,
       },
+      orderBy: { id: orderBy },
     });
   }
 }
