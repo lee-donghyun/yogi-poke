@@ -31,7 +31,10 @@ export const pwaHelpUrl = switch_<Platform, string>(platform)
   );
 
 const iosInstruction = () => (
-  <div className="max-h-[40vh] overflow-y-scroll p-5 pb-32">
+  <div
+    data-allow-touch-move-on-stacked-layer
+    className="max-h-[40vh] overflow-y-scroll p-5 pb-32"
+  >
     <h3 className="font-semibold text-zinc-800">
       홈 화면에 요기콕콕! 설치하기
     </h3>

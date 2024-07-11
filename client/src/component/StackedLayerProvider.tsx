@@ -20,6 +20,9 @@ interface Push {
   (Component: Layer<never>): void;
 }
 
+const TOUCH_MOVE_ALLOW_ATTRIBUTE = "allow-touch-move-on-stacked-layer";
+const TOUCH_MOVE_DEPTH = 3;
+
 const stackedLayerContext = createContext<Push>(() => {
   throw new Error(
     "useStackedLayer hook must be called in StackedLayerProvider context",
@@ -43,7 +46,20 @@ export const StackedLayerProvider = ({
     setShow(true);
     setContext(context as never);
     if (childrenContainerRef.current) {
-      disableBodyScroll(childrenContainerRef.current);
+      disableBodyScroll(childrenContainerRef.current, {
+        allowTouchMove: (el) => {
+          let depth = 0;
+          let target = el as HTMLElement | null;
+          while (target && depth < TOUCH_MOVE_DEPTH) {
+            if (target.dataset[TOUCH_MOVE_ALLOW_ATTRIBUTE]) {
+              return true;
+            }
+            target = target.parentElement;
+            depth++;
+          }
+          return false;
+        },
+      });
     }
   }, []) as Push;
   const pop = useCallback(() => {
@@ -93,6 +109,14 @@ export const StackedLayerProvider = ({
 
 export const createLayer = (Layer: Layer): Layer<never> => Layer;
 
+/**
+ * 내부에서 스크롤을 하려면, data-allow-touch-move-on-stacked-layer 속성을 추가합니다.
+ * TOUCH_MOVE_DEPTH 단계까지 부모 요소를 탐색하여 해당 속성이 있는지 확인합니다.
+ * @example
+ * <div data-allow-touch-move-on-stacked-layer>
+ *  {스크롤 가능}
+ * </div>
+ */
 export const createDraggableSheet = <Context extends object = never>(
   Layer: Layer<Context>,
 ) => {
