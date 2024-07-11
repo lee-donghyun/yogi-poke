@@ -1,23 +1,27 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsInt, IsOptional } from 'class-validator';
+import { IsArray, IsIn, IsInt, IsOptional } from 'class-validator';
 
 export class GetUserListParamDto {
   @IsInt()
   @Type(() => Number)
   @IsOptional()
-  limit: number;
+  limit?: number;
+
+  @IsOptional()
+  @IsIn(['asc', 'desc'])
+  orderBy: 'asc' | 'desc';
 
   @IsInt()
   @Type(() => Number)
   @IsOptional()
-  page: number;
+  page?: number;
 
   @IsOptional()
-  email: string;
+  email?: string;
 
   @IsArray()
   @Type(() => Number)
   @IsInt({ each: true })
   @IsOptional()
-  ids: number[];
+  ids?: number[];
 }
