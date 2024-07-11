@@ -13,8 +13,10 @@ Nest.js로 만든 서버 앱이다. database와 storage는 도커 이미지를 �
 서버 구성 시 최초 한 번만 실행한다.
 
 ```sh
+docker volume create yogi_poke_db
 docker create \
     --name yogi_poke_db \
+    -v yogi_poke_db:/var/lib/postgresql/data \
     -p 5432:5432 \
     -e POSTGRES_PASSWORD=환경변수_참고 \
     postgres:latest
@@ -37,14 +39,12 @@ docker start yogi_poke_db
 서버 구성 시 최초 한 번만 실행한다.
 
 ```sh
-# 도커 이미지와 별개로 저장할 디렉토리
-mkdir ~/yogi_poke_storage/data
-
+docker volume create yogi_poke_storage
 docker create \
    -p 9000:9000 \
    -p 9001:9001 \
    --name yogi_poke_storage \
-   -v ~/yogi_poke_storage/data:/data \
+   -v yogi_poke_storage:/data \
    -e "MINIO_ROOT_USER=환경변수_참고" \
    -e "MINIO_ROOT_PASSWORD=환경변수_참고" \
    minio/minio:latest server /data --console-address ":9001"
