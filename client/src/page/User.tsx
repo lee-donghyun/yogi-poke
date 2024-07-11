@@ -12,7 +12,6 @@ import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { usePoke } from "../hook/usePoke";
 import { LIKE_PERSIST_KEY } from "../service/const";
-import { eventPokeProps } from "../service/event/firstFive";
 
 export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 export const MINUTE_IN_UNIX = 1000 * 60;
@@ -39,7 +38,7 @@ export const User = () => {
   const { params } = useRouter();
   const userEmail = params[":userId"];
   const push = useNotification();
-  const { trigger, isMutating } = usePoke(eventPokeProps);
+  const { trigger, isMutating } = usePoke();
 
   const { data, mutate: mutateUser } = useSWR<UserData>([`/user/${userEmail}`]);
 
@@ -121,9 +120,10 @@ export const User = () => {
           className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={!isPokable || isLoading || isMutating}
           onClick={() =>
-            void trigger({ email: userEmail }).then(() =>
-              Promise.allSettled([mutateUserPoke(), mutateUser()]),
-            )
+            void trigger({
+              email: userEmail,
+              payload: { type: "normal" },
+            }).then(() => Promise.allSettled([mutateUserPoke(), mutateUser()]))
           }
         >
           콕 찌르기 👉

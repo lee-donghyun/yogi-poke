@@ -17,6 +17,7 @@ import {
 } from "../component/StackedLayerProvider";
 import { Stat } from "../component/Stat";
 import { useIntersectionObserver } from "../hook/useIntersectionObserver";
+import { Poke } from "../service/dataType";
 import { SharedProfile } from "./SharedProfile";
 import { UpdateMyInfo } from "./UpdateMyInfo";
 
@@ -43,29 +44,6 @@ const MenuSheet = createDraggableSheet(({ close }) => {
     </div>
   );
 });
-
-interface Poke {
-  id: number;
-  createdAt: string;
-  fromUserId: number;
-  toUserId: number;
-  relation: Relation;
-}
-
-interface Relation {
-  fromUserId: number;
-  toUserId: number;
-  isAccepted: boolean;
-  fromUser: User;
-  toUser: User;
-}
-
-interface User {
-  email: string;
-  id: number;
-  name: string;
-  profileImageUrl: null | string;
-}
 
 const POKE_LIST_LIMIT = 20;
 
@@ -167,7 +145,10 @@ export const MyPage = () => {
           {data
             ?.map((pokes, pageIndex) =>
               pokes.map(
-                ({ createdAt, id, relation: { fromUser, toUser } }, index) => {
+                (
+                  { createdAt, id, relation: { fromUser, toUser }, payload },
+                  index,
+                ) => {
                   const type = fromUser.id === myInfo?.id ? "poke" : "poked";
                   const targetUser = {
                     poke: toUser,
@@ -182,9 +163,8 @@ export const MyPage = () => {
                       key={id}
                       animation={animation}
                       date={createdAt}
-                      targetUserEmail={targetUser.email}
-                      targetUserName={targetUser.name}
-                      targetUserProfileImageUrl={targetUser.profileImageUrl}
+                      payload={payload}
+                      targetUser={targetUser}
                       type={type}
                     />
                   );

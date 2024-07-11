@@ -3,6 +3,7 @@ import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
 import { useNotification } from "../component/Notification";
+import { createLayer } from "../component/StackedLayerProvider";
 import { yogiPokeApi } from "../service/api";
 
 interface Form {
@@ -15,7 +16,7 @@ const FORM_NAME = {
   NAME: "name",
 };
 
-export const UpdateMyInfo = ({ close }: { close: () => void }) => {
+export const UpdateMyInfo = createLayer(({ close }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const push = useNotification();
   const { myInfo, patchUser } = useUser();
@@ -119,4 +120,4 @@ export const UpdateMyInfo = ({ close }: { close: () => void }) => {
       </form>
     </div>
   );
-};
+});

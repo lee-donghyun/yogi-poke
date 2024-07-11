@@ -20,7 +20,7 @@ export const QrScannerSheet = createDraggableSheet(({ close }) => {
   return (
     <div className="p-5 pb-32">
       <p className="text-lg font-semibold text-zinc-800">QR 코드 스캔</p>
-      <p className="pt-3 text-zinc-600">
+      <p className="pt-3 text-sm text-zinc-600">
         상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요.
       </p>
       <div className="pt-7"></div>
