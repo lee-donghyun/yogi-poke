@@ -14,6 +14,46 @@ interface PocketListItemProps {
   payload: Poke["payload"];
 }
 
+const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
+  <p className="text-sm text-zinc-800">
+    회원님이 <span className="font-semibold">{targetUserName}</span>
+    님을 콕 찔렀습니다
+  </p>
+);
+
+const NormalPokedBody = ({ targetUserName }: { targetUserName: string }) => (
+  <p className="text-sm text-zinc-800">
+    <span className="font-semibold">{targetUserName}</span>님이 회원님을 콕
+    찔렀습니다
+  </p>
+);
+
+const EmojiPokeBody = ({
+  targetUserName,
+  message,
+}: {
+  targetUserName: string;
+  message: string;
+}) => (
+  <p className="text-sm text-zinc-800">
+    회원님이 <span className="font-semibold">{targetUserName}</span>
+    님에게 메세지를 보냈습니다: {message}
+  </p>
+);
+
+const EmojiPokedBody = ({
+  targetUserName,
+  message,
+}: {
+  targetUserName: string;
+  message: string;
+}) => (
+  <p className="text-sm text-zinc-800">
+    <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+    메세지를 보냈습니다: {message}
+  </p>
+);
+
 export const PokeListItem = ({
   type,
   targetUser,
@@ -53,25 +93,24 @@ export const PokeListItem = ({
               {getReadableDateOffset(date)}
             </span>
           </p>
-          <p className="text-sm text-zinc-800">
-            {
-              {
-                poked: (
-                  <>
-                    <span className="font-semibold">{targetUser.name}</span>님이
-                    회원님을 콕 찔렀습니다
-                  </>
-                ),
-                poke: (
-                  <>
-                    회원님이{" "}
-                    <span className="font-semibold">{targetUser.name}</span>님을
-                    콕 찔렀습니다
-                  </>
-                ),
-              }[type]
-            }
-          </p>
+          {payload.type === "normal" && type === "poke" && (
+            <NormalPokeBody targetUserName={targetUser.name} />
+          )}
+          {payload.type === "normal" && type === "poked" && (
+            <NormalPokedBody targetUserName={targetUser.name} />
+          )}
+          {payload.type === "emoji" && type === "poke" && (
+            <EmojiPokeBody
+              message={payload.message}
+              targetUserName={targetUser.name}
+            />
+          )}
+          {payload.type === "emoji" && type === "poked" && (
+            <EmojiPokedBody
+              message={payload.message}
+              targetUserName={targetUser.name}
+            />
+          )}
           {type === "poked" && (
             <button
               className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
