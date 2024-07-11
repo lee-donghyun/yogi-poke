@@ -41,12 +41,25 @@ const iosInstruction = () => (
     </p>
     <ol className="list-decimal pl-5 pt-3 text-sm text-zinc-600">
       <li>
+        <span className="font-semibold">Safari</span> 브라우저를 열고{" "}
+        <a
+          className="text-blue-500"
+          href="https://yogi-poke.vercel.app?mtag=1"
+          rel="noreferrer"
+          target="_blank"
+        >
+          요기콕콕! 웹 사이트
+        </a>
+        로 이동합니다.
+      </li>
+      <li>
         웹 사이트를 보는 동안 메뉴 막대에서{" "}
         <ArrowUpOnSquare className="inline-block size-5 text-blue-500" />을
         탭하십시오.
       </li>
       <li className="mt-2">
-        옵션 목록을 아래로 스크롤한 다음, ‘홈 화면에 추가’를 탭하십시오.
+        옵션 목록을 아래로 스크롤한 다음,{" "}
+        <span className="font-semibold">홈 화면에 추가</span>를 탭하십시오.
       </li>
     </ol>
     <img
