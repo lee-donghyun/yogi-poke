@@ -61,7 +61,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
             {data?.map((emoji, i) => (
               <button
                 key={i}
-                className="rounded-full p-1 duration-100 active:scale-90 active:opacity-70"
+                className="size-11 rounded-full duration-100 active:scale-90 active:opacity-70"
                 type="button"
                 onClick={() => {
                   setInput((p) => [...p, emoji].slice(-MESSAGE_LENGTH));
