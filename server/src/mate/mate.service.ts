@@ -86,6 +86,7 @@ export class MateService {
         createdAt: true,
         realtionFromUserId: true,
         realtionToUserId: true,
+        payload: true,
         relation: {
           select: {
             fromUser: {
