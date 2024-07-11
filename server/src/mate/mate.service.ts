@@ -29,7 +29,7 @@ export class MateService {
     return made;
   }
 
-  async pokeMate(fromUserId: number, toUserId: number) {
+  async pokeMate(fromUserId: number, toUserId: number, payload: object) {
     const relation = await this.getRelation(fromUserId, toUserId);
     if (relation?.isAccepted === false) {
       throw new HttpException('Blocked relation', HttpStatus.FORBIDDEN);
@@ -61,6 +61,7 @@ export class MateService {
       data: {
         realtionFromUserId: fromUserId,
         realtionToUserId: toUserId,
+        payload,
       },
     });
   }
@@ -85,6 +86,7 @@ export class MateService {
         createdAt: true,
         realtionFromUserId: true,
         realtionToUserId: true,
+        payload: true,
         relation: {
           select: {
             fromUser: {
