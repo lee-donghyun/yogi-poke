@@ -61,6 +61,7 @@ export class DocumentUtilService {
       return this.getRawDocument({
         title: '요기콕콕!',
         image: '/asset/logo.png',
+        url: 'https://yogi-poke.vercel.app',
       });
     }
 
@@ -82,10 +83,11 @@ export class DocumentUtilService {
     return this.getRawDocument({
       title: `${user.name}님을 콕 찔러보세요.`,
       image: ogImageUrl,
+      url: `https://yogi-poke.vercel.app/me/${user.email}`,
     });
   }
 
-  private getRawDocument(og: { title: string; image: string }) {
+  private getRawDocument(og: { title: string; image: string; url: string }) {
     return `<!DOCTYPE html>
     <html lang="ko">
       <head>
@@ -93,7 +95,7 @@ export class DocumentUtilService {
         <title>요기콕콕!</title>
         <meta property="og:title" content="${og.title}">
         <meta property="og:site_name" content="요기콕콕!">
-        <meta property="og:url" content="https://yogi-poke.vercel.app">
+        <meta property="og:url" content="${og.url}">
         <meta property="og:description" content="링크를 눌러서 요기콕콕!앱을 설치하세요.">
         <meta property="og:type" content="profile">
         <meta property="og:image" content="${og.image}">
