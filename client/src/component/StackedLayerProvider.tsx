@@ -99,6 +99,8 @@ export const createDraggableSheet = <Context extends object = never>(
   if (import.meta.env.DEV) {
     console.warn("DraggableSheet is created. This must be created once.");
   }
+  // react-essentials 패키지에서 해당 rule 개선 필요
+  // eslint-disable-next-line react/prop-types
   const DraggableSheet: Layer<Context> = ({ close, context }) => {
     const startPointRef = useRef({ x: 0, y: 0 });
     const [translate, setTranslate] = useState<null | { x: number; y: number }>(
