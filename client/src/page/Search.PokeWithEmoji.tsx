@@ -53,7 +53,10 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
             />
           ))}
         </div>
-        <div className="overflow-x-scroll pt-7">
+        <div
+          data-allow-touch-move-on-stacked-layer
+          className="overflow-x-scroll pt-7"
+        >
           <div className="grid grid-flow-col grid-rows-5 gap-1 px-5 text-3xl">
             {data?.map((emoji, i) => (
               <button

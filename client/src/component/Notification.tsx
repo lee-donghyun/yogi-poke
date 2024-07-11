@@ -62,7 +62,7 @@ export const NotificationProvider = ({
             {data.map((n, i) => (
               <div
                 key={n.id}
-                className={`absolute inset-x-5 top-5 rounded-xl p-5 shadow-lg backdrop-blur backdrop-brightness-95 duration-300 ${
+                className={`absolute inset-x-5 top-5 rounded-xl bg-white/70 p-5 shadow-lg backdrop-blur backdrop-brightness-95 duration-300 ${
                   cursor === i * 2 ? "from-top" : "to-top"
                 }`}
               >

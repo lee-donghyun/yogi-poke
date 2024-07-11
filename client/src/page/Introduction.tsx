@@ -65,6 +65,7 @@ export const Introduction = () => {
         {[
           "/preview/home.png",
           "/preview/user.png",
+          "/preview/emoji.png",
           "/preview/like.png",
           "/preview/notification.png",
           "/preview/profile-qr.png",
