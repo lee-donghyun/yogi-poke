@@ -135,8 +135,8 @@ export const Search = () => {
                   ? () =>
                       typeof selected?.email === "string" &&
                       void trigger({
-                        type: "normal",
                         email: selected.email,
+                        payload: { type: "normal" },
                       }).then(() => {
                         setSelected(null);
                         setPokeOptionOpen(false);

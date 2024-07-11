@@ -77,8 +77,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
             onClick={() =>
               void trigger({
                 email: context.email,
-                type: "emoji",
-                message: input.join(""),
+                payload: { type: "emoji", message: input.join("") },
               }).then(close)
             }
           >
