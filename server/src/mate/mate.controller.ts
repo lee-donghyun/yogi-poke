@@ -49,8 +49,11 @@ export class MateController {
     );
     if (pushSubscription !== null) {
       this.pushService.sendPushNotification(toUserId, {
-        title: '요기콕콕!',
-        body: `@${email}님이 회원님을 콕 찔렀어요!`,
+        title: `@${email}`,
+        body:
+          requestRelationDto.payload.type === 'normal'
+            ? `콕!`
+            : requestRelationDto.payload.message,
       });
     }
   }
