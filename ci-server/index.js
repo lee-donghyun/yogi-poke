@@ -50,11 +50,6 @@ app.get("/deploy-server-container", async (req, res) => {
         console.log("Container not found to remove");
       });
 
-    console.log("Pruning images");
-    await docker.pruneImages().then((result) => {
-      console.log("Pruned", result);
-    });
-
     console.log("Creating and starting a new container");
     const newContainer = await docker.createContainer({
       Image: BODY.image_name,
@@ -64,6 +59,12 @@ app.get("/deploy-server-container", async (req, res) => {
         PortBindings: BODY.ports,
       },
     });
+
+    console.log("Pruning images");
+    await docker.pruneImages().then((result) => {
+      console.log("Pruned", result);
+    });
+
     await newContainer.start();
     console.log("Container started");
   } catch (error) {
