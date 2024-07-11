@@ -1,26 +1,25 @@
 import { useRouter } from "router2";
 
 import { usePoke } from "../hook/usePoke";
+import { Poke, User } from "../service/dataType";
 import { getReadableDateOffset } from "../service/util";
 
 interface PocketListItemProps {
   type: "poke" | "poked";
-  targetUserName: string;
-  targetUserEmail: string;
-  targetUserProfileImageUrl: string | null;
+  targetUser: User;
   date: string;
   animation: {
     delayTimes: number;
   } | null;
+  payload: Poke["payload"];
 }
 
 export const PokeListItem = ({
   type,
-  targetUserEmail,
-  targetUserName,
-  targetUserProfileImageUrl,
+  targetUser,
   date,
   animation,
+  payload,
 }: PocketListItemProps) => {
   const { trigger, isMutating } = usePoke();
   const { navigate } = useRouter();
@@ -36,19 +35,19 @@ export const PokeListItem = ({
     >
       <div className="flex">
         <img
-          alt={`${targetUserName} 프로필 이미지`}
+          alt={`${targetUser.name} 프로필 이미지`}
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
-          src={targetUserProfileImageUrl ?? "/asset/default_user_profile.png"}
+          src={targetUser.profileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-4 flex-1">
           <p className="relative font-medium">
             <span
               role="link"
               onClick={() => {
-                navigate({ pathname: `/user/${targetUserEmail}` });
+                navigate({ pathname: `/user/${targetUser.email}` });
               }}
             >
-              @{targetUserEmail}
+              @{targetUser.email}
             </span>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
               {getReadableDateOffset(date)}
@@ -59,14 +58,14 @@ export const PokeListItem = ({
               {
                 poked: (
                   <>
-                    <span className="font-semibold">{targetUserName}</span>님이
+                    <span className="font-semibold">{targetUser.name}</span>님이
                     회원님을 콕 찔렀습니다
                   </>
                 ),
                 poke: (
                   <>
                     회원님이{" "}
-                    <span className="font-semibold">{targetUserName}</span>님을
+                    <span className="font-semibold">{targetUser.name}</span>님을
                     콕 찔렀습니다
                   </>
                 ),
@@ -79,7 +78,7 @@ export const PokeListItem = ({
               disabled={isMutating}
               onClick={() =>
                 void trigger({
-                  email: targetUserEmail,
+                  email: targetUser.email,
                   payload: { type: "normal" },
                 })
               }

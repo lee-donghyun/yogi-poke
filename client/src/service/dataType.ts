@@ -15,3 +15,20 @@ export interface User {
   name: string;
   profileImageUrl: string | null;
 }
+
+export interface Poke {
+  id: number;
+  payload: { type: "normal" } | { type: "emoji"; message: string };
+  createdAt: string;
+  fromUserId: number;
+  toUserId: number;
+  relation: Relation;
+}
+
+export interface Relation {
+  fromUserId: number;
+  toUserId: number;
+  isAccepted: boolean;
+  fromUser: User;
+  toUser: User;
+}
