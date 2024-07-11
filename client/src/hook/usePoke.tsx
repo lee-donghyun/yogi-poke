@@ -14,13 +14,15 @@ interface PokeError {
 
 interface NormalPokePayload {
   type: "normal";
-  email: string;
 }
 
 interface EmojiPokePayload {
   type: "emoji";
-  email: string;
   message: string;
+}
+interface PokePayload {
+  email: string;
+  payload: NormalPokePayload | EmojiPokePayload;
 }
 
 export const usePoke = (
@@ -43,7 +45,7 @@ export const usePoke = (
   const { refreshUser, myInfo } = useUser();
   return useSWRMutation(
     "/mate/poke",
-    (key, { arg }: { arg: NormalPokePayload | EmojiPokePayload }) =>
+    (key, { arg }: { arg: PokePayload }) =>
       yogiPokeApi
         .post(key, arg)
         .then(() => arg.email)

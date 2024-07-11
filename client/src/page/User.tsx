@@ -120,9 +120,10 @@ export const User = () => {
           className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={!isPokable || isLoading || isMutating}
           onClick={() =>
-            void trigger({ email: userEmail, type: "normal" }).then(() =>
-              Promise.allSettled([mutateUserPoke(), mutateUser()]),
-            )
+            void trigger({
+              email: userEmail,
+              payload: { type: "normal" },
+            }).then(() => Promise.allSettled([mutateUserPoke(), mutateUser()]))
           }
         >
           콕 찌르기 👉

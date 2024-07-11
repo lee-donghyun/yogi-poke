@@ -78,7 +78,10 @@ export const PokeListItem = ({
               className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
               disabled={isMutating}
               onClick={() =>
-                void trigger({ email: targetUserEmail, type: "normal" })
+                void trigger({
+                  email: targetUserEmail,
+                  payload: { type: "normal" },
+                })
               }
             >
               나도 콕! 찌르기 👉
