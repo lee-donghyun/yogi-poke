@@ -30,31 +30,37 @@ export class MateService {
   }
 
   async pokeMate(fromUserId: number, toUserId: number, payload: object) {
-    const relation = await this.getRelation(fromUserId, toUserId);
-    if (relation?.isAccepted === false) {
-      throw new HttpException('Blocked relation', HttpStatus.FORBIDDEN);
-    } else if (relation?.isAccepted === undefined) {
+    const fromRelation = await this.getRelation(fromUserId, toUserId);
+    if (fromRelation?.isAccepted === false) {
+      throw new HttpException('차단한 사용자입니다.', HttpStatus.FORBIDDEN);
+    }
+    if (fromRelation?.isAccepted === undefined) {
       await this.createRelation(fromUserId, toUserId);
-    } else {
-      if (
-        await this.db.poke
-          .findFirst({
-            where: {
-              OR: [
-                { realtionFromUserId: fromUserId, realtionToUserId: toUserId },
-                { realtionFromUserId: toUserId, realtionToUserId: fromUserId },
-              ],
-            },
-            orderBy: [{ id: 'desc' }],
-          })
-          .then(
-            (row) =>
-              row?.realtionFromUserId === fromUserId &&
-              this.dateUtilService.getDiffDays(row.createdAt, Date.now()) < 1,
-          )
-      ) {
-        throw new HttpException('Already poked', HttpStatus.CONFLICT);
-      }
+    }
+
+    const toRelation = await this.getRelation(toUserId, fromUserId);
+    if (toRelation?.isAccepted === false) {
+      throw new HttpException('차단당한 사용자입니다.', HttpStatus.FORBIDDEN);
+    }
+
+    if (
+      await this.db.poke
+        .findFirst({
+          where: {
+            OR: [
+              { realtionFromUserId: fromUserId, realtionToUserId: toUserId },
+              { realtionFromUserId: toUserId, realtionToUserId: fromUserId },
+            ],
+          },
+          orderBy: [{ id: 'desc' }],
+        })
+        .then(
+          (row) =>
+            row?.realtionFromUserId === fromUserId &&
+            this.dateUtilService.getDiffDays(row.createdAt, Date.now()) < 1,
+        )
+    ) {
+      throw new HttpException('Already poked', HttpStatus.CONFLICT);
     }
 
     await this.db.poke.create({
@@ -66,7 +72,7 @@ export class MateService {
     });
   }
 
-  getRelatedPokesList = async (userId: number, { limit, page }: Pagination) => {
+  async getRelatedPokesList(userId: number, { limit, page }: Pagination) {
     return this.db.poke.findMany({
       skip: limit * (page - 1),
       take: limit,
@@ -109,7 +115,7 @@ export class MateService {
         },
       },
     });
-  };
+  }
 
   getUserRelatedPokeList = async (
     userId1: number,
