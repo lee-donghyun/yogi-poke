@@ -14,8 +14,10 @@ import { User } from "../service/dataType";
 export const Like = () => {
   const { navigate } = useRouter();
   const [likes] = useLocalStorage(LIKE_PERSIST_KEY, []);
-  const noLikes = likes.length === 0;
-  const { data } = useSWR<User[]>(!noLikes ? ["/user", { ids: likes }] : null);
+  const { data } = useSWR<User[]>(
+    !(likes.length === 0) ? ["/user", { ids: likes }] : null,
+  );
+  const noLikes = likes.length === 0 || data?.length === 0;
   const dataUpdatedAt = useCreatedAt(data);
   const prev = useRef(data);
 
