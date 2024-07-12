@@ -57,6 +57,11 @@ export const User = () => {
         push({ content: "사용자를 차단했습니다." });
         history.back();
       }),
+    {
+      onError: () => {
+        push({ content: "다시 시도해주세요." });
+      },
+    },
   );
 
   const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
