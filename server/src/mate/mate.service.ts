@@ -10,10 +10,8 @@ export class MateService {
     private dateUtilService: DateUtilService,
   ) {}
   async getRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.db.relation.findUnique({
-      where: {
-        fromUserId_toUserId: { fromUserId, toUserId },
-      },
+    const relation = await this.db.relation.findFirst({
+      where: { fromUserId, toUserId },
     });
     return relation;
   }
@@ -30,16 +28,19 @@ export class MateService {
   }
 
   async pokeMate(fromUserId: number, toUserId: number, payload: object) {
-    const fromRelation = await this.getRelation(fromUserId, toUserId);
-    if (fromRelation?.isAccepted === false) {
+    const relation =
+      (await this.getRelation(fromUserId, toUserId)) ??
+      (await this.createRelation(fromUserId, toUserId));
+
+    if (relation?.isAccepted === false) {
       throw new HttpException('차단한 사용자입니다.', HttpStatus.FORBIDDEN);
     }
-    if (fromRelation?.isAccepted === undefined) {
-      await this.createRelation(fromUserId, toUserId);
-    }
 
-    const toRelation = await this.getRelation(toUserId, fromUserId);
-    if (toRelation?.isAccepted === false) {
+    const reverseRelation =
+      (await this.getRelation(toUserId, fromUserId)) ??
+      (await this.createRelation(toUserId, fromUserId));
+
+    if (reverseRelation?.isAccepted === false) {
       throw new HttpException('차단당한 사용자입니다.', HttpStatus.FORBIDDEN);
     }
 
@@ -48,15 +49,15 @@ export class MateService {
         .findFirst({
           where: {
             OR: [
-              { relationFromUserId: fromUserId, relationToUserId: toUserId },
-              { relationFromUserId: toUserId, relationToUserId: fromUserId },
+              { fromUserId, toUserId },
+              { toUserId, fromUserId },
             ],
           },
           orderBy: [{ id: 'desc' }],
         })
         .then(
           (row) =>
-            row?.relationFromUserId === fromUserId &&
+            row?.fromUserId === fromUserId &&
             this.dateUtilService.getDiffDays(row.createdAt, Date.now()) < 1,
         )
     ) {
@@ -65,9 +66,11 @@ export class MateService {
 
     await this.db.poke.create({
       data: {
-        relationFromUserId: fromUserId,
-        relationToUserId: toUserId,
+        fromUserId,
+        toUserId,
         payload,
+        relationId: relation.id,
+        reverseRelationId: reverseRelation.id,
       },
     });
   }
@@ -80,18 +83,18 @@ export class MateService {
       where: {
         OR: [
           {
-            relationFromUserId: userId,
+            fromUserId: userId,
+            relation: { isAccepted: true },
           },
           {
-            relationToUserId: userId,
+            toUserId: userId,
+            reverseRelation: { isAccepted: true },
           },
         ],
       },
       select: {
         id: true,
         createdAt: true,
-        relationFromUserId: true,
-        relationToUserId: true,
         payload: true,
         relation: {
           select: {
@@ -117,30 +120,6 @@ export class MateService {
     });
   }
 
-  getUserRelatedPokeList = async (
-    userId1: number,
-    userId2: number,
-    { limit, page }: Pagination,
-  ) => {
-    return this.db.poke.findMany({
-      skip: limit * (page - 1),
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-      where: {
-        OR: [
-          {
-            relationFromUserId: userId1,
-            relationToUserId: userId2,
-          },
-          {
-            relationFromUserId: userId2,
-            relationToUserId: userId1,
-          },
-        ],
-      },
-    });
-  };
-
   async getPokedCount({
     fromUserId,
     toUserId,
@@ -149,10 +128,7 @@ export class MateService {
     toUserId?: number;
   }) {
     return this.db.poke.count({
-      where: {
-        relationFromUserId: fromUserId,
-        relationToUserId: toUserId,
-      },
+      where: { fromUserId, toUserId },
     });
   }
 }

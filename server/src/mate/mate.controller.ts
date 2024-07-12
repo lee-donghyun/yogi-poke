@@ -69,25 +69,4 @@ export class MateController {
     });
     return relatedPokes;
   }
-
-  @Get('poke/:email')
-  async getUserRelatedPokeList(
-    @User() user: JwtPayload,
-    @Query() query: GetUserRelatedPokeListDto,
-    @Param() param: GetUserRelatedPokeListParamDto,
-  ) {
-    const { id: userId1 } = user;
-    const { id: userId2 } = await this.userService.getUser({
-      email: param.email,
-    });
-    const relatedPokes = await this.mateService.getUserRelatedPokeList(
-      userId1,
-      userId2,
-      {
-        limit: query.limit ?? 20,
-        page: query.page ?? 1,
-      },
-    );
-    return relatedPokes;
-  }
 }
