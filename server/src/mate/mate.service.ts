@@ -152,7 +152,18 @@ export class MateService {
     toUserId?: number;
   }) {
     return this.db.poke.count({
-      where: { fromUserId, toUserId },
+      where: {
+        OR: [
+          typeof fromUserId == 'number' && {
+            fromUserId,
+            relation: { isAccepted: true },
+          },
+          typeof toUserId == 'number' && {
+            toUserId,
+            reverseRelation: { isAccepted: true },
+          },
+        ].filter(Boolean),
+      },
     });
   }
 }
