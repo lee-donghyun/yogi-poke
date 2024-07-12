@@ -28,8 +28,8 @@ interface UserData {
 interface UserPokeData {
   createdAt: string;
   id: number;
-  realtionFromUserId: number;
-  realtionToUserId: number;
+  relationFromUserId: number;
+  relationToUserId: number;
 }
 
 export const User = () => {
@@ -51,7 +51,7 @@ export const User = () => {
   const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
   const isLiked = typeof data?.id === "number" && likes.includes(data.id);
   const lastPoked =
-    pokes?.[0]?.realtionFromUserId === myInfo?.id
+    pokes?.[0]?.relationFromUserId === myInfo?.id
       ? dayjs(pokes?.[0]?.createdAt)
       : null;
   const isPokable = lastPoked ? dayjs().diff(lastPoked, "hour") >= 24 : true;
