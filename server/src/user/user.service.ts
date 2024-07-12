@@ -114,7 +114,7 @@ export class UserService {
     { email, ids, name }: { email?: string; ids?: number[]; name?: string },
     { limit, page }: Pagination,
     orderBy: Prisma.SortOrder,
-    selfId?: number,
+    selfId: number,
   ) {
     return this.db.user.findMany({
       skip: limit * (page - 1),
@@ -143,6 +143,13 @@ export class UserService {
           {
             NOT: { id: selfId },
           },
+          {
+            NOT: {
+              comingRelations: {
+                some: { fromUserId: selfId, isAccepted: false },
+              },
+            },
+          },
         ],
       },
       select: {
@@ -152,6 +159,27 @@ export class UserService {
         profileImageUrl: true,
       },
       orderBy: { id: orderBy },
+    });
+  }
+
+  async updateUserAcception(
+    isAccepted: boolean,
+    {
+      fromUserId,
+      toUserId,
+    }: {
+      fromUserId: number;
+      toUserId: number;
+    },
+  ) {
+    return this.db.relation.update({
+      where: {
+        fromUserId_toUserId: {
+          fromUserId,
+          toUserId,
+        },
+      },
+      data: { isAccepted },
     });
   }
 }

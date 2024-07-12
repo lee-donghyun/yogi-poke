@@ -10,10 +10,8 @@ export class MateService {
     private dateUtilService: DateUtilService,
   ) {}
   async getRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.db.relation.findUnique({
-      where: {
-        fromUserId_toUserId: { fromUserId, toUserId },
-      },
+    const relation = await this.db.relation.findFirst({
+      where: { fromUserId, toUserId },
     });
     return relation;
   }
@@ -30,43 +28,54 @@ export class MateService {
   }
 
   async pokeMate(fromUserId: number, toUserId: number, payload: object) {
-    const relation = await this.getRelation(fromUserId, toUserId);
+    const relation =
+      (await this.getRelation(fromUserId, toUserId)) ??
+      (await this.createRelation(fromUserId, toUserId));
+
     if (relation?.isAccepted === false) {
-      throw new HttpException('Blocked relation', HttpStatus.FORBIDDEN);
-    } else if (relation?.isAccepted === undefined) {
-      await this.createRelation(fromUserId, toUserId);
-    } else {
-      if (
-        await this.db.poke
-          .findFirst({
-            where: {
-              OR: [
-                { realtionFromUserId: fromUserId, realtionToUserId: toUserId },
-                { realtionFromUserId: toUserId, realtionToUserId: fromUserId },
-              ],
-            },
-            orderBy: [{ id: 'desc' }],
-          })
-          .then(
-            (row) =>
-              row?.realtionFromUserId === fromUserId &&
-              this.dateUtilService.getDiffDays(row.createdAt, Date.now()) < 1,
-          )
-      ) {
-        throw new HttpException('Already poked', HttpStatus.CONFLICT);
-      }
+      throw new HttpException('차단한 사용자입니다.', HttpStatus.FORBIDDEN);
+    }
+
+    const reverseRelation =
+      (await this.getRelation(toUserId, fromUserId)) ??
+      (await this.createRelation(toUserId, fromUserId));
+
+    if (reverseRelation?.isAccepted === false) {
+      throw new HttpException('차단당한 사용자입니다.', HttpStatus.FORBIDDEN);
+    }
+
+    if (
+      await this.db.poke
+        .findFirst({
+          where: {
+            OR: [
+              { fromUserId, toUserId },
+              { toUserId: fromUserId, fromUserId: toUserId },
+            ],
+          },
+          orderBy: [{ id: 'desc' }],
+        })
+        .then(
+          (row) =>
+            row?.fromUserId === fromUserId &&
+            this.dateUtilService.getDiffDays(row.createdAt, Date.now()) < 1,
+        )
+    ) {
+      throw new HttpException('Already poked', HttpStatus.CONFLICT);
     }
 
     await this.db.poke.create({
       data: {
-        realtionFromUserId: fromUserId,
-        realtionToUserId: toUserId,
+        fromUserId,
+        toUserId,
         payload,
+        relationId: relation.id,
+        reverseRelationId: reverseRelation.id,
       },
     });
   }
 
-  getRelatedPokesList = async (userId: number, { limit, page }: Pagination) => {
+  async getRelatedPokesList(userId: number, { limit, page }: Pagination) {
     return this.db.poke.findMany({
       skip: limit * (page - 1),
       take: limit,
@@ -74,18 +83,18 @@ export class MateService {
       where: {
         OR: [
           {
-            realtionFromUserId: userId,
+            fromUserId: userId,
+            relation: { isAccepted: true },
           },
           {
-            realtionToUserId: userId,
+            toUserId: userId,
+            reverseRelation: { isAccepted: true },
           },
         ],
       },
       select: {
         id: true,
         createdAt: true,
-        realtionFromUserId: true,
-        realtionToUserId: true,
         payload: true,
         relation: {
           select: {
@@ -109,13 +118,13 @@ export class MateService {
         },
       },
     });
-  };
+  }
 
-  getUserRelatedPokeList = async (
+  async getUserRelatedPokeList(
     userId1: number,
     userId2: number,
     { limit, page }: Pagination,
-  ) => {
+  ) {
     return this.db.poke.findMany({
       skip: limit * (page - 1),
       take: limit,
@@ -123,17 +132,17 @@ export class MateService {
       where: {
         OR: [
           {
-            realtionFromUserId: userId1,
-            realtionToUserId: userId2,
+            fromUserId: userId1,
+            toUserId: userId2,
           },
           {
-            realtionFromUserId: userId2,
-            realtionToUserId: userId1,
+            fromUserId: userId2,
+            toUserId: userId1,
           },
         ],
       },
     });
-  };
+  }
 
   async getPokedCount({
     fromUserId,
@@ -143,10 +152,7 @@ export class MateService {
     toUserId?: number;
   }) {
     return this.db.poke.count({
-      where: {
-        realtionFromUserId: fromUserId,
-        realtionToUserId: toUserId,
-      },
+      where: { fromUserId, toUserId },
     });
   }
 }

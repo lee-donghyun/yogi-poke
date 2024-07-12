@@ -17,27 +17,34 @@ model User {
   profileImageUrl  String?
   referrerId       Int?
 
-  goingRelations  Relation[] @relation(name: "from")
-  comingRelations Relation[] @relation(name: "to")
+  goingRelations  Relation[] @relation("from")
+  comingRelations Relation[] @relation("to")
 }
 
 model Relation {
-  fromUser   User    @relation(fields: [fromUserId], references: [id], name: "from")
+  id         Int     @id @default(autoincrement())
+  fromUser   User    @relation(name: "from", fields: [fromUserId], references: [id])
   fromUserId Int
-  toUser     User    @relation(fields: [toUserId], references: [id], name: "to")
+  toUser     User    @relation(name: "to", fields: [toUserId], references: [id])
   toUserId   Int
   isAccepted Boolean @default(true)
-  Poke       Poke[]
 
-  @@id([fromUserId, toUserId])
+  pokes  Poke[] @relation("poke")
+  pokeds Poke[] @relation("poked")
+
+  @@unique([fromUserId, toUserId])
 }
 
 model Poke {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  payload   Json
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  payload    Json
+  fromUserId Int
+  toUserId   Int
 
-  relation           Relation @relation(fields: [realtionFromUserId, realtionToUserId], references: [fromUserId, toUserId])
-  realtionFromUserId Int
-  realtionToUserId   Int
+  relationId        Int
+  reverseRelationId Int
+
+  relation        Relation @relation(name: "poke", fields: [relationId], references: [id])
+  reverseRelation Relation @relation(name: "poked", fields: [reverseRelationId], references: [id])
 }
