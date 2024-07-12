@@ -13,7 +13,6 @@ import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { usePoke } from "../hook/usePoke";
 import { User } from "../service/dataType";
-import { validator } from "../service/validator";
 import { PokeWithEmoji } from "./Search.PokeWithEmoji";
 import { QrScannerSheet } from "./Search.QrScannerSheet";
 
@@ -22,20 +21,21 @@ export const Search = () => {
   const overlay = useStackedLayer();
   const { params, navigate } = useRouter();
 
-  const email = params?.email ?? "";
-  const setEmail = (email: string) => {
+  const searchText = params?.searchText ?? "";
+  const setSearchText = (searchText: string) => {
     navigate(
-      { pathname: "/search", ...(email && { query: { email } }) },
+      { pathname: "/search", ...(searchText && { query: { searchText } }) },
       { replace: true },
     );
   };
-  const deferredEmail = useDebouncedValue(email, 300);
+  const deferredSearchText = useDebouncedValue(searchText, 300);
   const [selected, setSelected] = useState<null | User>(null);
 
   const { data, isLoading } = useSWR<User[]>(
-    deferredEmail.length === 0 || validator.email(deferredEmail) === null
-      ? ["/user", { email: deferredEmail, limit: 5 }]
-      : [],
+    [
+      "/user",
+      { email: deferredSearchText, name: deferredSearchText, limit: 5 },
+    ],
     {
       keepPreviousData: true,
       onSuccess: () => {
@@ -73,11 +73,11 @@ export const Search = () => {
           <span className="block w-5 text-xl font-bold">@</span>
           <input
             className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
-            placeholder="콕콕! 찌를 상대방의 아이디를 입력하세요!"
+            placeholder="이름 또는 아이디로 검색해요"
             type="text"
-            value={email}
+            value={searchText}
             onChange={({ target: { value } }) => {
-              setEmail(value);
+              setSearchText(value);
             }}
           />
         </div>
@@ -103,7 +103,7 @@ export const Search = () => {
               </span>
               <p className="pt-6">
                 <span className="font-semibold text-zinc-900">
-                  @{deferredEmail}
+                  @{deferredSearchText}
                 </span>{" "}
                 유저를 찾지 못했어요.
               </p>

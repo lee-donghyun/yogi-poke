@@ -19,6 +19,9 @@ export class GetUserListParamDto {
   @IsOptional()
   email?: string;
 
+  @IsOptional()
+  name?: string;
+
   @IsArray()
   @Type(() => Number)
   @IsInt({ each: true })
