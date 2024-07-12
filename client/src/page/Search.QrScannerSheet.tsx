@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useRef } from "react";
 import { useRouter } from "router2";
 
 import { createDraggableSheet } from "../component/StackedLayerProvider";
@@ -10,11 +10,14 @@ const QrScanner = lazy(() =>
 export const QrScannerSheet = createDraggableSheet(({ close }) => {
   const { navigate } = useRouter();
 
+  const navigatedRef = useRef(false);
+
   const onScan: Parameters<typeof QrScanner>[0]["onScan"] = (scanner) => {
     const email = scanner.data.split("https://yogi-poke.vercel.app/me/")[1];
-    if (typeof email !== "string") return;
+    if (typeof email !== "string" || navigatedRef.current) return;
+    navigatedRef.current = true;
     close();
-    navigate({ pathname: "/search", query: { email } }, { replace: true });
+    navigate({ pathname: `/user/${email}` });
   };
 
   return (
