@@ -111,7 +111,7 @@ export class UserService {
   }
 
   async getUserList(
-    { email, ids }: { email?: string; ids?: number[] },
+    { email, ids, name }: { email?: string; ids?: number[]; name?: string },
     { limit, page }: Pagination,
     orderBy: Prisma.SortOrder,
     selfId?: number,
@@ -131,6 +131,11 @@ export class UserService {
               {
                 id: {
                   in: ids ?? [],
+                },
+              },
+              {
+                name: {
+                  contains: name,
                 },
               },
             ],
