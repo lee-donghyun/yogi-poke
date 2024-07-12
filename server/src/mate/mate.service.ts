@@ -48,15 +48,15 @@ export class MateService {
         .findFirst({
           where: {
             OR: [
-              { realtionFromUserId: fromUserId, realtionToUserId: toUserId },
-              { realtionFromUserId: toUserId, realtionToUserId: fromUserId },
+              { relationFromUserId: fromUserId, relationToUserId: toUserId },
+              { relationFromUserId: toUserId, relationToUserId: fromUserId },
             ],
           },
           orderBy: [{ id: 'desc' }],
         })
         .then(
           (row) =>
-            row?.realtionFromUserId === fromUserId &&
+            row?.relationFromUserId === fromUserId &&
             this.dateUtilService.getDiffDays(row.createdAt, Date.now()) < 1,
         )
     ) {
@@ -65,8 +65,8 @@ export class MateService {
 
     await this.db.poke.create({
       data: {
-        realtionFromUserId: fromUserId,
-        realtionToUserId: toUserId,
+        relationFromUserId: fromUserId,
+        relationToUserId: toUserId,
         payload,
       },
     });
@@ -80,18 +80,18 @@ export class MateService {
       where: {
         OR: [
           {
-            realtionFromUserId: userId,
+            relationFromUserId: userId,
           },
           {
-            realtionToUserId: userId,
+            relationToUserId: userId,
           },
         ],
       },
       select: {
         id: true,
         createdAt: true,
-        realtionFromUserId: true,
-        realtionToUserId: true,
+        relationFromUserId: true,
+        relationToUserId: true,
         payload: true,
         relation: {
           select: {
@@ -129,12 +129,12 @@ export class MateService {
       where: {
         OR: [
           {
-            realtionFromUserId: userId1,
-            realtionToUserId: userId2,
+            relationFromUserId: userId1,
+            relationToUserId: userId2,
           },
           {
-            realtionFromUserId: userId2,
-            realtionToUserId: userId1,
+            relationFromUserId: userId2,
+            relationToUserId: userId1,
           },
         ],
       },
@@ -150,8 +150,8 @@ export class MateService {
   }) {
     return this.db.poke.count({
       where: {
-        realtionFromUserId: fromUserId,
-        realtionToUserId: toUserId,
+        relationFromUserId: fromUserId,
+        relationToUserId: toUserId,
       },
     });
   }
