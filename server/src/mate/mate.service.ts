@@ -50,7 +50,7 @@ export class MateService {
           where: {
             OR: [
               { fromUserId, toUserId },
-              { toUserId, fromUserId },
+              { toUserId: fromUserId, fromUserId: toUserId },
             ],
           },
           orderBy: [{ id: 'desc' }],
@@ -116,6 +116,30 @@ export class MateService {
             },
           },
         },
+      },
+    });
+  }
+
+  async getUserRelatedPokeList(
+    userId1: number,
+    userId2: number,
+    { limit, page }: Pagination,
+  ) {
+    return this.db.poke.findMany({
+      skip: limit * (page - 1),
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      where: {
+        OR: [
+          {
+            fromUserId: userId1,
+            toUserId: userId2,
+          },
+          {
+            fromUserId: userId2,
+            toUserId: userId1,
+          },
+        ],
       },
     });
   }

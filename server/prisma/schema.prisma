@@ -32,7 +32,7 @@ model Relation {
   pokes  Poke[] @relation("poke")
   pokeds Poke[] @relation("poked")
 
-  @@unique([id, fromUserId, toUserId])
+  @@unique([fromUserId, toUserId])
 }
 
 model Poke {
