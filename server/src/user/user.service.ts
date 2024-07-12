@@ -146,7 +146,7 @@ export class UserService {
           {
             NOT: {
               comingRelations: {
-                every: { isAccepted: false, fromUserId: selfId },
+                some: { fromUserId: selfId, isAccepted: false },
               },
             },
           },
