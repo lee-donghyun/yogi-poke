@@ -1,6 +1,7 @@
 import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
 import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
 import { Block } from "../component/icon/Block";
@@ -11,6 +12,7 @@ import { Stat } from "../component/Stat";
 import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { usePoke } from "../hook/usePoke";
+import { yogiPokeApi } from "../service/api";
 import { LIKE_PERSIST_KEY } from "../service/const";
 
 export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
@@ -28,8 +30,8 @@ interface UserData {
 interface UserPokeData {
   createdAt: string;
   id: number;
-  realtionFromUserId: number;
-  realtionToUserId: number;
+  relationFromUserId: number;
+  relationToUserId: number;
 }
 
 export const User = () => {
@@ -48,10 +50,19 @@ export const User = () => {
     mutate: mutateUserPoke,
   } = useSWR<UserPokeData[]>([`/mate/poke/${userEmail}`, { limit: 1 }]);
 
+  const { trigger: triggerBlock, isMutating: isBlockLoading } = useSWRMutation(
+    `/user/relation/${userEmail}`,
+    (api) =>
+      yogiPokeApi.patch(api, { isAccepted: false }).then(() => {
+        push({ content: "사용자를 차단했습니다." });
+        history.back();
+      }),
+  );
+
   const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
   const isLiked = typeof data?.id === "number" && likes.includes(data.id);
   const lastPoked =
-    pokes?.[0]?.realtionFromUserId === myInfo?.id
+    pokes?.[0]?.relationFromUserId === myInfo?.id
       ? dayjs(pokes?.[0]?.createdAt)
       : null;
   const isPokable = lastPoked ? dayjs().diff(lastPoked, "hour") >= 24 : true;
@@ -64,9 +75,10 @@ export const User = () => {
           <button
             key="block"
             className="text-zinc-400 active:opacity-60"
+            disabled={isBlockLoading}
             type="button"
             onClick={() => {
-              push({ content: "사용자를 차단하려면 관리자에게 문의하세요." });
+              void triggerBlock();
             }}
           >
             <Block />
