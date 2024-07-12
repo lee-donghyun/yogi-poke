@@ -17,17 +17,19 @@ model User {
   profileImageUrl  String?
   referrerId       Int?
 
-  goingRelations  Relation[] @relation(name: "from")
-  comingRelations Relation[] @relation(name: "to")
+  goingRelations  Relation[] @relation("from")
+  comingRelations Relation[] @relation("to")
 }
 
 model Relation {
-  fromUser   User    @relation(fields: [fromUserId], references: [id], name: "from")
+  fromUser   User    @relation(name: "from", fields: [fromUserId], references: [id])
   fromUserId Int
-  toUser     User    @relation(fields: [toUserId], references: [id], name: "to")
+  toUser     User    @relation(name: "to", fields: [toUserId], references: [id])
   toUserId   Int
   isAccepted Boolean @default(true)
-  Poke       Poke[]
+
+  pokes  Poke[] @relation("poke")
+  pokeds Poke[] @relation("poked")
 
   @@id([fromUserId, toUserId])
 }
@@ -37,7 +39,8 @@ model Poke {
   createdAt DateTime @default(now())
   payload   Json
 
-  relation           Relation @relation(fields: [realtionFromUserId, realtionToUserId], references: [fromUserId, toUserId])
-  realtionFromUserId Int
-  realtionToUserId   Int
+  relation           Relation @relation(name: "poke", fields: [relationFromUserId, relationToUserId], references: [fromUserId, toUserId])
+  reverseRelation    Relation @relation(name: "poked", fields: [relationToUserId, relationFromUserId], references: [toUserId, fromUserId])
+  relationFromUserId Int
+  relationToUserId   Int
 }
