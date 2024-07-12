@@ -22,6 +22,7 @@ model User {
 }
 
 model Relation {
+  id         Int     @id @default(autoincrement())
   fromUser   User    @relation(name: "from", fields: [fromUserId], references: [id])
   fromUserId Int
   toUser     User    @relation(name: "to", fields: [toUserId], references: [id])
@@ -31,16 +32,19 @@ model Relation {
   pokes  Poke[] @relation("poke")
   pokeds Poke[] @relation("poked")
 
-  @@id([fromUserId, toUserId])
+  @@unique([id, fromUserId, toUserId])
 }
 
 model Poke {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  payload   Json
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  payload    Json
+  fromUserId Int
+  toUserId   Int
 
-  relation           Relation @relation(name: "poke", fields: [relationFromUserId, relationToUserId], references: [fromUserId, toUserId])
-  reverseRelation    Relation @relation(name: "poked", fields: [relationToUserId, relationFromUserId], references: [toUserId, fromUserId])
-  relationFromUserId Int
-  relationToUserId   Int
+  relationId        Int
+  reverseRelationId Int
+
+  relation        Relation @relation(name: "poke", fields: [relationId], references: [id])
+  reverseRelation Relation @relation(name: "poked", fields: [reverseRelationId], references: [id])
 }
