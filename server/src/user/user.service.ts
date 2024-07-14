@@ -161,25 +161,4 @@ export class UserService {
       orderBy: { id: orderBy },
     });
   }
-
-  async updateUserAcception(
-    isAccepted: boolean,
-    {
-      fromUserId,
-      toUserId,
-    }: {
-      fromUserId: number;
-      toUserId: number;
-    },
-  ) {
-    return this.db.relation.update({
-      where: {
-        fromUserId_toUserId: {
-          fromUserId,
-          toUserId,
-        },
-      },
-      data: { isAccepted },
-    });
-  }
 }

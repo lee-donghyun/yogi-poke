@@ -51,7 +51,7 @@ export const User = () => {
   } = useSWR<UserPokeData[]>([`/mate/poke/${userEmail}`, { limit: 1 }]);
 
   const { trigger: triggerBlock, isMutating: isBlockLoading } = useSWRMutation(
-    `/user/relation/${userEmail}`,
+    `/relation/${userEmail}`,
     (api) =>
       yogiPokeApi.patch(api, { isAccepted: false }).then(() => {
         push({ content: "사용자를 차단했습니다." });
