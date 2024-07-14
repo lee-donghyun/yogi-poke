@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { User } from 'src/auth/auth.decorator';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { JwtPayload } from 'src/auth/auth.interface';
@@ -24,5 +24,11 @@ export class RelationController {
       fromUserId: userPayload.id,
       toUserId,
     });
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/blocked')
+  async getBlockedUsers(@User() userPayload: JwtPayload) {
+    return await this.relationService.getBlockedUsers(userPayload.id);
   }
 }

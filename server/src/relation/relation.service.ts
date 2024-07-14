@@ -24,4 +24,25 @@ export class RelationService {
       data: { isAccepted },
     });
   }
+
+  async getBlockedUsers(userId: number) {
+    return this.db.relation
+      .findMany({
+        where: {
+          fromUserId: userId,
+          isAccepted: false,
+        },
+        select: {
+          toUser: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              profileImageUrl: true,
+            },
+          },
+        },
+      })
+      .then((relations) => relations.map((relation) => relation.toUser));
+  }
 }
