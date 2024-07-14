@@ -21,7 +21,6 @@ import { signInUserDto } from './dto/sign-in.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
 import { GetUserListParamDto } from './dto/get-user-list.dto';
 import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
-import { PatchRelationDto } from './dto/patch-relation.dto';
 
 @Controller('user')
 export class UserController {
@@ -99,19 +98,5 @@ export class UserController {
       toUserId: userPayload.id,
     });
     return { email, id, name, profileImageUrl, pokeds, pokes };
-  }
-
-  @UseGuards(AuthGuard)
-  @Patch('/relation/:email')
-  async patchRelation(
-    @User() userPayload: JwtPayload,
-    @Body() body: PatchRelationDto,
-    @Param('email') email: string,
-  ) {
-    const { id: toUserId } = await this.userService.getUser({ email });
-    return await this.userService.updateUserAcception(body.isAccepted, {
-      fromUserId: userPayload.id,
-      toUserId,
-    });
   }
 }
