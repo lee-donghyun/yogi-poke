@@ -8,8 +8,9 @@ import { releaseToken } from "../component/PwaProvider";
 import { SettingGroup } from "../component/SettingGroup";
 import { VoidFunction } from "../service/type";
 import { getPushNotificationSubscription } from "../service/util";
+import { BlockedUser } from "./Setting.BlockedUser";
 
-type Open = null | "알림" | "로그아웃" | "정보";
+type Open = null | "알림" | "내 계정" | "차단한 계정" | "정보";
 
 export const Setting = () => {
   const { myInfo, patchUser } = useUser({ assertAuth: true });
@@ -74,7 +75,7 @@ export const Setting = () => {
           title="계정"
           subGroups={[
             {
-              title: "로그아웃",
+              title: "내 계정",
               children: (
                 <button
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start text-red-500 duration-150 active:scale-[98%]"
@@ -88,7 +89,12 @@ export const Setting = () => {
                   로그아웃
                 </button>
               ),
-              open: open === "로그아웃",
+              open: open === "내 계정",
+            },
+            {
+              title: "차단한 계정",
+              children: <BlockedUser />,
+              open: open === "차단한 계정",
             },
           ]}
         />
