@@ -19,8 +19,9 @@ export const Quit = createLayer(({ close }) => {
   const [password, setPassword] = useState("");
 
   const { trigger, isMutating } = useSWRMutation(
-    "/user/quit",
-    (api, { arg }: { arg: { password: string } }) => yogiPokeApi.post(api, arg),
+    "/user/my-info",
+    (api, { arg }: { arg: { password: string } }) =>
+      yogiPokeApi.delete(api, { params: arg }),
     {
       onSuccess: () => {
         releaseToken();

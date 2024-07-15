@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id               Int      @id @default(autoincrement())
-  createdAt        DateTime @default(now())
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now())
   name             String
-  email            String   @unique
+  email            String    @unique
   password         String
   pushSubscription Json?
   profileImageUrl  String?
   referrerId       Int?
+  deletedAt        DateTime?
 
   goingRelations  Relation[] @relation("from")
   comingRelations Relation[] @relation("to")
