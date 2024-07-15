@@ -161,4 +161,11 @@ export class UserService {
       orderBy: { id: orderBy },
     });
   }
+
+  async deleteUser(id: number) {
+    return this.db.user.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
 }
