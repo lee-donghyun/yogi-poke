@@ -18,20 +18,22 @@ model User {
   referrerId       Int?
   deletedAt        DateTime?
 
-  goingRelations  Relation[] @relation("from")
-  comingRelations Relation[] @relation("to")
+  pokes           Poke[]     @relation("user-poke")
+  pokeds          Poke[]     @relation("user-poked")
+  goingRelations  Relation[] @relation("user-from")
+  comingRelations Relation[] @relation("user-to")
 }
 
 model Relation {
   id         Int     @id @default(autoincrement())
-  fromUser   User    @relation(name: "from", fields: [fromUserId], references: [id])
   fromUserId Int
-  toUser     User    @relation(name: "to", fields: [toUserId], references: [id])
   toUserId   Int
   isAccepted Boolean @default(true)
 
-  pokes  Poke[] @relation("poke")
-  pokeds Poke[] @relation("poked")
+  fromUser User   @relation(name: "user-from", fields: [fromUserId], references: [id])
+  toUser   User   @relation(name: "user-to", fields: [toUserId], references: [id])
+  pokes    Poke[] @relation("relation-poke")
+  pokeds   Poke[] @relation("relation-poked")
 
   @@unique([fromUserId, toUserId])
 }
@@ -46,6 +48,8 @@ model Poke {
   relationId        Int
   reverseRelationId Int
 
-  relation        Relation @relation(name: "poke", fields: [relationId], references: [id])
-  reverseRelation Relation @relation(name: "poked", fields: [reverseRelationId], references: [id])
+  fromUser        User     @relation(name: "user-poke", fields: [fromUserId], references: [id])
+  toUser          User     @relation(name: "user-poked", fields: [toUserId], references: [id])
+  relation        Relation @relation(name: "relation-poke", fields: [relationId], references: [id])
+  reverseRelation Relation @relation(name: "relation-poked", fields: [reverseRelationId], references: [id])
 }
