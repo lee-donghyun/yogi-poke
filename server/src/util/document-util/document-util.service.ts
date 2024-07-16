@@ -53,7 +53,7 @@ export class DocumentUtilService {
 
   async getDocument(tag: string | null) {
     const user = tag
-      ? await this.prismaService.user.findUnique({
+      ? await this.prismaService.activeUser.findUnique({
           where: { email: tag },
         })
       : null;
