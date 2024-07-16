@@ -80,16 +80,6 @@ export class AuthService implements OnModuleInit {
         )
         .pipe(map((response) => response.data)),
     );
-    const { full_name } = await firstValueFrom(
-      this.httpService
-        .get<{ data: { user: { full_name: string } } }>(
-          'https://www.instagram.com/api/v1/users/web_profile_info',
-          {
-            params: { username },
-          },
-        )
-        .pipe(map((response) => response.data.data.user)),
-    );
-    return { username, full_name };
+    return { username };
   }
 }
