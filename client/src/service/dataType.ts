@@ -26,9 +26,6 @@ export interface Poke {
 }
 
 export interface Relation {
-  fromUserId: number;
-  toUserId: number;
-  isAccepted: boolean;
   fromUser: User | null;
   toUser: User | null;
 }
