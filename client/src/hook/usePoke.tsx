@@ -6,6 +6,7 @@ import { useNotification } from "../component/Notification";
 import { useStackedLayer } from "../component/StackedLayerProvider";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/dataType";
+import { useRelatedPokeList } from "./useRelatedPokeList";
 
 interface PokeError {
   status: number;
@@ -43,6 +44,7 @@ export const usePoke = (
   const stack = useStackedLayer();
   const push = useNotification();
   const { refreshUser, myInfo } = useUser();
+  const { mutate } = useRelatedPokeList();
   return useSWRMutation(
     "/mate/poke",
     (key, { arg }: { arg: PokePayload }) =>
@@ -79,6 +81,7 @@ export const usePoke = (
       },
       onSuccess: (email) => {
         void refreshUser();
+        void mutate();
         onSuccess({ stack, push, meta: { email, myInfo } });
       },
     },

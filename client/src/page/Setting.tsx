@@ -6,14 +6,18 @@ import { CheckCircleSolid } from "../component/icon/CheckCircleSolid";
 import { StackedNavigation } from "../component/Navigation";
 import { releaseToken } from "../component/PwaProvider";
 import { SettingGroup } from "../component/SettingGroup";
+import { useStackedLayer } from "../component/StackedLayerProvider";
 import { VoidFunction } from "../service/type";
 import { getPushNotificationSubscription } from "../service/util";
 import { BlockedUser } from "./Setting.BlockedUser";
+import { Quit } from "./Setting.Quit";
 
 type Open = null | "알림" | "내 계정" | "차단한 계정" | "정보";
 
 export const Setting = () => {
   const { myInfo, patchUser } = useUser({ assertAuth: true });
+  const overlay = useStackedLayer();
+
   const [open, setOpen] = useState<Open>(null);
   const isPushEnabled = !!myInfo?.pushSubscription;
   const onOpenSubgroup = (title: Open) => {
@@ -77,17 +81,27 @@ export const Setting = () => {
             {
               title: "내 계정",
               children: (
-                <button
-                  className="flex w-full items-center justify-between rounded-xl py-3 text-start text-red-500 duration-150 active:scale-[98%]"
-                  onClick={() => {
-                    if (confirm("로그아웃하시겠어요?")) {
-                      releaseToken();
-                      location.pathname = "/";
-                    }
-                  }}
-                >
-                  로그아웃
-                </button>
+                <>
+                  <button
+                    key="로그아웃"
+                    className="flex w-full items-center justify-between rounded-xl py-3 text-start text-red-500 duration-150 active:scale-[98%]"
+                    onClick={() => {
+                      if (confirm("로그아웃할까요?")) {
+                        releaseToken();
+                        location.pathname = "/";
+                      }
+                    }}
+                  >
+                    로그아웃
+                  </button>
+                  <button
+                    key="탈퇴"
+                    className="flex w-full items-center justify-between rounded-xl py-3 text-start text-zinc-500 duration-150 active:scale-[98%]"
+                    onClick={() => overlay(Quit)}
+                  >
+                    계정 삭제
+                  </button>
+                </>
               ),
               open: open === "내 계정",
             },
