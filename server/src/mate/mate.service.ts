@@ -2,43 +2,28 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DateUtilService } from 'src/util/date-util/date-util.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Pagination } from './mate.interface';
+import { RelationService } from 'src/relation/relation.service';
 
 @Injectable()
 export class MateService {
   constructor(
     private db: PrismaService,
     private dateUtilService: DateUtilService,
+    private relationService: RelationService,
   ) {}
-  async getRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.db.relation.findFirst({
-      where: { fromUserId, toUserId },
-    });
-    return relation;
-  }
-
-  async createRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.getRelation(fromUserId, toUserId);
-    if (relation !== null) {
-      throw new HttpException('Already has relation', HttpStatus.CONFLICT);
-    }
-    const made = await this.db.relation.create({
-      data: { fromUserId, toUserId },
-    });
-    return made;
-  }
 
   async pokeMate(fromUserId: number, toUserId: number, payload: object) {
     const relation =
-      (await this.getRelation(fromUserId, toUserId)) ??
-      (await this.createRelation(fromUserId, toUserId));
+      (await this.relationService.getRelation(fromUserId, toUserId)) ??
+      (await this.relationService.createRelation(fromUserId, toUserId));
 
     if (relation?.isAccepted === false) {
       throw new HttpException('차단한 사용자입니다.', HttpStatus.FORBIDDEN);
     }
 
     const reverseRelation =
-      (await this.getRelation(toUserId, fromUserId)) ??
-      (await this.createRelation(toUserId, fromUserId));
+      (await this.relationService.getRelation(toUserId, fromUserId)) ??
+      (await this.relationService.createRelation(toUserId, fromUserId));
 
     if (reverseRelation?.isAccepted === false) {
       throw new HttpException('차단당한 사용자입니다.', HttpStatus.FORBIDDEN);
