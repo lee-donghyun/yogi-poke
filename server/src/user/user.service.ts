@@ -2,12 +2,15 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Pagination } from './user.interface';
 import { compare, hash } from 'bcrypt';
-import { Prisma } from '@prisma/client';
+import { AuthProvider, Prisma } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserService {
   constructor(private db: PrismaService) {}
-  async getUser(user: { email: string }) {
+  async getUser(
+    user: { email: string } | { authProvider: AuthProvider; authId: string },
+  ) {
     const found = await this.db.activeUser.findFirst({
       where: user,
       select: {
@@ -31,12 +34,23 @@ export class UserService {
       })
       .then((res) => res !== null);
   }
-  async registerUser(user: {
-    email: string;
-    password: string;
-    name: string;
-    referrerId?: number;
-  }) {
+
+  async registerUser(
+    user:
+      | {
+          type: typeof AuthProvider.EMAIL;
+          email: string;
+          password: string;
+          name: string;
+          referrerId?: number;
+        }
+      | {
+          type: typeof AuthProvider.INSTAGRAM;
+          email: string;
+          name: string;
+          referrerId?: number;
+        },
+  ) {
     if (await this.isUsedEmail(user.email)) {
       throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
     }
@@ -47,7 +61,10 @@ export class UserService {
         })
       : null;
 
-    const encryptedPassword = await hash(user.password, 10);
+    const password =
+      user.type === AuthProvider.EMAIL ? user.password : randomUUID();
+
+    const encryptedPassword = await hash(password, 10);
 
     return this.db.user.create({
       data: {
