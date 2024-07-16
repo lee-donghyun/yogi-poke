@@ -94,8 +94,10 @@ export class MateService {
       },
       select: {
         id: true,
-        createdAt: true,
         payload: true,
+        createdAt: true,
+        fromUserId: true,
+        toUserId: true,
         relation: {
           select: {
             fromUser: {
