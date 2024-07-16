@@ -19,7 +19,7 @@ export class PushService {
       body: string;
     },
   ) {
-    const user = await this.db.user.findFirst({ where: { id: userId } });
+    const user = await this.db.activeUser.findFirst({ where: { id: userId } });
     if (user?.pushSubscription === undefined) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }

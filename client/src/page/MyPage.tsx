@@ -15,6 +15,7 @@ import {
 } from "../component/StackedLayerProvider";
 import { Stat } from "../component/Stat";
 import { useRelatedPokeList } from "../hook/useRelatedPokeList";
+import { DELETED_USER } from "../service/const";
 import { SharedProfile } from "./SharedProfile";
 import { UpdateMyInfo } from "./UpdateMyInfo";
 
@@ -129,10 +130,16 @@ export const MyPage = () => {
             ?.map((pokes, pageIndex) =>
               pokes.map(
                 (
-                  { createdAt, id, relation: { fromUser, toUser }, payload },
+                  {
+                    createdAt,
+                    id,
+                    fromUserId,
+                    relation: { fromUser, toUser },
+                    payload,
+                  },
                   index,
                 ) => {
-                  const type = fromUser.id === myInfo?.id ? "poke" : "poked";
+                  const type = fromUserId === myInfo?.id ? "poke" : "poked";
                   const targetUser = {
                     poke: toUser,
                     poked: fromUser,
@@ -146,7 +153,7 @@ export const MyPage = () => {
                       animation={animation}
                       date={createdAt}
                       payload={payload}
-                      targetUser={targetUser}
+                      targetUser={targetUser ?? DELETED_USER}
                       type={type}
                     />
                   );
