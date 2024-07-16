@@ -8,28 +8,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AuthProvider {
+  EMAIL
+  INSTAGRAM
+}
+
 model User {
-  id               Int       @id @default(autoincrement())
-  createdAt        DateTime  @default(now())
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
   name             String
-  email            String    @unique
+  email            String       @unique
   password         String
   pushSubscription Json?
   profileImageUrl  String?
   referrerId       Int?
   deletedAt        DateTime?
+  authProvider     AuthProvider @default(EMAIL)
+  authProviderId   String?
 }
 
 view ActiveUser {
-  id               Int       @unique
+  id               Int           @unique
   createdAt        DateTime
   name             String
-  email            String    @unique
+  email            String        @unique
   password         String
   pushSubscription Json?
   profileImageUrl  String?
   referrerId       Int?
   deletedAt        DateTime?
+  authProvider     AuthProvider?
+  authProviderId   String?
 
   pokes           Poke[]     @relation("user-poke")
   pokeds          Poke[]     @relation("user-poked")

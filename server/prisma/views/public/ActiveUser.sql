@@ -7,7 +7,9 @@ SELECT
   "pushSubscription",
   "profileImageUrl",
   "referrerId",
-  "deletedAt"
+  "deletedAt",
+  "authProvider",
+  "authProviderId"
 FROM
   "User"
 WHERE
