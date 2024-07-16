@@ -24,7 +24,7 @@ view ActiveUser {
   id               Int       @unique
   createdAt        DateTime
   name             String
-  email            String
+  email            String    @unique
   password         String
   pushSubscription Json?
   profileImageUrl  String?

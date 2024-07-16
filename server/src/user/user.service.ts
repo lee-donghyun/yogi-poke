@@ -8,7 +8,7 @@ import { Prisma } from '@prisma/client';
 export class UserService {
   constructor(private db: PrismaService) {}
   async getUser(user: { email: string }) {
-    const found = await this.db.user.findFirst({
+    const found = await this.db.activeUser.findFirst({
       where: user,
       select: {
         createdAt: true,
@@ -42,7 +42,7 @@ export class UserService {
     }
 
     const isValidReferrerId = user.referrerId
-      ? await this.db.user.findFirst({
+      ? await this.db.activeUser.findFirst({
           where: { id: user.referrerId },
         })
       : null;
@@ -68,7 +68,7 @@ export class UserService {
   }
 
   async getUserByEmailAndPassword(user: { email: string; password: string }) {
-    const found = await this.db.user.findFirst({
+    const found = await this.db.activeUser.findFirst({
       where: { email: user.email },
     });
     if (found === null) {
@@ -116,7 +116,7 @@ export class UserService {
     orderBy: Prisma.SortOrder,
     selfId: number,
   ) {
-    return this.db.user.findMany({
+    return this.db.activeUser.findMany({
       skip: limit * (page - 1),
       take: limit,
       where: {
