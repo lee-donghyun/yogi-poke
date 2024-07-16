@@ -6,10 +6,12 @@ import { AuthModule } from 'src/auth/auth.module';
 import { PushModule } from 'src/push/push.module';
 import { UtilModule } from 'src/util/util.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { RelationModule } from 'src/relation/relation.module';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
+    RelationModule,
     AuthModule,
     PushModule,
     UtilModule,

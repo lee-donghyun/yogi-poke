@@ -3,8 +3,9 @@ import { MateModule } from './mate/mate.module';
 import { UserModule } from './user/user.module';
 import { UtilModule } from './util/util.module';
 import { RelationModule } from './relation/relation.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, MateModule, UtilModule, RelationModule],
+  imports: [UserModule, MateModule, UtilModule, RelationModule, AuthModule],
 })
 export class AppModule {}
