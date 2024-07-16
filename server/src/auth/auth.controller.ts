@@ -42,14 +42,12 @@ export class AuthController {
       return;
     }
 
-    const { full_name, username } = await this.authService.getInstagramUser(
-      accessToken,
-    );
+    const { username } = await this.authService.getInstagramUser(accessToken);
 
     const registeredUser = await this.userService.registerUser({
       type: AuthProvider.INSTAGRAM,
       email: username,
-      name: full_name,
+      name: username,
     });
     const token = await this.authService.createUserToken(registeredUser);
     res.redirect(
