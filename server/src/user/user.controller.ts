@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -21,6 +22,7 @@ import { signInUserDto } from './dto/sign-in.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
 import { GetUserListParamDto } from './dto/get-user-list.dto';
 import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -98,5 +100,18 @@ export class UserController {
       toUserId: userPayload.id,
     });
     return { email, id, name, profileImageUrl, pokeds, pokes };
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('/my-info')
+  async deleteMyInfo(
+    @User() userPayload: JwtPayload,
+    @Query() query: DeleteUserDto,
+  ) {
+    await this.userService.getUserByEmailAndPassword({
+      email: userPayload.email,
+      password: query.password,
+    });
+    return await this.userService.deleteUser(userPayload.id);
   }
 }

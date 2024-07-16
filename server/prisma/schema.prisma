@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -8,43 +9,59 @@ datasource db {
 }
 
 model User {
-  id               Int      @id @default(autoincrement())
-  createdAt        DateTime @default(now())
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now())
   name             String
-  email            String   @unique
+  email            String    @unique
   password         String
   pushSubscription Json?
   profileImageUrl  String?
   referrerId       Int?
+  deletedAt        DateTime?
+}
 
-  goingRelations  Relation[] @relation("from")
-  comingRelations Relation[] @relation("to")
+view ActiveUser {
+  id               Int       @unique
+  createdAt        DateTime
+  name             String
+  email            String    @unique
+  password         String
+  pushSubscription Json?
+  profileImageUrl  String?
+  referrerId       Int?
+  deletedAt        DateTime?
+
+  pokes           Poke[]     @relation("user-poke")
+  pokeds          Poke[]     @relation("user-poked")
+  goingRelations  Relation[] @relation("user-from")
+  comingRelations Relation[] @relation("user-to")
 }
 
 model Relation {
   id         Int     @id @default(autoincrement())
-  fromUser   User    @relation(name: "from", fields: [fromUserId], references: [id])
   fromUserId Int
-  toUser     User    @relation(name: "to", fields: [toUserId], references: [id])
   toUserId   Int
   isAccepted Boolean @default(true)
 
-  pokes  Poke[] @relation("poke")
-  pokeds Poke[] @relation("poked")
+  fromUser ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
+  toUser   ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
+  pokes    Poke[]      @relation("relation-poke")
+  pokeds   Poke[]      @relation("relation-poked")
 
   @@unique([fromUserId, toUserId])
 }
 
 model Poke {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  payload    Json
-  fromUserId Int
-  toUserId   Int
-
+  id                Int      @id @default(autoincrement())
+  createdAt         DateTime @default(now())
+  payload           Json
+  fromUserId        Int
+  toUserId          Int
   relationId        Int
   reverseRelationId Int
 
-  relation        Relation @relation(name: "poke", fields: [relationId], references: [id])
-  reverseRelation Relation @relation(name: "poked", fields: [reverseRelationId], references: [id])
+  fromUser        ActiveUser? @relation("user-poke", fields: [fromUserId], references: [id])
+  toUser          ActiveUser? @relation("user-poked", fields: [toUserId], references: [id])
+  relation        Relation    @relation("relation-poke", fields: [relationId], references: [id])
+  reverseRelation Relation    @relation("relation-poked", fields: [reverseRelationId], references: [id])
 }

@@ -1,6 +1,4 @@
-import { useCallback, useRef } from "react";
 import { useRouter } from "router2";
-import useSWRInfinite from "swr/infinite";
 
 import { useUser } from "../component/Auth";
 import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
@@ -16,8 +14,8 @@ import {
   useStackedLayer,
 } from "../component/StackedLayerProvider";
 import { Stat } from "../component/Stat";
-import { useIntersectionObserver } from "../hook/useIntersectionObserver";
-import { Poke } from "../service/dataType";
+import { useRelatedPokeList } from "../hook/useRelatedPokeList";
+import { DELETED_USER } from "../service/const";
 import { SharedProfile } from "./SharedProfile";
 import { UpdateMyInfo } from "./UpdateMyInfo";
 
@@ -45,8 +43,6 @@ const MenuSheet = createDraggableSheet(({ close }) => {
   );
 });
 
-const POKE_LIST_LIMIT = 20;
-
 export const MyPage = () => {
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
@@ -55,19 +51,7 @@ export const MyPage = () => {
     assertAuth: true,
   });
 
-  const { data, setSize, error, isLoading } = useSWRInfinite<Poke[], unknown>(
-    (index, previous) =>
-      index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
-        ? ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
-        : null,
-  );
-  const loadMore = useCallback(
-    () => !isLoading && !error && void setSize((prev) => prev + 1),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoading, setSize, !!error],
-  );
-  const intersectorRef = useIntersectionObserver(loadMore);
-  const prevData = useRef(data);
+  const { data, error, intersectorRef, isFreshData } = useRelatedPokeList();
 
   return (
     <div className="min-h-screen">
@@ -146,25 +130,30 @@ export const MyPage = () => {
             ?.map((pokes, pageIndex) =>
               pokes.map(
                 (
-                  { createdAt, id, relation: { fromUser, toUser }, payload },
+                  {
+                    createdAt,
+                    id,
+                    fromUserId,
+                    relation: { fromUser, toUser },
+                    payload,
+                  },
                   index,
                 ) => {
-                  const type = fromUser.id === myInfo?.id ? "poke" : "poked";
+                  const type = fromUserId === myInfo?.id ? "poke" : "poked";
                   const targetUser = {
                     poke: toUser,
                     poked: fromUser,
                   }[type];
-                  const animation =
-                    pageIndex + 1 > (prevData.current?.length ?? 0)
-                      ? { delayTimes: index }
-                      : null;
+                  const animation = isFreshData(pageIndex)
+                    ? { delayTimes: index }
+                    : null;
                   return (
                     <PokeListItem
                       key={id}
                       animation={animation}
                       date={createdAt}
                       payload={payload}
-                      targetUser={targetUser}
+                      targetUser={targetUser ?? DELETED_USER}
                       type={type}
                     />
                   );

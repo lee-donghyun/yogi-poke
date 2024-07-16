@@ -12,6 +12,7 @@ import { Stat } from "../component/Stat";
 import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { usePoke } from "../hook/usePoke";
+import { useRelatedPokeList } from "../hook/useRelatedPokeList";
 import { yogiPokeApi } from "../service/api";
 import { LIKE_PERSIST_KEY } from "../service/const";
 
@@ -35,12 +36,13 @@ interface UserPokeData {
 }
 
 export const User = () => {
-  const { myInfo } = useUser({ assertAuth: true });
+  const { myInfo, refreshUser } = useUser({ assertAuth: true });
 
   const { params } = useRouter();
   const userEmail = params[":userId"];
   const push = useNotification();
   const { trigger, isMutating } = usePoke();
+  const { mutate: mutateRelatedPokes } = useRelatedPokeList();
 
   const { data, mutate: mutateUser } = useSWR<UserData>([`/user/${userEmail}`]);
 
@@ -50,13 +52,24 @@ export const User = () => {
     mutate: mutateUserPoke,
   } = useSWR<UserPokeData[]>([`/mate/poke/${userEmail}`, { limit: 1 }]);
 
+  const mutateAll = () =>
+    Promise.allSettled([
+      refreshUser(),
+      mutateRelatedPokes(),
+      mutateUser(),
+      mutateUserPoke(),
+    ]);
+
   const { trigger: triggerBlock, isMutating: isBlockLoading } = useSWRMutation(
     `/relation/${userEmail}`,
     (api) =>
-      yogiPokeApi.patch(api, { isAccepted: false }).then(() => {
-        push({ content: "사용자를 차단했습니다." });
-        history.back();
-      }),
+      yogiPokeApi
+        .patch(api, { isAccepted: false })
+        .then(() => mutateAll())
+        .then(() => {
+          push({ content: "사용자를 차단했습니다." });
+          history.back();
+        }),
     {
       onError: () => {
         push({ content: "다시 시도해주세요." });
@@ -140,7 +153,7 @@ export const User = () => {
             void trigger({
               email: userEmail,
               payload: { type: "normal" },
-            }).then(() => Promise.allSettled([mutateUserPoke(), mutateUser()]))
+            }).then(() => mutateAll())
           }
         >
           콕 찌르기 👉
