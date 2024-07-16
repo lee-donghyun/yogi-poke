@@ -9,5 +9,6 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [AuthModule, UserModule, PrismaModule],
   providers: [RelationService],
   controllers: [RelationController],
+  exports: [RelationService],
 })
 export class RelationModule {}
