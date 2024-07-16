@@ -29,6 +29,6 @@ export interface Relation {
   fromUserId: number;
   toUserId: number;
   isAccepted: boolean;
-  fromUser: User;
-  toUser: User;
+  fromUser: User | null;
+  toUser: User | null;
 }

@@ -2,7 +2,9 @@ import { useRouter } from "router2";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
+import { useUser } from "../component/Auth";
 import { useNotification } from "../component/Notification";
+import { useRelatedPokeList } from "../hook/useRelatedPokeList";
 import { yogiPokeApi } from "../service/api";
 import { User } from "../service/dataType";
 
@@ -12,14 +14,20 @@ export const BlockedUser = () => {
   const { navigate } = useRouter();
   const push = useNotification();
 
+  const { refreshUser } = useUser();
+  const { mutate: mutateRelatedPokes } = useRelatedPokeList();
+
   const { data } = useSWR<User[]>(BLOCKED_USER_SWR_KEY);
 
   const { trigger, isMutating } = useSWRMutation(
     BLOCKED_USER_SWR_KEY,
     (_, { arg }: { arg: string }) =>
-      yogiPokeApi.patch(`/relation/${arg}`, { isAccepted: true }).then(() => {
-        push({ content: "차단을 해제했습니다." });
-      }),
+      yogiPokeApi
+        .patch(`/relation/${arg}`, { isAccepted: true })
+        .then(() => Promise.allSettled([refreshUser(), mutateRelatedPokes()]))
+        .then(() => {
+          push({ content: "차단을 해제했습니다." });
+        }),
     {
       onError: () => {
         push({ content: "다시 시도해주세요." });
