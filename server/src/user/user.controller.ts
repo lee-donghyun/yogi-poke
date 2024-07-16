@@ -23,6 +23,7 @@ import { PatchUserDto } from './dto/patch-user.dto';
 import { GetUserListParamDto } from './dto/get-user-list.dto';
 import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
+import { AuthProvider } from '@prisma/client';
 
 @Controller('user')
 export class UserController {
@@ -35,7 +36,10 @@ export class UserController {
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
   async registerUser(@Body() body: RegisterUserDto) {
-    const user = await this.userService.registerUser(body);
+    const user = await this.userService.registerUser({
+      ...body,
+      type: AuthProvider.EMAIL,
+    });
     return this.authService.createUserToken(user);
   }
 

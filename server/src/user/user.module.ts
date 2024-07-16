@@ -6,7 +6,11 @@ import { AuthModule } from 'src/auth/auth.module';
 import { MateModule } from 'src/mate/mate.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, forwardRef(() => MateModule)],
+  imports: [
+    PrismaModule,
+    forwardRef(() => AuthModule),
+    forwardRef(() => MateModule),
+  ],
   providers: [UserService],
   exports: [UserService],
   controllers: [UserController],
