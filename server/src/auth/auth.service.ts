@@ -8,7 +8,7 @@ import {
 import { verify, sign } from 'jsonwebtoken';
 import { JwtPayload } from './auth.interface';
 import { HttpService } from '@nestjs/axios';
-import { map, firstValueFrom } from 'rxjs';
+import { map, firstValueFrom, catchError } from 'rxjs';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -62,6 +62,15 @@ export class AuthService implements OnModuleInit {
             accessToken: response.access_token,
             userId: response.user_id,
           })),
+          catchError((error) => {
+            console.log('raw---');
+            console.log(error);
+            console.log('json---');
+            console.log(JSON.stringify(error));
+            console.log('error---');
+            console.log(error.response.data);
+            throw error;
+          }),
         ),
     );
   }
@@ -76,9 +85,21 @@ export class AuthService implements OnModuleInit {
               fields: 'id,username',
               access_token: accessToken,
             },
+            method: 'GET',
           },
         )
-        .pipe(map((response) => response.data)),
+        .pipe(map((response) => response.data))
+        .pipe(
+          catchError((error) => {
+            console.log('raw---');
+            console.log(error);
+            console.log('json---');
+            console.log(JSON.stringify(error));
+            console.log('error---');
+            console.log(error.response.data);
+            throw error;
+          }),
+        ),
     );
     return { username };
   }
