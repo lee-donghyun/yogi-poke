@@ -30,7 +30,7 @@ export class AuthController {
     const user = await this.userService
       .getUser({
         authProvider: AuthProvider.INSTAGRAM,
-        authId: String(userId),
+        authProviderId: String(userId),
       })
       .catch(() => null);
     if (user) {
@@ -48,6 +48,7 @@ export class AuthController {
       type: AuthProvider.INSTAGRAM,
       email: username,
       name: username,
+      authProviderId: String(userId),
     });
     const token = await this.authService.createUserToken(registeredUser);
     res.redirect(
