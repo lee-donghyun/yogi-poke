@@ -54,7 +54,18 @@ export const PwaProvider = ({
   const [prefetch, setPrefetch] = useState<null | Prefetch>(null);
 
   const isPwa = isPwaMode();
-  const token = useMemo(() => localStorage.getItem(TOKEN_PERSIST_KEY), []);
+  const token = useMemo(() => {
+    const persistedToken = localStorage.getItem(TOKEN_PERSIST_KEY);
+    if (typeof persistedToken === "string") {
+      return persistedToken;
+    }
+    const searchToken = new URLSearchParams(location.search).get("token");
+    if (typeof searchToken === "string") {
+      persisteToken(searchToken);
+      return searchToken;
+    }
+    return null;
+  }, []);
 
   useEffect(() => {
     if (typeof token === "string") {
