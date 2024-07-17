@@ -3,6 +3,7 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
 import { AuthProvider } from '@prisma/client';
+import { from, map, mergeMap, partition, throwIfEmpty } from 'rxjs';
 
 @Controller('auth')
 export class AuthController {
@@ -15,46 +16,67 @@ export class AuthController {
     @Query('code') rawCode: string,
     @Res() res: Response,
   ) {
-    const code = rawCode.split('#')[0];
-    if (!code) {
-      res.redirect(
-        HttpStatus.TEMPORARY_REDIRECT,
-        `${process.env.CLIENT_URL}?error=invalid_code`,
-      );
-      return;
-    }
-
-    const { accessToken, userId } =
-      await this.authService.getInstagramAccessToken(code);
-
-    const user = await this.userService
-      .getUser({
-        authProvider: AuthProvider.INSTAGRAM,
-        authProviderId: String(userId),
-      })
-      .catch(() => null);
-    if (user) {
-      const token = await this.authService.createUserToken(user);
+    const redirectWithToken = (token: string) =>
       res.redirect(
         HttpStatus.TEMPORARY_REDIRECT,
         `${process.env.CLIENT_URL}?token=${token}`,
       );
-      return;
-    }
 
-    const { username } = await this.authService.getInstagramUser(accessToken);
+    const redirectWithError = (error: string) => {
+      console.error(error);
+      res.redirect(
+        HttpStatus.TEMPORARY_REDIRECT,
+        `${process.env.CLIENT_URL}?error=${error}`,
+      );
+    };
 
-    const registeredUser = await this.userService.registerUser({
-      type: AuthProvider.INSTAGRAM,
-      email: username,
-      name: username,
-      authProviderId: String(userId),
-    });
-    const token = await this.authService.createUserToken(registeredUser);
-    res.redirect(
-      HttpStatus.TEMPORARY_REDIRECT,
-      `${process.env.CLIENT_URL}?token=${token}`,
+    const [oldUser, newUser] = partition(
+      from(rawCode).pipe(
+        map((code) => code.split('#')[0]),
+        throwIfEmpty(() => new Error('Invalid code')),
+        mergeMap((code) => this.authService.getInstagramAccessToken(code)),
+        mergeMap(
+          ({ accessToken, userId }) =>
+            this.userService
+              .getUser({
+                authProvider: AuthProvider.INSTAGRAM,
+                authProviderId: String(userId),
+              })
+              .catch(() => ({ accessToken, userId })) as
+              | ReturnType<typeof this.userService.getUser>
+              | Promise<string>,
+        ),
+      ),
+      (user): user is string => typeof user === 'string',
     );
+
+    newUser
+      .pipe(mergeMap((user) => this.authService.createUserToken(user)))
+      .subscribe({
+        next: redirectWithToken,
+        error: redirectWithError,
+      });
+
+    oldUser
+      .pipe(
+        mergeMap((accessToken) =>
+          this.authService.getInstagramUser(accessToken),
+        ),
+        mergeMap(({ id, username }) =>
+          this.userService.registerUser({
+            type: AuthProvider.INSTAGRAM,
+            email: username,
+            name: username,
+            authProviderId: String(id),
+          }),
+        ),
+        mergeMap((user) => this.authService.createUserToken(user)),
+      )
+      .subscribe({
+        next: redirectWithToken,
+        error: redirectWithError,
+      });
+
     return;
   }
 
