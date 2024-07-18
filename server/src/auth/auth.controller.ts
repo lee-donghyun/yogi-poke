@@ -30,6 +30,12 @@ export class AuthController {
         `${process.env.CLIENT_URL}?token=${token}`,
       );
 
+    const redirectWithAuthorizedToken = (token: string) =>
+      res.redirect(
+        HttpStatus.TEMPORARY_REDIRECT,
+        `${process.env.CLIENT_URL}?auth=${token}`,
+      );
+
     const redirectWithError = (error: string) => {
       console.error(error);
       res.redirect(
@@ -54,29 +60,28 @@ export class AuthController {
               })
               .catch(() => ({ accessToken, userId })) as
               | ReturnType<typeof this.userService.getUser>
-              | Promise<string>,
+              | Promise<{ accessToken: string; userId: number }>,
         ),
       ),
-      (user): user is string => typeof user === 'string',
+      (user): user is { accessToken: string; userId: number } =>
+        user.hasOwnProperty('accessToken'),
     );
 
     return merge(
-      oldUser.pipe(mergeMap((user) => this.authService.createUserToken(user))),
+      oldUser.pipe(
+        mergeMap((user) => this.authService.createUserToken(user)),
+        map(redirectWithToken),
+      ),
       newUser.pipe(
-        mergeMap((accessToken) =>
-          this.authService.getInstagramUser(accessToken),
-        ),
-        mergeMap(({ id, username }) =>
-          this.userService.registerUser({
-            type: AuthProvider.INSTAGRAM,
-            email: username,
-            name: username,
-            authProviderId: String(id),
+        mergeMap(({ userId }) =>
+          this.authService.createAuthorizedToken({
+            authProvider: AuthProvider.INSTAGRAM,
+            authProviderId: String(userId),
           }),
         ),
-        mergeMap((user) => this.authService.createUserToken(user)),
+        map(redirectWithAuthorizedToken),
       ),
-    ).pipe(map(redirectWithToken), catchError(redirectWithError));
+    ).pipe(catchError(redirectWithError));
   }
 
   @Get('/instagram/cancel')

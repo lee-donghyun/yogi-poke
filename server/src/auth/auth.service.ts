@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 
 import { verify, sign } from 'jsonwebtoken';
-import { JwtPayload } from './auth.interface';
+import { AuthorizedTokenPayload, JwtPayload } from './auth.interface';
 import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs';
 
@@ -42,6 +42,17 @@ export class AuthService implements OnModuleInit {
     return sign(user, this.JWT_SECRET) as Promise<string>;
   }
 
+  verifyAuthorizedToken(token: string) {
+    try {
+      return verify(token, this.JWT_SECRET) as AuthorizedTokenPayload;
+    } catch {
+      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+    }
+  }
+  createAuthorizedToken(payload: AuthorizedTokenPayload) {
+    return sign(payload, this.JWT_SECRET) as Promise<string>;
+  }
+
   getInstagramAccessToken(code: string) {
     const payload = new FormData();
     payload.append('client_id', process.env.INSTAGRAM_CLIENT_ID);
@@ -64,6 +75,10 @@ export class AuthService implements OnModuleInit {
       );
   }
 
+  /**
+   *
+   * @deprecated 비즈니스인증을 한 앱에서만 사용가능합니다. 요기콕콕!에서는 이를 우회하여 사용합니다.
+   */
   getInstagramUser(accessToken: string) {
     return this.httpService
       .get<{ id: number; username: string }>(
