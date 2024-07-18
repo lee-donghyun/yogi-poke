@@ -33,7 +33,7 @@ export class AuthController {
     const redirectWithAuthorizedToken = (token: string) =>
       res.redirect(
         HttpStatus.TEMPORARY_REDIRECT,
-        `${process.env.CLIENT_URL}?auth=${token}`,
+        `${process.env.CLIENT_URL}/third-party-register?token=${token}`,
       );
 
     const redirectWithError = (error: string) => {
