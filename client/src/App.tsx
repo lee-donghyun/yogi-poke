@@ -13,6 +13,7 @@ import { Register } from "./page/Register";
 import { Search } from "./page/Search";
 import { Setting } from "./page/Setting";
 import { SignIn } from "./page/SignIn";
+import { ThridPartyRegister } from "./page/ThirdPartyRegister";
 import { User } from "./page/User";
 
 dayjs.extend(duration);
@@ -34,6 +35,7 @@ export const App = () => {
                   "/user/:userId": User,
                   "/setting": Setting,
                   "/like": Like,
+                  "/third-party-register": ThridPartyRegister,
                   "/404": () => <>not found</>,
                 }}
               >
