@@ -3,7 +3,15 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
 import { AuthProvider } from '@prisma/client';
-import { from, map, mergeMap, partition, throwIfEmpty } from 'rxjs';
+import {
+  catchError,
+  map,
+  merge,
+  mergeMap,
+  of,
+  partition,
+  throwIfEmpty,
+} from 'rxjs';
 
 @Controller('auth')
 export class AuthController {
@@ -28,10 +36,12 @@ export class AuthController {
         HttpStatus.TEMPORARY_REDIRECT,
         `${process.env.CLIENT_URL}?error=${error}`,
       );
+      // return empty observable to satisfy observable type
+      return of();
     };
 
-    const [oldUser, newUser] = partition(
-      from(rawCode).pipe(
+    const [newUser, oldUser] = partition(
+      of(rawCode).pipe(
         map((code) => code.split('#')[0]),
         throwIfEmpty(() => new Error('Invalid code')),
         mergeMap((code) => this.authService.getInstagramAccessToken(code)),
@@ -50,15 +60,9 @@ export class AuthController {
       (user): user is string => typeof user === 'string',
     );
 
-    newUser
-      .pipe(mergeMap((user) => this.authService.createUserToken(user)))
-      .subscribe({
-        next: redirectWithToken,
-        error: redirectWithError,
-      });
-
-    oldUser
-      .pipe(
+    return merge(
+      oldUser.pipe(mergeMap((user) => this.authService.createUserToken(user))),
+      newUser.pipe(
         mergeMap((accessToken) =>
           this.authService.getInstagramUser(accessToken),
         ),
@@ -71,13 +75,8 @@ export class AuthController {
           }),
         ),
         mergeMap((user) => this.authService.createUserToken(user)),
-      )
-      .subscribe({
-        next: redirectWithToken,
-        error: redirectWithError,
-      });
-
-    return;
+      ),
+    ).pipe(map(redirectWithToken), catchError(redirectWithError));
   }
 
   @Get('/instagram/cancel')

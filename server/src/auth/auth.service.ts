@@ -38,8 +38,8 @@ export class AuthService implements OnModuleInit {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
   }
-  async createUserToken(user: JwtPayload) {
-    return sign(user, this.JWT_SECRET);
+  createUserToken(user: JwtPayload) {
+    return sign(user, this.JWT_SECRET) as Promise<string>;
   }
 
   getInstagramAccessToken(code: string) {
