@@ -6,6 +6,6 @@ export type JwtPayload = Pick<
 >;
 
 export type AuthorizedTokenPayload = {
-  authProvider: AuthProvider;
+  authProvider: typeof AuthProvider.INSTAGRAM;
   authProviderId: string;
 };
