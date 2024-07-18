@@ -24,6 +24,7 @@ import { GetUserListParamDto } from './dto/get-user-list.dto';
 import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
 import { AuthProvider } from '@prisma/client';
+import { RegisterAuthorizedUserDto } from './dto/register-authorized-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -39,6 +40,20 @@ export class UserController {
     const user = await this.userService.registerUser({
       ...body,
       type: AuthProvider.EMAIL,
+    });
+    return this.authService.createUserToken(user);
+  }
+
+  @Post('/register/authorized')
+  @HttpCode(HttpStatus.CREATED)
+  async registerInstagramUser(@Body() body: RegisterAuthorizedUserDto) {
+    const { authProvider, authProviderId } =
+      this.authService.verifyAuthorizedToken(body.token);
+    const user = await this.userService.registerUser({
+      type: authProvider,
+      authProviderId,
+      email: body.email,
+      name: body.name,
     });
     return this.authService.createUserToken(user);
   }
