@@ -12,10 +12,12 @@ import { map } from 'rxjs';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
-  private JWT_SECRET: string;
+  private USER_SECRET: string;
+  private AUTHORIZED_SECRET: string;
   constructor(private readonly httpService: HttpService) {}
   onModuleInit() {
-    this.JWT_SECRET = process.env.JWT_SECRET;
+    this.USER_SECRET = process.env.USER_SECRET;
+    this.AUTHORIZED_SECRET = process.env.AUTHORIZED_SECRET;
   }
   validateRequest(request: any): boolean {
     request.user = null;
@@ -33,24 +35,24 @@ export class AuthService implements OnModuleInit {
   }
   verifyUserToken(token: string) {
     try {
-      return verify(token, this.JWT_SECRET) as JwtPayload;
+      return verify(token, this.USER_SECRET) as JwtPayload;
     } catch {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
   }
   createUserToken(user: JwtPayload) {
-    return sign(user, this.JWT_SECRET) as Promise<string>;
+    return sign(user, this.USER_SECRET) as Promise<string>;
   }
 
   verifyAuthorizedToken(token: string) {
     try {
-      return verify(token, this.JWT_SECRET) as AuthorizedTokenPayload;
+      return verify(token, this.AUTHORIZED_SECRET) as AuthorizedTokenPayload;
     } catch {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
   }
   createAuthorizedToken(payload: AuthorizedTokenPayload) {
-    return sign(payload, this.JWT_SECRET) as Promise<string>;
+    return sign(payload, this.AUTHORIZED_SECRET) as Promise<string>;
   }
 
   getInstagramAccessToken(code: string) {
