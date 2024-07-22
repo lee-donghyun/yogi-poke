@@ -1,9 +1,10 @@
 import { useRouter } from "router2";
 
-import { usePoke } from "../hook/usePoke";
 import { Poke, User } from "../service/dataType";
 import { getReadableDateOffset } from "../service/util";
 import { CheckBadge } from "./icon/CheckBadge";
+import { PokeSheet } from "./PokeSheet";
+import { useStackedLayer } from "./StackedLayerProvider";
 
 interface PocketListItemProps {
   type: "poke" | "poked";
@@ -64,8 +65,8 @@ export const PokeListItem = ({
   payload,
   isVerifiedUser,
 }: PocketListItemProps) => {
-  const { trigger, isMutating } = usePoke();
   const { navigate } = useRouter();
+  const overlay = useStackedLayer();
   return (
     <div
       {...(animation && {
@@ -123,12 +124,8 @@ export const PokeListItem = ({
           {type === "poked" && (
             <button
               className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
-              disabled={isMutating}
               onClick={() =>
-                void trigger({
-                  email: targetUser.email,
-                  payload: { type: "normal" },
-                })
+                overlay(PokeSheet, { targetUserEmail: targetUser.email })
               }
             >
               나도 콕! 찌르기 👉
