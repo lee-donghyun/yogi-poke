@@ -9,7 +9,9 @@ import { randomUUID } from 'crypto';
 export class UserService {
   constructor(private db: PrismaService) {}
   async getUser(
-    user: { email: string } | { authProvider: AuthProvider; authId: string },
+    user:
+      | { email: string }
+      | { authProvider: AuthProvider; authProviderId: string },
   ) {
     const found = await this.db.activeUser.findFirst({
       where: user,
@@ -48,6 +50,7 @@ export class UserService {
           type: typeof AuthProvider.INSTAGRAM;
           email: string;
           name: string;
+          authProviderId: string;
           referrerId?: number;
         },
   ) {
@@ -72,6 +75,9 @@ export class UserService {
         name: user.name,
         password: encryptedPassword,
         referrerId: isValidReferrerId?.id,
+        authProvider: user.type,
+        authProviderId:
+          user.type === AuthProvider.INSTAGRAM ? user.authProviderId : null,
       },
       select: {
         id: true,
