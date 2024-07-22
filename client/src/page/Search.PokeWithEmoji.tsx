@@ -9,6 +9,17 @@ const EMOJI_DICT_URL = "/asset/emoji.json";
 
 const MESSAGE_LENGTH = 5;
 
+const BOOKMARK = [
+  { icon: "😀", title: "스마일리 및 사람" },
+  { icon: "🐵", title: "동물 및 자연" },
+  { icon: "🍇", title: "음식 및 음료" },
+  { icon: "🌍", title: "여행 및 장소" },
+  { icon: "🎃", title: "활동" },
+  { icon: "👓", title: "사물" },
+  { icon: "🏧", title: "기호" },
+  { icon: "🏁", title: "깃발" },
+];
+
 const Emoji = ({
   emoji,
   focus,
@@ -31,12 +42,16 @@ const Emoji = ({
 
 export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
   ({ close, context }) => {
+    const { trigger, isMutating } = usePoke();
+
     const [input, setInput] = useState<string[]>([]);
     const focusIndex = input.length;
+
+    const [bookmarkPage, setBookmarkPage] = useState(0);
+
     const { data } = useSWR(EMOJI_DICT_URL, (key) =>
       axios.get<string[]>(key).then((res) => res.data),
     );
-    const { trigger, isMutating } = usePoke();
 
     return (
       <div className="py-5">
@@ -55,13 +70,38 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
         </div>
         <div
           data-allow-touch-move-on-stacked-layer
-          className="overflow-x-scroll pt-7"
+          className="mx-5 mb-1 mt-7 flex overflow-y-hidden overflow-x-scroll rounded-full bg-zinc-50"
+          style={{ maxHeight: "28px" }}
         >
-          <div className="grid grid-flow-col grid-rows-5 gap-1 px-5 text-3xl">
+          {BOOKMARK.map(({ icon, title }, index) => {
+            const isVisible = index === bookmarkPage;
+            return (
+              <button
+                key={icon}
+                className={`flex items-center gap-1 rounded-full px-2 duration-200 ${isVisible ? "scale-110 bg-zinc-100" : ""}`}
+                onClick={() => setBookmarkPage(index)}
+                type="button"
+              >
+                <span className="text-xl">{icon}</span>
+                {index === bookmarkPage && (
+                  <span className="whitespace-pre text-xs text-zinc-700">
+                    {title}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+        <div
+          data-allow-touch-move-on-stacked-layer
+          className="overflow-x-scroll"
+          style={{ height: 204 }}
+        >
+          <div className="grid grid-flow-col grid-rows-4 gap-1 px-5 text-3xl">
             {data?.map((emoji, i) => (
               <button
                 key={i}
-                className="size-11 rounded-full duration-100 active:scale-90 active:opacity-70"
+                className="size-12 rounded-full duration-100 active:scale-90 active:opacity-70"
                 type="button"
                 onClick={() => {
                   setInput((p) => [...p, emoji].slice(-MESSAGE_LENGTH));
