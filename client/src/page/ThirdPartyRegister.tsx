@@ -35,7 +35,7 @@ export const ThridPartyRegister = () => {
     "/register/authorized",
     (api, { arg }: { arg: Form }) =>
       yogiPokeApi
-        .post(api, { ...arg, token: params.token })
+        .post(api, { ...arg, token: params.code })
         .then(({ data }: { data: string }) => registerToken(data))
         .then(() => {
           const redirect = params.returnUrl;
