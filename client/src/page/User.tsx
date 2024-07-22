@@ -145,7 +145,7 @@ export const User = () => {
             overlay(PokeSheet, { targetUserEmail: userEmail });
           }}
         >
-          콕 찌르기 👉
+          콕! 찌르기 👉
         </button>
         {isDayjs(lastPoked) && !isPokable && (
           <p className="mt-1 text-center text-sm text-zinc-500">
