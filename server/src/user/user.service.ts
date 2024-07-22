@@ -183,6 +183,7 @@ export class UserService {
         email: true,
         name: true,
         profileImageUrl: true,
+        authProvider: true,
       },
       orderBy: { id: orderBy },
     });
