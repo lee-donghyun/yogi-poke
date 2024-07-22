@@ -32,7 +32,7 @@ export const ThridPartyRegister = () => {
 
   const [step, setStep] = useState<1 | 2>(1);
   const { trigger, isMutating } = useSWRMutation(
-    "/register/authorized",
+    "/user/register/authorized",
     (api, { arg }: { arg: Form }) =>
       yogiPokeApi
         .post(api, { ...arg, token: params.code })
