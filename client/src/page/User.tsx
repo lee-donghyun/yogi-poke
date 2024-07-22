@@ -97,7 +97,7 @@ export const User = () => {
             disabled={isBlockLoading}
             type="button"
             onClick={() => {
-              void triggerBlock();
+              confirm(`${data?.name}님을 차단할까요?`) && void triggerBlock();
             }}
           >
             <Block />
