@@ -36,3 +36,6 @@ export interface Relation {
   fromUser: User | null;
   toUser: User | null;
 }
+
+export const isVerifiedUser = (user: User) =>
+  [AuthProvider.INSTAGRAM].includes(user.authProvider);
