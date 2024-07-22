@@ -8,9 +8,7 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
     const overlay = useStackedLayer();
     return (
       <div className="p-5">
-        <p className="text-lg font-semibold text-zinc-800">
-          나도 콕! 찌르기 👉
-        </p>
+        <p className="text-lg font-semibold text-zinc-800">콕! 찌르기 👉</p>
         <div className="flex gap-2 pt-12">
           <button
             className="flex-1 rounded-full bg-zinc-50 p-3 duration-200 disabled:opacity-60"
@@ -34,7 +32,7 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
               }).finally(() => close());
             }}
           >
-            바로 콕 찌르기 👉
+            바로 콕! 찌르기 👉
           </button>
         </div>
       </div>
