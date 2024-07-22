@@ -53,9 +53,9 @@ export const Introduction = () => {
       </div>
       <div className="mx-6 mt-4 border-t pt-3">
         <h2 className="text-lg font-bold text-zinc-900">새로운 소식</h2>
-        <p className="pt-1 text-xs text-zinc-500">버전 24.07.11</p>
+        <p className="pt-1 text-xs text-zinc-500">버전 24.07.22</p>
         <p className="pt-2 text-sm text-zinc-600">
-          이모티콘 찌르기가 추가됩니다.
+          Instagram 계정으로 요기콕콕!을 사용할 수 있습니다.
         </p>
       </div>
       <div className="mx-5 mt-8 border-t pt-3">
