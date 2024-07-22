@@ -1,4 +1,7 @@
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock-upgrade";
+import {
+  clearAllBodyScrollLocks,
+  disableBodyScroll,
+} from "body-scroll-lock-upgrade";
 import {
   createContext,
   JSX,
@@ -70,7 +73,7 @@ export const StackedLayerProvider = ({
         if (!show) {
           setLayer(null);
           if (childrenContainerRef.current) {
-            enableBodyScroll(childrenContainerRef.current);
+            clearAllBodyScrollLocks();
           }
           return false;
         }
