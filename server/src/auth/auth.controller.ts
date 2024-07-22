@@ -24,17 +24,21 @@ export class AuthController {
     @Query('code') rawCode: string,
     @Res() res: Response,
   ) {
-    const redirectWithToken = (token: string) =>
+    const redirectWithToken = (token: string) => {
       res.redirect(
         HttpStatus.TEMPORARY_REDIRECT,
         `${process.env.CLIENT_URL}?token=${token}`,
       );
+      return of();
+    };
 
-    const redirectWithAuthorizedToken = (token: string) =>
+    const redirectWithAuthorizedToken = (token: string) => {
       res.redirect(
         HttpStatus.TEMPORARY_REDIRECT,
-        `${process.env.CLIENT_URL}/third-party-register?token=${token}`,
+        `${process.env.CLIENT_URL}/third-party-register?code=${token}`,
       );
+      return of();
+    };
 
     const redirectWithError = (error: string) => {
       console.error(error);
@@ -42,7 +46,6 @@ export class AuthController {
         HttpStatus.TEMPORARY_REDIRECT,
         `${process.env.CLIENT_URL}?error=${error}`,
       );
-      // return empty observable to satisfy observable type
       return of();
     };
 
@@ -69,11 +72,11 @@ export class AuthController {
 
     return merge(
       oldUser.pipe(
-        mergeMap((user) => this.authService.createUserToken(user)),
+        map((user) => this.authService.createUserToken(user)),
         map(redirectWithToken),
       ),
       newUser.pipe(
-        mergeMap(({ userId }) =>
+        map(({ userId }) =>
           this.authService.createAuthorizedToken({
             authProvider: AuthProvider.INSTAGRAM,
             authProviderId: String(userId),
