@@ -1,4 +1,7 @@
+import { Link } from "router2";
+
 import { CheckBadge } from "./icon/CheckBadge";
+import { ChevronRight } from "./icon/ChevronRight";
 
 interface UserListItemProps {
   userEmail: string;
@@ -24,6 +27,7 @@ export const UserListItem = ({
   return (
     <button
       onClick={onClick}
+      type="button"
       className={`rounded-lg p-2 text-start duration-75 active:scale-[98%] active:bg-yellow-50 ${
         selected ? "bg-yellow-200" : ""
       } ${animation ? "from-right opacity-0" : ""}`}
@@ -53,6 +57,15 @@ export const UserListItem = ({
           </p>
           <p className="text-sm text-zinc-800">{userName}</p>
         </div>
+        {selected && (
+          <Link
+            className="self-center p-1 text-zinc-400"
+            pathname={`/user/${userEmail}`}
+            role="button"
+          >
+            <ChevronRight />
+          </Link>
+        )}
       </div>
     </button>
   );
