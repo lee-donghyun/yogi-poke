@@ -4,6 +4,7 @@ import { useUser } from "../component/Auth";
 import { DomainBottomNavigation } from "../component/BottomNavigation.DomainBottomNavigation";
 import { ArrowUpOnSquare } from "../component/icon/ArrowUpOnSquare";
 import { Blink } from "../component/icon/Blink";
+import { CheckBadge } from "../component/icon/CheckBadge";
 import { Edit } from "../component/icon/Edit";
 import { Menu } from "../component/icon/Menu";
 import { Setting } from "../component/icon/Setting";
@@ -16,6 +17,7 @@ import {
 import { Stat } from "../component/Stat";
 import { useRelatedPokeList } from "../hook/useRelatedPokeList";
 import { DELETED_USER } from "../service/const";
+import { isVerifiedUser } from "../service/dataType";
 import { SharedProfile } from "./SharedProfile";
 import { UpdateMyInfo } from "./UpdateMyInfo";
 
@@ -78,7 +80,14 @@ export const MyPage = () => {
         </div>
         <div className="mt-10">
           <div className="flex items-end justify-between">
-            <p className="text-xl font-bold">@{myInfo?.email}</p>
+            <p className="flex items-center text-xl font-bold">
+              @{myInfo?.email}
+              {myInfo && isVerifiedUser(myInfo) && (
+                <span className="ml-1 text-blue-500">
+                  <CheckBadge />
+                </span>
+              )}
+            </p>
             <div className="flex gap-2">
               <button
                 className="active:opacity-60"
@@ -147,11 +156,15 @@ export const MyPage = () => {
                   const animation = isFreshData(pageIndex)
                     ? { delayTimes: index }
                     : null;
+                  const isVerified = targetUser
+                    ? isVerifiedUser(targetUser)
+                    : false;
                   return (
                     <PokeListItem
                       key={id}
                       animation={animation}
                       date={createdAt}
+                      isVerifiedUser={isVerified}
                       payload={payload}
                       targetUser={targetUser ?? DELETED_USER}
                       type={type}

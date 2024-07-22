@@ -1,3 +1,8 @@
+export enum AuthProvider {
+  INSTAGRAM = "INSTAGRAM",
+  EMAIL = "EMAIL",
+}
+
 export interface MyInfo {
   email: string;
   id: number;
@@ -7,6 +12,7 @@ export interface MyInfo {
   token: string;
   profileImageUrl: null | string;
   pushSubscription: null | string;
+  authProvider: AuthProvider;
 }
 
 export interface User {
@@ -14,6 +20,7 @@ export interface User {
   id: number;
   name: string;
   profileImageUrl: string | null;
+  authProvider: AuthProvider;
 }
 
 export interface Poke {
@@ -29,3 +36,6 @@ export interface Relation {
   fromUser: User | null;
   toUser: User | null;
 }
+
+export const isVerifiedUser = (user: User) =>
+  [AuthProvider.INSTAGRAM].includes(user.authProvider);
