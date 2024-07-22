@@ -91,6 +91,7 @@ export class MateService {
                 id: true,
                 name: true,
                 profileImageUrl: true,
+                authProvider: true,
               },
             },
             toUser: {
@@ -99,6 +100,7 @@ export class MateService {
                 id: true,
                 name: true,
                 profileImageUrl: true,
+                authProvider: true,
               },
             },
           },
