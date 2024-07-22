@@ -71,7 +71,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
         </div>
         <div
           data-allow-touch-move-on-stacked-layer
-          className="mx-5 mb-1 mt-7 flex overflow-y-hidden overflow-x-scroll rounded-full bg-zinc-50"
+          className="mx-5 mb-2 mt-7 flex overflow-y-hidden overflow-x-scroll rounded-full bg-zinc-50"
           style={{ maxHeight: "28px" }}
         >
           {BOOKMARK.map(({ icon, title, depth }, index) => {
