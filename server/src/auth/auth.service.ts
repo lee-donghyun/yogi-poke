@@ -6,16 +6,18 @@ import {
 } from '@nestjs/common';
 
 import { verify, sign } from 'jsonwebtoken';
-import { JwtPayload } from './auth.interface';
+import { AuthorizedTokenPayload, JwtPayload } from './auth.interface';
 import { HttpService } from '@nestjs/axios';
-import { map, firstValueFrom } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
-  private JWT_SECRET: string;
-  constructor(private httpService: HttpService) {}
+  private USER_SECRET: string;
+  private AUTHORIZED_SECRET: string;
+  constructor(private readonly httpService: HttpService) {}
   onModuleInit() {
-    this.JWT_SECRET = process.env.JWT_SECRET;
+    this.USER_SECRET = process.env.USER_SECRET;
+    this.AUTHORIZED_SECRET = process.env.AUTHORIZED_SECRET;
   }
   validateRequest(request: any): boolean {
     request.user = null;
@@ -33,13 +35,24 @@ export class AuthService implements OnModuleInit {
   }
   verifyUserToken(token: string) {
     try {
-      return verify(token, this.JWT_SECRET) as JwtPayload;
+      return verify(token, this.USER_SECRET) as JwtPayload;
     } catch {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
   }
-  async createUserToken(user: JwtPayload) {
-    return sign(user, this.JWT_SECRET);
+  createUserToken(user: JwtPayload) {
+    return sign(user, this.USER_SECRET) as Promise<string>;
+  }
+
+  verifyAuthorizedToken(token: string) {
+    try {
+      return verify(token, this.AUTHORIZED_SECRET) as AuthorizedTokenPayload;
+    } catch {
+      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+    }
+  }
+  createAuthorizedToken(payload: AuthorizedTokenPayload) {
+    return sign(payload, this.AUTHORIZED_SECRET) as Promise<string>;
   }
 
   getInstagramAccessToken(code: string) {
@@ -50,36 +63,35 @@ export class AuthService implements OnModuleInit {
     payload.append('redirect_uri', process.env.INSTAGRAM_REDIRECT_URI);
     payload.append('code', code);
 
-    return firstValueFrom(
-      this.httpService
-        .post<{
-          access_token: string;
-          user_id: number;
-        }>('https://api.instagram.com/oauth/access_token', payload)
-        .pipe(
-          map((response) => response.data),
-          map((response) => ({
-            accessToken: response.access_token,
-            userId: response.user_id,
-          })),
-        ),
-    );
+    return this.httpService
+      .post<{
+        access_token: string;
+        user_id: number;
+      }>('https://api.instagram.com/oauth/access_token', payload)
+      .pipe(
+        map((response) => response.data),
+        map((response) => ({
+          accessToken: response.access_token,
+          userId: response.user_id,
+        })),
+      );
   }
 
-  async getInstagramUser(accessToken: string) {
-    const { username } = await firstValueFrom(
-      this.httpService
-        .get<{ id: number; username: string }>(
-          'https://graph.instagram.com/v20.0/me',
-          {
-            params: {
-              fields: 'id,username',
-              access_token: accessToken,
-            },
+  /**
+   *
+   * @deprecated 비즈니스인증을 한 앱에서만 사용가능합니다. 요기콕콕!에서는 이를 우회하여 사용합니다.
+   */
+  getInstagramUser(accessToken: string) {
+    return this.httpService
+      .get<{ id: number; username: string }>(
+        'https://graph.instagram.com/v20.0/me',
+        {
+          params: {
+            fields: 'id,username',
+            access_token: accessToken,
           },
-        )
-        .pipe(map((response) => response.data)),
-    );
-    return { username };
+        },
+      )
+      .pipe(map((response) => response.data));
   }
 }
