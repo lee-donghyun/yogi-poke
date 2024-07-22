@@ -3,6 +3,7 @@ import { useRouter } from "router2";
 import { usePoke } from "../hook/usePoke";
 import { Poke, User } from "../service/dataType";
 import { getReadableDateOffset } from "../service/util";
+import { CheckBadge } from "./icon/CheckBadge";
 
 interface PocketListItemProps {
   type: "poke" | "poked";
@@ -12,6 +13,7 @@ interface PocketListItemProps {
     delayTimes: number;
   } | null;
   payload: Poke["payload"];
+  isVerifiedUser: boolean;
 }
 
 const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
@@ -60,6 +62,7 @@ export const PokeListItem = ({
   date,
   animation,
   payload,
+  isVerifiedUser,
 }: PocketListItemProps) => {
   const { trigger, isMutating } = usePoke();
   const { navigate } = useRouter();
@@ -80,14 +83,20 @@ export const PokeListItem = ({
           src={targetUser.profileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-4 flex-1">
-          <p className="relative font-medium">
+          <p className="relative">
             <span
+              className="flex items-center font-medium"
               role="link"
               onClick={() => {
                 navigate({ pathname: `/user/${targetUser.email}` });
               }}
             >
               @{targetUser.email}
+              {isVerifiedUser && (
+                <span className="ml-0.5 scale-90 text-blue-500">
+                  <CheckBadge />
+                </span>
+              )}
             </span>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
               {getReadableDateOffset(date)}
