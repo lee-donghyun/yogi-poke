@@ -1,3 +1,5 @@
+import { CheckBadge } from "./icon/CheckBadge";
+
 interface UserListItemProps {
   userEmail: string;
   userName: string;
@@ -7,6 +9,7 @@ interface UserListItemProps {
   } | null;
   selected: boolean;
   onClick: () => void;
+  isVerifiedUser: boolean;
 }
 
 export const UserListItem = ({
@@ -16,6 +19,7 @@ export const UserListItem = ({
   userProfileImageUrl,
   onClick,
   animation,
+  isVerifiedUser,
 }: UserListItemProps) => {
   return (
     <button
@@ -39,7 +43,14 @@ export const UserListItem = ({
           src={userProfileImageUrl ?? "/asset/default_user_profile.png"}
         />
         <div className="ml-3 flex-1">
-          <p className="relative font-medium">@{userEmail}</p>
+          <p className="flex items-center font-medium">
+            @{userEmail}
+            {isVerifiedUser && (
+              <span className="ml-0.5 scale-90 text-blue-500">
+                <CheckBadge />
+              </span>
+            )}
+          </p>
           <p className="text-sm text-zinc-800">{userName}</p>
         </div>
       </div>

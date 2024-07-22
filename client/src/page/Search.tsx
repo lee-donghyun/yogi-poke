@@ -12,7 +12,7 @@ import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useDebouncedValue } from "../hook/useDebouncedValue";
 import { usePoke } from "../hook/usePoke";
-import { User } from "../service/dataType";
+import { isVerifiedUser, User } from "../service/dataType";
 import { PokeWithEmoji } from "./Search.PokeWithEmoji";
 import { QrScannerSheet } from "./Search.QrScannerSheet";
 
@@ -86,6 +86,7 @@ export const Search = () => {
             <UserListItem
               key={user.email + dataUpdatedAt}
               animation={{ delayTimes: i }}
+              isVerifiedUser={isVerifiedUser(user)}
               selected={selected?.email === user.email}
               userEmail={user.email}
               userName={user.name}
