@@ -5,13 +5,13 @@ export const getReadableDateOffset = (date: string) => {
   const now = dayjs();
   const then = dayjs(date);
 
-  if (!now.isAfter(then, "hour")) {
+  if (now.diff(then, "hour") < 1) {
     return `${now.diff(then, "minute") + 1}분 전`;
   }
-  if (!now.isAfter(then, "day")) {
+  if (now.diff(then, "day") < 1) {
     return `${now.diff(then, "hour") + 1}시간 전`;
   }
-  if (!now.isAfter(then, "week")) {
+  if (now.diff(then, "week") < 1) {
     return `${now.diff(then, "day") + 1}일 전`;
   }
   if (now.diff(then, "year") < 1) {
