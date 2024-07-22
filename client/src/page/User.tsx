@@ -5,6 +5,7 @@ import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
 import { Block } from "../component/icon/Block";
+import { CheckBadge } from "../component/icon/CheckBadge";
 import { Star, StarSolid } from "../component/icon/Star";
 import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
@@ -15,6 +16,7 @@ import { usePoke } from "../hook/usePoke";
 import { useRelatedPokeList } from "../hook/useRelatedPokeList";
 import { yogiPokeApi } from "../service/api";
 import { LIKE_PERSIST_KEY } from "../service/const";
+import { AuthProvider, isVerifiedUser } from "../service/dataType";
 
 export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 export const MINUTE_IN_UNIX = 1000 * 60;
@@ -26,6 +28,7 @@ interface UserData {
   profileImageUrl: null | string;
   pokeds: number;
   pokes: number;
+  authProvider: AuthProvider;
 }
 
 interface UserPokeData {
@@ -115,7 +118,14 @@ export const User = () => {
         </div>
         <div className="mt-10">
           <div className="flex items-end justify-between">
-            <p className="text-xl font-bold">@{userEmail}</p>
+            <p className="flex items-center text-xl font-bold">
+              @{userEmail}
+              {data && isVerifiedUser(data) && (
+                <span className="ml-1 text-blue-500">
+                  <CheckBadge />
+                </span>
+              )}
+            </p>
             <button
               key="edit"
               className="active:opacity-60"
