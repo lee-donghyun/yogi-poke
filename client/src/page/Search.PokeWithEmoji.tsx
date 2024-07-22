@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useSWR from "swr";
 
 import { createDraggableSheet } from "../component/StackedLayerProvider";
@@ -10,14 +10,14 @@ const EMOJI_DICT_URL = "/asset/emoji.json";
 const MESSAGE_LENGTH = 5;
 
 const BOOKMARK = [
-  { icon: "😀", title: "스마일리 및 사람" },
-  { icon: "🐵", title: "동물 및 자연" },
-  { icon: "🍇", title: "음식 및 음료" },
-  { icon: "🌍", title: "여행 및 장소" },
-  { icon: "🎃", title: "활동" },
-  { icon: "👓", title: "사물" },
-  { icon: "🏧", title: "기호" },
-  { icon: "🏁", title: "깃발" },
+  { icon: "😀", title: "스마일리 및 사람", depth: 0 },
+  { icon: "🐵", title: "동물 및 자연", depth: 6916 },
+  { icon: "🍇", title: "음식 및 음료", depth: 8892 },
+  { icon: "🌍", title: "여행 및 장소", depth: 10608 },
+  { icon: "🎃", title: "활동", depth: 13468 },
+  { icon: "👓", title: "사물", depth: 14560 },
+  { icon: "🏧", title: "기호", depth: 17940 },
+  { icon: "🏁", title: "깃발", depth: 20852 },
 ];
 
 const Emoji = ({
@@ -42,6 +42,7 @@ const Emoji = ({
 
 export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
   ({ close, context }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
     const { trigger, isMutating } = usePoke();
 
     const [input, setInput] = useState<string[]>([]);
@@ -73,14 +74,17 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
           className="mx-5 mb-1 mt-7 flex overflow-y-hidden overflow-x-scroll rounded-full bg-zinc-50"
           style={{ maxHeight: "28px" }}
         >
-          {BOOKMARK.map(({ icon, title }, index) => {
+          {BOOKMARK.map(({ icon, title, depth }, index) => {
             const isVisible = index === bookmarkPage;
             return (
               <button
                 key={icon}
                 className={`flex items-center gap-1 rounded-full px-2 duration-200 ${isVisible ? "scale-110 bg-zinc-100" : ""}`}
-                onClick={() => setBookmarkPage(index)}
                 type="button"
+                onClick={() => {
+                  setBookmarkPage(index);
+                  containerRef.current?.scroll({ left: depth + 12 });
+                }}
               >
                 <span className="text-xl">{icon}</span>
                 {index === bookmarkPage && (
@@ -93,9 +97,17 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
           })}
         </div>
         <div
+          ref={containerRef}
           data-allow-touch-move-on-stacked-layer
           className="overflow-x-scroll"
           style={{ height: 204 }}
+          onScroll={() => {
+            const scrollLeft = containerRef.current?.scrollLeft ?? 0;
+            const index = BOOKMARK.findLastIndex(
+              ({ depth }) => depth < scrollLeft,
+            );
+            setBookmarkPage(index);
+          }}
         >
           <div className="grid grid-flow-col grid-rows-4 gap-1 px-5 text-3xl">
             {data?.map((emoji, i) => (
