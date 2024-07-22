@@ -8,7 +8,7 @@ import { useRelatedPokeList } from "../hook/useRelatedPokeList";
 import { yogiPokeApi } from "../service/api";
 import { User } from "../service/dataType";
 
-const BLOCKED_USER_SWR_KEY = ["/relation/blocked"];
+const SWR_KEY_BLOCKED_USER = ["/relation/blocked"];
 
 export const BlockedUser = () => {
   const { navigate } = useRouter();
@@ -17,10 +17,10 @@ export const BlockedUser = () => {
   const { refreshUser } = useUser();
   const { mutate: mutateRelatedPokes } = useRelatedPokeList();
 
-  const { data } = useSWR<User[]>(BLOCKED_USER_SWR_KEY);
+  const { data } = useSWR<User[]>(SWR_KEY_BLOCKED_USER);
 
   const { trigger, isMutating } = useSWRMutation(
-    BLOCKED_USER_SWR_KEY,
+    SWR_KEY_BLOCKED_USER,
     (_, { arg }: { arg: string }) =>
       yogiPokeApi
         .patch(`/relation/${arg}`, { isAccepted: true })
