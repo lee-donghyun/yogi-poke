@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
@@ -7,6 +8,8 @@ import { useStackedLayer } from "../component/StackedLayerProvider";
 import { yogiPokeApi } from "../service/api";
 import { MyInfo } from "../service/dataType";
 import { useRelatedPokeList } from "./useRelatedPokeList";
+import { SWR_KEY_USER } from "./useUserProfile";
+import { SWR_KEY_MATE_POKE } from "./useUserRelatedPokeList";
 
 interface PokeError {
   status: number;
@@ -44,7 +47,8 @@ export const usePoke = (
   const stack = useStackedLayer();
   const push = useNotification();
   const { refreshUser, myInfo } = useUser();
-  const { mutate } = useRelatedPokeList();
+  const { mutate: mutateRelatedPokeList } = useRelatedPokeList();
+  const { mutate: globalMutate } = useSWRConfig();
   return useSWRMutation(
     "/mate/poke",
     (key, { arg }: { arg: PokePayload }) =>
@@ -81,7 +85,9 @@ export const usePoke = (
       },
       onSuccess: (email) => {
         void refreshUser();
-        void mutate();
+        void mutateRelatedPokeList();
+        void globalMutate(SWR_KEY_USER(email));
+        void globalMutate(SWR_KEY_MATE_POKE(email));
         onSuccess({ stack, push, meta: { email, myInfo } });
       },
     },
