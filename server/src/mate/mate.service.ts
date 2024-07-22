@@ -142,7 +142,7 @@ export class MateService {
   }) {
     return this.db.poke.count({
       where: {
-        OR: [
+        AND: [
           typeof fromUserId == 'number' && {
             fromUserId,
             relation: { isAccepted: true },
