@@ -9,7 +9,7 @@ import { UserListItem } from "../component/UserListItem";
 import { useCreatedAt } from "../hook/useCreatedAt";
 import { useLocalStorage } from "../hook/useLocalStorage";
 import { LIKE_PERSIST_KEY } from "../service/const";
-import { User } from "../service/dataType";
+import { isVerifiedUser, User } from "../service/dataType";
 
 export const Like = () => {
   const { navigate } = useRouter();
@@ -31,6 +31,7 @@ export const Like = () => {
             <UserListItem
               key={user.email + dataUpdatedAt}
               animation={prev.current === data ? null : { delayTimes: i }}
+              isVerifiedUser={isVerifiedUser(user)}
               selected={false}
               userEmail={user.email}
               userName={user.name}

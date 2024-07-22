@@ -4,6 +4,7 @@ import { Pagination } from './user.interface';
 import { compare, hash } from 'bcrypt';
 import { AuthProvider, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
+import { JwtPayload } from 'src/auth/auth.interface';
 
 @Injectable()
 export class UserService {
@@ -12,7 +13,7 @@ export class UserService {
     user:
       | { email: string }
       | { authProvider: AuthProvider; authProviderId: string },
-  ) {
+  ): Promise<JwtPayload> {
     const found = await this.db.activeUser.findFirst({
       where: user,
       select: {
@@ -22,6 +23,7 @@ export class UserService {
         name: true,
         profileImageUrl: true,
         pushSubscription: true,
+        authProvider: true,
       },
     });
     if (found === null) {
@@ -53,7 +55,7 @@ export class UserService {
           authProviderId: string;
           referrerId?: number;
         },
-  ) {
+  ): Promise<JwtPayload> {
     if (await this.isUsedEmail(user.email)) {
       throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
     }
@@ -86,6 +88,7 @@ export class UserService {
         createdAt: true,
         profileImageUrl: true,
         pushSubscription: true,
+        authProvider: true,
       },
     });
   }
@@ -180,6 +183,7 @@ export class UserService {
         email: true,
         name: true,
         profileImageUrl: true,
+        authProvider: true,
       },
       orderBy: { id: orderBy },
     });

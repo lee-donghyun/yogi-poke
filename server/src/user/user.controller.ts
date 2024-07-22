@@ -107,9 +107,8 @@ export class UserController {
     @User() userPayload: JwtPayload,
     @Param() param: GetUserByEmailParamDto,
   ) {
-    const { email, id, name, profileImageUrl } = await this.userService.getUser(
-      param,
-    );
+    const { email, id, name, profileImageUrl, authProvider } =
+      await this.userService.getUser(param);
     const pokes = await this.mateService.getPokedCount({
       fromUserId: userPayload.id,
       toUserId: id,
@@ -118,7 +117,7 @@ export class UserController {
       fromUserId: id,
       toUserId: userPayload.id,
     });
-    return { email, id, name, profileImageUrl, pokeds, pokes };
+    return { email, id, name, profileImageUrl, pokeds, pokes, authProvider };
   }
 
   @UseGuards(AuthGuard)

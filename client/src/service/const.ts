@@ -1,3 +1,5 @@
+import { AuthProvider } from "./dataType";
+
 export const LIKE_PERSIST_KEY = "LIKE";
 
 export const DELETED_USER = {
@@ -5,4 +7,5 @@ export const DELETED_USER = {
   id: -1,
   name: "(알수없음)",
   profileImageUrl: null,
+  authProvider: AuthProvider.INSTAGRAM,
 };
