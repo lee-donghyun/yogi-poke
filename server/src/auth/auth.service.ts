@@ -41,7 +41,7 @@ export class AuthService implements OnModuleInit {
     }
   }
   createUserToken(user: JwtPayload) {
-    return sign(user, this.USER_SECRET) as Promise<string>;
+    return sign(user, this.USER_SECRET) as string;
   }
 
   verifyAuthorizedToken(token: string) {
@@ -52,7 +52,7 @@ export class AuthService implements OnModuleInit {
     }
   }
   createAuthorizedToken(payload: AuthorizedTokenPayload) {
-    return sign(payload, this.AUTHORIZED_SECRET) as Promise<string>;
+    return sign(payload, this.AUTHORIZED_SECRET) as string;
   }
 
   getInstagramAccessToken(code: string) {
