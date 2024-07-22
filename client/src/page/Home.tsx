@@ -8,7 +8,7 @@ import {
 } from "../component/StackedLayerProvider";
 
 const INSTAGRAM_REDIRECT_URI =
-  "https://api.instagram.com/oauth/authorize?client_id=1522641998321203&redirect_uri=https://yogi-poke-api.is-not-a.store/auth/instagram&scope=user_profile&response_type=code";
+  "https://api.instagram.com/oauth/authorize?client_id=2580089718840571&redirect_uri=https://yogi-poke-api.is-not-a.store/auth/instagram&scope=user_profile&response_type=code";
 
 const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();
