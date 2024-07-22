@@ -2,7 +2,13 @@ import { AuthProvider, User } from '@prisma/client';
 
 export type JwtPayload = Pick<
   User,
-  'id' | 'email' | 'name' | 'profileImageUrl' | 'pushSubscription' | 'createdAt'
+  | 'id'
+  | 'email'
+  | 'name'
+  | 'profileImageUrl'
+  | 'pushSubscription'
+  | 'createdAt'
+  | 'authProvider'
 >;
 
 export type AuthorizedTokenPayload = {

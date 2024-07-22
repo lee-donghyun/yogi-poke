@@ -55,14 +55,14 @@ export const PwaProvider = ({
 
   const isPwa = isPwaMode();
   const token = useMemo(() => {
-    const persistedToken = localStorage.getItem(TOKEN_PERSIST_KEY);
-    if (typeof persistedToken === "string") {
-      return persistedToken;
-    }
     const searchToken = new URLSearchParams(location.search).get("token");
     if (typeof searchToken === "string") {
       persisteToken(searchToken);
       return searchToken;
+    }
+    const persistedToken = localStorage.getItem(TOKEN_PERSIST_KEY);
+    if (typeof persistedToken === "string") {
+      return persistedToken;
     }
     return null;
   }, []);
