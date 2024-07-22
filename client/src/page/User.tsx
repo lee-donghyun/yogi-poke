@@ -1,6 +1,5 @@
 import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
-import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 import { useUser } from "../component/Auth";
@@ -9,51 +8,36 @@ import { CheckBadge } from "../component/icon/CheckBadge";
 import { Star, StarSolid } from "../component/icon/Star";
 import { StackedNavigation } from "../component/Navigation";
 import { useNotification } from "../component/Notification";
+import { PokeSheet } from "../component/PokeSheet";
+import { useStackedLayer } from "../component/StackedLayerProvider";
 import { Stat } from "../component/Stat";
 import { Timer } from "../component/Timer";
 import { useLocalStorage } from "../hook/useLocalStorage";
-import { usePoke } from "../hook/usePoke";
 import { useRelatedPokeList } from "../hook/useRelatedPokeList";
+import { useUserPofile } from "../hook/useUserProfile";
+import { useUserRelatedPokeList } from "../hook/useUserRelatedPokeList";
 import { yogiPokeApi } from "../service/api";
 import { LIKE_PERSIST_KEY } from "../service/const";
-import { AuthProvider, isVerifiedUser } from "../service/dataType";
+import { isVerifiedUser } from "../service/dataType";
 
 export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 export const MINUTE_IN_UNIX = 1000 * 60;
 
-interface UserData {
-  email: string;
-  id: number;
-  name: string;
-  profileImageUrl: null | string;
-  pokeds: number;
-  pokes: number;
-  authProvider: AuthProvider;
-}
-
-interface UserPokeData {
-  createdAt: string;
-  id: number;
-  fromUserId: number;
-  toUserId: number;
-}
-
 export const User = () => {
   const { myInfo, refreshUser } = useUser({ assertAuth: true });
-
+  const overlay = useStackedLayer();
   const { params } = useRouter();
   const userEmail = params[":userId"];
   const push = useNotification();
-  const { trigger, isMutating } = usePoke();
   const { mutate: mutateRelatedPokes } = useRelatedPokeList();
 
-  const { data, mutate: mutateUser } = useSWR<UserData>([`/user/${userEmail}`]);
+  const { data, mutate: mutateUser } = useUserPofile(userEmail);
 
   const {
     data: pokes,
     isLoading,
     mutate: mutateUserPoke,
-  } = useSWR<UserPokeData[]>([`/mate/poke/${userEmail}`, { limit: 1 }]);
+  } = useUserRelatedPokeList(userEmail);
 
   const mutateAll = () =>
     Promise.allSettled([
@@ -156,13 +140,10 @@ export const User = () => {
       <div className="p-5">
         <button
           className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={!isPokable || isLoading || isMutating}
-          onClick={() =>
-            void trigger({
-              email: userEmail,
-              payload: { type: "normal" },
-            }).then(() => mutateAll())
-          }
+          disabled={!isPokable || isLoading}
+          onClick={() => {
+            overlay(PokeSheet, { targetUserEmail: userEmail });
+          }}
         >
           콕 찌르기 👉
         </button>
