@@ -1,0 +1,63 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "client/**"
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Install Lighthouse
+        run: npm install -g lighthouse
+
+      - name: Run Lighthouse audit for search page
+        run: lighthouse ${{ secrets.VERCEL_URL }}/search --output html --output-path ./lighthouse-report-search.html
+
+      - name: Run Lighthouse audit for user page
+        run: lighthouse ${{ secrets.VERCEL_URL }}/user/dlx --output html --output-path ./lighthouse-report-user.html
+
+      - name: Run Lighthouse audit for my-page
+        run: lighthouse ${{ secrets.VERCEL_URL }}/my-page --output html --output-path ./lighthouse-report-my-page.html
+
+      - name: Install MinIO client
+        run: wget https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
+
+      - name: Configure MinIO client
+        run: |
+          ./mc alias set myminio https://static.is-not-a.store ${{ secrets.MINIO_ACCESS_KEY }} ${{ secrets.MINIO_SECRET_KEY }}
+
+      - name: Upload Lighthouse reports to MinIO
+        run: |
+          ./mc cp ./lighthouse-report-search.html myminio/lighthouse/lighthouse-report-search.html
+          ./mc cp ./lighthouse-report-user.html myminio/lighthouse/lighthouse-report-user.html
+          ./mc cp ./lighthouse-report-my-page.html myminio/lighthouse/lighthouse-report-my-page.html
+
+      - name: Create comment with Lighthouse report links
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { context } = require('@actions/github');
+            const prNumber = context.payload.pull_request ? context.payload.pull_request.number : null;
+            if (prNumber) {
+              github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: prNumber,
+                body: `Lighthouse reports are available:\n
+                - [Search page](https://static.is-not-a.store/lighthouse/lighthouse-report-search.html)\n
+                - [User page](https://static.is-not-a.store/lighthouse/lighthouse-report-user.html)\n
+                - [My Page](https://static.is-not-a.store/lighthouse/lighthouse-report-my-page.html)`
+              });
+            }
