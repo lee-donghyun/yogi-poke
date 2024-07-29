@@ -37,9 +37,9 @@ jobs:
 
       - name: Upload Lighthouse reports to MinIO
         run: |
-          ./mc cp ./lighthouse-report-search.html myminio/mybucket/lighthouse-report-search.html
-          ./mc cp ./lighthouse-report-user.html myminio/mybucket/lighthouse-report-user.html
-          ./mc cp ./lighthouse-report-my-page.html myminio/mybucket/lighthouse-report-my-page.html
+          ./mc cp ./lighthouse-report-search.html myminio/lighthouse/lighthouse-report-search.html
+          ./mc cp ./lighthouse-report-user.html myminio/lighthouse/lighthouse-report-user.html
+          ./mc cp ./lighthouse-report-my-page.html myminio/lighthouse/lighthouse-report-my-page.html
 
       - name: Create comment with Lighthouse report links
         uses: actions/github-script@v6
@@ -53,8 +53,8 @@ jobs:
                 ...context.repo,
                 issue_number: prNumber,
                 body: `Lighthouse reports are available:\n
-                - [Search page](https://static.is-not-a.store/mybucket/lighthouse-report-search.html)\n
-                - [User page](https://static.is-not-a.store/mybucket/lighthouse-report-user.html)\n
-                - [My Page](https://static.is-not-a.store/mybucket/lighthouse-report-my-page.html)`
+                - [Search page](https://static.is-not-a.store/lighthouse/lighthouse-report-search.html)\n
+                - [User page](https://static.is-not-a.store/lighthouse/lighthouse-report-user.html)\n
+                - [My Page](https://static.is-not-a.store/lighthouse/lighthouse-report-my-page.html)`
               });
             }
