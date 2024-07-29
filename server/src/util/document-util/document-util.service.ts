@@ -24,22 +24,22 @@ export class DocumentUtilService {
         '\ud83d\udc4b \uc9c0\uae08 \uc774 \uc21c\uac04, \uc0c8\ub85c\uc6b4 \uc18c\uc15c \ubbf8\ub514\uc5b4 \ud601\uc2e0\uc774 \uc2dc\uc791\ub429\ub2c8\ub2e4.',
       icons: [
         {
-          src: '/icon-192x192.png',
+          src: '/domain-icon-192x192.png',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          src: '/icon-256x256.png',
+          src: '/domain-icon-256x256.png',
           sizes: '256x256',
           type: 'image/png',
         },
         {
-          src: '/icon-384x384.png',
+          src: '/domain-icon-384x384.png',
           sizes: '384x384',
           type: 'image/png',
         },
         {
-          src: '/icon-512x512.png',
+          src: '/domain-icon-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },

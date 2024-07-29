@@ -2,19 +2,19 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { BrowserRouter } from "router2";
 
-import { AuthProvider } from "./component/Auth";
-import { NotificationProvider } from "./component/Notification";
-import { PwaProvider } from "./component/PwaProvider";
-import { StackedLayerProvider } from "./component/StackedLayerProvider";
-import { Home } from "./page/Home";
-import { Like } from "./page/Like";
-import { MyPage } from "./page/MyPage";
-import { Register } from "./page/Register";
-import { Search } from "./page/Search";
-import { Setting } from "./page/Setting";
-import { SignIn } from "./page/SignIn";
-import { ThridPartyRegister } from "./page/ThirdPartyRegister";
-import { User } from "./page/User";
+import { Home } from "./ui/page/Home";
+import { Like } from "./ui/page/Like";
+import { MyPage } from "./ui/page/MyPage";
+import { Register } from "./ui/page/Register";
+import { Search } from "./ui/page/Search";
+import { Setting } from "./ui/page/Setting";
+import { SignIn } from "./ui/page/SignIn";
+import { ThridPartyRegister } from "./ui/page/ThirdPartyRegister";
+import { User } from "./ui/page/User";
+import { AuthProvider } from "./ui/provider/Auth.tsx";
+import { NotificationProvider } from "./ui/provider/Notification.tsx";
+import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
+import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
 
 dayjs.extend(duration);
 
