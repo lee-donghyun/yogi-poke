@@ -1,6 +1,6 @@
-import { useUser } from "../../component/Auth";
-import { createDraggableSheet } from "../../component/StackedLayerProvider";
-import { usePoke } from "../../hook/usePoke";
+import { usePoke } from "../../hook/domain/usePoke.ts";
+import { useUser } from "../../ui/provider/Auth.tsx";
+import { createDraggableSheet } from "../../ui/provider/StackedLayerProvider.tsx";
 
 const CloseIcon = () => (
   <svg
