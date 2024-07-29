@@ -1,11 +1,7 @@
-import "./App.css";
-
-function App() {
+export const App = () => {
   return (
-    <div class="dfd">
-      <h1>여기에서 무언가 보여드리겠습니다.</h1>
+    <div>
+      <h1 class="text-5xl font-serif font-medium">솔리드 앱의 시작</h1>
     </div>
   );
-}
-
-export default App;
+};
