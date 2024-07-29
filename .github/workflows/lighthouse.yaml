@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
 
@@ -24,13 +24,13 @@ jobs:
         run: npm install -g lighthouse
 
       - name: Run Lighthouse audit for search page
-        run: lighthouse ${{ secrets.VERCEL_URL }}/search --output html --output-path ./lighthouse-report-search.html
+        run: lighthouse ${{ secrets.VERCEL_URL }}/search --preset=mobile --output html --output-path ./lighthouse-report-search.html
 
       - name: Run Lighthouse audit for user page
-        run: lighthouse ${{ secrets.VERCEL_URL }}/user/dlx --output html --output-path ./lighthouse-report-user.html
+        run: lighthouse ${{ secrets.VERCEL_URL }}/user/dlx --preset=mobile --output html --output-path ./lighthouse-report-user.html
 
       - name: Run Lighthouse audit for my-page
-        run: lighthouse ${{ secrets.VERCEL_URL }}/my-page --output html --output-path ./lighthouse-report-my-page.html
+        run: lighthouse ${{ secrets.VERCEL_URL }}/my-page --preset=mobile --output html --output-path ./lighthouse-report-my-page.html
 
       - name: Install MinIO client
         run: wget https://dl.min.io/client/mc/release/linux-amd64/mc && chmod +x mc
