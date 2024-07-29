@@ -1,8 +1,11 @@
 name: Lighthouse CI
 
 on:
-  repository_dispatch:
-    types: [vercel-deploy]
+  push:
+    branches:
+      - main
+    paths:
+      - "client/**"
 
 jobs:
   lighthouse:
