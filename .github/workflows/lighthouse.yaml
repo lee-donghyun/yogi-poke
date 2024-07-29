@@ -35,9 +35,9 @@ jobs:
 
       - name: Upload Lighthouse reports to MinIO
         run: |
-          ./mc cp -r ./.lighthouseci/search storage/lighthouse/search/
-          ./mc cp -r ./.lighthouseci/user storage/lighthouse/user/
-          ./mc cp -r ./.lighthouseci/my-page storage/lighthouse/my-page/
+          ./mc cp -r ./.lighthouseci/search/ storage/lighthouse/search/
+          ./mc cp -r ./.lighthouseci/user/ storage/lighthouse/user/
+          ./mc cp -r ./.lighthouseci/my-page/ storage/lighthouse/my-page/
 
       - name: Create comment with Lighthouse report links
         uses: actions/github-script@v6
