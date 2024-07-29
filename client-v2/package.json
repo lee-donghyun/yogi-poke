@@ -16,6 +16,7 @@
     "@types/eslint__js": "^8.42.3",
     "eslint": "^9.8.0",
     "eslint-plugin-perfectionist": "^3.0.0",
+    "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-solid": "^0.14.1",
     "prettier": "^3.3.3",
     "typescript": "^5.2.2",
