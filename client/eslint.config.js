@@ -1,3 +1,6 @@
-import essentials from "eslint-config-react-app-essentials";
+import { createConfig } from "eslint-config-react-app-essentials";
 
-export default [...essentials];
+export default createConfig({
+  scope: ["src/**/*.{ts,tsx}"],
+  tsConfigPath: "./tsconfig.json",
+});
