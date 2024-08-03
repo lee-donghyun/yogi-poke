@@ -1,7 +1,9 @@
+import { PwaProvider } from "./component/provider/pwa-provider";
+
 export const App = () => {
   return (
-    <div>
-      <h1 class="text-5xl font-serif font-medium">솔리드 앱의 시작</h1>
-    </div>
+    <PwaProvider>
+      {({ prefetch }) => <div>{JSON.stringify(prefetch)}dfd</div>}
+    </PwaProvider>
   );
 };
