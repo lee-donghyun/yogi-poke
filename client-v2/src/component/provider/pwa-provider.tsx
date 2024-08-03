@@ -1,6 +1,6 @@
 import { createSignal, JSX, Match, Switch } from "solid-js";
 
-import { yogiPokeApi } from "../../service/api/yogi-poke-api";
+import { useApiInstance, useAuth } from "./auth-provider";
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
@@ -58,8 +58,10 @@ export const PwaProvider = (props: {
     shouldFetchMyInfo ? undefined : null,
   );
 
+  const api = useApiInstance();
+
   if (shouldFetchMyInfo) {
-    void yogiPokeApi
+    void api
       .get("my-info")
       .json<MyInfo>()
       .then(setMyInfo)
