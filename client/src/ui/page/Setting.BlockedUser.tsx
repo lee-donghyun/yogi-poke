@@ -3,17 +3,16 @@ import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
-import { yogiPokeApi } from "../../service/api.ts";
 import { User } from "../../service/dataType.ts";
 import { useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 
-const SWR_KEY_BLOCKED_USER = ["/relation/blocked"];
+const SWR_KEY_BLOCKED_USER = ["relation/blocked"];
 
 export const BlockedUser = () => {
   const push = useNotification();
 
-  const { refreshUser } = useUser();
+  const { client, refreshUser } = useUser();
   const { mutate: mutateRelatedPokes } = useRelatedPokeList();
 
   const { data } = useSWR<User[]>(SWR_KEY_BLOCKED_USER);
@@ -21,8 +20,8 @@ export const BlockedUser = () => {
   const { isMutating, trigger } = useSWRMutation(
     SWR_KEY_BLOCKED_USER,
     (_, { arg }: { arg: string }) =>
-      yogiPokeApi
-        .patch(`/relation/${arg}`, { isAccepted: true })
+      client
+        .patch(`relation/${arg}`, { json: { isAccepted: true } })
         .then(() => Promise.allSettled([refreshUser(), mutateRelatedPokes()]))
         .then(() => {
           push({ content: "차단을 해제했습니다." });
@@ -42,18 +41,16 @@ export const BlockedUser = () => {
       {data &&
         data?.length > 0 &&
         data?.map((user) => (
-          <Link
-            className="flex py-2"
-            key={user.id}
-            pathname={`/user/${user.email}`}
-          >
+          <div className="flex py-2" key={user.id}>
             <img
               alt=""
               className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
               src={user.profileImageUrl ?? "/asset/default_user_profile.png"}
             />
             <div className="ml-3 flex-1">
-              <p className="relative font-medium">@{user.email}</p>
+              <Link pathname={`/user/${user.email}`}>
+                <p className="relative font-medium">@{user.email}</p>
+              </Link>
               <p className="text-sm text-zinc-800">{user.name}</p>
             </div>
             <button
@@ -61,13 +58,14 @@ export const BlockedUser = () => {
               disabled={isMutating}
               onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
                 void trigger(user.email);
               }}
               type="button"
             >
               차단 해제
             </button>
-          </Link>
+          </div>
         ))}
     </div>
   );

@@ -13,9 +13,11 @@ import { CircleXIcon } from "../icon/CircleX.tsx";
 
 export const Like = () => {
   const { navigate } = useRouter();
-  const [likes] = useLocalStorage(LIKE_PERSIST_KEY, []);
+  const [likes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
   const { data } = useSWR<User[]>(
-    !(likes.length === 0) ? ["/user", { ids: likes }] : null,
+    !(likes.length === 0)
+      ? ["user", likes.map((id) => `ids[]=${id}`).join("&")]
+      : null,
   );
   const noLikes = likes.length === 0 || data?.length === 0;
   const dataUpdatedAt = useCreatedAt(data);
