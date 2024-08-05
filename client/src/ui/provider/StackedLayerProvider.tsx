@@ -86,11 +86,16 @@ export const StackedLayerProvider = ({
     <stackedLayerContext.Provider value={push}>
       <div className="w-screen" ref={childrenContainerRef}>
         {isLayer(Layer) && (
-          <div
+          // show accessible backdrop
+          <button
             className={`fixed inset-0 z-40 rounded-xl bg-black ${
               show ? "stacked-backdrop-from" : "stacked-backdrop-to"
             }`}
-            onClick={pop}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                pop();
+              }
+            }}
           />
         )}
         {children}

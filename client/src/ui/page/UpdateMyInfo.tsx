@@ -77,6 +77,7 @@ export const UpdateMyInfo = createLayer(({ close }) => {
         <div className="flex justify-center">
           <label className="flex flex-col items-center gap-2">
             <img
+              alt="프로필 이미지"
               className="h-20 w-20 rounded-full bg-zinc-200 object-cover"
               src={data.profileImageUrl ?? "/asset/default_user_profile.png"}
             />

@@ -25,6 +25,7 @@ export const QrScanner = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
+    // eslint-disable-next-line jsx-a11y/media-has-caption
     <video
       className="aspect-square w-full animate-pulse rounded-md bg-zinc-100 object-cover"
       ref={ref}

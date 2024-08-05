@@ -28,8 +28,8 @@ export const SettingGroup = <T extends string>({
       <div>
         {subGroups.map((subGroup, index) => (
           <div key={subGroup.title}>
-            <div
-              className="flex items-center justify-between py-4 text-lg font-medium"
+            <button
+              className="flex w-full items-center justify-between py-4 text-lg font-medium"
               onClick={() => {
                 onOpenSubgroup(subGroup.title);
               }}
@@ -40,7 +40,7 @@ export const SettingGroup = <T extends string>({
               >
                 <ChevronRight />
               </span>
-            </div>
+            </button>
             <div
               className="overflow-hidden duration-300"
               style={

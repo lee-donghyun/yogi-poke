@@ -1,4 +1,4 @@
-import { useRouter } from "router2";
+import { Link } from "router2";
 
 import { Poke, User } from "../../service/dataType.ts";
 import { getReadableDateOffset } from "../../service/util.ts";
@@ -65,7 +65,6 @@ export const PokeListItem = ({
   targetUser,
   type,
 }: PocketListItemProps) => {
-  const { navigate } = useRouter();
   const overlay = useStackedLayer();
   return (
     <div
@@ -85,11 +84,9 @@ export const PokeListItem = ({
         />
         <div className="ml-4 flex-1">
           <p className="relative">
-            <span
+            <Link
               className="flex items-center font-medium"
-              onClick={() => {
-                navigate({ pathname: `/user/${targetUser.email}` });
-              }}
+              pathname={`/user/${targetUser.email}`}
               role="link"
             >
               @{targetUser.email}
@@ -98,7 +95,7 @@ export const PokeListItem = ({
                   <CheckBadge />
                 </span>
               )}
-            </span>
+            </Link>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
               {getReadableDateOffset(date)}
             </span>

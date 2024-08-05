@@ -1,4 +1,4 @@
-import { useRouter } from "router2";
+import { Link } from "router2";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -11,7 +11,6 @@ import { useNotification } from "../provider/Notification.tsx";
 const SWR_KEY_BLOCKED_USER = ["/relation/blocked"];
 
 export const BlockedUser = () => {
-  const { navigate } = useRouter();
   const push = useNotification();
 
   const { refreshUser } = useUser();
@@ -43,11 +42,10 @@ export const BlockedUser = () => {
       {data &&
         data?.length > 0 &&
         data?.map((user) => (
-          <div
+          <Link
             className="flex py-2"
             key={user.id}
-            onClick={() => navigate({ pathname: `/user/${user.email}` })}
-            role="button"
+            pathname={`/user/${user.email}`}
           >
             <img
               alt=""
@@ -69,7 +67,7 @@ export const BlockedUser = () => {
             >
               차단 해제
             </button>
-          </div>
+          </Link>
         ))}
     </div>
   );
