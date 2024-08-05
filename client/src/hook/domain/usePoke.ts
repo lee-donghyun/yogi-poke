@@ -2,7 +2,6 @@ import { AxiosError } from "axios";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
-import { yogiPokeApi } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
 import { useUser } from "../../ui/provider/Auth.tsx";
 import { useNotification } from "../../ui/provider/Notification.tsx";
@@ -46,14 +45,14 @@ export const usePoke = (
 ) => {
   const stack = useStackedLayer();
   const push = useNotification();
-  const { myInfo, refreshUser } = useUser();
+  const { client, myInfo, refreshUser } = useUser();
   const { mutate: mutateRelatedPokeList } = useRelatedPokeList();
   const { mutate: globalMutate } = useSWRConfig();
   return useSWRMutation(
-    "/mate/poke",
+    "mate/poke",
     (key, { arg }: { arg: PokePayload }) =>
-      yogiPokeApi
-        .post(key, arg)
+      client
+        .post(key, { json: arg })
         .then(() => arg.email)
         .catch((err: AxiosError) => {
           throw new Error("failed to poke", {

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
-import { yogiPokeApi } from "../../service/api.ts";
+import { client } from "../../service/api.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
 import { validator } from "../../service/validator.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
@@ -32,17 +32,18 @@ export const ThridPartyRegister = () => {
 
   const [step, setStep] = useState<1 | 2>(1);
   const { isMutating, trigger } = useSWRMutation(
-    "/user/register/authorized",
+    "user/register/authorized",
     (api, { arg }: { arg: Form }) =>
-      yogiPokeApi
-        .post(api, { ...arg, token: params.code })
-        .then(({ data }: { data: string }) => registerToken(data))
-        .then(() => {
+      client
+        .post(api, { json: { ...arg, token: params.code } })
+        .text()
+        .then((token) => registerToken(token))
+        .then((token) => {
           const redirect = params.returnUrl;
           navigate({ pathname: redirect || "/my-page" }, { replace: true });
 
           getPushNotificationSubscription()
-            .then((pushSubscription) => patchUser({ pushSubscription }))
+            .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {
               push({ content: "이제 콕 찔리면 알림이 울립니다." });
             })

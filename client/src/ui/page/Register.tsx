@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
+import { HTTPError } from "ky";
 import { useCallback, useState } from "react";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
-import { yogiPokeApi } from "../../service/api.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
 import { validator } from "../../service/validator.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
@@ -30,29 +29,30 @@ const stepFieldNameMap = {
 export const Register = () => {
   const push = useNotification();
   const { navigate, params } = useRouter();
-  const { isLoggedIn, patchUser, registerToken } = useUser();
+  const { client, isLoggedIn, patchUser, registerToken } = useUser();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const { isMutating, trigger } = useSWRMutation(
-    "/user/register",
+    "user/register",
     (api, { arg }: { arg: { referrerId: null | number } & Form }) =>
-      yogiPokeApi
-        .post(api, arg)
-        .then(({ data }: { data: string }) => registerToken(data))
-        .then(() => {
+      client
+        .post(api, { json: arg })
+        .text()
+        .then((token) => registerToken(token))
+        .then((token) => {
           const redirect = params.returnUrl;
           navigate({ pathname: redirect || "/search" }, { replace: true });
 
           getPushNotificationSubscription()
-            .then((pushSubscription) => patchUser({ pushSubscription }))
+            .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {
               push({ content: "이제 콕 찔리면 알림이 울립니다." });
             })
             .catch(console.error);
         }),
     {
-      onError: (err: AxiosError) => {
-        switch (err.response?.status) {
+      onError: (err: HTTPError) => {
+        switch (err.response.status) {
           case 409:
             push({ content: "이미 사용중인 아이디입니다." });
             break;
