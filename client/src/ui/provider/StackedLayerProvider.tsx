@@ -88,7 +88,7 @@ export const StackedLayerProvider = ({
         {isLayer(Layer) && (
           // show accessible backdrop
           <button
-            className={`fixed inset-0 z-40 rounded-xl bg-black ${
+            className={`fixed inset-0 z-40 rounded-t-3xl bg-black ${
               show ? "stacked-backdrop-from" : "stacked-backdrop-to"
             }`}
             onClick={(e) => {
@@ -141,9 +141,9 @@ export const createDraggableSheet = <Context extends object = never>(
     const deferredTranslate = useDeferredValue(translate);
 
     return (
-      <div className="p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <div className="p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div
-          className="rounded-xl bg-white"
+          className="rounded-3xl bg-white"
           style={
             deferredTranslate
               ? {
@@ -186,7 +186,7 @@ export const createDraggableSheet = <Context extends object = never>(
               startPointRef.current = { x, y };
             }}
           >
-            <div className="h-2 w-12 rounded-full bg-zinc-500"></div>
+            <div className="h-1.5 w-12 rounded-full bg-zinc-200"></div>
           </div>
           <div>
             <Layer close={close} context={context} />

@@ -143,7 +143,7 @@ export const User = () => {
       </div>
       <div className="p-5">
         <button
-          className="block w-full rounded-lg bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
+          className="block w-full rounded-2xl bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={!isPokable || isLoading}
           onClick={() => {
             overlay(PokeSheet, { targetUserEmail: userEmail });
