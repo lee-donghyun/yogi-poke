@@ -28,15 +28,15 @@ export const App = () => {
               <BrowserRouter
                 routes={{
                   "/": Home,
-                  "/register": Register,
-                  "/sign-in": SignIn,
-                  "/my-page": MyPage,
-                  "/search": Search,
-                  "/user/:userId": User,
-                  "/setting": Setting,
-                  "/like": Like,
-                  "/third-party-register": ThridPartyRegister,
                   "/404": () => <>not found</>,
+                  "/like": Like,
+                  "/my-page": MyPage,
+                  "/register": Register,
+                  "/search": Search,
+                  "/setting": Setting,
+                  "/sign-in": SignIn,
+                  "/third-party-register": ThridPartyRegister,
+                  "/user/:userId": User,
                 }}
               >
                 {(Page) => (

@@ -18,12 +18,12 @@ const PrivateLoginSheet = createDraggableSheet(({ close }) => {
         Instagram없이 로그인
       </p>
       <div className="mt-12 flex flex-col gap-5">
-        <Link replace onClick={close} pathname="/register" query={params}>
+        <Link onClick={close} pathname="/register" query={params} replace>
           <button className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60">
             회원가입
           </button>
         </Link>
-        <Link replace onClick={close} pathname="/sign-in">
+        <Link onClick={close} pathname="/sign-in" replace>
           <button className="block w-full rounded-full border p-4 duration-300 active:bg-zinc-200 disabled:bg-zinc-300">
             로그인
           </button>

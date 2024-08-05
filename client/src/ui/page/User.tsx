@@ -47,7 +47,7 @@ export const User = () => {
       mutateUserPoke(),
     ]);
 
-  const { trigger: triggerBlock, isMutating: isBlockLoading } = useSWRMutation(
+  const { isMutating: isBlockLoading, trigger: triggerBlock } = useSWRMutation(
     `/relation/${userEmail}`,
     (api) =>
       yogiPokeApi
@@ -73,16 +73,15 @@ export const User = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        title={`@${userEmail}`}
         actions={[
           <button
-            key="block"
             className="text-zinc-400 active:opacity-60"
             disabled={isBlockLoading}
-            type="button"
+            key="block"
             onClick={() => {
               confirm(`${data?.name}님을 차단할까요?`) && void triggerBlock();
             }}
+            type="button"
           >
             <Block />
           </button>,
@@ -90,6 +89,7 @@ export const User = () => {
         onBack={() => {
           history.back();
         }}
+        title={`@${userEmail}`}
       />
       <div className="p-5">
         <div className="flex justify-center pt-16">
@@ -109,14 +109,14 @@ export const User = () => {
               )}
             </p>
             <button
-              key="edit"
               className="active:opacity-60"
-              type="button"
+              key="edit"
               onClick={() => {
                 isLiked
                   ? setLikes(likes.filter((id) => id !== data.id))
                   : data && setLikes([...likes, data.id]);
               }}
+              type="button"
             >
               <span className="block scale-[80%] text-zinc-500">
                 {isLiked ? (

@@ -7,7 +7,7 @@ import { useIntersectionObserver } from "../base/useIntersectionObserver.ts";
 const POKE_LIST_LIMIT = 20;
 
 export const useRelatedPokeList = () => {
-  const { data, setSize, error, isLoading, mutate } = useSWRInfinite<
+  const { data, error, isLoading, mutate, setSize } = useSWRInfinite<
     Poke[],
     unknown
   >((index, previous) =>
@@ -29,8 +29,8 @@ export const useRelatedPokeList = () => {
   return {
     data,
     error,
-    mutate,
     intersectorRef,
     isFreshData,
+    mutate,
   };
 };

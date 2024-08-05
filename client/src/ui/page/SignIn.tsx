@@ -11,9 +11,9 @@ import { useNotification } from "../provider/Notification.tsx";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
-  label: "text-lg",
-  input: "border rounded text-zinc-800 p-2 disabled:bg-zinc-100",
   helper: "text-sm text-zinc-600",
+  input: "border rounded text-zinc-800 p-2 disabled:bg-zinc-100",
+  label: "text-lg",
 };
 
 interface Form {
@@ -27,10 +27,10 @@ const stepFieldNameMap = {
 export const SignIn = () => {
   const push = useNotification();
   const { navigate, params } = useRouter();
-  const { registerToken, isLoggedIn, patchUser } = useUser();
+  const { isLoggedIn, patchUser, registerToken } = useUser();
 
   const [step, setStep] = useState<1 | 2>(1);
-  const { trigger, isMutating } = useSWRMutation(
+  const { isMutating, trigger } = useSWRMutation(
     "/user/sign-in",
     (api, { arg }: { arg: Form }) =>
       yogiPokeApi
@@ -85,23 +85,23 @@ export const SignIn = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        title="로그인"
         onBack={() => {
           navigate({ pathname: "/" }, { replace: true });
         }}
+        title="로그인"
       />
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"
-        style={{ transform: `translateY(${(step - 2) * 128}px)` }}
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
+        style={{ transform: `translateY(${(step - 2) * 128}px)` }}
       >
         <div
           className={cx.formItem}
-          style={step > 1 ? undefined : { pointerEvents: "none", opacity: 0 }}
+          style={step > 1 ? undefined : { opacity: 0, pointerEvents: "none" }}
         >
           <label className={cx.label} htmlFor="password">
             비밀번호
@@ -112,10 +112,10 @@ export const SignIn = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
-            type="password"
             onFocus={() => {
               setStep(2);
             }}
+            type="password"
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -131,10 +131,10 @@ export const SignIn = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
-            type="text"
             onFocus={() => {
               setStep(1);
             }}
+            type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>

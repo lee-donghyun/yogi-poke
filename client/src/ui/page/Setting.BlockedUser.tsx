@@ -19,7 +19,7 @@ export const BlockedUser = () => {
 
   const { data } = useSWR<User[]>(SWR_KEY_BLOCKED_USER);
 
-  const { trigger, isMutating } = useSWRMutation(
+  const { isMutating, trigger } = useSWRMutation(
     SWR_KEY_BLOCKED_USER,
     (_, { arg }: { arg: string }) =>
       yogiPokeApi
@@ -44,8 +44,8 @@ export const BlockedUser = () => {
         data?.length > 0 &&
         data?.map((user) => (
           <div
-            key={user.id}
             className="flex py-2"
+            key={user.id}
             onClick={() => navigate({ pathname: `/user/${user.email}` })}
             role="button"
           >
@@ -61,11 +61,11 @@ export const BlockedUser = () => {
             <button
               className="self-center rounded border border-zinc-700 px-1 text-sm text-zinc-700 disabled:opacity-60"
               disabled={isMutating}
-              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 void trigger(user.email);
               }}
+              type="button"
             >
               차단 해제
             </button>

@@ -45,7 +45,7 @@ const closeSplash = (delay: number) => {
 };
 
 interface Prefetch {
-  myInfo: null | MyInfo;
+  myInfo: MyInfo | null;
 }
 
 export const PwaProvider = ({
