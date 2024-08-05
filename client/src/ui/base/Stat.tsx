@@ -1,6 +1,6 @@
 import { CountUp } from "./CountUp.tsx";
 
-export const Stat = ({ label, value }: { value: number; label: string }) => {
+export const Stat = ({ label, value }: { label: string; value: number }) => {
   return (
     <div className="flex flex-1 flex-col items-center">
       <p className="text-xl font-extrabold">

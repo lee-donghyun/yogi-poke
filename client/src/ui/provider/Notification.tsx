@@ -14,7 +14,7 @@ const notificationContext = createContext<
   );
 });
 
-const initialNotificaion = { data: [], cursor: -1 };
+const initialNotificaion = { cursor: -1, data: [] };
 
 export const useNotification = () => {
   return useContext(notificationContext);
@@ -25,16 +25,16 @@ export const NotificationProvider = ({
 }: {
   children: JSX.Element;
 }) => {
-  const [{ data, cursor }, setNotifications] = useState<{
-    data: NotificationData[];
+  const [{ cursor, data }, setNotifications] = useState<{
     cursor: number;
+    data: NotificationData[];
   }>(initialNotificaion);
 
   const pushNotification = (n: Omit<NotificationData, "id">) => {
     const next = { ...n, id: Date.now() };
     setNotifications(({ data }) => ({
-      data: [next, ...data],
       cursor: 0,
+      data: [next, ...data],
     }));
     setTimeout(() => {
       setNotifications((p) => {
@@ -45,8 +45,8 @@ export const NotificationProvider = ({
             }
           }, 500);
           return {
-            data: p.data,
             cursor: -1,
+            data: p.data,
           };
         }
         return p;
@@ -61,10 +61,10 @@ export const NotificationProvider = ({
           <div className="fixed inset-x-0 top-0 z-50">
             {data.map((n, i) => (
               <div
-                key={n.id}
                 className={`absolute inset-x-5 top-5 rounded-xl bg-white/70 p-5 shadow-lg backdrop-blur backdrop-brightness-95 duration-300 ${
                   cursor === i * 2 ? "from-top" : "to-top"
                 }`}
+                key={n.id}
               >
                 {n.content}
               </div>

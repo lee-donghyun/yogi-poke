@@ -29,16 +29,16 @@ export const Like = () => {
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
-              key={user.email + dataUpdatedAt}
               animation={prev.current === data ? null : { delayTimes: i }}
               isVerifiedUser={isVerifiedUser(user)}
+              key={user.email + dataUpdatedAt}
+              onClick={() => {
+                navigate({ pathname: `/user/${user.email}` });
+              }}
               selected={false}
               userEmail={user.email}
               userName={user.name}
               userProfileImageUrl={user.profileImageUrl}
-              onClick={() => {
-                navigate({ pathname: `/user/${user.email}` });
-              }}
             />
           ))}
           {noLikes && (

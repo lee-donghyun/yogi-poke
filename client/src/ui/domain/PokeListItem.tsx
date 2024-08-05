@@ -1,4 +1,4 @@
-import { useRouter } from "router2";
+import { Link } from "router2";
 
 import { Poke, User } from "../../service/dataType.ts";
 import { getReadableDateOffset } from "../../service/util.ts";
@@ -7,14 +7,14 @@ import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { PokeSheet } from "./PokeSheet.tsx";
 
 interface PocketListItemProps {
-  type: "poke" | "poked";
-  targetUser: User;
-  date: string;
   animation: {
     delayTimes: number;
   } | null;
-  payload: Poke["payload"];
+  date: string;
   isVerifiedUser: boolean;
+  payload: Poke["payload"];
+  targetUser: User;
+  type: "poke" | "poked";
 }
 
 const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
@@ -32,11 +32,11 @@ const NormalPokedBody = ({ targetUserName }: { targetUserName: string }) => (
 );
 
 const EmojiPokeBody = ({
-  targetUserName,
   message,
+  targetUserName,
 }: {
-  targetUserName: string;
   message: string;
+  targetUserName: string;
 }) => (
   <p className="text-sm text-zinc-800">
     회원님이 <span className="font-semibold">{targetUserName}</span>
@@ -45,11 +45,11 @@ const EmojiPokeBody = ({
 );
 
 const EmojiPokedBody = ({
-  targetUserName,
   message,
+  targetUserName,
 }: {
-  targetUserName: string;
   message: string;
+  targetUserName: string;
 }) => (
   <p className="text-sm text-zinc-800">
     <span className="font-semibold">{targetUserName}</span>님이 회원님에게
@@ -58,14 +58,13 @@ const EmojiPokedBody = ({
 );
 
 export const PokeListItem = ({
-  type,
-  targetUser,
-  date,
   animation,
-  payload,
+  date,
   isVerifiedUser,
+  payload,
+  targetUser,
+  type,
 }: PocketListItemProps) => {
-  const { navigate } = useRouter();
   const overlay = useStackedLayer();
   return (
     <div
@@ -85,12 +84,10 @@ export const PokeListItem = ({
         />
         <div className="ml-4 flex-1">
           <p className="relative">
-            <span
+            <Link
               className="flex items-center font-medium"
+              pathname={`/user/${targetUser.email}`}
               role="link"
-              onClick={() => {
-                navigate({ pathname: `/user/${targetUser.email}` });
-              }}
             >
               @{targetUser.email}
               {isVerifiedUser && (
@@ -98,7 +95,7 @@ export const PokeListItem = ({
                   <CheckBadge />
                 </span>
               )}
-            </span>
+            </Link>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
               {getReadableDateOffset(date)}
             </span>
