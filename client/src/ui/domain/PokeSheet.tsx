@@ -10,11 +10,13 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
     const { isMutating, trigger } = usePoke();
     const overlay = useStackedLayer();
     return (
-      <div className="p-5">
-        <p className="text-lg font-semibold text-zinc-800">콕! 찌르기 👉</p>
-        <div className="flex gap-2 pt-12">
+      <div className="p-6 pt-0">
+        <p className="pb-6 pt-4 text-lg font-semibold text-zinc-800">
+          콕! 찌르기 👉
+        </p>
+        <div className="flex flex-col gap-4 border-t border-zinc-100 pt-6">
           <button
-            className="flex-1 rounded-full bg-zinc-50 p-3 duration-200 disabled:opacity-60"
+            className="h-12 rounded-2xl bg-zinc-100 px-4 text-start font-semibold text-zinc-900 duration-200 disabled:opacity-60"
             disabled={isMutating}
             onClick={() => {
               close();
@@ -26,7 +28,7 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
             이모티콘 찌르기 😊
           </button>
           <button
-            className="flex-1 rounded-full bg-zinc-50 p-3 duration-200 disabled:opacity-60"
+            className="h-12 rounded-2xl bg-zinc-100 px-4 text-start font-semibold duration-200 disabled:opacity-60"
             disabled={isMutating}
             onClick={() => {
               void trigger({
