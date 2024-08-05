@@ -7,9 +7,9 @@ export const CountUp = ({
   from,
   to,
 }: {
+  duration: number;
   from: number;
   to: number;
-  duration: number;
 }) => {
   const fromValue = useRef(from);
   const prevValue = useRef(from);

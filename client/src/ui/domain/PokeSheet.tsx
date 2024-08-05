@@ -7,7 +7,7 @@ import {
 
 export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
   ({ close, context }) => {
-    const { trigger, isMutating } = usePoke();
+    const { isMutating, trigger } = usePoke();
     const overlay = useStackedLayer();
     return (
       <div className="p-5">

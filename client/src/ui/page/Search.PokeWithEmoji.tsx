@@ -10,14 +10,14 @@ const EMOJI_DICT_URL = "/asset/emoji.json";
 const MESSAGE_LENGTH = 5;
 
 const BOOKMARK = [
-  { icon: "😀", title: "스마일리 및 사람", depth: 0 },
-  { icon: "🐵", title: "동물 및 자연", depth: 6916 },
-  { icon: "🍇", title: "음식 및 음료", depth: 8892 },
-  { icon: "🌍", title: "여행 및 장소", depth: 10608 },
-  { icon: "🎃", title: "활동", depth: 13468 },
-  { icon: "👓", title: "사물", depth: 14560 },
-  { icon: "🏧", title: "기호", depth: 17940 },
-  { icon: "🏁", title: "깃발", depth: 20852 },
+  { depth: 0, icon: "😀", title: "스마일리 및 사람" },
+  { depth: 6916, icon: "🐵", title: "동물 및 자연" },
+  { depth: 8892, icon: "🍇", title: "음식 및 음료" },
+  { depth: 10608, icon: "🌍", title: "여행 및 장소" },
+  { depth: 13468, icon: "🎃", title: "활동" },
+  { depth: 14560, icon: "👓", title: "사물" },
+  { depth: 17940, icon: "🏧", title: "기호" },
+  { depth: 20852, icon: "🏁", title: "깃발" },
 ];
 
 const Emoji = ({
@@ -43,7 +43,7 @@ const Emoji = ({
 export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
   ({ close, context }) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    const { trigger, isMutating } = usePoke();
+    const { isMutating, trigger } = usePoke();
 
     const [input, setInput] = useState<string[]>([]);
     const focusIndex = input.length;
@@ -62,29 +62,29 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
         <div className="flex gap-2 px-5 pt-5">
           {Array.from({ length: MESSAGE_LENGTH }).map((_, index) => (
             <Emoji
-              key={`${input[index]}-${index}`}
               emoji={input[index]}
               focus={index == focusIndex}
+              key={`${input[index]}-${index}`}
               onClick={() => setInput((p) => p.slice(0, index))}
             />
           ))}
         </div>
         <div
-          data-allow-touch-move-on-stacked-layer
           className="mx-5 mb-2 mt-7 flex overflow-y-hidden overflow-x-scroll rounded-full bg-zinc-50"
+          data-allow-touch-move-on-stacked-layer
           style={{ maxHeight: "28px" }}
         >
-          {BOOKMARK.map(({ icon, title, depth }, index) => {
+          {BOOKMARK.map(({ depth, icon, title }, index) => {
             const isVisible = index === bookmarkPage;
             return (
               <button
-                key={icon}
                 className={`flex items-center gap-1 rounded-full px-2 duration-200 ${isVisible ? "scale-110 bg-zinc-100" : ""}`}
-                type="button"
+                key={icon}
                 onClick={() => {
                   setBookmarkPage(index);
                   containerRef.current?.scroll({ left: depth + 12 });
                 }}
+                type="button"
               >
                 <span className="text-xl">{icon}</span>
                 {index === bookmarkPage && (
@@ -97,10 +97,8 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
           })}
         </div>
         <div
-          ref={containerRef}
-          data-allow-touch-move-on-stacked-layer
           className="overflow-x-scroll"
-          style={{ height: 204 }}
+          data-allow-touch-move-on-stacked-layer
           onScroll={() => {
             const scrollLeft = containerRef.current?.scrollLeft ?? 0;
             const index = BOOKMARK.findLastIndex(
@@ -108,16 +106,18 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
             );
             setBookmarkPage(index);
           }}
+          ref={containerRef}
+          style={{ height: 204 }}
         >
           <div className="grid grid-flow-col grid-rows-4 gap-1 px-5 text-3xl">
             {data?.map((emoji, i) => (
               <button
-                key={i}
                 className="size-12 rounded-full duration-100 active:scale-90 active:opacity-70"
-                type="button"
+                key={i}
                 onClick={() => {
                   setInput((p) => [...p, emoji].slice(-MESSAGE_LENGTH));
                 }}
+                type="button"
               >
                 {emoji}
               </button>
@@ -128,13 +128,13 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
           <button
             className="w-full rounded-full bg-black p-4 text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300"
             disabled={input.length !== MESSAGE_LENGTH || isMutating}
-            type="button"
             onClick={() =>
               void trigger({
                 email: context.email,
-                payload: { type: "emoji", message: input.join("") },
+                payload: { message: input.join(""), type: "emoji" },
               }).then(close)
             }
+            type="button"
           >
             찌르기 👉
           </button>
