@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { HTTPError } from "ky";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -54,7 +54,7 @@ export const usePoke = (
       client
         .post(key, { json: arg })
         .then(() => arg.email)
-        .catch((err: AxiosError) => {
+        .catch((err: HTTPError) => {
           throw new Error("failed to poke", {
             cause: { email: arg.email, status: err.response?.status },
           });
