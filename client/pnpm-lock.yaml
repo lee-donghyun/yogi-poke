@@ -32,6 +32,9 @@ importers:
       router2:
         specifier: ^4.0.0
         version: 4.0.0(@types/react-dom@18.2.19)(@types/react@18.2.57)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.3.3)
+      sonner:
+        specifier: ^1.5.0
+        version: 1.5.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       swr:
         specifier: ^2.2.5
         version: 2.2.5(react@18.2.0)
@@ -1591,6 +1594,12 @@ packages:
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+
+  sonner@1.5.0:
+    resolution: {integrity: sha512-FBjhG/gnnbN6FY0jaNnqZOMmB73R+5IiyYAw8yBj7L54ER7HB3fOSE5OFiQiE2iXWxeXKvg6fIP4LtVppHEdJA==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
 
   source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
@@ -3376,6 +3385,11 @@ snapshots:
       object-inspect: 1.13.2
 
   slash@3.0.0: {}
+
+  sonner@1.5.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
 
   source-map-js@1.0.2: {}
 
