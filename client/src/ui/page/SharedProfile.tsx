@@ -22,7 +22,7 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
         >
           <QRCodeSVG
             bgColor="#fff"
-            className="rounded-md shadow-lg"
+            className="rounded-2xl shadow-lg"
             fgColor="#000"
             size={208}
             value={shareUrl}
