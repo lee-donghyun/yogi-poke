@@ -12,7 +12,7 @@ import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { BlockedUser } from "./Setting.BlockedUser.tsx";
 import { Quit } from "./Setting.Quit.tsx";
 
-type Open = null | "알림" | "내 계정" | "차단한 계정" | "정보";
+type Open = "내 계정" | "알림" | "정보" | "차단한 계정" | null;
 
 export const Setting = () => {
   const { myInfo, patchUser } = useUser({ assertAuth: true });
@@ -26,20 +26,17 @@ export const Setting = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        title="설정"
         onBack={() => {
           history.back();
         }}
+        title="설정"
       />
       <div className="pt-16"></div>
       <div className="p-5">
         <SettingGroup
           onOpenSubgroup={onOpenSubgroup}
-          title="연결"
           subGroups={[
             {
-              title: "알림",
-              open: open === "알림",
               children: (
                 <button
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
@@ -71,20 +68,21 @@ export const Setting = () => {
                   </span>
                 </button>
               ),
+              open: open === "알림",
+              title: "알림",
             },
           ]}
+          title="연결"
         />
         <SettingGroup
           onOpenSubgroup={onOpenSubgroup}
-          title="계정"
           subGroups={[
             {
-              title: "내 계정",
               children: (
                 <>
                   <button
-                    key="로그아웃"
                     className="flex w-full items-center justify-between rounded-xl py-3 text-start text-red-500 duration-150 active:scale-[98%]"
+                    key="로그아웃"
                     onClick={() => {
                       if (confirm("로그아웃할까요?")) {
                         releaseToken();
@@ -95,8 +93,8 @@ export const Setting = () => {
                     로그아웃
                   </button>
                   <button
-                    key="탈퇴"
                     className="flex w-full items-center justify-between rounded-xl py-3 text-start text-zinc-500 duration-150 active:scale-[98%]"
+                    key="탈퇴"
                     onClick={() => overlay(Quit)}
                   >
                     계정 삭제
@@ -104,20 +102,20 @@ export const Setting = () => {
                 </>
               ),
               open: open === "내 계정",
+              title: "내 계정",
             },
             {
-              title: "차단한 계정",
               children: <BlockedUser />,
               open: open === "차단한 계정",
+              title: "차단한 계정",
             },
           ]}
+          title="계정"
         />
         <SettingGroup
           onOpenSubgroup={onOpenSubgroup}
-          title="지원"
           subGroups={[
             {
-              title: "정보",
               children: (
                 <>
                   {[
@@ -126,8 +124,8 @@ export const Setting = () => {
                     { label: "오픈소스 라이브러리", url: "help-license.html" },
                   ].map(({ label, url }) => (
                     <button
-                      key={label}
                       className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
+                      key={label}
                       onClick={() =>
                         window.open(
                           `https://static.is-not-a.store/yogi-poke-assets/${url}`,
@@ -140,8 +138,10 @@ export const Setting = () => {
                 </>
               ),
               open: open === "정보",
+              title: "정보",
             },
           ]}
+          title="지원"
         />
       </div>
     </div>

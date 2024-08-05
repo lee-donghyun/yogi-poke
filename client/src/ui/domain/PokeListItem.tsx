@@ -7,14 +7,14 @@ import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { PokeSheet } from "./PokeSheet.tsx";
 
 interface PocketListItemProps {
-  type: "poke" | "poked";
-  targetUser: User;
-  date: string;
   animation: {
     delayTimes: number;
   } | null;
-  payload: Poke["payload"];
+  date: string;
   isVerifiedUser: boolean;
+  payload: Poke["payload"];
+  targetUser: User;
+  type: "poke" | "poked";
 }
 
 const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
@@ -32,11 +32,11 @@ const NormalPokedBody = ({ targetUserName }: { targetUserName: string }) => (
 );
 
 const EmojiPokeBody = ({
-  targetUserName,
   message,
+  targetUserName,
 }: {
-  targetUserName: string;
   message: string;
+  targetUserName: string;
 }) => (
   <p className="text-sm text-zinc-800">
     회원님이 <span className="font-semibold">{targetUserName}</span>
@@ -45,11 +45,11 @@ const EmojiPokeBody = ({
 );
 
 const EmojiPokedBody = ({
-  targetUserName,
   message,
+  targetUserName,
 }: {
-  targetUserName: string;
   message: string;
+  targetUserName: string;
 }) => (
   <p className="text-sm text-zinc-800">
     <span className="font-semibold">{targetUserName}</span>님이 회원님에게
@@ -58,12 +58,12 @@ const EmojiPokedBody = ({
 );
 
 export const PokeListItem = ({
-  type,
-  targetUser,
-  date,
   animation,
-  payload,
+  date,
   isVerifiedUser,
+  payload,
+  targetUser,
+  type,
 }: PocketListItemProps) => {
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
@@ -87,10 +87,10 @@ export const PokeListItem = ({
           <p className="relative">
             <span
               className="flex items-center font-medium"
-              role="link"
               onClick={() => {
                 navigate({ pathname: `/user/${targetUser.email}` });
               }}
+              role="link"
             >
               @{targetUser.email}
               {isVerifiedUser && (

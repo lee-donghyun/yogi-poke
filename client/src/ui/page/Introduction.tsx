@@ -27,23 +27,23 @@ export const Introduction = () => {
           <div className="flex items-center justify-between">
             <button
               className="rounded-full bg-blue-500 px-5 py-0.5 font-medium text-white active:opacity-60"
-              type="button"
               onClick={() => {
                 overlay(instructionSheet);
               }}
+              type="button"
             >
               설치
             </button>
             {typeof navigator?.share === "function" && (
               <button
                 className="-mb-1 p-1 text-blue-500 active:opacity-60"
-                type="button"
                 onClick={() => {
                   void navigator.share({
                     title: "요기콕콕!",
                     url: "https://yogi-poke.vercel.app?mtag=1",
                   });
                 }}
+                type="button"
               >
                 <ArrowUpOnSquare />
               </button>
@@ -71,9 +71,9 @@ export const Introduction = () => {
           "/preview/profile-qr.png",
         ].map((src) => (
           <img
-            key={src}
             alt=""
             className="w-44 snap-start scroll-mx-6 rounded-2xl border"
+            key={src}
             src={src}
           />
         ))}

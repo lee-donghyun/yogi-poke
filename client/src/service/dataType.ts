@@ -1,40 +1,40 @@
 export enum AuthProvider {
-  INSTAGRAM = "INSTAGRAM",
   EMAIL = "EMAIL",
+  INSTAGRAM = "INSTAGRAM",
 }
 
 export interface MyInfo {
+  authProvider: AuthProvider;
   email: string;
   id: number;
   name: string;
   pokeds: number;
   pokes: number;
-  token: string;
   profileImageUrl: null | string;
   pushSubscription: null | string;
-  authProvider: AuthProvider;
+  token: string;
 }
 
 export interface User {
+  authProvider: AuthProvider;
   email: string;
   id: number;
   name: string;
-  profileImageUrl: string | null;
-  authProvider: AuthProvider;
+  profileImageUrl: null | string;
 }
 
 export interface Poke {
-  id: number;
-  payload: { type: "normal" } | { type: "emoji"; message: string };
   createdAt: string;
   fromUserId: number;
-  toUserId: number;
+  id: number;
+  payload: { message: string; type: "emoji" } | { type: "normal" };
   relation: Relation;
+  toUserId: number;
 }
 
 export interface Relation {
-  fromUser: User | null;
-  toUser: User | null;
+  fromUser: null | User;
+  toUser: null | User;
 }
 
 export const isVerifiedUser = (user: User) =>

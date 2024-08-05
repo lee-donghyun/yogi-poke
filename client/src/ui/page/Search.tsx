@@ -19,7 +19,7 @@ import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
 export const Search = () => {
   useUser({ assertAuth: true });
   const overlay = useStackedLayer();
-  const { params, navigate } = useRouter();
+  const { navigate, params } = useRouter();
 
   const searchText = params?.searchText ?? "";
   const setSearchText = (searchText: string) => {
@@ -34,7 +34,7 @@ export const Search = () => {
   const { data, isLoading } = useSWR<User[]>(
     [
       "/user",
-      { email: deferredSearchText, name: deferredSearchText, limit: 5 },
+      { email: deferredSearchText, limit: 5, name: deferredSearchText },
     ],
     {
       keepPreviousData: true,
@@ -46,7 +46,7 @@ export const Search = () => {
   );
   const dataUpdatedAt = useCreatedAt(data);
 
-  const { trigger, isMutating } = usePoke();
+  const { isMutating, trigger } = usePoke();
 
   const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
   const showPokeOptionOpen = useDebouncedValue(pokeOptionOpen, 500);
@@ -61,10 +61,10 @@ export const Search = () => {
           </p>
           <button
             className="text-zinc-500"
-            type="button"
             onClick={() => {
               overlay(QrScannerSheet);
             }}
+            type="button"
           >
             <QrCode />
           </button>
@@ -73,28 +73,28 @@ export const Search = () => {
           <span className="block w-5 text-xl font-bold">@</span>
           <input
             className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
-            placeholder="이름 또는 아이디로 검색해요"
-            type="text"
-            value={searchText}
             onChange={({ target: { value } }) => {
               setSearchText(value);
             }}
+            placeholder="이름 또는 아이디로 검색해요"
+            type="text"
+            value={searchText}
           />
         </div>
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
-              key={user.email + dataUpdatedAt}
               animation={{ delayTimes: i }}
               isVerifiedUser={isVerifiedUser(user)}
-              selected={selected?.email === user.email}
-              userEmail={user.email}
-              userName={user.name}
-              userProfileImageUrl={user.profileImageUrl}
+              key={user.email + dataUpdatedAt}
               onClick={() => {
                 setSelected(user);
                 setPokeOptionOpen(false);
               }}
+              selected={selected?.email === user.email}
+              userEmail={user.email}
+              userName={user.name}
+              userProfileImageUrl={user.profileImageUrl}
             />
           ))}
           {data?.length === 0 && (
@@ -115,15 +115,15 @@ export const Search = () => {
           <div className="relative">
             {(showPokeOptionOpen || pokeOptionOpen) && (
               <button
-                key={pokeOptionOpen ? "open" : "close"}
                 className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} absolute bottom-14 right-0 animate-fade-up whitespace-pre rounded-full bg-zinc-900 px-4 py-3 text-white duration-200 ease-out active:bg-zinc-300`}
-                type="button"
+                key={pokeOptionOpen ? "open" : "close"}
                 onClick={() => {
                   if (typeof selected?.email !== "string") {
                     return;
                   }
                   overlay(PokeWithEmoji, { email: selected.email });
                 }}
+                type="button"
               >
                 이모티콘 찌르기 😊
               </button>

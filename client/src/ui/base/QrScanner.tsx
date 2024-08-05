@@ -10,8 +10,8 @@ export const QrScanner = ({
   useEffect(() => {
     if (ref.current === null) return;
     const scanner = new QrScannerClient(ref.current, onScan, {
-      highlightScanRegion: true,
       highlightCodeOutline: true,
+      highlightScanRegion: true,
     });
     const startScanning = scanner.start();
     void startScanning.then(() => {
@@ -26,8 +26,8 @@ export const QrScanner = ({
   }, []);
   return (
     <video
-      ref={ref}
       className="aspect-square w-full animate-pulse rounded-md bg-zinc-100 object-cover"
+      ref={ref}
     ></video>
   );
 };

@@ -14,47 +14,47 @@ import { VoidFunction } from "../../service/type.ts";
 import { persisteToken } from "./PwaProvider.tsx";
 
 interface PatchUserPayload {
-  pushSubscription?: PushSubscriptionJSON | null;
-  profileImageUrl?: string;
   name?: string;
+  profileImageUrl?: string;
+  pushSubscription?: null | PushSubscriptionJSON;
 }
 
 const authContext = createContext<{
-  myInfo: MyInfo | null;
-  registerToken: (token: string) => Promise<void>;
   isLoggedIn: boolean;
+  myInfo: MyInfo | null;
   patchUser: (payload: PatchUserPayload) => Promise<void>;
   refreshUser: () => Promise<void>;
+  registerToken: (token: string) => Promise<void>;
 }>({
-  myInfo: null,
   isLoggedIn: false,
-  registerToken: () => {
-    throw new Error(
-      "registerToken need to be called within AuthProvider context",
-    );
-  },
+  myInfo: null,
   patchUser: () => {
     throw new Error("patchUser need to be called within AuthProvider context");
   },
   refreshUser: () => {
     throw new Error("patchUser need to be called within AuthProvider context");
   },
+  registerToken: () => {
+    throw new Error(
+      "registerToken need to be called within AuthProvider context",
+    );
+  },
 });
 
 export const useUser = ({
-  revalidateIfHasToken,
   assertAuth,
+  revalidateIfHasToken,
 }: {
+  /**
+   * 로그인이 되어있지 않은 경우 로그인 페이지로 이동합니다.
+   */
+  assertAuth?: boolean;
   /**
    * 훅이 호출될때 최신 정보임을 확인합니다. 토큰이 있는 경우에만 활성화됩니다.
    * @warn 이 옵션은 페이지 단위의 훅 호출에서만 사용되어야 합니다. 여러 컴포넌트에서 동시에 사용한다면 불필요한 요청이 발생할 수 있습니다.
    * @default false
    */
   revalidateIfHasToken?: boolean;
-  /**
-   * 로그인이 되어있지 않은 경우 로그인 페이지로 이동합니다.
-   */
-  assertAuth?: boolean;
 } = {}) => {
   const { navigate, path } = useRouter();
   const auth = useContext(authContext);
@@ -125,11 +125,11 @@ export const AuthProvider = ({
   return (
     <authContext.Provider
       value={{
+        isLoggedIn: myInfo !== null,
         myInfo,
-        registerToken,
         patchUser,
         refreshUser,
-        isLoggedIn: myInfo !== null,
+        registerToken,
       }}
     >
       <SWRConfig
@@ -137,8 +137,8 @@ export const AuthProvider = ({
           fetcher: ([key, params]: [string, object]) =>
             yogiPokeApi
               .get<unknown>(key, {
-                params,
                 headers: { Authorization: myInfo?.token },
+                params,
               })
               .then((res) => res.data),
         }}

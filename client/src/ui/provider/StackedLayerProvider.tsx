@@ -84,13 +84,13 @@ export const StackedLayerProvider = ({
 
   return (
     <stackedLayerContext.Provider value={push}>
-      <div ref={childrenContainerRef} className="w-screen">
+      <div className="w-screen" ref={childrenContainerRef}>
         {isLayer(Layer) && (
           <div
-            onClick={pop}
             className={`fixed inset-0 z-40 rounded-xl bg-black ${
               show ? "stacked-backdrop-from" : "stacked-backdrop-to"
             }`}
+            onClick={pop}
           />
         )}
         {children}
@@ -130,7 +130,7 @@ export const createDraggableSheet = <Context extends object = never>(
   // eslint-disable-next-line react/prop-types
   const DraggableSheet: Layer<Context> = ({ close, context }) => {
     const startPointRef = useRef({ x: 0, y: 0 });
-    const [translate, setTranslate] = useState<null | { x: number; y: number }>(
+    const [translate, setTranslate] = useState<{ x: number; y: number } | null>(
       null,
     );
     const deferredTranslate = useDeferredValue(translate);

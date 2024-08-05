@@ -12,15 +12,15 @@ export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
 };
 
 interface StackedNavigationProps {
-  title: string;
-  onBack: () => void;
   actions?: JSX.Element[];
+  onBack: () => void;
+  title: string;
 }
 
 export const StackedNavigation = ({
-  title,
   actions,
   onBack,
+  title,
 }: StackedNavigationProps) => {
   return (
     <div
