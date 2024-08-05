@@ -120,7 +120,7 @@ export const PokeListItem = ({
           )}
           {type === "poked" && (
             <button
-              className="mt-1.5 w-full rounded-md border border-zinc-600 p-1 text-sm text-zinc-900 disabled:opacity-60"
+              className="mt-1.5 w-full rounded-lg bg-zinc-100 p-1 text-sm font-medium text-zinc-900 active:opacity-60 disabled:opacity-60"
               onClick={() =>
                 overlay(PokeSheet, { targetUserEmail: targetUser.email })
               }

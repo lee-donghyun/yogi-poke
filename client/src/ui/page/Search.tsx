@@ -112,7 +112,7 @@ export const Search = () => {
           <div className="relative">
             {(showPokeOptionOpen || pokeOptionOpen) && (
               <button
-                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} absolute bottom-14 right-0 animate-fade-up whitespace-pre rounded-full bg-zinc-900 px-4 py-3 text-white duration-200 ease-out active:bg-zinc-300`}
+                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} absolute bottom-14 right-0 animate-fade-up whitespace-pre rounded-full bg-zinc-900 px-4 py-3 font-medium text-white duration-200 ease-out active:bg-zinc-300`}
                 key={pokeOptionOpen ? "open" : "close"}
                 onClick={() => {
                   if (typeof selected?.email !== "string") {
@@ -126,7 +126,7 @@ export const Search = () => {
               </button>
             )}
             <button
-              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300`}
+              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300`}
               disabled={selected === null || isLoading || isMutating}
               onClick={
                 pokeOptionOpen
