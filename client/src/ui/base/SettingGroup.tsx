@@ -3,18 +3,18 @@ import { createRef, useRef } from "react";
 import { ChevronRight } from "../icon/ChevronRight.tsx";
 
 interface SettingGroupProps<T extends string> {
-  title: string;
+  onOpenSubgroup: (title: T) => void;
   subGroups: {
+    children: JSX.Element;
     open: boolean;
     title: T;
-    children: JSX.Element;
   }[];
-  onOpenSubgroup: (title: T) => void;
+  title: string;
 }
 export const SettingGroup = <T extends string>({
+  onOpenSubgroup,
   subGroups,
   title,
-  onOpenSubgroup,
 }: SettingGroupProps<T>) => {
   const chidlrenRef = useRef(
     Array.from({ length: subGroups.length }).map(() =>
@@ -28,8 +28,8 @@ export const SettingGroup = <T extends string>({
       <div>
         {subGroups.map((subGroup, index) => (
           <div key={subGroup.title}>
-            <div
-              className="flex items-center justify-between py-4 text-lg font-medium"
+            <button
+              className="flex w-full items-center justify-between py-4 text-lg font-medium"
               onClick={() => {
                 onOpenSubgroup(subGroup.title);
               }}
@@ -40,7 +40,7 @@ export const SettingGroup = <T extends string>({
               >
                 <ChevronRight />
               </span>
-            </div>
+            </button>
             <div
               className="overflow-hidden duration-300"
               style={
@@ -53,8 +53,8 @@ export const SettingGroup = <T extends string>({
               }
             >
               <div
-                ref={chidlrenRef.current[index]}
                 className="rounded-xl bg-zinc-50 px-3"
+                ref={chidlrenRef.current[index]}
               >
                 {subGroup.children}
               </div>

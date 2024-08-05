@@ -49,8 +49,8 @@ export const MyPage = () => {
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
   const { myInfo } = useUser({
-    revalidateIfHasToken: true,
     assertAuth: true,
+    revalidateIfHasToken: true,
   });
 
   const { data, error, intersectorRef, isFreshData } = useRelatedPokeList();
@@ -60,12 +60,12 @@ export const MyPage = () => {
       <Navigation
         actions={[
           <button
-            key="alert"
             className="active:opacity-60"
-            type="button"
+            key="alert"
             onClick={() => {
               overlay(MenuSheet);
             }}
+            type="button"
           >
             <Menu />
           </button>,
@@ -74,6 +74,7 @@ export const MyPage = () => {
       <div className="p-5">
         <div className="flex justify-center pt-16">
           <img
+            alt="프로필 이미지"
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
@@ -91,10 +92,10 @@ export const MyPage = () => {
             <div className="flex gap-2">
               <button
                 className="active:opacity-60"
-                type="button"
                 onClick={() => {
                   overlay(UpdateMyInfo);
                 }}
+                type="button"
               >
                 <span className="block scale-[80%] text-zinc-500">
                   <Edit />
@@ -102,10 +103,10 @@ export const MyPage = () => {
               </button>
               <button
                 className="active:opacity-60"
-                type="button"
                 onClick={() => {
                   overlay(SharedProfile);
                 }}
+                type="button"
               >
                 <span className="block scale-[80%] text-zinc-500">
                   <ArrowUpOnSquare />
@@ -141,10 +142,10 @@ export const MyPage = () => {
                 (
                   {
                     createdAt,
-                    id,
                     fromUserId,
-                    relation: { fromUser, toUser },
+                    id,
                     payload,
+                    relation: { fromUser, toUser },
                   },
                   index,
                 ) => {
@@ -161,10 +162,10 @@ export const MyPage = () => {
                     : false;
                   return (
                     <PokeListItem
-                      key={id}
                       animation={animation}
                       date={createdAt}
                       isVerifiedUser={isVerified}
+                      key={id}
                       payload={payload}
                       targetUser={targetUser ?? DELETED_USER}
                       type={type}
@@ -174,7 +175,7 @@ export const MyPage = () => {
               ),
             )
             .flat()}
-          <div ref={intersectorRef} className="h-24"></div>
+          <div className="h-24" ref={intersectorRef}></div>
         </div>
       </div>
       <DomainBottomNavigation />

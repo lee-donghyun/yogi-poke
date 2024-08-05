@@ -1,4 +1,4 @@
-import { usePoke } from "../../hook/domain/usePoke.ts";
+import { type usePoke } from "../../hook/domain/usePoke.ts";
 import { useUser } from "../../ui/provider/Auth.tsx";
 import { createDraggableSheet } from "../../ui/provider/StackedLayerProvider.tsx";
 
@@ -71,7 +71,7 @@ const EventLayer = createDraggableSheet(({ close }) => {
   );
 });
 export const eventPokeProps: Parameters<typeof usePoke>[0] = {
-  onSuccess: ({ stack, push, meta: { myInfo, email } }) => {
+  onSuccess: ({ meta: { email, myInfo }, push, stack }) => {
     if (
       (myInfo?.pokes ?? 0) > 3 &&
       localStorage.getItem(HIDE_LAYER_PERSIST_KEY) === null

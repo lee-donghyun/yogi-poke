@@ -12,8 +12,8 @@ import { SWR_KEY_USER } from "./useUserProfile.ts";
 import { SWR_KEY_MATE_POKE } from "./useUserRelatedPokeList.ts";
 
 interface PokeError {
-  status: number;
   email: string;
+  status: number;
 }
 
 interface NormalPokePayload {
@@ -21,12 +21,12 @@ interface NormalPokePayload {
 }
 
 interface EmojiPokePayload {
-  type: "emoji";
   message: string;
+  type: "emoji";
 }
 interface PokePayload {
   email: string;
-  payload: NormalPokePayload | EmojiPokePayload;
+  payload: EmojiPokePayload | NormalPokePayload;
 }
 
 export const usePoke = (
@@ -35,8 +35,8 @@ export const usePoke = (
   }: {
     onSuccess: (helper: {
       meta: { email: string; myInfo: MyInfo | null };
-      stack: ReturnType<typeof useStackedLayer>;
       push: ReturnType<typeof useNotification>;
+      stack: ReturnType<typeof useStackedLayer>;
     }) => void;
   } = {
     onSuccess: (helper) => {
@@ -46,7 +46,7 @@ export const usePoke = (
 ) => {
   const stack = useStackedLayer();
   const push = useNotification();
-  const { refreshUser, myInfo } = useUser();
+  const { myInfo, refreshUser } = useUser();
   const { mutate: mutateRelatedPokeList } = useRelatedPokeList();
   const { mutate: globalMutate } = useSWRConfig();
   return useSWRMutation(
@@ -57,7 +57,7 @@ export const usePoke = (
         .then(() => arg.email)
         .catch((err: AxiosError) => {
           throw new Error("failed to poke", {
-            cause: { status: err.response?.status, email: arg.email },
+            cause: { email: arg.email, status: err.response?.status },
           });
         }),
     {
@@ -88,7 +88,7 @@ export const usePoke = (
         void mutateRelatedPokeList();
         void globalMutate(SWR_KEY_USER(email));
         void globalMutate(SWR_KEY_MATE_POKE(email));
-        onSuccess({ stack, push, meta: { email, myInfo } });
+        onSuccess({ meta: { email, myInfo }, push, stack });
       },
     },
   );

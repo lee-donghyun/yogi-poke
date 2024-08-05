@@ -19,14 +19,14 @@ class If<T> {
       this.value = callback();
     }
   }
+  _else(callback: Callback<T>): T {
+    return this.value ?? callback();
+  }
   elif(condition: boolean, callback: Callback<T>): this {
     if (!condition) {
       callback();
     }
     return this;
-  }
-  _else(callback: Callback<T>): T {
-    return this.value ?? callback();
   }
 }
 
@@ -34,8 +34,8 @@ export const if_ = <T>(condition: boolean, value: () => T): If<T> =>
   new If<T>(condition, value);
 
 class Switch<V, T> {
-  private value: V;
   private result?: T;
+  private value: V;
   constructor(value: V) {
     this.value = value;
   }

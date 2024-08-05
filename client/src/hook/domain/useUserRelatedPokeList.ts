@@ -2,8 +2,8 @@ import useSWR from "swr";
 
 interface UserPokeData {
   createdAt: string;
-  id: number;
   fromUserId: number;
+  id: number;
   toUserId: number;
 }
 

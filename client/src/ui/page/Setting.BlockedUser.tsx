@@ -1,4 +1,4 @@
-import { useRouter } from "router2";
+import { Link } from "router2";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -11,7 +11,6 @@ import { useNotification } from "../provider/Notification.tsx";
 const SWR_KEY_BLOCKED_USER = ["/relation/blocked"];
 
 export const BlockedUser = () => {
-  const { navigate } = useRouter();
   const push = useNotification();
 
   const { refreshUser } = useUser();
@@ -19,7 +18,7 @@ export const BlockedUser = () => {
 
   const { data } = useSWR<User[]>(SWR_KEY_BLOCKED_USER);
 
-  const { trigger, isMutating } = useSWRMutation(
+  const { isMutating, trigger } = useSWRMutation(
     SWR_KEY_BLOCKED_USER,
     (_, { arg }: { arg: string }) =>
       yogiPokeApi
@@ -43,11 +42,10 @@ export const BlockedUser = () => {
       {data &&
         data?.length > 0 &&
         data?.map((user) => (
-          <div
-            key={user.id}
+          <Link
             className="flex py-2"
-            onClick={() => navigate({ pathname: `/user/${user.email}` })}
-            role="button"
+            key={user.id}
+            pathname={`/user/${user.email}`}
           >
             <img
               alt=""
@@ -61,15 +59,15 @@ export const BlockedUser = () => {
             <button
               className="self-center rounded border border-zinc-700 px-1 text-sm text-zinc-700 disabled:opacity-60"
               disabled={isMutating}
-              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 void trigger(user.email);
               }}
+              type="button"
             >
               차단 해제
             </button>
-          </div>
+          </Link>
         ))}
     </div>
   );

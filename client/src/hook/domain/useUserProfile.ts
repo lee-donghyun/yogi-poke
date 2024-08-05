@@ -3,13 +3,13 @@ import useSWR from "swr";
 import { AuthProvider } from "../../service/dataType.ts";
 
 interface UserData {
+  authProvider: AuthProvider;
   email: string;
   id: number;
   name: string;
-  profileImageUrl: null | string;
   pokeds: number;
   pokes: number;
-  authProvider: AuthProvider;
+  profileImageUrl: null | string;
 }
 
 export const SWR_KEY_USER = (email: string) => [`/user/${email}`];
