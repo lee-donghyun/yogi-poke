@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { createDraggableSheet } from "../provider/StackedLayerProvider.tsx";
 
-const EMOJI_DICT_URL = "asset/emoji.json";
+const EMOJI_DICT_URL = "/asset/emoji.json";
 
 const MESSAGE_LENGTH = 5;
 
