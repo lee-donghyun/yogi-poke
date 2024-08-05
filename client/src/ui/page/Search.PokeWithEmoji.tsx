@@ -1,11 +1,11 @@
-import axios from "axios";
+import ky from "ky";
 import { useRef, useState } from "react";
 import useSWR from "swr";
 
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { createDraggableSheet } from "../provider/StackedLayerProvider.tsx";
 
-const EMOJI_DICT_URL = "/asset/emoji.json";
+const EMOJI_DICT_URL = "asset/emoji.json";
 
 const MESSAGE_LENGTH = 5;
 
@@ -51,7 +51,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
     const [bookmarkPage, setBookmarkPage] = useState(0);
 
     const { data } = useSWR(EMOJI_DICT_URL, (key) =>
-      axios.get<string[]>(key).then((res) => res.data),
+      ky.get(key).json<string[]>(),
     );
 
     return (
