@@ -20,6 +20,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "router2": "^4.0.0",
+    "sonner": "^1.5.0",
     "swr": "^2.2.5",
     "tailwindcss-animated": "^1.1.2"
   },
