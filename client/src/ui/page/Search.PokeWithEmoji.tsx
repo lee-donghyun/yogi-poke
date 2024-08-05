@@ -126,7 +126,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
         </div>
         <div className="px-5 pt-10">
           <button
-            className="w-full rounded-full bg-black p-4 text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300"
+            className="w-full rounded-2xl bg-black p-4 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300"
             disabled={input.length !== MESSAGE_LENGTH || isMutating}
             onClick={() =>
               void trigger({
