@@ -8,7 +8,7 @@ interface UserPokeData {
 }
 
 export const SWR_KEY_MATE_POKE = (email: string) => [
-  `/mate/poke/${email}`,
+  `mate/poke/${email}`,
   { limit: 1 },
 ];
 

@@ -25,9 +25,9 @@ const authContext = createContext<{
   client: KyInstance;
   isLoggedIn: boolean;
   myInfo: MyInfo | null;
-  patchUser: (payload: PatchUserPayload) => Promise<void>;
+  patchUser: (payload: PatchUserPayload, token?: string) => Promise<void>;
   refreshUser: () => Promise<void>;
-  registerToken: (token: string) => Promise<void>;
+  registerToken: (token: string) => Promise<string>;
 }>({
   client,
   isLoggedIn: false,
@@ -97,40 +97,6 @@ export const AuthProvider = ({
 }) => {
   const [myInfo, setMyInfo] = useState<MyInfo | null>(prefetchedMyInfo);
 
-  const registerToken = useCallback(
-    (token: string) =>
-      client
-        .get("user/my-info", {
-          headers: { Authorization: token },
-        })
-        .json<Exclude<MyInfo, "token">>()
-        .then((data) => {
-          setMyInfo({ ...data, token });
-          persisteToken(token);
-        }),
-    [],
-  );
-  const patchUser = useCallback(
-    (myInfo: PatchUserPayload) =>
-      client
-        .patch("user/my-info", { json: myInfo })
-        .json<MyInfo>()
-        .then((user) => {
-          setMyInfo((p) => ({ ...p, ...user }));
-        }),
-    [],
-  );
-  const refreshUser = useCallback(
-    () =>
-      client
-        .get("user/my-info")
-        .json<Exclude<MyInfo, "token">>()
-        .then((data) => {
-          setMyInfo((p) => ({ ...p, ...data }));
-        }),
-    [],
-  );
-
   const userClient = useMemo(() => {
     if (myInfo?.token) {
       return client.extend({
@@ -139,6 +105,47 @@ export const AuthProvider = ({
     }
     return client;
   }, [myInfo?.token]);
+
+  const registerToken = useCallback(
+    (token: string) =>
+      userClient
+        .get("user/my-info", {
+          headers: { Authorization: token },
+        })
+        .json<Exclude<MyInfo, "token">>()
+        .then((data) => {
+          setMyInfo({ ...data, token });
+          persisteToken(token);
+          return token;
+        }),
+    [userClient],
+  );
+  /**
+   * @warn token이 없는 클로저에서 호출될때 token을 명시적으로 주입해야합니다.
+   */
+  const patchUser = useCallback(
+    (myInfo: PatchUserPayload, token?: string) =>
+      userClient
+        .patch("user/my-info", {
+          ...(token && { headers: { Authorization: token } }),
+          json: myInfo,
+        })
+        .json<MyInfo>()
+        .then((user) => {
+          setMyInfo((p) => ({ ...p, ...user }));
+        }),
+    [userClient],
+  );
+  const refreshUser = useCallback(
+    () =>
+      userClient
+        .get("user/my-info")
+        .json<Exclude<MyInfo, "token">>()
+        .then((data) => {
+          setMyInfo((p) => ({ ...p, ...data }));
+        }),
+    [userClient],
+  );
 
   return (
     <authContext.Provider

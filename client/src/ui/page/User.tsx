@@ -6,7 +6,6 @@ import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
 import { useUserPofile } from "../../hook/domain/useUserProfile.ts";
 import { useUserRelatedPokeList } from "../../hook/domain/useUserRelatedPokeList.ts";
-import { yogiPokeApi } from "../../service/api.ts";
 import { LIKE_PERSIST_KEY } from "../../service/const.ts";
 import { isVerifiedUser } from "../../service/dataType.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
@@ -24,7 +23,7 @@ export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 export const MINUTE_IN_UNIX = 1000 * 60;
 
 export const User = () => {
-  const { myInfo, refreshUser } = useUser({ assertAuth: true });
+  const { client, myInfo, refreshUser } = useUser({ assertAuth: true });
   const overlay = useStackedLayer();
   const { params } = useRouter();
   const userEmail = params[":userId"];
@@ -48,10 +47,10 @@ export const User = () => {
     ]);
 
   const { isMutating: isBlockLoading, trigger: triggerBlock } = useSWRMutation(
-    `/relation/${userEmail}`,
+    `relation/${userEmail}`,
     (api) =>
-      yogiPokeApi
-        .patch(api, { isAccepted: false })
+      client
+        .patch(api, { json: { isAccepted: false } })
         .then(() => mutateAll())
         .then(() => {
           push({ content: "사용자를 차단했습니다." });
