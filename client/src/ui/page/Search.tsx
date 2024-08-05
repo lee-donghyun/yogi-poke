@@ -32,10 +32,7 @@ export const Search = () => {
   const [selected, setSelected] = useState<null | User>(null);
 
   const { data, isLoading } = useSWR<User[]>(
-    [
-      "/user",
-      { email: deferredSearchText, limit: 5, name: deferredSearchText },
-    ],
+    ["user", { email: deferredSearchText, limit: 5, name: deferredSearchText }],
     {
       keepPreviousData: true,
       onSuccess: () => {
