@@ -1,7 +1,7 @@
 import { enableBodyScroll } from "body-scroll-lock-upgrade";
-import { JSX, lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { JSX, lazy, Suspense, useEffect, useState } from "react";
 
-import { yogiPokeApi } from "../../service/api.ts";
+import { client } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
 
 const Introduction = lazy(() =>
@@ -44,6 +44,20 @@ const closeSplash = (delay: number) => {
   }, delay);
 };
 
+const isPwa = isPwaMode();
+const token = (() => {
+  const searchToken = new URLSearchParams(location.search).get("token");
+  if (typeof searchToken === "string") {
+    persisteToken(searchToken);
+    return searchToken;
+  }
+  const persistedToken = localStorage.getItem(TOKEN_PERSIST_KEY);
+  if (typeof persistedToken === "string") {
+    return persistedToken;
+  }
+  return null;
+})();
+
 interface Prefetch {
   myInfo: MyInfo | null;
 }
@@ -55,29 +69,15 @@ export const PwaProvider = ({
 }) => {
   const [prefetch, setPrefetch] = useState<null | Prefetch>(null);
 
-  const isPwa = isPwaMode();
-  const token = useMemo(() => {
-    const searchToken = new URLSearchParams(location.search).get("token");
-    if (typeof searchToken === "string") {
-      persisteToken(searchToken);
-      return searchToken;
-    }
-    const persistedToken = localStorage.getItem(TOKEN_PERSIST_KEY);
-    if (typeof persistedToken === "string") {
-      return persistedToken;
-    }
-    return null;
-  }, []);
-
   useEffect(() => {
     if (typeof token === "string") {
       let ignore = false;
-      yogiPokeApi
-        .get<MyInfo>("/user/my-info", { headers: { Authorization: token } })
+      client
+        .get("user/my-info", { headers: { Authorization: token } })
+        .json<MyInfo>()
         .then((res) => {
           if (!ignore) {
-            setPrefetch({ myInfo: { ...res.data, token } });
-            yogiPokeApi.defaults.headers.Authorization = token;
+            setPrefetch({ myInfo: { ...res, token } });
           }
         })
         .catch(() => {
@@ -87,7 +87,7 @@ export const PwaProvider = ({
         ignore = true;
       };
     }
-  }, [token]);
+  }, []);
 
   if (!isPwa) {
     closeSplash(500);
