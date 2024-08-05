@@ -12,7 +12,7 @@ interface UserData {
   profileImageUrl: null | string;
 }
 
-export const SWR_KEY_USER = (email: string) => [`/user/${email}`];
+export const SWR_KEY_USER = (email: string) => [`user/${email}`];
 
 export const useUserPofile = (email: string) =>
   useSWR<UserData>(SWR_KEY_USER(email));

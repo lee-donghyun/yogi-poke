@@ -1,9 +1,9 @@
-import { AxiosError } from "axios";
+import { HTTPError } from "ky";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
-import { yogiPokeApi } from "../../service/api.ts";
 import { validator } from "../../service/validator.ts";
+import { useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
 import { createLayer } from "../provider/StackedLayerProvider.tsx";
@@ -17,17 +17,15 @@ const cx = {
 export const Quit = createLayer(({ close }) => {
   const push = useNotification();
   const [password, setPassword] = useState("");
+  const { client } = useUser();
 
   const { isMutating, trigger } = useSWRMutation(
-    "/user/my-info",
+    "user/my-info",
     (api, { arg }: { arg: { password: string } }) =>
-      yogiPokeApi.delete(api, { params: arg }),
+      client.delete(api, { searchParams: arg }),
     {
-      onError: (err: AxiosError) => {
+      onError: (err: HTTPError) => {
         switch (err.response?.status) {
-          case 409:
-            push({ content: "이미 사용중인 아이디입니다." });
-            break;
           default:
             push({ content: "다시 시도해주세요." });
             break;

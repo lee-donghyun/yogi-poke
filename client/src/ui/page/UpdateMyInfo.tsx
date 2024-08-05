@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
-import { yogiPokeApi } from "../../service/api.ts";
 import { useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { createLayer } from "../provider/StackedLayerProvider.tsx";
@@ -19,20 +18,18 @@ const FORM_NAME = {
 export const UpdateMyInfo = createLayer(({ close }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const push = useNotification();
-  const { myInfo, patchUser } = useUser();
+  const { client, myInfo, patchUser } = useUser();
   const [data, setData] = useState<Form>(
     myInfo ?? { name: "", profileImageUrl: null },
   );
 
   const { isMutating, trigger } = useSWRMutation(
-    "/util/image",
+    "util/image",
     async (key, { arg: form }: { arg: HTMLFormElement }) => {
       const formData = new FormData(form);
       const profileImageUrl =
         (data.profileImageUrl !== myInfo?.profileImageUrl
-          ? await yogiPokeApi
-              .post(key, formData)
-              .then(({ data }: { data: string }) => data)
+          ? await client.post(key, { body: formData }).text()
           : data.profileImageUrl) ?? undefined;
       await patchUser({
         name: data.name,

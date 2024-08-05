@@ -1,14 +1,16 @@
+import { KyInstance } from "ky";
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useRouter } from "router2";
 import { SWRConfig } from "swr";
 
-import { yogiPokeApi } from "../../service/api.ts";
+import { client } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
 import { VoidFunction } from "../../service/type.ts";
 import { persisteToken } from "./PwaProvider.tsx";
@@ -20,12 +22,14 @@ interface PatchUserPayload {
 }
 
 const authContext = createContext<{
+  client: KyInstance;
   isLoggedIn: boolean;
   myInfo: MyInfo | null;
-  patchUser: (payload: PatchUserPayload) => Promise<void>;
+  patchUser: (payload: PatchUserPayload, token?: string) => Promise<void>;
   refreshUser: () => Promise<void>;
-  registerToken: (token: string) => Promise<void>;
+  registerToken: (token: string) => Promise<string>;
 }>({
+  client,
   isLoggedIn: false,
   myInfo: null,
   patchUser: () => {
@@ -92,39 +96,61 @@ export const AuthProvider = ({
   myInfo: MyInfo | null;
 }) => {
   const [myInfo, setMyInfo] = useState<MyInfo | null>(prefetchedMyInfo);
+
+  const userClient = useMemo(() => {
+    if (myInfo?.token) {
+      return client.extend({
+        headers: { Authorization: myInfo.token },
+      });
+    }
+    return client;
+  }, [myInfo?.token]);
+
   const registerToken = useCallback(
     (token: string) =>
-      yogiPokeApi
-        .get("/user/my-info", {
+      userClient
+        .get("user/my-info", {
           headers: { Authorization: token },
         })
-        .then(({ data }: { data: Exclude<MyInfo, "token"> }) => {
+        .json<Exclude<MyInfo, "token">>()
+        .then((data) => {
           setMyInfo({ ...data, token });
           persisteToken(token);
-          yogiPokeApi.defaults.headers.Authorization = token;
+          return token;
         }),
-    [],
+    [userClient],
   );
+  /**
+   * @warn token이 없는 클로저에서 호출될때 token을 명시적으로 주입해야합니다.
+   */
   const patchUser = useCallback(
-    (myInfo: PatchUserPayload) =>
-      yogiPokeApi.patch<MyInfo>("/user/my-info", myInfo).then((user) => {
-        setMyInfo((p) => ({ ...p, ...user.data }));
-      }),
-    [],
+    (myInfo: PatchUserPayload, token?: string) =>
+      userClient
+        .patch("user/my-info", {
+          ...(token && { headers: { Authorization: token } }),
+          json: myInfo,
+        })
+        .json<MyInfo>()
+        .then((user) => {
+          setMyInfo((p) => ({ ...p, ...user }));
+        }),
+    [userClient],
   );
   const refreshUser = useCallback(
     () =>
-      yogiPokeApi
-        .get("/user/my-info")
-        .then(({ data }: { data: Exclude<MyInfo, "token"> }) => {
+      userClient
+        .get("user/my-info")
+        .json<Exclude<MyInfo, "token">>()
+        .then((data) => {
           setMyInfo((p) => ({ ...p, ...data }));
         }),
-    [],
+    [userClient],
   );
 
   return (
     <authContext.Provider
       value={{
+        client: userClient,
         isLoggedIn: myInfo !== null,
         myInfo,
         patchUser,
@@ -134,13 +160,8 @@ export const AuthProvider = ({
     >
       <SWRConfig
         value={{
-          fetcher: ([key, params]: [string, object]) =>
-            yogiPokeApi
-              .get<unknown>(key, {
-                headers: { Authorization: myInfo?.token },
-                params,
-              })
-              .then((res) => res.data),
+          fetcher: ([key, params]: [string, Record<string, string>]) =>
+            userClient.get(key, { searchParams: params }).json(),
         }}
       >
         {children}
