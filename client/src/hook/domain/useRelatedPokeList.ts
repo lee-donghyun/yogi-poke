@@ -12,7 +12,7 @@ export const useRelatedPokeList = () => {
     unknown
   >((index, previous) =>
     index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
-      ? ["/mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
+      ? ["mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
       : null,
   );
   const loadMore = useCallback(
