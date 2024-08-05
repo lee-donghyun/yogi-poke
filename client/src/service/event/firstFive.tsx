@@ -1,4 +1,4 @@
-import { usePoke } from "../../hook/domain/usePoke.ts";
+import { type usePoke } from "../../hook/domain/usePoke.ts";
 import { useUser } from "../../ui/provider/Auth.tsx";
 import { createDraggableSheet } from "../../ui/provider/StackedLayerProvider.tsx";
 

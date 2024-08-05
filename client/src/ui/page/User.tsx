@@ -79,7 +79,9 @@ export const User = () => {
             disabled={isBlockLoading}
             key="block"
             onClick={() => {
-              confirm(`${data?.name}님을 차단할까요?`) && void triggerBlock();
+              if (confirm(`${data?.name}님을 차단할까요?`)) {
+                void triggerBlock();
+              }
             }}
             type="button"
           >
@@ -94,6 +96,7 @@ export const User = () => {
       <div className="p-5">
         <div className="flex justify-center pt-16">
           <img
+            alt="프로필 이미지"
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
@@ -112,9 +115,11 @@ export const User = () => {
               className="active:opacity-60"
               key="edit"
               onClick={() => {
-                isLiked
-                  ? setLikes(likes.filter((id) => id !== data.id))
-                  : data && setLikes([...likes, data.id]);
+                if (isLiked) {
+                  setLikes(likes.filter((id) => id !== data.id));
+                } else if (data) {
+                  setLikes([...likes, data.id]);
+                }
               }}
               type="button"
             >
