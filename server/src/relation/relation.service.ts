@@ -31,14 +31,15 @@ export class RelationService {
       toUserId: number;
     },
   ) {
-    return this.db.relation.update({
+    return this.db.relation.upsert({
       where: {
         fromUserId_toUserId: {
           fromUserId,
           toUserId,
         },
       },
-      data: { isAccepted },
+      update: { isAccepted },
+      create: { fromUserId, toUserId, isAccepted },
     });
   }
 
