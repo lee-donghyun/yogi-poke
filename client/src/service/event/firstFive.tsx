@@ -71,7 +71,7 @@ const EventLayer = createDraggableSheet(({ close }) => {
   );
 });
 export const eventPokeProps: Parameters<typeof usePoke>[0] = {
-  onSuccess: ({ stack, push, meta: { myInfo, email } }) => {
+  onSuccess: ({ meta: { email, myInfo }, push, stack }) => {
     if (
       (myInfo?.pokes ?? 0) > 3 &&
       localStorage.getItem(HIDE_LAYER_PERSIST_KEY) === null

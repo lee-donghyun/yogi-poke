@@ -8,12 +8,12 @@ import { createLayer } from "../provider/StackedLayerProvider.tsx";
 
 interface Form {
   name: string;
-  profileImageUrl: string | null;
+  profileImageUrl: null | string;
 }
 
 const FORM_NAME = {
-  PROFILE_IMAGE: "profileImageUrl",
   NAME: "name",
+  PROFILE_IMAGE: "profileImageUrl",
 };
 
 export const UpdateMyInfo = createLayer(({ close }) => {
@@ -24,7 +24,7 @@ export const UpdateMyInfo = createLayer(({ close }) => {
     myInfo ?? { name: "", profileImageUrl: null },
   );
 
-  const { trigger, isMutating } = useSWRMutation(
+  const { isMutating, trigger } = useSWRMutation(
     "/util/image",
     async (key, { arg: form }: { arg: HTMLFormElement }) => {
       const formData = new FormData(form);
@@ -35,8 +35,8 @@ export const UpdateMyInfo = createLayer(({ close }) => {
               .then(({ data }: { data: string }) => data)
           : data.profileImageUrl) ?? undefined;
       await patchUser({
-        profileImageUrl,
         name: data.name,
+        profileImageUrl,
       });
     },
     {
@@ -73,7 +73,7 @@ export const UpdateMyInfo = createLayer(({ close }) => {
           완료
         </button>
       </div>
-      <form ref={formRef} className="h-full overflow-y-scroll p-5">
+      <form className="h-full overflow-y-scroll p-5" ref={formRef}>
         <div className="flex justify-center">
           <label className="flex flex-col items-center gap-2">
             <img
@@ -86,7 +86,6 @@ export const UpdateMyInfo = createLayer(({ close }) => {
               className="hidden"
               id="profileImage"
               name={FORM_NAME.PROFILE_IMAGE}
-              type="file"
               onChange={(e) => {
                 const file = e.target.files?.item(0);
                 if (!file) {
@@ -99,6 +98,7 @@ export const UpdateMyInfo = createLayer(({ close }) => {
                 const profileImageUrl = URL.createObjectURL(file);
                 setData((p) => ({ ...p, profileImageUrl }));
               }}
+              type="file"
             />
           </label>
         </div>
@@ -110,11 +110,11 @@ export const UpdateMyInfo = createLayer(({ close }) => {
           <input
             className="rounded-none border-b p-2 text-zinc-800 outline-none focus:border-black"
             id="name"
-            type="text"
-            value={data.name}
             onChange={({ target: { value: name } }) => {
               setData((p) => ({ ...p, name }));
             }}
+            type="text"
+            value={data.name}
           />
         </div>
       </form>

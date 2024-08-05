@@ -12,26 +12,26 @@ export const DomainBottomNavigation = () => {
     <BottomNavigation
       menus={[
         <Link
-          key="search"
-          replace
           className={`flex flex-1 justify-center ${path === "/search" ? "text-black" : "text-zinc-400"}`}
+          key="search"
           pathname="/search"
+          replace
         >
           <Search />
         </Link>,
         <Link
-          key="like"
-          replace
           className={`flex flex-1 justify-center ${path === "/like" ? "text-black" : "text-zinc-400"}`}
+          key="like"
           pathname="/like"
+          replace
         >
           <Star />
         </Link>,
         <Link
-          key="myPage"
-          replace
           className="flex flex-1 justify-center"
+          key="myPage"
           pathname="/my-page"
+          replace
         >
           <img
             alt=""

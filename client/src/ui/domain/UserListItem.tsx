@@ -4,33 +4,32 @@ import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { ChevronRight } from "../icon/ChevronRight.tsx";
 
 interface UserListItemProps {
-  userEmail: string;
-  userName: string;
-  userProfileImageUrl: string | null;
   animation: {
     delayTimes: number;
   } | null;
-  selected: boolean;
-  onClick: () => void;
   isVerifiedUser: boolean;
+  onClick: () => void;
+  selected: boolean;
+  userEmail: string;
+  userName: string;
+  userProfileImageUrl: null | string;
 }
 
 export const UserListItem = ({
-  userEmail,
-  userName,
-  selected,
-  userProfileImageUrl,
-  onClick,
   animation,
   isVerifiedUser,
+  onClick,
+  selected,
+  userEmail,
+  userName,
+  userProfileImageUrl,
 }: UserListItemProps) => {
   return (
     <button
-      onClick={onClick}
-      type="button"
       className={`rounded-lg p-2 text-start duration-75 active:scale-[98%] active:bg-yellow-50 ${
         selected ? "bg-yellow-200" : ""
       } ${animation ? "from-right opacity-0" : ""}`}
+      onClick={onClick}
       style={
         animation
           ? {
@@ -39,6 +38,7 @@ export const UserListItem = ({
             }
           : undefined
       }
+      type="button"
     >
       <div className="flex">
         <img

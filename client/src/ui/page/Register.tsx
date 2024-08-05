@@ -12,9 +12,9 @@ import { useNotification } from "../provider/Notification.tsx";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300",
-  label: "text-lg",
-  input: "border rounded text-zinc-800 p-2",
   helper: "text-sm text-zinc-600",
+  input: "border rounded text-zinc-800 p-2",
+  label: "text-lg",
 };
 
 interface Form {
@@ -30,12 +30,12 @@ const stepFieldNameMap = {
 export const Register = () => {
   const push = useNotification();
   const { navigate, params } = useRouter();
-  const { registerToken, isLoggedIn, patchUser } = useUser();
+  const { isLoggedIn, patchUser, registerToken } = useUser();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const { trigger, isMutating } = useSWRMutation(
+  const { isMutating, trigger } = useSWRMutation(
     "/user/register",
-    (api, { arg }: { arg: Form & { referrerId: number | null } }) =>
+    (api, { arg }: { arg: { referrerId: null | number } & Form }) =>
       yogiPokeApi
         .post(api, arg)
         .then(({ data }: { data: string }) => registerToken(data))
@@ -99,23 +99,23 @@ export const Register = () => {
   return (
     <div className="min-h-screen">
       <StackedNavigation
-        title="회원가입"
         onBack={() => {
           navigate({ pathname: "/" }, { replace: true });
         }}
+        title="회원가입"
       />
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"
-        style={{ transform: `translateY(${(step - 3) * 128}px)` }}
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
+        style={{ transform: `translateY(${(step - 3) * 128}px)` }}
       >
         <div
           className={cx.formItem}
-          style={step > 2 ? undefined : { pointerEvents: "none", opacity: 0 }}
+          style={step > 2 ? undefined : { opacity: 0, pointerEvents: "none" }}
         >
           <label className={cx.label} htmlFor="password">
             비밀번호
@@ -126,10 +126,10 @@ export const Register = () => {
             id="password"
             name="password"
             onChange={onChange("password")}
-            type="password"
             onFocus={() => {
               setStep(3);
             }}
+            type="password"
           />
           {step === 3 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -137,7 +137,7 @@ export const Register = () => {
         </div>
         <div
           className={cx.formItem}
-          style={step > 1 ? undefined : { pointerEvents: "none", opacity: 0 }}
+          style={step > 1 ? undefined : { opacity: 0, pointerEvents: "none" }}
         >
           <label className={cx.label} htmlFor="name">
             이름
@@ -148,10 +148,10 @@ export const Register = () => {
             id="name"
             name="name"
             onChange={onChange("name")}
-            type="text"
             onFocus={() => {
               setStep(2);
             }}
+            type="text"
           />
           {step === 2 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>
@@ -167,10 +167,10 @@ export const Register = () => {
             id="email"
             name="email"
             onChange={onChange("email")}
-            type="text"
             onFocus={() => {
               setStep(1);
             }}
+            type="text"
           />
           {step === 1 && typeof currentFieldError === "string" && (
             <p className={cx.helper}>{currentFieldError}</p>

@@ -10,23 +10,19 @@ import { createLayer } from "../provider/StackedLayerProvider.tsx";
 
 const cx = {
   formItem: "flex flex-col gap-2 h-32 duration-300 mt-5",
-  label: "text-lg",
-  input: "border rounded text-zinc-800 p-2",
   helper: "text-sm text-zinc-600",
+  input: "border rounded text-zinc-800 p-2",
+  label: "text-lg",
 };
 export const Quit = createLayer(({ close }) => {
   const push = useNotification();
   const [password, setPassword] = useState("");
 
-  const { trigger, isMutating } = useSWRMutation(
+  const { isMutating, trigger } = useSWRMutation(
     "/user/my-info",
     (api, { arg }: { arg: { password: string } }) =>
       yogiPokeApi.delete(api, { params: arg }),
     {
-      onSuccess: () => {
-        releaseToken();
-        location.pathname = "/";
-      },
       onError: (err: AxiosError) => {
         switch (err.response?.status) {
           case 409:
@@ -36,6 +32,10 @@ export const Quit = createLayer(({ close }) => {
             push({ content: "다시 시도해주세요." });
             break;
         }
+      },
+      onSuccess: () => {
+        releaseToken();
+        location.pathname = "/";
       },
       throwOnError: false,
     },

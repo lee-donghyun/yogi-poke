@@ -33,7 +33,6 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
           {[
             navigator?.share && {
               key: "share",
-              text: "공유하기",
               onClick: () => {
                 close();
                 void navigator.share({
@@ -41,10 +40,10 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
                   url: shareUrl,
                 });
               },
+              text: "공유하기",
             },
             navigator?.clipboard?.writeText && {
               key: "copy",
-              text: "복사하기",
               onClick: () => {
                 void navigator?.clipboard.writeText(shareUrl).then(() => {
                   push({
@@ -52,14 +51,15 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
                   });
                 });
               },
+              text: "복사하기",
             },
           ]
             .filter(Boolean)
             .map(
-              (props: { key: string; text: string; onClick: () => void }) => (
+              (props: { key: string; onClick: () => void; text: string }) => (
                 <button
-                  key={props.key}
                   className="block flex-1 rounded-md border-2 border-black bg-white px-2 py-1 text-sm font-medium active:opacity-60"
+                  key={props.key}
                   onClick={props.onClick}
                   type="button"
                 >
