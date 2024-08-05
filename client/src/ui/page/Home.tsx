@@ -13,18 +13,24 @@ const INSTAGRAM_REDIRECT_URI =
 const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();
   return (
-    <div className="p-5">
-      <p className="text-lg font-semibold text-zinc-800">
+    <div className="p-6 pt-0">
+      <p className="border-b border-zinc-100 pb-6 pt-4 text-lg font-semibold text-zinc-800">
         Instagram없이 로그인
       </p>
-      <div className="mt-12 flex flex-col gap-5">
-        <Link onClick={close} pathname="/register" query={params} replace>
-          <button className="block w-full rounded-full bg-black p-4 text-white duration-300 active:opacity-60">
+      <div className="flex flex-col gap-4 pt-6">
+        <Link
+          className="block"
+          onClick={close}
+          pathname="/register"
+          query={params}
+          replace
+        >
+          <button className="block h-12 w-full rounded-2xl bg-zinc-800 px-4 text-start font-semibold text-white duration-200 active:opacity-60 disabled:opacity-60">
             회원가입
           </button>
         </Link>
-        <Link onClick={close} pathname="/sign-in" replace>
-          <button className="block w-full rounded-full border p-4 duration-300 active:bg-zinc-200 disabled:bg-zinc-300">
+        <Link className="block" onClick={close} pathname="/sign-in" replace>
+          <button className="block h-12 w-full rounded-2xl bg-zinc-100 px-4 text-start font-semibold text-zinc-900 duration-200 active:opacity-60 disabled:opacity-60">
             로그인
           </button>
         </Link>
