@@ -46,7 +46,6 @@ export const Search = () => {
   const { isMutating, trigger } = usePoke();
 
   const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
-  const showPokeOptionOpen = useDebouncedValue(pokeOptionOpen, 500);
 
   return (
     <div className="min-h-screen">
@@ -110,37 +109,55 @@ export const Search = () => {
         </div>
         <div className="flex justify-end pt-9">
           <div className="relative">
-            {(showPokeOptionOpen || pokeOptionOpen) && (
-              <button
-                className={`${pokeOptionOpen ? "animate-duration-200" : "animate-reverse animate-duration-100"} absolute bottom-14 right-0 animate-fade-up whitespace-pre rounded-full bg-zinc-900 px-4 py-3 font-medium text-white duration-200 ease-out active:bg-zinc-300`}
-                key={pokeOptionOpen ? "open" : "close"}
-                onClick={() => {
-                  if (typeof selected?.email !== "string") {
-                    return;
-                  }
-                  overlay(PokeWithEmoji, { email: selected.email });
-                }}
-                type="button"
-              >
-                이모티콘 찌르기 😊
-              </button>
-            )}
+            <button
+              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-200 active:bg-zinc-300`}
+              onClick={(e) => {
+                if (e.target !== e.currentTarget) {
+                  return;
+                }
+                if (typeof selected?.email !== "string") {
+                  return;
+                }
+                overlay(PokeWithEmoji, { email: selected.email });
+              }}
+              type="button"
+            >
+              그림 찌르기 🎨
+            </button>
+            <button
+              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-14 scale-x-50 opacity-0"} absolute bottom-14 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-200 active:bg-zinc-300`}
+              onClick={(e) => {
+                if (e.target !== e.currentTarget) {
+                  return;
+                }
+                if (typeof selected?.email !== "string") {
+                  return;
+                }
+                overlay(PokeWithEmoji, { email: selected.email });
+              }}
+              type="button"
+            >
+              이모티콘 찌르기 😊
+            </button>
             <button
               className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300`}
               disabled={selected === null || isLoading || isMutating}
-              onClick={
-                pokeOptionOpen
-                  ? () =>
-                      typeof selected?.email === "string" &&
-                      void trigger({
-                        email: selected.email,
-                        payload: { type: "normal" },
-                      }).then(() => {
-                        setSelected(null);
-                        setPokeOptionOpen(false);
-                      })
-                  : () => setPokeOptionOpen(true)
-              }
+              onClick={(e) => {
+                if (e.target !== e.currentTarget) {
+                  return;
+                }
+                if (pokeOptionOpen && typeof selected?.email === "string") {
+                  void trigger({
+                    email: selected.email,
+                    payload: { type: "normal" },
+                  }).then(() => {
+                    setSelected(null);
+                    setPokeOptionOpen(false);
+                  });
+                  return;
+                }
+                setPokeOptionOpen(true);
+              }}
             >
               {pokeOptionOpen && "바로 "}콕 찌르기 👉
             </button>
