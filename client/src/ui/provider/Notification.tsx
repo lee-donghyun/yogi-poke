@@ -4,8 +4,11 @@ import {
   lazy,
   Suspense,
   useContext,
+  useEffect,
   useState,
 } from "react";
+
+import { noop } from "../../service/util";
 
 interface NotificationData {
   content: string;
@@ -19,12 +22,12 @@ const notificationContext = createContext<
       "useNotification hook-domain need to be called in NotificationProvider",
     );
   },
-  () => "",
+  noop,
 ]);
 
 export const useNotification = () => {
   const [push, init] = useContext(notificationContext);
-  init();
+  useEffect(init, [init]);
   return push;
 };
 
@@ -38,24 +41,24 @@ export const NotificationProvider = ({
   children: JSX.Element;
 }) => {
   const [load, setLoad] = useState(false);
+
+  const push = ({ content }: NotificationData) => {
+    void import("sonner").then(({ toast }) =>
+      toast("요기콕콕!", { description: content }),
+    );
+  };
+
+  const init = !load
+    ? () => {
+        if (import.meta.env.DEV) {
+          console.warn("NotificationProvider is initialized");
+        }
+        setLoad(true);
+      }
+    : noop;
+
   return (
-    <notificationContext.Provider
-      value={[
-        ({ content }) => {
-          void import("sonner").then(({ toast }) =>
-            toast("요기콕콕!", { description: content }),
-          );
-        },
-        () => {
-          if (!load) {
-            if (import.meta.env.DEV) {
-              console.warn("NotificationProvider is initialized");
-            }
-            setLoad(true);
-          }
-        },
-      ]}
-    >
+    <notificationContext.Provider value={[push, init]}>
       {children}
       {load && (
         <Suspense>
