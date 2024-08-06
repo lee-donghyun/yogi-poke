@@ -10,6 +10,7 @@ interface UserData {
   pokeds: number;
   pokes: number;
   profileImageUrl: null | string;
+  totalPokes: number;
 }
 
 export const SWR_KEY_USER = (email: string) => [`user/${email}`];
