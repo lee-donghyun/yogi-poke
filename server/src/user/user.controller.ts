@@ -117,7 +117,17 @@ export class UserController {
       fromUserId: id,
       toUserId: userPayload.id,
     });
-    return { email, id, name, profileImageUrl, pokeds, pokes, authProvider };
+    const totalPokes = await this.mateService.getPokeCount(id);
+    return {
+      email,
+      id,
+      name,
+      profileImageUrl,
+      pokeds,
+      pokes,
+      totalPokes,
+      authProvider,
+    };
   }
 
   @UseGuards(AuthGuard)

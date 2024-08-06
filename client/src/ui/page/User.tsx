@@ -136,9 +136,11 @@ export const User = () => {
           <p className="mt-1">{data?.name ?? <span className="block h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
-          <Stat label="내가 콕! 찌른 횟수" value={data?.pokes ?? 0} />
+          <Stat label="모든 콕!" value={data?.totalPokes ?? 0} />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="내가 콕! 찔린 횟수" value={data?.pokeds ?? 0} />
+          <Stat label="내가 콕!" value={data?.pokes ?? 0} />
+          <div className="h-12 w-px bg-zinc-200"></div>
+          <Stat label="나를 콕!" value={data?.pokeds ?? 0} />
         </div>
       </div>
       <div className="p-5">
