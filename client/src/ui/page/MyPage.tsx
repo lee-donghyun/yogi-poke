@@ -117,9 +117,14 @@ export const MyPage = () => {
           <p className="mt-1">{myInfo?.name ?? <div className="h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
-          <Stat label="내가 콕! 찌른 횟수" value={myInfo?.pokes ?? 0} />
+          <Stat
+            label="모든 콕!"
+            value={(myInfo?.pokes ?? 0) + (myInfo?.pokeds ?? 0)}
+          />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="내가 콕! 찔린 횟수" value={myInfo?.pokeds ?? 0} />
+          <Stat label="내가 콕!" value={myInfo?.pokes ?? 0} />
+          <div className="h-12 w-px bg-zinc-200"></div>
+          <Stat label="나를 콕!" value={myInfo?.pokeds ?? 0} />
         </div>
         <div className="mt-10 flex flex-col gap-4">
           {(error || data?.[0].length === 0) && (

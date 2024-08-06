@@ -155,4 +155,12 @@ export class MateService {
       },
     });
   }
+
+  async getPokeCount(userId: number) {
+    return this.db.poke.count({
+      where: {
+        OR: [{ fromUserId: userId }, { toUserId: userId }],
+      },
+    });
+  }
 }
