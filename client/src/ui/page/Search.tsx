@@ -13,6 +13,7 @@ import { CircleXIcon } from "../icon/CircleX.tsx";
 import { QrCode } from "../icon/QrCode.tsx";
 import { useUser } from "../provider/Auth.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { PokeWithDrawing } from "./Search.PokeWithDrawing.tsx";
 import { PokeWithEmoji } from "./Search.PokeWithEmoji.tsx";
 import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
 
@@ -110,7 +111,7 @@ export const Search = () => {
         <div className="flex justify-end pt-9">
           <div className="relative">
             <button
-              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-200 active:bg-zinc-300`}
+              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
               onClick={(e) => {
                 if (e.target !== e.currentTarget) {
                   return;
@@ -118,14 +119,14 @@ export const Search = () => {
                 if (typeof selected?.email !== "string") {
                   return;
                 }
-                overlay(PokeWithEmoji, { email: selected.email });
+                overlay(PokeWithDrawing, { email: selected.email });
               }}
               type="button"
             >
               그림 찌르기 🎨
             </button>
             <button
-              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-14 scale-x-50 opacity-0"} absolute bottom-14 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-200 active:bg-zinc-300`}
+              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-14 scale-x-50 opacity-0"} absolute bottom-14 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
               onClick={(e) => {
                 if (e.target !== e.currentTarget) {
                   return;
@@ -140,7 +141,7 @@ export const Search = () => {
               이모티콘 찌르기 😊
             </button>
             <button
-              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-200 active:bg-zinc-300 disabled:bg-zinc-300`}
+              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300`}
               disabled={selected === null || isLoading || isMutating}
               onClick={(e) => {
                 if (e.target !== e.currentTarget) {
