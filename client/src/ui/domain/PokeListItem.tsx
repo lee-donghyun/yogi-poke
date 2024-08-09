@@ -6,6 +6,7 @@ import { type Line } from "../base/Canvas.tsx";
 import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { PokeSheet } from "./PokeSheet.tsx";
+import { ShowDrawing } from "./ShowDrawing.tsx";
 
 interface PocketListItemProps {
   animation: {
@@ -59,40 +60,50 @@ const EmojiPokedBody = ({
 );
 
 const DrawingPokeBody = ({
+  lines,
   targetUserName,
 }: {
   lines: Line[];
   targetUserName: string;
-}) => (
-  <p className="text-sm text-zinc-800">
-    회원님이 <span className="font-semibold">{targetUserName}</span>
-    님에게 그림을 보냈습니다:{" "}
-    <button
-      className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
-      type="button"
-    >
-      보기
-    </button>
-  </p>
-);
+}) => {
+  const overlay = useStackedLayer();
+  return (
+    <p className="text-sm text-zinc-800">
+      회원님이 <span className="font-semibold">{targetUserName}</span>
+      님에게 그림을 보냈습니다:{" "}
+      <button
+        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        onClick={() => overlay(ShowDrawing, { lines, name: targetUserName })}
+        type="button"
+      >
+        보기
+      </button>
+    </p>
+  );
+};
 
 const DrawingPokedBody = ({
+  lines,
   targetUserName,
 }: {
   lines: Line[];
   targetUserName: string;
-}) => (
-  <p className="text-sm text-zinc-800">
-    <span className="font-semibold">{targetUserName}</span>님이 회원님에게
-    그림을 보냈습니다:{" "}
-    <button
-      className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
-      type="button"
-    >
-      보기
-    </button>
-  </p>
-);
+}) => {
+  const overlay = useStackedLayer();
+  return (
+    <p className="text-sm text-zinc-800">
+      <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+      그림을 보냈습니다:{" "}
+      <button
+        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        onClick={() => overlay(ShowDrawing, { lines, name: targetUserName })}
+        type="button"
+      >
+        보기
+      </button>
+    </p>
+  );
+};
 
 export const PokeListItem = ({
   animation,
