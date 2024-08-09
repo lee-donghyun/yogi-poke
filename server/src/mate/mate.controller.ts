@@ -21,6 +21,7 @@ import {
   GetUserRelatedPokeListDto,
   GetUserRelatedPokeListParamDto,
 } from './dto/get-user-related-poke-list.dto';
+import { map, of } from 'rxjs';
 
 @Controller('mate')
 @UseGuards(AuthGuard)
@@ -47,14 +48,27 @@ export class MateController {
       toUserId,
       requestRelationDto.payload,
     );
+
     if (pushSubscription !== null) {
-      this.pushService.sendPushNotification(toUserId, {
-        title: `@${email}`,
-        body:
-          requestRelationDto.payload.type === 'normal'
-            ? `콕!`
-            : requestRelationDto.payload.message,
-      });
+      of(requestRelationDto)
+        .pipe(
+          map((requestRelationDto) => {
+            switch (requestRelationDto.payload.type) {
+              case 'normal':
+                return '콕!';
+              case 'emoji':
+                return requestRelationDto.payload.message;
+              case 'drawing':
+                return '그림';
+            }
+          }),
+        )
+        .subscribe((body) => {
+          this.pushService.sendPushNotification(toUserId, {
+            title: `@${email}`,
+            body,
+          });
+        });
     }
   }
 
