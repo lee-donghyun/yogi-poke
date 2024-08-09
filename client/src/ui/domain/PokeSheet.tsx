@@ -1,10 +1,10 @@
 import { usePoke } from "../../hook/domain/usePoke.ts";
-import { PokeWithDrawing } from "../page/Search.PokeWithDrawing.tsx";
-import { PokeWithEmoji } from "../page/Search.PokeWithEmoji.tsx";
 import {
   createDraggableSheet,
   useStackedLayer,
 } from "../provider/StackedLayerProvider.tsx";
+import { PokeWithDrawing } from "./PokeWithDrawing.tsx";
+import { PokeWithEmoji } from "./PokeWithEmoji.tsx";
 
 export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
   ({ close, context }) => {
