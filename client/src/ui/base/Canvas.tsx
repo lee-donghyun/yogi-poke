@@ -2,17 +2,19 @@ import { animated, useSpring } from "@react-spring/konva";
 import { useRef, useState } from "react";
 import { KonvaNodeEvents, Layer, Line, Stage } from "react-konva";
 
-interface CanvasProps {
-  height: number;
-  width: number;
-}
-
-interface Line {
+export interface Line {
   color: string;
   id: number;
   points: number[];
 }
 
+interface CanvasProps {
+  color: string;
+  height: number;
+  lines: Line[];
+  setLines: React.Dispatch<React.SetStateAction<Line[]>>;
+  width: number;
+}
 interface Trace {
   id: string;
   x: number;
@@ -52,17 +54,22 @@ const Trace = ({
   );
 };
 
-export const Canvas = ({ height, width }: CanvasProps) => {
+export const Canvas = ({
+  color,
+  height,
+  lines,
+  setLines,
+  width,
+}: CanvasProps) => {
   const cleanupRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const [lines, setLines] = useState<Line[]>([]);
   const [traces, setTraces] = useState<Trace[][]>([]);
 
   const onStart = () => {
     setLines((lines) => [
       ...lines,
       {
-        color: "red",
+        color,
         id: lines.length,
         points: [],
       },
