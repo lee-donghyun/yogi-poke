@@ -1,4 +1,5 @@
 import { usePoke } from "../../hook/domain/usePoke.ts";
+import { PokeWithDrawing } from "../page/Search.PokeWithDrawing.tsx";
 import { PokeWithEmoji } from "../page/Search.PokeWithEmoji.tsx";
 import {
   createDraggableSheet,
@@ -15,6 +16,18 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
           콕! 찌르기 👉
         </p>
         <div className="flex flex-col gap-4 pt-6">
+          <button
+            className="h-12 rounded-2xl bg-zinc-100 px-4 text-start font-semibold text-zinc-900 duration-200 active:opacity-60 disabled:opacity-60"
+            disabled={isMutating}
+            onClick={() => {
+              close();
+              setTimeout(() => {
+                overlay(PokeWithDrawing, { email: context.targetUserEmail });
+              }, 200);
+            }}
+          >
+            그림 찌르기 🎨
+          </button>
           <button
             className="h-12 rounded-2xl bg-zinc-100 px-4 text-start font-semibold text-zinc-900 duration-200 active:opacity-60 disabled:opacity-60"
             disabled={isMutating}
