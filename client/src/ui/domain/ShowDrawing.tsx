@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 
 import { useDomSize } from "../../hook/base/useDomSize";
+import { getDenormalizedPoints } from "../../service/dataType";
 import { type Line } from "../base/Canvas";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
@@ -33,7 +34,11 @@ export const ShowDrawing = createDraggableSheet<{
         <Suspense
           fallback={<div className="size-full rounded-2xl bg-black"></div>}
         >
-          <CanvasRenderer height={height} lines={context.lines} width={width} />
+          <CanvasRenderer
+            height={height}
+            lines={getDenormalizedPoints(width)(context.lines)}
+            width={width}
+          />
         </Suspense>
       </div>
     </div>

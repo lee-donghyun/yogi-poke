@@ -44,3 +44,15 @@ export interface Relation {
 
 export const isVerifiedUser = (user: User) =>
   [AuthProvider.INSTAGRAM].includes(user.authProvider);
+
+export const getNormalizedPoints = (size: number) => (lines: Line[]) =>
+  lines.map((line) => ({
+    ...line,
+    points: line.points.map((point) => (point * 1000) / size),
+  }));
+
+export const getDenormalizedPoints = (size: number) => (lines: Line[]) =>
+  lines.map((line) => ({
+    ...line,
+    points: line.points.map((point) => (point * size) / 1000),
+  }));

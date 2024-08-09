@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 
 import { useDomSize } from "../../hook/base/useDomSize";
 import { usePoke } from "../../hook/domain/usePoke";
+import { getNormalizedPoints } from "../../service/dataType";
 import { type Line } from "../base/Canvas";
 import { XMark } from "../icon/XMark";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
@@ -86,7 +87,10 @@ export const PokeWithDrawing = createDraggableSheet<{ email: string }>(
             onClick={() =>
               void trigger({
                 email,
-                payload: { lines, type: "drawing" },
+                payload: {
+                  lines: getNormalizedPoints(width)(lines),
+                  type: "drawing",
+                },
               }).then(close)
             }
             type="button"
