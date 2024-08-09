@@ -53,9 +53,9 @@ export const Introduction = () => {
       </div>
       <div className="mx-6 mt-4 border-t pt-3">
         <h2 className="text-lg font-bold text-zinc-900">새로운 소식</h2>
-        <p className="pt-1 text-xs text-zinc-500">버전 24.07.22</p>
+        <p className="pt-1 text-xs text-zinc-500">버전 24.08.09</p>
         <p className="pt-2 text-sm text-zinc-600">
-          Instagram 계정으로 요기콕콕!을 사용할 수 있습니다.
+          이제 그림을 그려서 콕! 찌를 수 있습니다.
         </p>
       </div>
       <div className="mx-5 mt-8 border-t pt-3">
@@ -66,6 +66,7 @@ export const Introduction = () => {
           "/preview/home.png",
           "/preview/user.png",
           "/preview/emoji.png",
+          "/preview/draw.png",
           "/preview/like.png",
           "/preview/notification.png",
           "/preview/profile-qr.png",
