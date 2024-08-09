@@ -25,7 +25,7 @@ const AnimatedLine = animated.Line as unknown as typeof Line;
 
 const ANIMATED_DURATION = 300;
 
-const Trace = ({
+export const Trace = ({
   from,
   to,
 }: {
