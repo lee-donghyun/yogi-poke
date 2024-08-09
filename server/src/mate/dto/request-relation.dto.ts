@@ -3,6 +3,9 @@ import {
   ValidateNested,
   IsNotEmptyObject,
   IsIn,
+  ArrayNotEmpty,
+  IsArray,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -18,6 +21,29 @@ class EmojiPokePayload {
   @IsString()
   message: string;
 }
+class Line {
+  @IsNumber()
+  id: number;
+
+  @IsString()
+  color: string;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  points: number[];
+}
+
+class DrawingPokePayload {
+  @IsIn(['drawing'])
+  type: 'drawing';
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => Line)
+  lines: Line[][];
+}
 
 export class RequestRelationDto {
   @IsString()
@@ -31,9 +57,10 @@ export class RequestRelationDto {
       subTypes: [
         { value: NormalPokePayload, name: 'normal' },
         { value: EmojiPokePayload, name: 'emoji' },
+        { value: DrawingPokePayload, name: 'drawing' },
       ],
     },
     keepDiscriminatorProperty: true,
   })
-  payload: NormalPokePayload | EmojiPokePayload;
+  payload: NormalPokePayload | EmojiPokePayload | DrawingPokePayload;
 }
