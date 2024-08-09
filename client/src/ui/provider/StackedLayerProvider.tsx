@@ -67,7 +67,6 @@ export const StackedLayerProvider = ({
   }, []) as Push;
   const pop = useCallback(() => {
     setShow(false);
-    setContext(null as never);
     setTimeout(() => {
       setShow((show) => {
         if (!show) {
