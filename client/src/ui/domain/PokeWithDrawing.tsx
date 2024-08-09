@@ -3,6 +3,7 @@ import { lazy, Suspense, useState } from "react";
 import { useDomSize } from "../../hook/base/useDomSize";
 import { usePoke } from "../../hook/domain/usePoke";
 import { type Line } from "../base/Canvas";
+import { XMark } from "../icon/XMark";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
 const Canvas = lazy(() =>
@@ -36,10 +37,21 @@ export const PokeWithDrawing = createDraggableSheet<{ email: string }>(
         <p className="text-lg font-semibold text-zinc-800">그림 찌르기 🎨</p>
         <div className="h-6"></div>
         <div
-          className="aspect-square w-full"
+          className="relative aspect-square w-full"
           data-allow-touch-move-on-stacked-layer
           ref={domRef}
         >
+          {lines.length > 0 && (
+            <button
+              className="absolute left-2 top-2 z-10 rounded-full bg-zinc-800 p-1 text-zinc-300 opacity-80"
+              onClick={() => {
+                setLines([]);
+              }}
+              type="button"
+            >
+              <XMark />
+            </button>
+          )}
           <Suspense
             fallback={<div className="size-full rounded-2xl bg-black"></div>}
           >
