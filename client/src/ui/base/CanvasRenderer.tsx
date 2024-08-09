@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Line as KonvaLine, Layer, Stage } from "react-konva";
 
-import { type Line } from "./Canvas";
+import { type Line, Trace } from "./Canvas";
 
 interface CanvasRendererProps {
   height: number;
@@ -46,6 +46,25 @@ export const CanvasRenderer = ({
     { lines: [], top: drawCount } as { lines: Line[]; top: number },
   );
 
+  const traces = draws.lines.reduce(
+    (acc, line) => {
+      return [
+        ...acc,
+        Array.from({ length: line.points.length / 4 }, (_, i) => [
+          {
+            x: line.points[i * 4],
+            y: line.points[i * 4 + 1],
+          },
+          {
+            x: line.points[i * 4 + 2],
+            y: line.points[i * 4 + 3],
+          },
+        ]).flat(),
+      ];
+    },
+    [] as { x: number; y: number }[][],
+  );
+
   return (
     <Stage
       className="overflow-hidden rounded-2xl bg-black"
@@ -63,6 +82,17 @@ export const CanvasRenderer = ({
             stroke={line.color}
           />
         ))}
+      </Layer>
+      <Layer>
+        {traces.flatMap((trace, traceIndex) =>
+          trace.map((point, pointIndex) => (
+            <Trace
+              from={trace[pointIndex - 1] ?? point}
+              key={`${traceIndex}-${pointIndex}`}
+              to={point}
+            />
+          )),
+        )}
       </Layer>
     </Stage>
   );
