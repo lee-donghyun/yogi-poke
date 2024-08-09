@@ -1,3 +1,5 @@
+import { type Line } from "../ui/base/Canvas";
+
 export enum AuthProvider {
   EMAIL = "EMAIL",
   INSTAGRAM = "INSTAGRAM",
@@ -27,7 +29,10 @@ export interface Poke {
   createdAt: string;
   fromUserId: number;
   id: number;
-  payload: { message: string; type: "emoji" } | { type: "normal" };
+  payload:
+    | { lines: Line[]; type: "drawing" }
+    | { message: string; type: "emoji" }
+    | { type: "normal" };
   relation: Relation;
   toUserId: number;
 }
