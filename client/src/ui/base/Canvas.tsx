@@ -1,5 +1,5 @@
 import { animated, useSpring } from "@react-spring/konva";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { KonvaNodeEvents, Layer, Line, Stage } from "react-konva";
 
 interface CanvasProps {
@@ -13,39 +13,61 @@ interface Line {
   points: number[];
 }
 
-const Trace = (props: Parameters<typeof animated.Circle>[0]) => {
-  const radiusProps = useSpring({
-    config: { duration: 300 },
-    from: { radius: 10 },
-    to: { radius: 0 },
+interface Trace {
+  id: string;
+  x: number;
+  y: number;
+}
+
+const AnimatedLine = animated.Line as unknown as typeof Line;
+
+const ANIMATED_DURATION = 300;
+
+const Trace = ({
+  from,
+  to,
+}: {
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+}) => {
+  const animatedProps = useSpring({
+    config: { duration: ANIMATED_DURATION },
+    from: { opacity: 1, strokeWidth: 8 },
+    to: { opacity: 0.7, strokeWidth: 0 },
   });
 
   return (
-    <animated.Circle
-      {...props}
-      {...radiusProps}
-      fill="white"
+    <AnimatedLine
+      {...(animatedProps as unknown as {
+        opacity: number;
+        strokeWidth: number;
+      })}
+      lineCap="round"
+      lineJoin="round"
+      points={[from.x, from.y, to.x, to.y]}
       shadowBlur={10}
       shadowColor="white"
+      stroke="white"
     />
   );
 };
 
 export const Canvas = ({ height, width }: CanvasProps) => {
+  const cleanupRef = useRef<ReturnType<typeof setTimeout>>();
+
   const [lines, setLines] = useState<Line[]>([]);
-  const [traces, setTraces] = useState<{ id: number; x: number; y: number }[]>(
-    [],
-  );
+  const [traces, setTraces] = useState<Trace[][]>([]);
 
   const onStart = () => {
     setLines((lines) => [
       ...lines,
       {
         color: "red",
-        id: Date.now(),
+        id: lines.length,
         points: [],
       },
     ]);
+    setTraces((p) => [...p, []]);
   };
 
   const onMove: KonvaNodeEvents["onDragMove"] &
@@ -59,7 +81,17 @@ export const Canvas = ({ height, width }: CanvasProps) => {
       lastLine.points = lastLine.points.concat([point.x, point.y]);
       return [...lines];
     });
-    setTraces((p) => [...p, { id: Date.now(), x: point.x, y: point.y }]);
+    setTraces((p) => [
+      ...p.slice(0, -1),
+      [
+        ...p[p.length - 1],
+        { id: `${p.length}-${p[p.length - 1].length}`, x: point.x, y: point.y },
+      ],
+    ]);
+    clearTimeout(cleanupRef.current);
+    cleanupRef.current = setTimeout(() => {
+      setTraces([[]]);
+    }, ANIMATED_DURATION);
   };
 
   return (
@@ -85,9 +117,11 @@ export const Canvas = ({ height, width }: CanvasProps) => {
         ))}
       </Layer>
       <Layer>
-        {traces.map((trace) => (
-          <Trace key={trace.id} x={trace.x} y={trace.y} />
-        ))}
+        {traces.flatMap((trace) =>
+          trace.map((point, i) => (
+            <Trace from={trace[i - 1] ?? point} key={point.id} to={point} />
+          )),
+        )}
       </Layer>
     </Stage>
   );
