@@ -23,9 +23,7 @@ export const PokeWithDrawing = createDraggableSheet<{ email: string }>(() => {
         ref={domRef}
       >
         <Suspense
-          fallback={
-            <div className="size-full animate-pulse rounded-2xl bg-zinc-100"></div>
-          }
+          fallback={<div className="size-full rounded-2xl bg-black"></div>}
         >
           <Canvas height={height} width={width} />
         </Suspense>
