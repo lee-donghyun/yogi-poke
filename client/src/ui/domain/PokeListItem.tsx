@@ -73,7 +73,12 @@ const DrawingPokeBody = ({
       님에게 그림을 보냈습니다:{" "}
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
-        onClick={() => overlay(ShowDrawing, { lines, name: targetUserName })}
+        onClick={() =>
+          overlay(ShowDrawing, {
+            lines,
+            title: `${targetUserName}님에게 보낸 그림`,
+          })
+        }
         type="button"
       >
         보기
@@ -96,7 +101,12 @@ const DrawingPokedBody = ({
       그림을 보냈습니다:{" "}
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
-        onClick={() => overlay(ShowDrawing, { lines, name: targetUserName })}
+        onClick={() =>
+          overlay(ShowDrawing, {
+            lines,
+            title: `${targetUserName}님이 보낸 그림`,
+          })
+        }
         type="button"
       >
         보기
