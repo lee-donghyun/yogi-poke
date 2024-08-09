@@ -1,11 +1,18 @@
-import { IsString, ValidateNested, IsNotEmptyObject } from 'class-validator';
+import {
+  IsString,
+  ValidateNested,
+  IsNotEmptyObject,
+  IsIn,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 class NormalPokePayload {
+  @IsIn(['normal'])
   type: 'normal';
 }
 
 class EmojiPokePayload {
+  @IsIn(['emoji'])
   type: 'emoji';
 
   @IsString()
