@@ -3,6 +3,7 @@ import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 import { MyInfo } from "../../service/dataType.ts";
+import { type Line } from "../../ui/base/Canvas.tsx";
 import { useUser } from "../../ui/provider/Auth.tsx";
 import { useNotification } from "../../ui/provider/Notification.tsx";
 import { useStackedLayer } from "../../ui/provider/StackedLayerProvider.tsx";
@@ -23,9 +24,13 @@ interface EmojiPokePayload {
   message: string;
   type: "emoji";
 }
+interface DrawingPokePayload {
+  lines: Line[];
+  type: "drawing";
+}
 interface PokePayload {
   email: string;
-  payload: EmojiPokePayload | NormalPokePayload;
+  payload: DrawingPokePayload | EmojiPokePayload | NormalPokePayload;
 }
 
 export const usePoke = (
