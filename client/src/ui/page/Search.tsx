@@ -8,13 +8,13 @@ import { usePoke } from "../../hook/domain/usePoke.ts";
 import { isVerifiedUser, User } from "../../service/dataType.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
+import { PokeWithDrawing } from "../domain/PokeWithDrawing.tsx";
+import { PokeWithEmoji } from "../domain/PokeWithEmoji.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 import { QrCode } from "../icon/QrCode.tsx";
 import { useUser } from "../provider/Auth.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { PokeWithDrawing } from "./Search.PokeWithDrawing.tsx";
-import { PokeWithEmoji } from "./Search.PokeWithEmoji.tsx";
 import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
 
 export const Search = () => {
