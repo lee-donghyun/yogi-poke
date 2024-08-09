@@ -1,0 +1,88 @@
+import { lazy, Suspense, useState } from "react";
+
+import { useDomSize } from "../../hook/base/useDomSize";
+import { usePoke } from "../../hook/domain/usePoke";
+import { type Line } from "../base/Canvas";
+import { createDraggableSheet } from "../provider/StackedLayerProvider";
+
+const Canvas = lazy(() =>
+  import("../base/Canvas").then((module) => ({ default: module.Canvas })),
+);
+
+const PALETTE = [
+  "#53B7F9",
+  "#76FB4C",
+  "#EA33F4",
+  "#DA3832",
+  "#EF8532",
+  "#FEFC53",
+  "#FFFFFF",
+];
+
+export const PokeWithDrawing = createDraggableSheet<{ email: string }>(
+  ({ close, context: { email } }) => {
+    const {
+      domRef,
+      size: { height, width },
+    } = useDomSize<HTMLDivElement>();
+
+    const [selectedColor, setSelectedColor] = useState(PALETTE[0]);
+    const [lines, setLines] = useState<Line[]>([]);
+
+    const { isMutating, trigger } = usePoke();
+
+    return (
+      <div className="p-6">
+        <p className="text-lg font-semibold text-zinc-800">그림 찌르기 🎨</p>
+        <div className="h-6"></div>
+        <div
+          className="aspect-square w-full"
+          data-allow-touch-move-on-stacked-layer
+          ref={domRef}
+        >
+          <Suspense
+            fallback={<div className="size-full rounded-2xl bg-black"></div>}
+          >
+            <Canvas
+              color={selectedColor}
+              height={height}
+              lines={lines}
+              setLines={setLines}
+              width={width}
+            />
+          </Suspense>
+        </div>
+        <div className="mt-4 flex justify-between">
+          {PALETTE.map((color) => (
+            <button
+              className="flex size-8 items-center justify-center rounded-full"
+              key={color}
+              onClick={() => setSelectedColor(color)}
+              style={{ backgroundColor: color }}
+              type="button"
+            >
+              {color === selectedColor && (
+                <div className="size-2 animate-jump-in rounded-full bg-zinc-900 animate-duration-300"></div>
+              )}
+            </button>
+          ))}
+        </div>
+        <div className="pt-10">
+          <button
+            className="h-12 w-full rounded-2xl bg-black font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300"
+            disabled={lines.length == 0 || isMutating}
+            onClick={() =>
+              void trigger({
+                email,
+                payload: { lines, type: "drawing" },
+              }).then(close)
+            }
+            type="button"
+          >
+            찌르기 👉
+          </button>
+        </div>
+      </div>
+    );
+  },
+);
