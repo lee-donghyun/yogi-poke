@@ -9,12 +9,14 @@ interface CanvasRendererProps {
   width: number;
 }
 
+const INITIAL_DRAW_COUNT = 0;
+
 export const CanvasRenderer = ({
   height,
   lines,
   width,
 }: CanvasRendererProps) => {
-  const [drawCount, setDrawCount] = useState(0);
+  const [drawCount, setDrawCount] = useState(INITIAL_DRAW_COUNT);
 
   const pointsCount = useMemo(
     () => lines.reduce((acc, line) => acc + line.points.length, 0) / 4,
@@ -28,7 +30,7 @@ export const CanvasRenderer = ({
           setDrawCount((p) => p + 1);
         },
         // 그리기 시작하기 전에 딜레이를 준다.
-        drawCount === 0 ? 600 : 25,
+        drawCount === INITIAL_DRAW_COUNT ? 600 : 25,
       );
       return () => clearTimeout(timer);
     }
