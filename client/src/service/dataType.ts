@@ -48,7 +48,7 @@ export const isVerifiedUser = (user: User) =>
 export const getNormalizedPoints = (size: number) => (lines: Line[]) =>
   lines.map((line) => ({
     ...line,
-    points: line.points.map((point) => (point * 1000) / size),
+    points: line.points.map((point) => Math.round((point * 1000) / size)),
   }));
 
 export const getDenormalizedPoints = (size: number) => (lines: Line[]) =>
