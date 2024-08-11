@@ -108,62 +108,60 @@ export const Search = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-end pt-9">
-          <div className="relative">
-            <button
-              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
-              onClick={(e) => {
-                if (e.target !== e.currentTarget) {
-                  return;
-                }
-                if (typeof selected?.email !== "string") {
-                  return;
-                }
-                overlay(PokeWithDrawing, { email: selected.email });
-              }}
-              type="button"
-            >
-              그림 찌르기 🎨
-            </button>
-            <button
-              className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-14 scale-x-50 opacity-0"} absolute bottom-14 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
-              onClick={(e) => {
-                if (e.target !== e.currentTarget) {
-                  return;
-                }
-                if (typeof selected?.email !== "string") {
-                  return;
-                }
-                overlay(PokeWithEmoji, { email: selected.email });
-              }}
-              type="button"
-            >
-              이모티콘 찌르기 😊
-            </button>
-            <button
-              className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300`}
-              disabled={selected === null || isLoading || isMutating}
-              onClick={(e) => {
-                if (e.target !== e.currentTarget) {
-                  return;
-                }
-                if (pokeOptionOpen && typeof selected?.email === "string") {
-                  void trigger({
-                    email: selected.email,
-                    payload: { type: "normal" },
-                  }).then(() => {
-                    setSelected(null);
-                    setPokeOptionOpen(false);
-                  });
-                  return;
-                }
-                setPokeOptionOpen(true);
-              }}
-            >
-              {pokeOptionOpen && "바로 "}콕 찌르기 👉
-            </button>
-          </div>
-        </div>
+      </div>
+      <div className="fixed bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))] right-5">
+        <button
+          className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
+          onClick={(e) => {
+            if (e.target !== e.currentTarget) {
+              return;
+            }
+            if (typeof selected?.email !== "string") {
+              return;
+            }
+            overlay(PokeWithDrawing, { email: selected.email });
+          }}
+          type="button"
+        >
+          그림 찌르기 🎨
+        </button>
+        <button
+          className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-14 scale-x-50 opacity-0"} absolute bottom-14 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
+          onClick={(e) => {
+            if (e.target !== e.currentTarget) {
+              return;
+            }
+            if (typeof selected?.email !== "string") {
+              return;
+            }
+            overlay(PokeWithEmoji, { email: selected.email });
+          }}
+          type="button"
+        >
+          이모티콘 찌르기 😊
+        </button>
+        <button
+          className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300`}
+          disabled={selected === null || isLoading || isMutating}
+          onClick={(e) => {
+            if (e.target !== e.currentTarget) {
+              return;
+            }
+            if (pokeOptionOpen && typeof selected?.email === "string") {
+              void trigger({
+                email: selected.email,
+                payload: { type: "normal" },
+              }).then(() => {
+                setSelected(null);
+                setPokeOptionOpen(false);
+              });
+              return;
+            }
+            setPokeOptionOpen(true);
+          }}
+        >
+          {pokeOptionOpen && "바로 "}콕 찌르기 👉
+        </button>
       </div>
       <DomainBottomNavigation />
     </div>
