@@ -10,6 +10,7 @@ import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
 import { PokeWithDrawing } from "../domain/PokeWithDrawing.tsx";
 import { PokeWithEmoji } from "../domain/PokeWithEmoji.tsx";
+import { PokeWithVoice } from "../domain/PokeWithVoice.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 import { QrCode } from "../icon/QrCode.tsx";
@@ -110,6 +111,21 @@ export const Search = () => {
         </div>
       </div>
       <div className="fixed bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))] right-5">
+        <button
+          className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-[10.5rem] scale-x-50 opacity-0"} absolute bottom-[10.5rem] right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
+          onClick={(e) => {
+            if (e.target !== e.currentTarget) {
+              return;
+            }
+            if (typeof selected?.email !== "string") {
+              return;
+            }
+            overlay(PokeWithVoice, { email: selected.email });
+          }}
+          type="button"
+        >
+          음성 찌르기 🎤
+        </button>
         <button
           className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
           onClick={(e) => {
