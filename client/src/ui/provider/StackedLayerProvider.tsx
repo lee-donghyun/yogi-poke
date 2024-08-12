@@ -5,6 +5,7 @@ import {
 import {
   createContext,
   JSX,
+  memo,
   useCallback,
   useContext,
   useDeferredValue,
@@ -130,6 +131,9 @@ export const createDraggableSheet = <Context extends object = never>(
   if (import.meta.env.DEV) {
     console.warn("DraggableSheet is created. This must be created once.");
   }
+
+  const MemoedLayer = memo(Layer);
+
   // react-essentials 패키지에서 해당 rule 개선 필요
   // eslint-disable-next-line react/prop-types
   const DraggableSheet: Layer<Context> = ({ close, context }) => {
@@ -188,7 +192,7 @@ export const createDraggableSheet = <Context extends object = never>(
             <div className="h-1.5 w-12 rounded-full bg-zinc-200"></div>
           </div>
           <div>
-            <Layer close={close} context={context} />
+            <MemoedLayer close={close} context={context} />
           </div>
         </div>
       </div>
