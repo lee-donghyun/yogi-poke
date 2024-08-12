@@ -3,9 +3,9 @@ import {
   PauseIcon,
   PlayIcon,
 } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-import { usePoke } from "../../hook/domain/usePoke";
+import { useAudioRecorder } from "../../hook/base/useAudioRecorder";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
 const cx = {
@@ -14,10 +14,12 @@ const cx = {
 };
 
 export const PokeWithVoice = createDraggableSheet<{ email: string }>(
-  ({ close, context: { email } }) => {
-    const { isMutating, trigger } = usePoke();
-    const [isRecording, setIsRecording] = useState(true);
+  ({ close }) => {
+    const playerRef = useRef<HTMLAudioElement>(null);
+    const { analytics, isRecording, start, stop, url } = useAudioRecorder();
+
     const [isPlaying, setIsPlaying] = useState(false);
+
     return (
       <div className="p-6">
         <p className="text-lg font-semibold text-zinc-800">음성 찌르기 🎤</p>
@@ -28,28 +30,52 @@ export const PokeWithVoice = createDraggableSheet<{ email: string }>(
           {!isRecording && (
             <button
               className={cx.actionButton}
-              onClick={() => setIsRecording(true)}
+              onClick={() => void start()}
               type="button"
             >
               <MicrophoneIcon className="size-5 text-red-500" />
             </button>
           )}
           {!isRecording && isPlaying && (
-            <button className={cx.actionButton} type="button">
+            <button
+              className={cx.actionButton}
+              onClick={() => {
+                setIsPlaying(false);
+                void playerRef.current?.pause();
+              }}
+              type="button"
+            >
               <PauseIcon className="size-5" />
             </button>
           )}
           {!isRecording && !isPlaying && (
-            <button className={cx.actionButton} type="button">
+            <button
+              className={cx.actionButton}
+              onClick={() => {
+                setIsPlaying(true);
+                void playerRef.current?.play();
+              }}
+              type="button"
+            >
               <PlayIcon className="size-5" />
             </button>
           )}
-          <div className="flex-1"></div>
+          <div className="flex flex-1 items-center gap-px">
+            {analytics.slice(-20).map((volume, i) => (
+              <div
+                className="w-1 animate-jump rounded-full bg-red-500"
+                key={i}
+                style={{ height: volume }}
+              ></div>
+            ))}
+          </div>
           <button
             className={`${isRecording ? "bg-red-200" : "bg-black"} rounded-full p-2.5 duration-200 active:opacity-60`}
             onClick={() => {
               if (isRecording) {
-                setIsRecording(false);
+                stop();
+                setIsPlaying(false);
+                playerRef.current?.pause();
                 return;
               }
               close();
@@ -62,6 +88,18 @@ export const PokeWithVoice = createDraggableSheet<{ email: string }>(
             )}
           </button>
         </div>
+        {!isRecording && url && (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
+          <audio
+            // className="hidden"
+            controls
+            onEnded={() => {
+              setIsPlaying(false);
+            }}
+            ref={playerRef}
+            src={url}
+          ></audio>
+        )}
       </div>
     );
   },
