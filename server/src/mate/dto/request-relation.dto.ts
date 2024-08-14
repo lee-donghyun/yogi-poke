@@ -29,7 +29,6 @@ class Line {
   color: string;
 
   @IsArray()
-  @ArrayNotEmpty()
   @IsNumber({}, { each: true })
   points: number[];
 }
