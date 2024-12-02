@@ -67,8 +67,23 @@ pnpm 을 패키지 매니저로 사용한다.
 
 ```sh
 pnpm i
+```
+
+### ORM 설정
+
+```sh
 npx prisma generate
-npx prisma migrate dev
+npx prisma migrate dev --create-only
+```
+
+`migration.sql` 에서 VIEW 를 생성하는 스크립트를 추가한다.
+
+```sql
+CREATE VIEW "ActiveUser" AS SELECT * FROM "User" WHERE "deletedAt" IS NULL;
+```
+
+```sh
+npx prisma migrate reset (deploy)
 ```
 
 ### 앱 실행
