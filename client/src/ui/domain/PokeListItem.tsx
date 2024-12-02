@@ -1,5 +1,6 @@
 import { Link } from "router2";
 
+import { DELETED_USER } from "../../service/const.ts";
 import { Poke, User } from "../../service/dataType.ts";
 import { getReadableDateOffset } from "../../service/util.ts";
 import { type Line } from "../base/Canvas.tsx";
@@ -188,7 +189,7 @@ export const PokeListItem = ({
               targetUserName={targetUser.name}
             />
           )}
-          {type === "poked" && (
+          {type === "poked" && targetUser !== DELETED_USER && (
             <button
               className="mt-1.5 w-full rounded-lg bg-zinc-100 p-1 text-sm font-medium text-zinc-900 active:opacity-60 disabled:opacity-60"
               onClick={() =>
