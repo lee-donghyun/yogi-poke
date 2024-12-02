@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { read } from 'jimp';
+import { Jimp } from 'jimp';
 import { FileUtilService } from '../file-util/file-util.service';
 import { resolve } from 'path';
 import { cwd } from 'process';
@@ -65,15 +65,15 @@ export class DocumentUtilService {
       });
     }
 
-    const logoImageJimp = await read(resolve(cwd(), 'public/logo.png'));
-    const profileImageJimp = await read(
+    const logoImageJimp = await Jimp.read(resolve(cwd(), 'public/logo.png'));
+    const profileImageJimp = await Jimp.read(
       user.profileImageUrl ?? resolve(cwd(), 'public/default_user_profile.png'),
     );
-    profileImageJimp.resize(200, 200);
+    profileImageJimp.resize({ w: 200, h: 200 });
     const ogImageJimp = logoImageJimp.composite(
       profileImageJimp.circle(),
-      logoImageJimp.getWidth() - 280,
-      logoImageJimp.getHeight() / 2 - 100,
+      logoImageJimp.width - 280,
+      logoImageJimp.height / 2 - 100,
     );
     const buffer = await ogImageJimp.getBufferAsync('image/png');
     const ogImageUrl = await this.fileUtilService.uploadAndGetUrl(
