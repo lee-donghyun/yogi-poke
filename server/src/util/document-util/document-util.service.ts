@@ -65,17 +65,19 @@ export class DocumentUtilService {
       });
     }
 
-    const logoImageJimp = await Jimp.read(resolve(cwd(), 'public/logo.png'));
+    const ogImageTemplateJimp = await Jimp.read(
+      resolve(cwd(), 'public/logo.png'),
+    );
     const profileImageJimp = await Jimp.read(
       user.profileImageUrl ?? resolve(cwd(), 'public/default_user_profile.png'),
     );
     profileImageJimp.resize({ w: 200, h: 200 });
-    const ogImageJimp = logoImageJimp.composite(
+    ogImageTemplateJimp.composite(
       profileImageJimp.circle(),
-      logoImageJimp.width - 280,
-      logoImageJimp.height / 2 - 100,
+      ogImageTemplateJimp.width - 280,
+      ogImageTemplateJimp.height / 2 - 100,
     );
-    const buffer = await ogImageJimp.getBufferAsync('image/png');
+    const buffer = await ogImageTemplateJimp.getBuffer('image/png');
     const ogImageUrl = await this.fileUtilService.uploadAndGetUrl(
       buffer,
       `og-image-${user.id}.png`,
