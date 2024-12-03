@@ -14,9 +14,13 @@ export const QrScanner = ({
       highlightScanRegion: true,
     });
     const startScanning = scanner.start();
-    void startScanning.then(() => {
-      ref.current?.classList.remove("animate-pulse");
-    });
+    void startScanning
+      .then(() => {
+        ref.current?.classList.remove("animate-pulse");
+      })
+      .catch((message) => {
+        console.error(message);
+      });
     return () => {
       void startScanning.finally(() => {
         scanner.destroy();
