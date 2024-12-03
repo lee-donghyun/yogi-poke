@@ -1,6 +1,8 @@
 import QrScannerClient from "qr-scanner";
 import { useEffect, useRef } from "react";
 
+import { Task } from "../../lib/task";
+
 export const QrScanner = ({
   onScan,
 }: {
@@ -13,19 +15,11 @@ export const QrScanner = ({
       highlightCodeOutline: true,
       highlightScanRegion: true,
     });
-    const startScanning = scanner.start();
-    void startScanning
-      .then(() => {
-        ref.current?.classList.remove("animate-pulse");
-      })
-      .catch((message) => {
-        console.error(message);
-      });
-    return () => {
-      void startScanning.finally(() => {
-        scanner.destroy();
-      });
-    };
+
+    const task = new Task();
+    task.pipe(() => scanner.start());
+    task.pipe(() => ref.current?.classList.remove("animate-pulse"));
+    return () => task.pipe(() => scanner.destroy());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
