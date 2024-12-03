@@ -1,5 +1,5 @@
 import QrScannerClient from "qr-scanner";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { Task } from "../../lib/task";
 
@@ -22,11 +22,14 @@ export const QrScanner = ({
     return () => task.pipe(() => scanner.destroy());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    // eslint-disable-next-line jsx-a11y/media-has-caption
-    <video
-      className="aspect-square w-full animate-pulse rounded-2xl bg-zinc-100 object-cover"
-      ref={ref}
-    ></video>
+  return useMemo(
+    () => (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
+      <video
+        className="aspect-square w-full animate-pulse rounded-2xl bg-zinc-100 object-cover"
+        ref={ref}
+      ></video>
+    ),
+    [],
   );
 };
