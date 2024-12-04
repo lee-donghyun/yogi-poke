@@ -1,7 +1,10 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { useDomSize } from "../../hook/base/useDomSize";
+import { useGeolocation } from "../../hook/base/useGeolocation";
+import { getDistance } from "../../service/util";
+import { CountUp } from "../base/CountUp";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
 const Map = lazy(() =>
@@ -17,25 +20,35 @@ export const ShowGeolocation = createDraggableSheet<{
     size: { height, width },
   } = useDomSize<HTMLDivElement>();
 
+  const { data } = useGeolocation();
+
+  const distance = useMemo(
+    () =>
+      data ? Math.ceil(getDistance(data.coords, context.position) * 1000) : 0,
+    [data, context.position],
+  );
+
   return (
-    <div className="p-6">
+    <div className="p-6 pt-2.5">
       <p className="text-lg font-semibold text-zinc-800">{context.title}</p>
-      <div className="h-6"></div>
+      <p className="pb-6 pt-3 text-sm text-zinc-400">
+        나와의 거리: <CountUp duration={1500} from={0} to={distance} />m
+      </p>
       <div
-        className="aspect-square w-full"
+        className="relative aspect-square w-full overflow-hidden rounded-2xl"
         data-allow-touch-move-on-stacked-layer
         ref={domRef}
       >
         <ErrorBoundary
           fallback={
-            <div className="size-full rounded-2xl bg-zinc-100 p-5 text-zinc-700">
+            <div className="size-full bg-zinc-100 p-5 text-zinc-700">
               사용할 수 없는 기기입니다.
             </div>
           }
         >
           <Suspense
             fallback={
-              <div className="size-full animate-pulse rounded-2xl bg-zinc-100"></div>
+              <div className="size-full animate-pulse bg-zinc-100"></div>
             }
           >
             {/*  flash of unstyled content (FOUC) 방지를 위해 height > 0 조건 추가 */}
