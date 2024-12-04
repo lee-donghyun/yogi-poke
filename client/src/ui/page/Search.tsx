@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
 
@@ -10,12 +10,20 @@ import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
 import { PokeWithDrawing } from "../domain/PokeWithDrawing.tsx";
 import { PokeWithEmoji } from "../domain/PokeWithEmoji.tsx";
+import { PokeWithGeoLocation } from "../domain/PokeWithGeolocation.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 import { QrCode } from "../icon/QrCode.tsx";
 import { useUser } from "../provider/Auth.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
+
+const cx = {
+  animatedPokeOptionButton: "absolute right-0",
+  hiddenAnimatedPokeOptionButton: "translate-x-1/4 scale-x-50 opacity-0",
+  pokeOptionButton:
+    "whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300",
+};
 
 export const Search = () => {
   useUser({ assertAuth: true });
@@ -47,6 +55,18 @@ export const Search = () => {
   const { isMutating, trigger } = usePoke();
 
   const [pokeOptionOpen, setPokeOptionOpen] = useState(false);
+
+  const validateAndOverlay =
+    (Sheet: Layer<{ email: string }>): MouseEventHandler<HTMLButtonElement> =>
+    (e) => {
+      if (e.target !== e.currentTarget) {
+        return;
+      }
+      if (typeof selected?.email !== "string") {
+        return;
+      }
+      overlay(Sheet, { email: selected.email });
+    };
 
   return (
     <div className="min-h-screen">
@@ -111,37 +131,28 @@ export const Search = () => {
       </div>
       <div className="fixed bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))] right-5">
         <button
-          className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-28 scale-x-50 opacity-0"} absolute bottom-28 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
-          onClick={(e) => {
-            if (e.target !== e.currentTarget) {
-              return;
-            }
-            if (typeof selected?.email !== "string") {
-              return;
-            }
-            overlay(PokeWithDrawing, { email: selected.email });
-          }}
+          className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-[10.5rem]`} bottom-[10.5rem] ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
+          onClick={validateAndOverlay(PokeWithDrawing)}
           type="button"
         >
           그림 찌르기 🎨
         </button>
         <button
-          className={`${pokeOptionOpen ? "" : "translate-x-1/4 translate-y-14 scale-x-50 opacity-0"} absolute bottom-14 right-0 whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300`}
-          onClick={(e) => {
-            if (e.target !== e.currentTarget) {
-              return;
-            }
-            if (typeof selected?.email !== "string") {
-              return;
-            }
-            overlay(PokeWithEmoji, { email: selected.email });
-          }}
+          className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-28`} bottom-28 ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
+          onClick={validateAndOverlay(PokeWithGeoLocation)}
+          type="button"
+        >
+          내 위치 찌르기 📍
+        </button>
+        <button
+          className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-14`} bottom-14 ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
+          onClick={validateAndOverlay(PokeWithEmoji)}
           type="button"
         >
           이모티콘 찌르기 😊
         </button>
         <button
-          className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden whitespace-pre rounded-full bg-black p-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300`}
+          className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden ${cx.pokeOptionButton}`}
           disabled={selected === null || isLoading || isMutating}
           onClick={(e) => {
             if (e.target !== e.currentTarget) {
