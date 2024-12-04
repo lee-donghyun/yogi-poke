@@ -70,7 +70,11 @@ export const UpdateMyInfo = createLayer(({ close }) => {
           완료
         </button>
       </div>
-      <form className="h-full overflow-y-scroll p-5" ref={formRef}>
+      <form
+        className="h-full overflow-y-scroll p-5"
+        onSubmit={(e) => e.preventDefault()}
+        ref={formRef}
+      >
         <div className="flex justify-center">
           <label className="flex flex-col items-center gap-2">
             <img
