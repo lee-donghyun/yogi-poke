@@ -32,6 +32,7 @@ export interface Poke {
   payload:
     | { lines: Line[]; type: "drawing" }
     | { message: string; type: "emoji" }
+    | { position: { latitude: number; longitude: number }; type: "geolocation" }
     | { type: "normal" };
   relation: Relation;
   toUserId: number;
