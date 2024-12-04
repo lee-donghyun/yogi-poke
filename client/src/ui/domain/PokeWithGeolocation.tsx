@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 import { useDomSize } from "../../hook/base/useDomSize";
+import { GeolocationConsumer } from "../../hook/base/useGeolocation";
 import { usePoke } from "../../hook/domain/usePoke";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
@@ -25,13 +27,33 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
           data-allow-touch-move-on-stacked-layer
           ref={domRef}
         >
-          <Suspense
+          <ErrorBoundary
             fallback={
-              <div className="size-full animate-pulse rounded-2xl bg-zinc-100"></div>
+              <div className="size-full rounded-2xl bg-zinc-100 p-5 text-zinc-700">
+                사용할 수 없는 기기입니다.
+              </div>
             }
           >
-            {height > 0 && <Map height={height} width={width} />}
-          </Suspense>
+            <Suspense
+              fallback={
+                <div className="size-full animate-pulse rounded-2xl bg-zinc-100"></div>
+              }
+            >
+              <GeolocationConsumer>
+                {(position) =>
+                  // flash of unstyled content (FOUC) 방지를 위해 height > 0 조건 추가
+                  height > 0 &&
+                  position && (
+                    <Map
+                      height={height}
+                      position={position.coords}
+                      width={width}
+                    />
+                  )
+                }
+              </GeolocationConsumer>
+            </Suspense>
+          </ErrorBoundary>
         </div>
         <div className="pt-10">
           <button
