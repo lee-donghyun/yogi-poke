@@ -8,6 +8,7 @@ import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { PokeSheet } from "./PokeSheet.tsx";
 import { ShowDrawing } from "./ShowDrawing.tsx";
+import { ShowGeolocation } from "./ShowGeolocation.tsx";
 
 interface PocketListItemProps {
   animation: {
@@ -116,6 +117,62 @@ const DrawingPokedBody = ({
   );
 };
 
+const GeolocationPokeBody = ({
+  position,
+  targetUserName,
+}: {
+  position: { latitude: number; longitude: number };
+  targetUserName: string;
+}) => {
+  const overlay = useStackedLayer();
+  return (
+    <p className="text-sm text-zinc-800">
+      회원님이 <span className="font-semibold">{targetUserName}</span>
+      님에게 위치를 보냈습니다:{" "}
+      <button
+        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        onClick={() =>
+          overlay(ShowGeolocation, {
+            position,
+            title: `${targetUserName}님에게 보낸 위치`,
+          })
+        }
+        type="button"
+      >
+        보기
+      </button>
+    </p>
+  );
+};
+
+const GeolocationPokedBody = ({
+  position,
+  targetUserName,
+}: {
+  position: { latitude: number; longitude: number };
+  targetUserName: string;
+}) => {
+  const overlay = useStackedLayer();
+  return (
+    <p className="text-sm text-zinc-800">
+      <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+      그림을 보냈습니다:{" "}
+      <button
+        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        onClick={() =>
+          overlay(ShowGeolocation, {
+            position,
+            title: `${targetUserName}님이 보낸 위치`,
+          })
+        }
+        type="button"
+      >
+        보기
+      </button>
+    </p>
+  );
+};
+
 export const PokeListItem = ({
   animation,
   date,
@@ -186,6 +243,18 @@ export const PokeListItem = ({
           {payload.type === "drawing" && type === "poked" && (
             <DrawingPokedBody
               lines={payload.lines}
+              targetUserName={targetUser.name}
+            />
+          )}
+          {payload.type === "geolocation" && type === "poke" && (
+            <GeolocationPokeBody
+              position={payload.position}
+              targetUserName={targetUser.name}
+            />
+          )}
+          {payload.type === "geolocation" && type === "poked" && (
+            <GeolocationPokedBody
+              position={payload.position}
               targetUserName={targetUser.name}
             />
           )}

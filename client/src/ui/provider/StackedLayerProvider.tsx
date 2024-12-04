@@ -14,7 +14,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-type Layer<Context = never> = (props: {
+export type Layer<Context = never> = (props: {
   close: () => void;
   context: Context;
 }) => JSX.Element;
@@ -134,8 +134,6 @@ export const createDraggableSheet = <Context extends object = never>(
 
   const MemoedLayer = memo(Layer);
 
-  // react-essentials 패키지에서 해당 rule 개선 필요
-  // eslint-disable-next-line react/prop-types
   const DraggableSheet: Layer<Context> = ({ close, context }) => {
     const startPointRef = useRef({ x: 0, y: 0 });
     const [translate, setTranslate] = useState<{ x: number; y: number } | null>(

@@ -28,9 +28,18 @@ interface DrawingPokePayload {
   lines: Line[];
   type: "drawing";
 }
+
+interface GeolocationPokePayload {
+  position: { latitude: number; longitude: number };
+  type: "geolocation";
+}
 interface PokePayload {
   email: string;
-  payload: DrawingPokePayload | EmojiPokePayload | NormalPokePayload;
+  payload:
+    | DrawingPokePayload
+    | EmojiPokePayload
+    | GeolocationPokePayload
+    | NormalPokePayload;
 }
 
 export const usePoke = (
@@ -68,16 +77,16 @@ export const usePoke = (
       onError: (err: Error) => {
         const cause = (err as { cause: PokeError }).cause;
         switch (cause.status) {
+          case 403: {
+            push({
+              content: `${cause.email}님을 콕! 찌를 수 없습니다.`,
+            });
+            return;
+          }
           case 409: {
             push({
               content:
                 "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
-            });
-            return;
-          }
-          case 403: {
-            push({
-              content: `${cause.email}님을 콕! 찌를 수 없습니다.`,
             });
             return;
           }
