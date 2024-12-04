@@ -9,12 +9,12 @@ export const useGeoLocation = (options?: Pick<SWRConfiguration, "suspense">) =>
         navigator.geolocation.getCurrentPosition(resolve, reject);
       }),
     options,
-  ).data;
+  );
 
 export const GeolocationConsumer = ({
   children,
 }: {
   children: (position: GeolocationPosition | undefined) => ReactNode;
 }) => {
-  return children(useGeoLocation({ suspense: true }));
+  return children(useGeoLocation({ suspense: true }).data);
 };
