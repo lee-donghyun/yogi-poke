@@ -1,7 +1,7 @@
 import { Map as MapboxMap, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { useGeoLocation } from "../../hook/base/useGeolocation";
+import { useGeolocation } from "../../hook/base/useGeolocation";
 import { LocationPuck } from "./LocationPuck";
 
 export const Map = ({
@@ -15,7 +15,7 @@ export const Map = ({
   showCurrentPosition?: boolean;
   width: number;
 }) => {
-  const currentPosition = useGeoLocation({ suspense: true }).data;
+  const currentPosition = useGeolocation({ suspense: true }).data;
 
   return (
     currentPosition && (

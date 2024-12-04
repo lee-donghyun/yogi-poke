@@ -21,12 +21,11 @@ export const QrScannerSheet = createDraggableSheet(({ close }) => {
   };
 
   return (
-    <div className="p-6 pt-0">
-      <p className="pt-2.5 text-lg font-semibold text-zinc-800">QR 코드 스캔</p>
+    <div className="p-6 pt-2.5">
+      <p className="text-lg font-semibold text-zinc-800">QR 코드 스캔</p>
       <p className="pb-6 pt-3 text-sm text-zinc-400">
         상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요.
       </p>
-      <div className="border-t border-zinc-100 pt-6"></div>
       <Suspense
         fallback={
           <div className="aspect-square w-full animate-pulse rounded-2xl bg-zinc-100"></div>
