@@ -6,16 +6,20 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsNumber,
+  Equals,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class NormalPokePayload {
-  @IsIn(['normal'])
+class PokePayload {
+  type: string;
+}
+class NormalPokePayload extends PokePayload {
+  @Equals('normal')
   type: 'normal';
 }
 
-class EmojiPokePayload {
-  @IsIn(['emoji'])
+class EmojiPokePayload extends PokePayload {
+  @Equals('emoji')
   type: 'emoji';
 
   @IsString()
@@ -33,8 +37,8 @@ class Line {
   points: number[];
 }
 
-class DrawingPokePayload {
-  @IsIn(['drawing'])
+class DrawingPokePayload extends PokePayload {
+  @Equals('drawing')
   type: 'drawing';
 
   @IsArray()
@@ -50,8 +54,8 @@ class Position {
   @IsNumber()
   longitude: number;
 }
-class GeolocationPokePayload {
-  @IsIn(['geolocation'])
+class GeolocationPokePayload extends PokePayload {
+  @Equals('geolocation')
   type: 'geolocation';
   @Type(() => Position)
   position: Position;
@@ -63,7 +67,7 @@ export class RequestRelationDto {
 
   @IsNotEmptyObject()
   @ValidateNested()
-  @Type(() => NormalPokePayload, {
+  @Type(() => PokePayload, {
     discriminator: {
       property: 'type',
       subTypes: [
