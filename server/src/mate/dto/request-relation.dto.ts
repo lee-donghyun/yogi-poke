@@ -43,6 +43,19 @@ class DrawingPokePayload {
   @Type(() => Line)
   lines: Line[][];
 }
+class Position {
+  @IsNumber()
+  latitude: number;
+
+  @IsNumber()
+  longitude: number;
+}
+class GeolocationPokePayload {
+  @IsIn(['geolocation'])
+  type: 'geolocation';
+  @Type(() => Position)
+  position: Position;
+}
 
 export class RequestRelationDto {
   @IsString()
@@ -57,9 +70,14 @@ export class RequestRelationDto {
         { value: NormalPokePayload, name: 'normal' },
         { value: EmojiPokePayload, name: 'emoji' },
         { value: DrawingPokePayload, name: 'drawing' },
+        { value: GeolocationPokePayload, name: 'geolocation' },
       ],
     },
     keepDiscriminatorProperty: true,
   })
-  payload: NormalPokePayload | EmojiPokePayload | DrawingPokePayload;
+  payload:
+    | NormalPokePayload
+    | EmojiPokePayload
+    | DrawingPokePayload
+    | GeolocationPokePayload;
 }
