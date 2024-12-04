@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 
-export const useGeoLocation = (options?: Pick<SWRConfiguration, "suspense">) =>
+export const useGeolocation = (options?: Pick<SWRConfiguration, "suspense">) =>
   useSWR(
     "geolocation",
     () =>
@@ -16,5 +16,5 @@ export const GeolocationConsumer = ({
 }: {
   children: (position: GeolocationPosition | undefined) => ReactNode;
 }) => {
-  return children(useGeoLocation({ suspense: true }).data);
+  return children(useGeolocation({ suspense: true }).data);
 };
