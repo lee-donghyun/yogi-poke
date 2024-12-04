@@ -23,11 +23,11 @@ export const Map = ({
         initialViewState={{
           latitude: position.latitude,
           longitude: position.longitude,
+          zoom: 13,
         }}
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v12"
         style={{ height, width }}
-        zoom={12}
       >
         <Marker latitude={position.latitude} longitude={position.longitude}>
           <span className="text-5xl">📍</span>
@@ -37,7 +37,7 @@ export const Map = ({
             latitude={currentPosition.coords.latitude}
             longitude={currentPosition.coords.longitude}
           >
-            <LocationPuck confidenceRadius={currentPosition.coords.accuracy} />
+            <LocationPuck />
           </Marker>
         )}
       </MapboxMap>
