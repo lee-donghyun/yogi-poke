@@ -6,6 +6,7 @@ import {
 } from "../provider/StackedLayerProvider.tsx";
 import { PokeWithDrawing } from "./PokeWithDrawing.tsx";
 import { PokeWithEmoji } from "./PokeWithEmoji.tsx";
+import { PokeWithGeoLocation } from "./PokeWithGeolocation.tsx";
 
 const cx = {
   pokeButton:
@@ -41,6 +42,13 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
             onClick={() => closeAndOpen(PokeWithDrawing)}
           >
             그림 찌르기 🎨
+          </button>
+          <button
+            className={cx.pokeButton + " text-zinc-900"}
+            disabled={isMutating}
+            onClick={() => closeAndOpen(PokeWithGeoLocation)}
+          >
+            내 위치 찌르기 📍
           </button>
           <button
             className={cx.pokeButton + " text-zinc-900"}
