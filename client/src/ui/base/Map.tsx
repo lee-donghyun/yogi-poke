@@ -15,7 +15,7 @@ export const Map = ({
   showCurrentPosition?: boolean;
   width: number;
 }) => {
-  const currentPosition = useGeoLocation({ suspense: true });
+  const currentPosition = useGeoLocation({ suspense: true }).data;
 
   return (
     currentPosition && (
