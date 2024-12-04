@@ -2,7 +2,10 @@ import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { useDomSize } from "../../hook/base/useDomSize";
-import { GeolocationConsumer } from "../../hook/base/useGeolocation";
+import {
+  GeolocationConsumer,
+  useGeoLocation,
+} from "../../hook/base/useGeolocation";
 import { usePoke } from "../../hook/domain/usePoke";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
@@ -17,6 +20,7 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
       size: { height, width },
     } = useDomSize<HTMLDivElement>();
     const { isMutating, trigger } = usePoke();
+    const { data, isLoading } = useGeoLocation();
 
     return (
       <div className="p-6">
@@ -39,6 +43,7 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
                 <div className="size-full animate-pulse rounded-2xl bg-zinc-100"></div>
               }
             >
+              {/* 내 위치 로드 중 suspense 의 fallback 을 보야주기 위해 사용한다. */}
               <GeolocationConsumer>
                 {(position) =>
                   // flash of unstyled content (FOUC) 방지를 위해 height > 0 조건 추가
@@ -58,11 +63,18 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
         <div className="pt-10">
           <button
             className="h-12 w-full rounded-2xl bg-black font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300"
-            disabled={isMutating}
+            disabled={isMutating || isLoading}
             onClick={() =>
+              data &&
               void trigger({
                 email,
-                payload: { type: "normal" },
+                payload: {
+                  position: {
+                    latitude: data.coords.latitude,
+                    longitude: data.coords.longitude,
+                  },
+                  type: "geolocation",
+                },
               }).then(close)
             }
             type="button"
