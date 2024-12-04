@@ -59,3 +59,21 @@ export const getPushNotificationSubscription = async () => {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
+
+export const getDistance = (
+  a: { latitude: number; longitude: number },
+  b: { latitude: number; longitude: number },
+) => {
+  const deg2rad = (deg: number) => deg * (Math.PI / 180);
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(b.latitude - a.latitude);
+  const dLon = deg2rad(b.longitude - a.longitude);
+  const A =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(a.latitude)) *
+      Math.cos(deg2rad(b.latitude)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const C = 2 * Math.atan2(Math.sqrt(A), Math.sqrt(1 - A));
+  return R * C;
+};

@@ -4,7 +4,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useDomSize } from "../../hook/base/useDomSize";
 import {
   GeolocationConsumer,
-  useGeoLocation,
+  useGeolocation,
 } from "../../hook/base/useGeolocation";
 import { usePoke } from "../../hook/domain/usePoke";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
@@ -20,7 +20,7 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
       size: { height, width },
     } = useDomSize<HTMLDivElement>();
     const { isMutating, trigger } = usePoke();
-    const { data, isLoading } = useGeoLocation();
+    const { data, isLoading } = useGeolocation();
 
     return (
       <div className="p-6">
@@ -33,14 +33,14 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
         >
           <ErrorBoundary
             fallback={
-              <div className="size-full rounded-2xl bg-zinc-100 p-5 text-zinc-700">
+              <div className="size-full bg-zinc-100 p-5 text-zinc-700">
                 사용할 수 없는 기기입니다.
               </div>
             }
           >
             <Suspense
               fallback={
-                <div className="size-full animate-pulse rounded-2xl bg-zinc-100"></div>
+                <div className="size-full animate-pulse bg-zinc-100"></div>
               }
             >
               {/* 내 위치 로드 중 suspense 의 fallback 을 보야주기 위해 사용한다. */}
