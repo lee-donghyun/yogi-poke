@@ -30,8 +30,7 @@ interface DrawingPokePayload {
 }
 
 interface GeolocationPokePayload {
-  latitude: number;
-  longitude: number;
+  position: { latitude: number; longitude: number };
   type: "geolocation";
 }
 interface PokePayload {
