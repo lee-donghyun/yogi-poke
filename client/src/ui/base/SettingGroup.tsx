@@ -1,11 +1,11 @@
-import { createRef, useRef } from "react";
+import { createRef, ReactNode, useRef } from "react";
 
 import { ChevronRight } from "../icon/ChevronRight.tsx";
 
 interface SettingGroupProps<T extends string> {
   onOpenSubgroup: (title: T) => void;
   subGroups: {
-    children: JSX.Element;
+    children: ReactNode;
     open: boolean;
     title: T;
   }[];

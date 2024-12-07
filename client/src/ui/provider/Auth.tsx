@@ -1,6 +1,7 @@
 import { KyInstance } from "ky";
 import {
   createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -92,7 +93,7 @@ export const AuthProvider = ({
   children,
   myInfo: prefetchedMyInfo,
 }: {
-  children: JSX.Element;
+  children: ReactNode;
   myInfo: MyInfo | null;
 }) => {
   const [myInfo, setMyInfo] = useState<MyInfo | null>(prefetchedMyInfo);
