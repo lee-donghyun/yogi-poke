@@ -1,7 +1,7 @@
 import { Link, useRouter } from "router2";
 
 import { ChevronRight } from "../icon/ChevronRight.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { useAuthNavigator } from "../provider/Auth.tsx";
 import {
   createDraggableSheet,
   useStackedLayer,
@@ -40,13 +40,9 @@ const PrivateLoginSheet = createDraggableSheet(({ close }) => {
 });
 
 export const Home = () => {
-  const { navigate } = useRouter();
-  const { isLoggedIn } = useUser();
+  useAuthNavigator({ goToApp: "/search" });
   const overlay = useStackedLayer();
 
-  if (isLoggedIn) {
-    navigate({ pathname: "/search" }, { replace: true });
-  }
   return (
     <div>
       <img alt="" className="mx-auto mt-20 size-60" src="/asset/icon.jpg" />

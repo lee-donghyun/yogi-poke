@@ -13,7 +13,7 @@ import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { Edit } from "../icon/Edit.tsx";
 import { Menu } from "../icon/Menu.tsx";
 import { Setting } from "../icon/Setting.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import {
   createDraggableSheet,
   useStackedLayer,
@@ -46,12 +46,10 @@ const MenuSheet = createDraggableSheet(({ close }) => {
 });
 
 export const MyPage = () => {
+  useAuthNavigator({ goToAuth: true });
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
-  const { myInfo } = useUser({
-    assertAuth: true,
-    revalidateIfHasToken: true,
-  });
+  const { myInfo } = useUser({ revalidateIfHasToken: true });
 
   const { data, error, intersectorRef, isFreshData } = useRelatedPokeList();
 
