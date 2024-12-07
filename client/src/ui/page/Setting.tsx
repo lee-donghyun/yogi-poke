@@ -6,7 +6,7 @@ import { StackedNavigation } from "../base/Navigation.tsx";
 import { SettingGroup } from "../base/SettingGroup.tsx";
 import { CheckCircleOutline } from "../icon/CheckCircleOutline.tsx";
 import { CheckCircleSolid } from "../icon/CheckCircleSolid.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { BlockedUser } from "./Setting.BlockedUser.tsx";
@@ -15,7 +15,8 @@ import { Quit } from "./Setting.Quit.tsx";
 type Open = "내 계정" | "알림" | "정보" | "차단한 계정" | null;
 
 export const Setting = () => {
-  const { myInfo, patchUser } = useUser({ assertAuth: true });
+  useAuthNavigator({ goToAuth: true });
+  const { myInfo, patchUser } = useUser();
   const overlay = useStackedLayer();
 
   const [open, setOpen] = useState<Open>(null);
