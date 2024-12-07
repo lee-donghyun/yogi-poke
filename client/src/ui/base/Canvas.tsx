@@ -61,7 +61,7 @@ export const Canvas = ({
   setLines,
   width,
 }: CanvasProps) => {
-  const cleanupRef = useRef<ReturnType<typeof setTimeout>>();
+  const cleanupRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const [traces, setTraces] = useState<Trace[][]>([]);
 
@@ -95,7 +95,9 @@ export const Canvas = ({
         { id: `${p.length}-${p[p.length - 1].length}`, x: point.x, y: point.y },
       ],
     ]);
-    clearTimeout(cleanupRef.current);
+    if (cleanupRef.current) {
+      clearTimeout(cleanupRef.current);
+    }
     cleanupRef.current = setTimeout(() => {
       setTraces([[]]);
     }, ANIMATED_DURATION);
