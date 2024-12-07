@@ -47,13 +47,8 @@ const authContext = createContext<{
 });
 
 export const useUser = ({
-  assertAuth,
   revalidateIfHasToken,
 }: {
-  /**
-   * 로그인이 되어있지 않은 경우 로그인 페이지로 이동합니다.
-   */
-  assertAuth?: boolean;
   /**
    * 훅이 호출될때 최신 정보임을 확인합니다. 토큰이 있는 경우에만 활성화됩니다.
    * @warn 이 옵션은 페이지 단위의 훅 호출에서만 사용되어야 합니다. 여러 컴포넌트에서 동시에 사용한다면 불필요한 요청이 발생할 수 있습니다.
@@ -61,20 +56,9 @@ export const useUser = ({
    */
   revalidateIfHasToken?: boolean;
 } = {}) => {
-  const { navigate, path } = useRouter();
   const auth = useContext(authContext);
 
   const { isLoggedIn, refreshUser } = auth;
-
-  if (assertAuth && !isLoggedIn) {
-    navigate(
-      {
-        pathname: "/sign-in",
-        ...(path && { query: { returnUrl: path } }),
-      },
-      { replace: true },
-    );
-  }
 
   useEffect(() => {
     if (revalidateIfHasToken && isLoggedIn) {
@@ -87,6 +71,48 @@ export const useUser = ({
   }, [revalidateIfHasToken, isLoggedIn, refreshUser]);
 
   return { ...auth };
+};
+
+export const useAuthNavigator = ({
+  goToApp,
+  goToAuth,
+}: {
+  /**
+   * 로그인이 되어있을때 앱으로 이동합니다.
+   */
+  goToApp?: boolean | string;
+  /**
+   * 로그인이 되어있지 않을때 로그인 페이지로 이동합니다.
+   */
+  goToAuth?: boolean | string;
+} = {}) => {
+  const RETURN_URL_KEY = "return-url";
+  const AUTH_PATH = typeof goToAuth === "string" ? goToAuth : "/sign-in";
+  const APP_PATH = typeof goToApp === "string" ? goToApp : "/search";
+
+  const { navigate, params, path } = useRouter();
+  const { isLoggedIn } = useUser();
+
+  if (goToAuth && !isLoggedIn) {
+    navigate(
+      {
+        pathname: AUTH_PATH,
+        ...(path && { query: { ...params, [RETURN_URL_KEY]: path } }),
+      },
+      { replace: true },
+    );
+  }
+
+  if (goToApp && isLoggedIn) {
+    const pathname = params[RETURN_URL_KEY] ?? APP_PATH;
+    navigate(
+      {
+        pathname,
+        query: { ...params },
+      },
+      { replace: true },
+    );
+  }
 };
 
 export const AuthProvider = ({
