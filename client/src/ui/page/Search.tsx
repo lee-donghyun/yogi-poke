@@ -14,7 +14,7 @@ import { PokeWithGeoLocation } from "../domain/PokeWithGeolocation.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 import { QrCode } from "../icon/QrCode.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { useAuthNavigator } from "../provider/Auth.tsx";
 import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
 
@@ -26,7 +26,7 @@ const cx = {
 };
 
 export const Search = () => {
-  useUser({ assertAuth: true });
+  useAuthNavigator({ goToAuth: "/sign-in" });
   const overlay = useStackedLayer();
   const { navigate, params } = useRouter();
 
