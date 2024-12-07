@@ -15,7 +15,7 @@ import { PokeSheet } from "../domain/PokeSheet.tsx";
 import { Block } from "../icon/Block.tsx";
 import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { Star, StarSolid } from "../icon/Star.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 
@@ -23,7 +23,8 @@ export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
 export const MINUTE_IN_UNIX = 1000 * 60;
 
 export const User = () => {
-  const { client, myInfo, refreshUser } = useUser({ assertAuth: true });
+  useAuthNavigator({ goToAuth: true });
+  const { client, myInfo, refreshUser } = useUser();
   const overlay = useStackedLayer();
   const { params } = useRouter();
   const userEmail = params[":userId"];

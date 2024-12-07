@@ -6,7 +6,7 @@ import { client } from "../../service/api.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
 import { validator } from "../../service/validator.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 
 const cx = {
@@ -25,9 +25,10 @@ const stepFieldNameMap = {
   2: "password",
 } as const;
 export const SignIn = () => {
+  useAuthNavigator({ goToApp: "/search" });
   const push = useNotification();
-  const { navigate, params } = useRouter();
-  const { isLoggedIn, patchUser, registerToken } = useUser();
+  const { navigate } = useRouter();
+  const { patchUser, registerToken } = useUser();
 
   const [step, setStep] = useState<1 | 2>(1);
   const { isMutating, trigger } = useSWRMutation(
@@ -38,9 +39,6 @@ export const SignIn = () => {
         .text()
         .then((token) => registerToken(token))
         .then((token) => {
-          const redirect = params.returnUrl;
-          navigate({ pathname: redirect || "/my-page" }, { replace: true });
-
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {
@@ -80,9 +78,6 @@ export const SignIn = () => {
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
 
-  if (isLoggedIn) {
-    navigate({ pathname: "/search" }, { replace: true });
-  }
   return (
     <div className="min-h-screen">
       <StackedNavigation
