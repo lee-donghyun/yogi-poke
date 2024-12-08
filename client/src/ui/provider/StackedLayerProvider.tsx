@@ -5,8 +5,6 @@ import {
 import {
   createContext,
   JSX,
-  memo,
-  useCallback,
   useContext,
   useDeferredValue,
   useRef,
@@ -45,7 +43,7 @@ export const StackedLayerProvider = ({
   const [Layer, setLayer] = useState<Layer | null>(null);
   const [context, setContext] = useState<never>(null as never);
   const childrenContainerRef = useRef<HTMLDivElement>(null);
-  const push = useCallback((Component, context) => {
+  const push: Push = (Component: Parameters<Push>[0], context?: unknown) => {
     setLayer(() => Component);
     setShow(true);
     setContext(context as never);
@@ -65,8 +63,8 @@ export const StackedLayerProvider = ({
         },
       });
     }
-  }, []) as Push;
-  const pop = useCallback(() => {
+  };
+  const pop = () => {
     setShow(false);
     setTimeout(() => {
       setShow((show) => {
@@ -80,7 +78,7 @@ export const StackedLayerProvider = ({
         return true;
       });
     }, 500);
-  }, []);
+  };
 
   return (
     <stackedLayerContext.Provider value={push}>
@@ -132,10 +130,8 @@ export const createDraggableSheet = <Context extends object = never>(
     console.warn("DraggableSheet is created. This must be created once.");
   }
 
-  const MemoedLayer = memo(Layer);
-
   const DraggableSheet: Layer<Context> = ({ close, context }) => {
-    const startPointRef = useRef({ x: 0, y: 0 });
+    const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
     const [translate, setTranslate] = useState<{ x: number; y: number } | null>(
       null,
     );
@@ -152,8 +148,7 @@ export const createDraggableSheet = <Context extends object = never>(
                     deferredTranslate.y
                   }px) scale(${Math.min(
                     1,
-                    (startPointRef.current.y + deferredTranslate.y) /
-                      startPointRef.current.y,
+                    (startPoint.y + deferredTranslate.y) / startPoint.y,
                   )})`,
                 }
               : { transition: "all 300ms" }
@@ -171,7 +166,7 @@ export const createDraggableSheet = <Context extends object = never>(
             }}
             onTouchMove={(e) => {
               const { clientX, clientY } = e.touches.item(0);
-              const { x, y } = startPointRef.current;
+              const { x, y } = startPoint;
               const diffY = clientY - y;
               const diffX = clientX - x;
               setTranslate({
@@ -184,13 +179,13 @@ export const createDraggableSheet = <Context extends object = never>(
             }}
             onTouchStart={(e) => {
               const { clientX: x, clientY: y } = e.touches.item(0);
-              startPointRef.current = { x, y };
+              setStartPoint({ x, y });
             }}
           >
             <div className="h-1.5 w-12 rounded-full bg-zinc-200"></div>
           </div>
           <div>
-            <MemoedLayer close={close} context={context} />
+            <Layer close={close} context={context} />
           </div>
         </div>
       </div>
