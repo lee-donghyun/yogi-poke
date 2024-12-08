@@ -19,9 +19,6 @@ import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 
-export const DAY_IN_UNIX = 1000 * 60 * 60 * 24;
-export const MINUTE_IN_UNIX = 1000 * 60;
-
 export const User = () => {
   useAuthNavigator({ goToAuth: true });
   const { client, myInfo, refreshUser } = useUser();
