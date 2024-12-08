@@ -1,6 +1,18 @@
 import { createConfig } from "eslint-config-react-app-essentials";
+import reactCompiler from "eslint-plugin-react-compiler";
 
-export default createConfig({
-  scope: ["src/**/*.{ts,tsx}"],
-  tsConfigPath: "./tsconfig.json",
-});
+export default [
+  ...createConfig({
+    scope: ["src/**/*.{ts,tsx}"],
+    tsConfigPath: "./tsconfig.json",
+  }),
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    plugins: {
+      "react-compiler": reactCompiler,
+    },
+    rules: {
+      "react-compiler/react-compiler": "error",
+    },
+  },
+];
