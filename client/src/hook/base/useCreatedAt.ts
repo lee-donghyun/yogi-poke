@@ -1,5 +1,4 @@
-import { DependencyList, useMemo } from "react";
+import { useMemo } from "react";
 
-export const useCreatedAt = (...deps: DependencyList) =>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useMemo(() => Date.now(), deps);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+export const useCreatedAt = (dep: unknown) => useMemo(() => Date.now(), [dep]);

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
 
@@ -21,7 +21,7 @@ export const Like = () => {
   );
   const noLikes = likes.length === 0 || data?.length === 0;
   const dataUpdatedAt = useCreatedAt(data);
-  const prev = useRef(data);
+  const [prev] = useState(data);
 
   return (
     <div className="min-h-screen">
@@ -31,7 +31,7 @@ export const Like = () => {
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
-              animation={prev.current === data ? null : { delayTimes: i }}
+              animation={prev === data ? null : { delayTimes: i }}
               isVerifiedUser={isVerifiedUser(user)}
               key={user.email + dataUpdatedAt}
               onClick={() => {
