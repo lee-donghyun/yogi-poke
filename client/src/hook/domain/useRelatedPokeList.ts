@@ -17,8 +17,7 @@ export const useRelatedPokeList = () => {
   );
   const loadMore = useCallback(
     () => !isLoading && !error && void setSize((prev) => prev + 1),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoading, setSize, !!error],
+    [error, isLoading, setSize],
   );
   const intersectorRef = useIntersectionObserver(loadMore);
   const prevData = useRef(data);
