@@ -1,19 +1,11 @@
-version: "3"
 services:
-  nginx:
-    image: nginx:latest
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '81:81'
+      - '443:443'
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./certs:/etc/nginx/certs:ro
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-  certbot:
-    image: certbot/certbot
-    ports:
-      - "80:80"
-    volumes:
-      - ./certs:/etc/letsencrypt:rw
-    command: certonly --standalone --email leedonghyun022@gmail.com --agree-tos --no-eff-email -d yogi-poke-api.is-not-a.store -d ci-server.is-not-a.store -d static.is-not-a.store -d yogi-poke-database.is-not-a.store -d static.console.is-not-a.store
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
