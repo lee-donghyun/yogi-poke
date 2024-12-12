@@ -1,30 +1,23 @@
 import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useState } from "react";
 
-import { DAY_IN_UNIX, MINUTE_IN_UNIX } from "../page/User.tsx";
+import { DAY_IN_UNIX, MINUTE_IN_UNIX } from "../../service/const";
 
-const format = "H시간 m분";
+const FORMAT = "H시간 m분";
 const getString = (to: Dayjs) =>
-  dayjs.duration(to.diff() + DAY_IN_UNIX - MINUTE_IN_UNIX).format(format);
+  dayjs.duration(to.diff() + DAY_IN_UNIX - MINUTE_IN_UNIX).format(FORMAT);
 
 export const Timer = ({ to }: { to: Dayjs }) => {
-  const ref = useRef<HTMLSpanElement>(null);
+  const [content, setContent] = useState(() => getString(to));
+
   useEffect(() => {
     const timer = setInterval(() => {
-      if (ref.current) {
-        ref.current.innerText = getString(to);
-      }
+      setContent(getString(to));
     }, MINUTE_IN_UNIX);
     return () => {
       clearInterval(timer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const render = useMemo(
-    () => <span ref={ref}>{getString(to)}</span>,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  }, [to]);
 
-  return render;
+  return <span>{content}</span>;
 };
