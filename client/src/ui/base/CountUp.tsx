@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const TIMEOUT = 50;
 
@@ -13,21 +13,19 @@ export const CountUp = ({
 }) => {
   const fromValue = useRef(from);
   const prevValue = useRef(from);
-  const ref = useRef<HTMLSpanElement>(null);
-  useLayoutEffect(() => {
+
+  const [content, setContent] = useState(from.toLocaleString());
+
+  useEffect(() => {
     const diff = to - fromValue.current;
     const tick = diff / (duration / TIMEOUT);
     const timer = setInterval(() => {
       const nextValue = Math.ceil(prevValue.current + tick);
       if (nextValue < to) {
-        if (ref.current) {
-          ref.current.innerText = nextValue.toLocaleString();
-        }
+        setContent(nextValue.toLocaleString());
         prevValue.current = nextValue;
       } else {
-        if (ref.current) {
-          ref.current.innerText = to.toLocaleString();
-        }
+        setContent(to.toLocaleString());
         clearInterval(timer);
       }
     }, TIMEOUT);
@@ -35,7 +33,6 @@ export const CountUp = ({
       clearInterval(timer);
     };
   }, [duration, to]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const render = useMemo(() => <span ref={ref}>{from}</span>, []);
-  return render;
+
+  return <span>{content}</span>;
 };
