@@ -60,6 +60,8 @@ export class MateController {
                 return requestRelationDto.payload.message;
               case 'drawing':
                 return '그림';
+              case 'geolocation':
+                return '위치';
             }
           }),
         )
