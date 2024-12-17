@@ -2,7 +2,7 @@ import { useRouter } from "router2";
 
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
 import { DELETED_USER } from "../../service/const.ts";
-import { isVerifiedUser } from "../../service/dataType.ts";
+import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { Stat } from "../base/Stat.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";

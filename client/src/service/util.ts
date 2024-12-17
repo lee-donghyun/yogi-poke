@@ -1,5 +1,8 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import dayjs from "dayjs";
+
+import type { Line } from "../ui/base/Canvas";
+
+import { AuthProvider, User } from "./dataType";
 
 export const getReadableDateOffset = (date: string) => {
   const now = dayjs();
@@ -36,6 +39,7 @@ export const getPushNotificationSubscription = async () => {
     const { promise, resolve } = Promise.withResolvers<PushSubscription>();
     registration.installing.addEventListener(
       "statechange",
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (e) => {
         if ((e.target as ServiceWorker)?.state == "activated") {
           const pushSubscription = await registration.pushManager.subscribe({
@@ -81,3 +85,17 @@ export const getDistance = (
   const C = 2 * Math.atan2(Math.sqrt(A), Math.sqrt(1 - A));
   return R * C;
 };
+export const isVerifiedUser = (user: User) =>
+  [AuthProvider.INSTAGRAM].includes(user.authProvider);
+
+export const getNormalizedPoints = (size: number) => (lines: Line[]) =>
+  lines.map((line) => ({
+    ...line,
+    points: line.points.map((point) => Math.round((point * 1000) / size)),
+  }));
+
+export const getDenormalizedPoints = (size: number) => (lines: Line[]) =>
+  lines.map((line) => ({
+    ...line,
+    points: line.points.map((point) => (point * size) / 1000),
+  }));
