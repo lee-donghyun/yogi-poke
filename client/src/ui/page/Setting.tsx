@@ -45,7 +45,9 @@ export const Setting = () => {
                     (async () => {
                       const pushSubscription = isPushEnabled
                         ? null
-                        : await getPushNotificationSubscription();
+                        : await getPushNotificationSubscription().catch(
+                            () => null,
+                          );
                       void patchUser({ pushSubscription });
                     }) as VoidFunction
                   }
