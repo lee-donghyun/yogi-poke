@@ -13,7 +13,6 @@ import { SWRConfig } from "swr";
 
 import { client } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
-import { VoidFunction } from "../../service/type.ts";
 import { persisteToken } from "./PwaProvider.tsx";
 
 interface PatchUserPayload {
