@@ -24,21 +24,20 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   const pageToOpen = "/my-page";
-  event
-    .waitUntil(
-      self.clients
-        .matchAll({ type: "window", includeUncontrolled: false })
-        .then(([client]) => {
-          if (client) {
-            return client.focus().then((client) =>
-              client.postMessage({
-                type: "NAVIGATE",
-                data: { url: pageToOpen },
-              }),
-            );
-          }
-          return self.clients.openWindow(pageToOpen);
-        }),
-    )
-    .catch(console.error);
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: false })
+      .then(([client]) => {
+        if (client) {
+          return client.focus().then((client) =>
+            client.postMessage({
+              type: "NAVIGATE",
+              data: { url: pageToOpen },
+            }),
+          );
+        }
+        return self.clients.openWindow(pageToOpen);
+      })
+      .catch(console.error),
+  );
 });
