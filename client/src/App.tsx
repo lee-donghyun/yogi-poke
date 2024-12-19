@@ -12,6 +12,7 @@ import { SignIn } from "./ui/page/SignIn";
 import { ThridPartyRegister } from "./ui/page/ThirdPartyRegister";
 import { User } from "./ui/page/User";
 import { AuthProvider } from "./ui/provider/Auth.tsx";
+import { MessageProvider } from "./ui/provider/Message.tsx";
 import { NotificationProvider } from "./ui/provider/Notification.tsx";
 import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
@@ -40,9 +41,11 @@ export const App = () => {
                 }}
               >
                 {(Page) => (
-                  <StackedLayerProvider>
-                    <Page />
-                  </StackedLayerProvider>
+                  <MessageProvider>
+                    <StackedLayerProvider>
+                      <Page />
+                    </StackedLayerProvider>
+                  </MessageProvider>
                 )}
               </BrowserRouter>
             </AuthProvider>
