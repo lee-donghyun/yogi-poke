@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 
 import { useDomSize } from "../../hook/base/useDomSize";
-import { getDenormalizedPoints } from "../../service/dataType";
+import { getDenormalizedPoints } from "../../service/util";
 import { type Line } from "../base/Canvas";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
