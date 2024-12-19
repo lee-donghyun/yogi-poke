@@ -31,7 +31,7 @@ export const getPushNotificationSubscription = async () => {
     throw new Error(`permission not granted: ${Notification.permission}`);
   }
 
-  void navigator.serviceWorker.register("/worker/notification.js");
+  void navigator.serviceWorker.register("/worker.js");
 
   const worker = await navigator.serviceWorker.ready;
 
