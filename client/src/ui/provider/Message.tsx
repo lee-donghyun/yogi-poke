@@ -20,6 +20,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const listener = (event: MessageEvent<Message>) => {
+      console.log("message", event.data);
       switch (event.data.type) {
         case "NAVIGATE":
           navigate({ pathname: event.data.data.url });

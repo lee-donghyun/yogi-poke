@@ -8,13 +8,10 @@ self.addEventListener("push", (event) => {
 
   event.waitUntil(
     self.clients
-      .matchAll({ type: "window", includeUncontrolled: false })
+      .matchAll({ type: "window", includeUncontrolled: true })
       .then((clients) => {
         clients.forEach((client) => {
-          client.postMessage({
-            type: "REVALIDATE_RELATED_POKES",
-            data: { key: "my-page" },
-          });
+          client.postMessage({ type: "REVALIDATE_RELATED_POKES" });
         });
       })
       .catch(console.error),
@@ -26,15 +23,17 @@ self.addEventListener("notificationclick", (event) => {
   const pageToOpen = "/my-page";
   event.waitUntil(
     self.clients
-      .matchAll({ type: "window", includeUncontrolled: false })
+      .matchAll({ type: "window", includeUncontrolled: true })
       .then(([client]) => {
         if (client) {
-          return client.focus().then((client) =>
-            client.postMessage({
-              type: "NAVIGATE",
-              data: { url: pageToOpen },
-            }),
-          );
+          return client
+            .focus()
+            .then((client) =>
+              client.postMessage({
+                type: "NAVIGATE",
+                data: { url: pageToOpen },
+              }),
+            );
         }
         return self.clients.openWindow(pageToOpen);
       })
