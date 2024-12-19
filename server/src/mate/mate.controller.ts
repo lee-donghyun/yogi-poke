@@ -67,8 +67,11 @@ export class MateController {
         )
         .subscribe((body) => {
           this.pushService.sendPushNotification(toUserId, {
-            title: `@${email}`,
-            body,
+            type: 'POKE',
+            data: {
+              title: `@${email}`,
+              options: { body },
+            },
           });
         });
     }

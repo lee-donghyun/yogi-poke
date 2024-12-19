@@ -15,8 +15,13 @@ export class PushService {
   async sendPushNotification(
     userId: number,
     payload: {
-      title: string;
-      body: string;
+      type: 'POKE';
+      data: {
+        title: string;
+        options: {
+          body: string;
+        };
+      };
     },
   ) {
     const user = await this.db.activeUser.findFirst({ where: { id: userId } });

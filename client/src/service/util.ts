@@ -31,38 +31,16 @@ export const getPushNotificationSubscription = async () => {
     throw new Error(`permission not granted: ${Notification.permission}`);
   }
 
-  const registration = await navigator.serviceWorker.register(
-    "/worker/notification.js",
-  );
+  void navigator.serviceWorker.register("/worker/notification.js");
 
-  if (registration.installing) {
-    const { promise, resolve } = Promise.withResolvers<PushSubscription>();
-    registration.installing.addEventListener(
-      "statechange",
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      async (e) => {
-        if ((e.target as ServiceWorker)?.state == "activated") {
-          const pushSubscription = await registration.pushManager.subscribe({
-            applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY,
-            userVisibleOnly: true,
-          });
-          resolve(pushSubscription);
-        }
-      },
-      { once: true },
-    );
-    return promise;
-  }
+  const worker = await navigator.serviceWorker.ready;
 
-  if (registration.active) {
-    const subscription = await registration.pushManager.getSubscription();
-    if (subscription === null) {
-      throw new Error("구독 실패");
-    }
-    return subscription;
-  }
+  const subscription = await worker.pushManager.subscribe({
+    applicationServerKey: import.meta.env.VITE_VAPID_PUBLIC_KEY,
+    userVisibleOnly: true,
+  });
 
-  throw new Error("worker not found");
+  return subscription;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
