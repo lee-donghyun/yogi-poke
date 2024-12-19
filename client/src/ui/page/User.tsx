@@ -7,7 +7,7 @@ import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
 import { useUserPofile } from "../../hook/domain/useUserProfile.ts";
 import { useUserRelatedPokeList } from "../../hook/domain/useUserRelatedPokeList.ts";
 import { LIKE_PERSIST_KEY } from "../../service/const.ts";
-import { isVerifiedUser } from "../../service/dataType.ts";
+import { isVerifiedUser } from "../../service/util.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
 import { Stat } from "../base/Stat.tsx";
 import { Timer } from "../base/Timer.tsx";

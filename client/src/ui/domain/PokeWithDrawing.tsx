@@ -2,7 +2,7 @@ import { lazy, Suspense, useState } from "react";
 
 import { useDomSize } from "../../hook/base/useDomSize";
 import { usePoke } from "../../hook/domain/usePoke";
-import { getNormalizedPoints } from "../../service/dataType";
+import { getNormalizedPoints } from "../../service/util";
 import { type Line } from "../base/Canvas";
 import { XMark } from "../icon/XMark";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
