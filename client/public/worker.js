@@ -1,0 +1,44 @@
+self.addEventListener("push", (event) => {
+  const { data } = event?.data?.json() ?? {};
+  waitUntil(
+    self.registration
+      .showNotification(data.title, data.options)
+      .catch(console.error),
+  );
+
+  waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: false })
+      .then((clients) => {
+        clients.forEach((client) => {
+          client.postMessage({
+            type: "REVALIDATE_RELATED_POKES",
+            data: { key: "my-page" },
+          });
+        });
+      })
+      .catch(console.error),
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const pageToOpen = "/my-page";
+  event
+    .waitUntil(
+      self.clients
+        .matchAll({ type: "window", includeUncontrolled: false })
+        .then(([client]) => {
+          if (client) {
+            return client.focus().then((client) =>
+              client.postMessage({
+                type: "NAVIGATE",
+                data: { url: pageToOpen },
+              }),
+            );
+          }
+          return self.clients.openWindow(pageToOpen);
+        }),
+    )
+    .catch(console.error);
+});
