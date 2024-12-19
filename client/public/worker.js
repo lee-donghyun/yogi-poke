@@ -1,12 +1,12 @@
 self.addEventListener("push", (event) => {
   const { data } = event?.data?.json() ?? {};
-  waitUntil(
+  event.waitUntil(
     self.registration
       .showNotification(data.title, data.options)
       .catch(console.error),
   );
 
-  waitUntil(
+  event.waitUntil(
     self.clients
       .matchAll({ type: "window", includeUncontrolled: false })
       .then((clients) => {
