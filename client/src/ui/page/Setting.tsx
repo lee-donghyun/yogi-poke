@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { VoidFunction } from "../../service/type.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
 import { SettingGroup } from "../base/SettingGroup.tsx";
@@ -45,7 +44,9 @@ export const Setting = () => {
                     (async () => {
                       const pushSubscription = isPushEnabled
                         ? null
-                        : await getPushNotificationSubscription();
+                        : await getPushNotificationSubscription().catch(
+                            () => null,
+                          );
                       void patchUser({ pushSubscription });
                     }) as VoidFunction
                   }
