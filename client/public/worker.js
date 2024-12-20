@@ -10,7 +10,6 @@ self.addEventListener("push", (event) => {
     self.clients
       .matchAll({ type: "window", includeUncontrolled: true })
       .then((clients) => {
-        console.log("clients", clients);
         clients.forEach((client) => {
           client.postMessage({ type: "REVALIDATE_RELATED_POKES" });
         });
@@ -26,14 +25,14 @@ self.addEventListener("notificationclick", (event) => {
     self.clients
       .matchAll({ type: "window", includeUncontrolled: true })
       .then(([client]) => {
-        console.log("client", client);
         if (client) {
-          return client.focus().then((client) =>
+          client.focus().then((client) =>
             client.postMessage({
               type: "NAVIGATE",
               data: { url: pageToOpen },
             }),
           );
+          return;
         }
         return self.clients.openWindow(pageToOpen);
       })
