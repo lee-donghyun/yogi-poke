@@ -30,10 +30,9 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
           break;
       }
     };
-
-    self.addEventListener("message", listener);
+    self.navigator.serviceWorker.addEventListener("message", listener);
     return () => {
-      self.removeEventListener("message", listener);
+      self.navigator.serviceWorker.removeEventListener("message", listener);
     };
   }, [mutate, navigate]);
 
