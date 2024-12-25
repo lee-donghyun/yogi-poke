@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@react-spring/konva": "^9.7.5",
-    "@sentry/react": "^8.47.0",
+    "@sentry/vite-plugin": "^2.22.7",
     "body-scroll-lock-upgrade": "^1.1.0",
     "dayjs": "^1.11.13",
     "konva": "^9.3.16",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/mapbox-gl": "^3.4.1",
+    "@types/node": "20",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
     "@vitejs/plugin-react": "^4.3.4",
