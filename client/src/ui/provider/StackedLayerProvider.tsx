@@ -116,7 +116,13 @@ export const StackedLayerProvider = ({
 
 export const createLayer = (Layer: Layer): Layer<never> => Layer;
 
-const DraggableSheetContainer = ({ children }: { children: ReactNode }) => {
+const DraggableSheetContainer = ({
+  children,
+  close,
+}: {
+  children: ReactNode;
+  close: Parameters<Layer>[0]["close"];
+}) => {
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
   const [translate, setTranslate] = useState<{ x: number; y: number } | null>(
     null,
@@ -190,7 +196,7 @@ export const createDraggableSheet = <Context extends object = never>(
   }
 
   const DraggableSheet: Layer<Context> = ({ close, context }) => (
-    <DraggableSheetContainer>
+    <DraggableSheetContainer close={close}>
       <Layer close={close} context={context} />
     </DraggableSheetContainer>
   );
