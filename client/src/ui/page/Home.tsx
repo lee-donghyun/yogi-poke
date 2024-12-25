@@ -7,8 +7,8 @@ import {
   useStackedLayer,
 } from "../provider/StackedLayerProvider.tsx";
 
-const INSTAGRAM_REDIRECT_URI =
-  "https://api.instagram.com/oauth/authorize?client_id=2580089718840571&redirect_uri=https://yogi-poke-api.is-not-a.store/auth/instagram&scope=user_profile&response_type=code";
+// const INSTAGRAM_REDIRECT_URI =
+//   "https://api.instagram.com/oauth/authorize?client_id=2580089718840571&redirect_uri=https://yogi-poke-api.is-not-a.store/auth/instagram&scope=user_profile&response_type=code";
 
 const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();
@@ -48,8 +48,9 @@ export const Home = () => {
       <img alt="" className="mx-auto mt-20 size-60" src="/asset/icon.jpg" />
       <div className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
         <button
-          className="flex items-center gap-4 rounded-2xl border border-zinc-200 p-4 duration-300 active:opacity-60"
-          onClick={() => window.open(INSTAGRAM_REDIRECT_URI)}
+          className="flex items-center gap-4 rounded-2xl border border-zinc-200 p-4 duration-300 active:opacity-60 disabled:opacity-60"
+          // onClick={() => window.open(INSTAGRAM_REDIRECT_URI)}
+          onClick={() => alert("인스타그램 로그인은 준비중입니다.")}
           type="button"
         >
           <img
