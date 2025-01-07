@@ -10,10 +10,12 @@ export const useRelatedPokeList = () => {
   const { data, error, isLoading, mutate, setSize } = useSWRInfinite<
     Poke[],
     unknown
-  >((index, previous) =>
-    index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
-      ? ["mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
-      : null,
+  >(
+    (index, previous) =>
+      index === 0 || (previous && previous.length === POKE_LIST_LIMIT)
+        ? ["mate/poke", { limit: POKE_LIST_LIMIT, page: index + 1 }]
+        : null,
+    { revalidateAll: true },
   );
   const loadMore = useCallback(
     () => !isLoading && !error && void setSize((prev) => prev + 1),
