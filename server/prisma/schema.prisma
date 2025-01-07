@@ -13,6 +13,11 @@ enum AuthProvider {
   INSTAGRAM
 }
 
+enum PasskeyDeviceType {
+  singleDevice
+  multiDevice
+}
+
 model User {
   id               Int          @id @default(autoincrement())
   createdAt        DateTime     @default(now())
@@ -25,6 +30,7 @@ model User {
   deletedAt        DateTime?
   authProvider     AuthProvider @default(EMAIL)
   authProviderId   String?
+  passkeyOptions   Json?
 }
 
 view ActiveUser {
@@ -39,11 +45,25 @@ view ActiveUser {
   deletedAt        DateTime?
   authProvider     AuthProvider?
   authProviderId   String?
+  passkeyOptions   Json?
 
   pokes           Poke[]     @relation("user-poke")
   pokeds          Poke[]     @relation("user-poked")
   goingRelations  Relation[] @relation("user-from")
   comingRelations Relation[] @relation("user-to")
+  Passkey         Passkey[]
+}
+
+model Passkey {
+  id             String            @id @unique
+  publicKey      Bytes
+  userId         Int
+  user           ActiveUser        @relation(fields: [userId], references: [id])
+  webauthnUserID String
+  counter        BigInt
+  deviceType     PasskeyDeviceType
+  backedUp       Boolean
+  transports     String?
 }
 
 model Relation {

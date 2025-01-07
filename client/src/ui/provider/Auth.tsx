@@ -27,7 +27,7 @@ const authContext = createContext<{
   myInfo: MyInfo | null;
   patchUser: (payload: PatchUserPayload, token?: string) => Promise<void>;
   refreshUser: () => Promise<void>;
-  registerToken: (token: string) => Promise<string>;
+  registerToken: (token: string) => Promise<MyInfo>;
 }>({
   client,
   isLoggedIn: false,
@@ -140,9 +140,10 @@ export const AuthProvider = ({
         })
         .json<Exclude<MyInfo, "token">>()
         .then((data) => {
-          setMyInfo({ ...data, token });
+          const myInfo = { ...data, token };
+          setMyInfo(myInfo);
           persisteToken(token);
-          return token;
+          return myInfo;
         }),
     [userClient],
   );

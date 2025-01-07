@@ -1,21 +1,22 @@
+import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { Link, useRouter } from "router2";
 
+import { usePasskey } from "../../hook/domain/usePasskey.ts";
 import { ChevronRight } from "../icon/ChevronRight.tsx";
+import { Key } from "../icon/Key.tsx";
 import { useAuthNavigator } from "../provider/Auth.tsx";
+import { useNotification } from "../provider/Notification.tsx";
 import {
   createDraggableSheet,
   useStackedLayer,
 } from "../provider/StackedLayerProvider.tsx";
-
-// const INSTAGRAM_REDIRECT_URI =
-//   "https://api.instagram.com/oauth/authorize?client_id=2580089718840571&redirect_uri=https://yogi-poke-api.is-not-a.store/auth/instagram&scope=user_profile&response_type=code";
 
 const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();
   return (
     <div className="p-6 pt-0">
       <p className="border-b border-zinc-100 pb-6 pt-4 text-lg font-semibold text-zinc-800">
-        Instagram없이 로그인
+        아이디로 로그인
       </p>
       <div className="flex flex-col gap-4 pt-6">
         <Link
@@ -42,24 +43,39 @@ const PrivateLoginSheet = createDraggableSheet(({ close }) => {
 export const Home = () => {
   useAuthNavigator({ goToApp: "/search" });
   const overlay = useStackedLayer();
+  const push = useNotification();
+  const { authenticate } = usePasskey();
 
   return (
     <div>
       <img alt="" className="mx-auto mt-20 size-60" src="/asset/icon.jpg" />
       <div className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
         <button
-          className="flex items-center gap-4 rounded-2xl border border-zinc-200 p-4 duration-300 active:opacity-60 disabled:opacity-60"
-          // onClick={() => window.open(INSTAGRAM_REDIRECT_URI)}
-          onClick={() => alert("인스타그램 로그인은 준비중입니다.")}
+          className="flex items-center gap-4 rounded-2xl bg-black p-4 duration-300 active:opacity-60 disabled:opacity-60"
+          onClick={() => {
+            if (!browserSupportsWebAuthn()) {
+              push({
+                content:
+                  "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다.",
+              });
+              return;
+            }
+            authenticate().catch((err) => {
+              console.log(err);
+
+              push({
+                content:
+                  "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다.",
+              });
+            });
+          }}
           type="button"
         >
-          <img
-            alt="인스타그램 아이콘"
-            className="size-9 rounded-lg"
-            src="/asset/instagram.png"
-          />
-          <p className="flex-1 text-left text-black">Instagram으로 시작하기</p>
-          <span className="text-zinc-200">
+          <span className="text-zinc-100">
+            <Key />
+          </span>
+          <p className="flex-1 text-left text-white">Passkey로 시작하기</p>
+          <span className="text-zinc-500">
             <ChevronRight />
           </span>
         </button>
@@ -67,7 +83,7 @@ export const Home = () => {
           className="rounded-2xl p-2 text-sm text-zinc-400 duration-300 active:opacity-60"
           onClick={() => overlay(PrivateLoginSheet)}
         >
-          Instagram없이 로그인
+          아이디로 로그인
         </button>
       </div>
     </div>
