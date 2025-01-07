@@ -2,7 +2,7 @@ import {
   AuthenticationResponseJSON,
   type RegistrationResponseJSON,
 } from '@simplewebauthn/server';
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
 import { User } from './auth.decorator';
@@ -11,10 +11,7 @@ import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AuthGuard)
   @Get('passkey/registration')
@@ -35,7 +32,7 @@ export class AuthController {
   }
 
   @Get('passkey/authentication')
-  async getPasskeyAuthentication(@Param('id') id: string) {
+  async getPasskeyAuthentication(@Query('id') id: string) {
     return await this.authService.generatePasskeyAuthenticationOptions(
       Number(id),
     );
@@ -43,7 +40,7 @@ export class AuthController {
 
   @Post('passkey/authentication')
   async verifyPasskeyAuthentication(
-    @Param('id') id: string,
+    @Query('id') id: string,
     @Body() passkey: AuthenticationResponseJSON,
   ) {
     return await this.authService.verifyPasskeyAuthenticationResponse(
