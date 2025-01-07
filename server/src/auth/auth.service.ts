@@ -6,6 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import {
   AuthenticatorTransportFuture,
   generateRegistrationOptions,
+  RegistrationResponseJSON,
+  verifyRegistrationResponse,
+  PublicKeyCredentialCreationOptionsJSON,
 } from '@simplewebauthn/server';
 import { passKeyConstants } from './auth.constant';
 
@@ -68,5 +71,39 @@ export class AuthService {
     });
 
     return options;
+  }
+
+  async verifyPasskeyRegistrationResponse(
+    user: JwtPayload,
+    response: RegistrationResponseJSON,
+  ) {
+    const currentOptions = JSON.parse(
+      (await this.db.user.findUnique({ where: { id: user.id } }))
+        .passkeyOptions as string,
+    ) as PublicKeyCredentialCreationOptionsJSON;
+
+    const verification = await verifyRegistrationResponse({
+      response: response,
+      expectedChallenge: currentOptions.challenge,
+      expectedOrigin: passKeyConstants.origin,
+      expectedRPID: passKeyConstants.rpID,
+    });
+
+    const { registrationInfo } = verification;
+    const { credential, credentialDeviceType, credentialBackedUp } =
+      registrationInfo;
+
+    await this.db.passkey.create({
+      data: {
+        webauthnUserID: currentOptions.user.id,
+        id: credential.id,
+        publicKey: credential.publicKey,
+        counter: credential.counter as unknown as bigint,
+        transports: credential.transports.join(','),
+        deviceType: credentialDeviceType,
+        backedUp: credentialBackedUp,
+        userId: user.id,
+      },
+    });
   }
 }
