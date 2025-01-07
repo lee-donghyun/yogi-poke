@@ -5,6 +5,7 @@ import { BrowserRouter } from "router2";
 import { Home } from "./ui/page/Home";
 import { Like } from "./ui/page/Like";
 import { MyPage } from "./ui/page/MyPage";
+import { NotFound } from "./ui/page/NotFound.tsx";
 import { Register } from "./ui/page/Register";
 import { Search } from "./ui/page/Search";
 import { Setting } from "./ui/page/Setting";
@@ -29,7 +30,7 @@ export const App = () => {
               <BrowserRouter
                 routes={{
                   "/": Home,
-                  "/404": () => <>not found</>,
+                  "/404": NotFound,
                   "/like": Like,
                   "/my-page": MyPage,
                   "/register": Register,
