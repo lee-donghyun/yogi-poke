@@ -81,6 +81,7 @@ export const PwaProvider = ({
           }
         })
         .catch(() => {
+          releaseToken();
           setPrefetch({ myInfo: null });
         });
       return () => {
