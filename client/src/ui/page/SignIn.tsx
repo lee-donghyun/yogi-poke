@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
+import { usePasskey } from "../../hook/domain/usePasskey.ts";
 import { client } from "../../service/api.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
 import { validator } from "../../service/validator.ts";
@@ -29,6 +30,7 @@ export const SignIn = () => {
   const push = useNotification();
   const { navigate } = useRouter();
   const { patchUser, registerToken } = useUser();
+  const { register: registerPasskey } = usePasskey();
 
   const [step, setStep] = useState<1 | 2>(1);
   const { isMutating, trigger } = useSWRMutation(
@@ -43,6 +45,11 @@ export const SignIn = () => {
             .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {
               push({ content: "이제 콕 찔리면 알림이 울립니다." });
+            })
+            .catch(console.error);
+          registerPasskey(token)
+            .then(() => {
+              push({ content: "Passkey가 등록되었습니다." });
             })
             .catch(console.error);
         }),
