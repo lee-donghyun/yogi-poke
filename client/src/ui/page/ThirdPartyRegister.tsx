@@ -39,7 +39,7 @@ export const ThridPartyRegister = () => {
         .post(api, { json: { ...arg, token: params.code } })
         .text()
         .then((token) => registerToken(token))
-        .then((token) => {
+        .then(({ token }) => {
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {

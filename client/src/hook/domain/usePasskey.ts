@@ -9,15 +9,20 @@ import { useUser } from "../../ui/provider/Auth";
 const PASSKEY_USER_ID_PERSIST_KEY = "PASSKEY_USER_ID";
 
 export const usePasskey = () => {
-  const { client, registerToken } = useUser();
+  const { client, myInfo, registerToken } = useUser();
 
-  const register = async (
-    options?: { useAutoRegister: boolean },
-    token?: string,
-  ) => {
+  const register = async (options?: {
+    token?: string;
+    useAutoRegister?: boolean;
+    userId?: number;
+  }) => {
+    const userId = options?.userId ?? myInfo?.id;
+    if (userId == undefined) {
+      throw new Error("User id not found");
+    }
     const optionsJSON = await client
       .get("auth/passkey/registration", {
-        ...(token && { headers: { Authorization: token } }),
+        ...(options?.token && { headers: { Authorization: options?.token } }),
       })
       .json<PublicKeyCredentialCreationOptionsJSON>();
     const registration = await startRegistration({
@@ -26,9 +31,9 @@ export const usePasskey = () => {
     });
     await client.post("auth/passkey/registration", {
       json: registration,
-      ...(token && { headers: { Authorization: token } }),
+      ...(options?.token && { headers: { Authorization: options?.token } }),
     });
-    localStorage.setItem(PASSKEY_USER_ID_PERSIST_KEY, registration.id);
+    localStorage.setItem(PASSKEY_USER_ID_PERSIST_KEY, userId.toString());
   };
 
   const authenticate = async () => {
@@ -45,7 +50,7 @@ export const usePasskey = () => {
         json: registration,
         searchParams: { id },
       })
-      .json<string>();
+      .text();
     await registerToken(token);
   };
 
