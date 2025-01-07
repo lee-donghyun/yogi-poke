@@ -89,7 +89,7 @@ export const Setting = () => {
                 <button
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
                   onClick={() => {
-                    registerPasskey({ useAutoRegister: true })
+                    registerPasskey()
                       .then(() => {
                         push({ content: "Passkey가 등록되었습니다." });
                       })

@@ -42,14 +42,14 @@ export const Register = () => {
         .post(api, { json: arg })
         .text()
         .then((token) => registerToken(token))
-        .then((token) => {
+        .then(({ id: userId, token }) => {
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {
               push({ content: "이제 콕 찔리면 알림이 울립니다." });
             })
             .catch(console.error);
-          registerPasskey({ useAutoRegister: true }, token)
+          registerPasskey({ token, useAutoRegister: true, userId })
             .then(() => {
               push({ content: "Passkey가 등록되었습니다." });
             })
