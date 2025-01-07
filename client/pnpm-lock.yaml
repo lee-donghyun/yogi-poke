@@ -14,6 +14,9 @@ importers:
       '@sentry/vite-plugin':
         specifier: ^2.22.7
         version: 2.22.7
+      '@simplewebauthn/browser':
+        specifier: ^13.0.0
+        version: 13.0.0
       body-scroll-lock-upgrade:
         specifier: ^1.1.0
         version: 1.1.0
@@ -682,6 +685,9 @@ packages:
   '@sentry/vite-plugin@2.22.7':
     resolution: {integrity: sha512-sYRNiNm4toQGq2BfZSJPdw36em3eQaLu+3NTFpA7Hl4g3Sp2Rt3CYObnW5bxlFEruRhxzvdyB383N9OefVZ6KA==}
     engines: {node: '>= 14'}
+
+  '@simplewebauthn/browser@13.0.0':
+    resolution: {integrity: sha512-7d/+gxoFoDQxq2EkLl/PuTIQ/rnSrA3bmr8L2Ij7bRyicJoCJX/NDGUNExyctB9nSDrEkkcrJMDkwpCYOGU3Lg==}
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -2934,6 +2940,8 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  '@simplewebauthn/browser@13.0.0': {}
 
   '@types/babel__core@7.20.5':
     dependencies:

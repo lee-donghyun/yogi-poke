@@ -2,23 +2,30 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  OnModuleInit,
+  UnauthorizedException,
 } from '@nestjs/common';
 
-import { verify, sign } from 'jsonwebtoken';
-import { AuthorizedTokenPayload, JwtPayload } from './auth.interface';
-import { HttpService } from '@nestjs/axios';
-import { map } from 'rxjs';
+import { JwtPayload } from './auth.interface';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
+import {
+  AuthenticatorTransportFuture,
+  generateRegistrationOptions,
+  RegistrationResponseJSON,
+  verifyRegistrationResponse,
+  PublicKeyCredentialCreationOptionsJSON,
+  generateAuthenticationOptions,
+  AuthenticationResponseJSON,
+  verifyAuthenticationResponse,
+} from '@simplewebauthn/server';
+import { passKeyConstants } from './auth.constant';
 
 @Injectable()
-export class AuthService implements OnModuleInit {
-  private USER_SECRET: string;
-  private AUTHORIZED_SECRET: string;
-  constructor(private readonly httpService: HttpService) {}
-  onModuleInit() {
-    this.USER_SECRET = process.env.USER_SECRET;
-    this.AUTHORIZED_SECRET = process.env.AUTHORIZED_SECRET;
-  }
+export class AuthService {
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly db: PrismaService,
+  ) {}
   validateRequest(request: any): boolean {
     request.user = null;
     const token = request.headers.authorization;
@@ -35,63 +42,151 @@ export class AuthService implements OnModuleInit {
   }
   verifyUserToken(token: string) {
     try {
-      return verify(token, this.USER_SECRET) as JwtPayload;
+      return this.jwtService.verify<JwtPayload>(token);
     } catch {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
   }
   createUserToken(user: JwtPayload) {
-    return sign(user, this.USER_SECRET) as string;
+    return this.jwtService.sign(user) as string;
+  }
+  async generatePasskeyRegistrationOptions(user: JwtPayload) {
+    const userPasskeys = await this.db.passkey.findMany({
+      where: { userId: user.id },
+    });
+
+    const options = await generateRegistrationOptions({
+      rpName: passKeyConstants.rpName,
+      rpID: passKeyConstants.rpID,
+      userName: user.name,
+      attestationType: 'none',
+      excludeCredentials: userPasskeys.map((passkey) => ({
+        id: passkey.id,
+        transports: passkey.transports.split(
+          ',',
+        ) as AuthenticatorTransportFuture[],
+      })),
+      authenticatorSelection: {
+        residentKey: 'preferred',
+        userVerification: 'preferred',
+        authenticatorAttachment: 'platform',
+      },
+    });
+
+    await this.db.user.update({
+      data: { passkeyOptions: JSON.stringify(options) },
+      where: { id: user.id },
+    });
+
+    return options;
   }
 
-  verifyAuthorizedToken(token: string) {
-    try {
-      return verify(token, this.AUTHORIZED_SECRET) as AuthorizedTokenPayload;
-    } catch {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
-    }
-  }
-  createAuthorizedToken(payload: AuthorizedTokenPayload) {
-    return sign(payload, this.AUTHORIZED_SECRET) as string;
-  }
+  async verifyPasskeyRegistrationResponse(
+    user: JwtPayload,
+    response: RegistrationResponseJSON,
+  ) {
+    const currentOptions = JSON.parse(
+      (await this.db.user.findUnique({ where: { id: user.id } }))
+        .passkeyOptions as string,
+    ) as PublicKeyCredentialCreationOptionsJSON;
 
-  getInstagramAccessToken(code: string) {
-    const payload = new FormData();
-    payload.append('client_id', process.env.INSTAGRAM_CLIENT_ID);
-    payload.append('client_secret', process.env.INSTAGRAM_CLIENT_SECRET);
-    payload.append('grant_type', 'authorization_code');
-    payload.append('redirect_uri', process.env.INSTAGRAM_REDIRECT_URI);
-    payload.append('code', code);
+    const verification = await verifyRegistrationResponse({
+      response: response,
+      expectedChallenge: currentOptions.challenge,
+      expectedOrigin: passKeyConstants.origin,
+      expectedRPID: passKeyConstants.rpID,
+    });
 
-    return this.httpService
-      .post<{
-        access_token: string;
-        user_id: number;
-      }>('https://api.instagram.com/oauth/access_token', payload)
-      .pipe(
-        map((response) => response.data),
-        map((response) => ({
-          accessToken: response.access_token,
-          userId: response.user_id,
+    const { registrationInfo } = verification;
+    const { credential, credentialDeviceType, credentialBackedUp } =
+      registrationInfo;
+
+    await this.db.passkey.create({
+      data: {
+        webauthnUserID: currentOptions.user.id,
+        id: credential.id,
+        publicKey: credential.publicKey,
+        counter: credential.counter as unknown as bigint,
+        transports: credential.transports.join(','),
+        deviceType: credentialDeviceType,
+        backedUp: credentialBackedUp,
+        userId: user.id,
+      },
+    });
+  }
+  async generatePasskeyAuthenticationOptions(userId: number) {
+    const userPasskeys = await this.db.passkey.findMany({
+      where: { userId },
+    });
+
+    const options: PublicKeyCredentialRequestOptionsJSON =
+      await generateAuthenticationOptions({
+        rpID: passKeyConstants.rpID,
+        allowCredentials: userPasskeys.map((passkey) => ({
+          id: passkey.id,
+          transports: passkey.transports.split(
+            ',',
+          ) as AuthenticatorTransportFuture[],
         })),
-      );
+      });
+
+    await this.db.user.update({
+      data: { passkeyOptions: JSON.stringify(options) },
+      where: { id: userId },
+    });
+
+    return options;
   }
 
-  /**
-   *
-   * @deprecated 비즈니스인증을 한 앱에서만 사용가능합니다. 요기콕콕!에서는 이를 우회하여 사용합니다.
-   */
-  getInstagramUser(accessToken: string) {
-    return this.httpService
-      .get<{ id: number; username: string }>(
-        'https://graph.instagram.com/v20.0/me',
-        {
-          params: {
-            fields: 'id,username',
-            access_token: accessToken,
-          },
-        },
-      )
-      .pipe(map((response) => response.data));
+  async verifyPasskeyAuthenticationResponse(
+    userId: number,
+    response: AuthenticationResponseJSON,
+  ) {
+    const user = await this.db.activeUser.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        profileImageUrl: true,
+        pushSubscription: true,
+        createdAt: true,
+        authProvider: true,
+      },
+    });
+    const currentOptions = JSON.parse(
+      (await this.db.user.findUnique({ where: { id: userId } }))
+        .passkeyOptions as string,
+    ) as PublicKeyCredentialCreationOptionsJSON;
+
+    const passkey = await this.db.passkey.findUniqueOrThrow({
+      where: { userId, id: response.id },
+    });
+
+    const verification = await verifyAuthenticationResponse({
+      response,
+      expectedChallenge: currentOptions.challenge,
+      expectedOrigin: passKeyConstants.origin,
+      expectedRPID: passKeyConstants.rpID,
+      credential: {
+        id: passkey.id,
+        publicKey: passkey.publicKey,
+        counter: passkey.counter as unknown as number,
+        transports: passkey.transports.split(
+          ',',
+        ) as AuthenticatorTransportFuture[],
+      },
+    });
+
+    if (!verification.verified) {
+      throw new UnauthorizedException('Invalid passkey');
+    }
+
+    this.db.passkey.update({
+      data: { counter: BigInt(verification.authenticationInfo.newCounter) },
+      where: { id: passkey.id },
+    });
+
+    return this.createUserToken(user);
   }
 }

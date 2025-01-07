@@ -1,98 +1,51 @@
-import { Controller, Get, HttpStatus, Query, Res } from '@nestjs/common';
-import { Response } from 'express';
+import {
+  AuthenticationResponseJSON,
+  type RegistrationResponseJSON,
+} from '@simplewebauthn/server';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
-import { AuthProvider } from '@prisma/client';
-import {
-  catchError,
-  map,
-  merge,
-  mergeMap,
-  of,
-  partition,
-  throwIfEmpty,
-} from 'rxjs';
+import { User } from './auth.decorator';
+import { JwtPayload } from './auth.interface';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService,
-  ) {}
-  @Get('/instagram')
-  async instagramLoginRedirct(
-    @Query('code') rawCode: string,
-    @Res() res: Response,
-  ) {
-    const redirectWithToken = (token: string) => {
-      res.redirect(
-        HttpStatus.TEMPORARY_REDIRECT,
-        `${process.env.CLIENT_URL}?token=${token}`,
-      );
-      return of();
-    };
+  constructor(private readonly authService: AuthService) {}
 
-    const redirectWithAuthorizedToken = (token: string) => {
-      res.redirect(
-        HttpStatus.TEMPORARY_REDIRECT,
-        `${process.env.CLIENT_URL}/third-party-register?code=${token}`,
-      );
-      return of();
-    };
-
-    const redirectWithError = (error: string) => {
-      console.error(error);
-      res.redirect(
-        HttpStatus.TEMPORARY_REDIRECT,
-        `${process.env.CLIENT_URL}?error=${error}`,
-      );
-      return of();
-    };
-
-    const [newUser, oldUser] = partition(
-      of(rawCode).pipe(
-        map((code) => code.split('#')[0]),
-        throwIfEmpty(() => new Error('Invalid code')),
-        mergeMap((code) => this.authService.getInstagramAccessToken(code)),
-        mergeMap(
-          ({ accessToken, userId }) =>
-            this.userService
-              .getUser({
-                authProvider: AuthProvider.INSTAGRAM,
-                authProviderId: String(userId),
-              })
-              .catch(() => ({ accessToken, userId })) as
-              | ReturnType<typeof this.userService.getUser>
-              | Promise<{ accessToken: string; userId: number }>,
-        ),
-      ),
-      (user): user is { accessToken: string; userId: number } =>
-        user.hasOwnProperty('accessToken'),
-    );
-
-    return merge(
-      oldUser.pipe(
-        map((user) => this.authService.createUserToken(user)),
-        map(redirectWithToken),
-      ),
-      newUser.pipe(
-        map(({ userId }) =>
-          this.authService.createAuthorizedToken({
-            authProvider: AuthProvider.INSTAGRAM,
-            authProviderId: String(userId),
-          }),
-        ),
-        map(redirectWithAuthorizedToken),
-      ),
-    ).pipe(catchError(redirectWithError));
+  @UseGuards(AuthGuard)
+  @Get('passkey/registration')
+  async getPasskey(@User() user: JwtPayload) {
+    return await this.authService.generatePasskeyRegistrationOptions(user);
   }
 
-  @Get('/instagram/cancel')
-  async instagramLoginCancel(@Res() res: Response) {
-    res.redirect(
-      HttpStatus.TEMPORARY_REDIRECT,
-      `${process.env.CLIENT_URL}?error=canceled`,
+  @UseGuards(AuthGuard)
+  @Post('passkey/registration')
+  async createPasskey(
+    @User() user: JwtPayload,
+    @Body() passkey: RegistrationResponseJSON,
+  ) {
+    return await this.authService.verifyPasskeyRegistrationResponse(
+      user,
+      passkey,
     );
-    return;
+  }
+
+  @Get('passkey/authentication')
+  async getPasskeyAuthentication(@Query('id') id: string) {
+    return await this.authService.generatePasskeyAuthenticationOptions(
+      Number(id),
+    );
+  }
+
+  @Post('passkey/authentication')
+  async verifyPasskeyAuthentication(
+    @Query('id') id: string,
+    @Body() passkey: AuthenticationResponseJSON,
+  ) {
+    return await this.authService.verifyPasskeyAuthenticationResponse(
+      Number(id),
+      passkey,
+    );
   }
 }
