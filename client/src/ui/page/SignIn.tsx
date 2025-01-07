@@ -47,7 +47,7 @@ export const SignIn = () => {
               push({ content: "이제 콕 찔리면 알림이 울립니다." });
             })
             .catch(console.error);
-          registerPasskey(token)
+          registerPasskey({ useAutoRegister: true }, token)
             .then(() => {
               push({ content: "Passkey가 등록되었습니다." });
             })
