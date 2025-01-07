@@ -1,22 +1,27 @@
 import { useState } from "react";
 
+import { usePasskey } from "../../hook/domain/usePasskey.ts";
+import { switch_ } from "../../lib/expify.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
 import { SettingGroup } from "../base/SettingGroup.tsx";
 import { CheckCircleOutline } from "../icon/CheckCircleOutline.tsx";
 import { CheckCircleSolid } from "../icon/CheckCircleSolid.tsx";
 import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
+import { useNotification } from "../provider/Notification.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { BlockedUser } from "./Setting.BlockedUser.tsx";
 import { Quit } from "./Setting.Quit.tsx";
 
-type Open = "내 계정" | "알림" | "정보" | "차단한 계정" | null;
+type Open = "내 계정" | "보안" | "알림" | "정보" | "차단한 계정" | null;
 
 export const Setting = () => {
   useAuthNavigator({ goToAuth: true });
-  const { myInfo, patchUser } = useUser();
   const overlay = useStackedLayer();
+  const push = useNotification();
+  const { myInfo, patchUser } = useUser();
+  const { register: registerPasskey } = usePasskey();
 
   const [open, setOpen] = useState<Open>(null);
   const isPushEnabled = !!myInfo?.pushSubscription;
@@ -79,6 +84,33 @@ export const Setting = () => {
         <SettingGroup
           onOpenSubgroup={onOpenSubgroup}
           subGroups={[
+            {
+              children: (
+                <button
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
+                  onClick={() => {
+                    registerPasskey({ useAutoRegister: true })
+                      .then(() => {
+                        push({ content: "Passkey가 등록되었습니다." });
+                      })
+                      .catch((err: { code: string }) => {
+                        push({
+                          content: switch_<string, string>(err?.code)
+                            .case(
+                              "ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED",
+                              () => "Passkey가 등록되었습니다.",
+                            )
+                            .default(() => "다시 시도해주세요."),
+                        });
+                      });
+                  }}
+                >
+                  Passkey 등록
+                </button>
+              ),
+              open: open === "보안",
+              title: "보안",
+            },
             {
               children: (
                 <>
