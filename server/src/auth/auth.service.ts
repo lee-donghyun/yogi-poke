@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { JwtPayload } from './auth.interface';
 import { JwtService } from '@nestjs/jwt';
@@ -9,6 +14,9 @@ import {
   RegistrationResponseJSON,
   verifyRegistrationResponse,
   PublicKeyCredentialCreationOptionsJSON,
+  generateAuthenticationOptions,
+  AuthenticationResponseJSON,
+  verifyAuthenticationResponse,
 } from '@simplewebauthn/server';
 import { passKeyConstants } from './auth.constant';
 
@@ -105,5 +113,68 @@ export class AuthService {
         userId: user.id,
       },
     });
+  }
+  async generatePasskeyAuthenticationOptions(user: JwtPayload) {
+    const userPasskeys = await this.db.passkey.findMany({
+      where: { userId: user.id },
+    });
+
+    const options: PublicKeyCredentialRequestOptionsJSON =
+      await generateAuthenticationOptions({
+        rpID: passKeyConstants.rpID,
+        allowCredentials: userPasskeys.map((passkey) => ({
+          id: passkey.id,
+          transports: passkey.transports.split(
+            ',',
+          ) as AuthenticatorTransportFuture[],
+        })),
+      });
+
+    await this.db.user.update({
+      data: { passkeyOptions: JSON.stringify(options) },
+      where: { id: user.id },
+    });
+
+    return options;
+  }
+
+  async verifyPasskeyAuthenticationResponse(
+    user: JwtPayload,
+    response: AuthenticationResponseJSON,
+  ) {
+    const currentOptions = JSON.parse(
+      (await this.db.user.findUnique({ where: { id: user.id } }))
+        .passkeyOptions as string,
+    ) as PublicKeyCredentialCreationOptionsJSON;
+
+    const passkey = await this.db.passkey.findUniqueOrThrow({
+      where: { userId: user.id, id: response.id },
+    });
+
+    const verification = await verifyAuthenticationResponse({
+      response,
+      expectedChallenge: currentOptions.challenge,
+      expectedOrigin: passKeyConstants.origin,
+      expectedRPID: passKeyConstants.rpID,
+      credential: {
+        id: passkey.id,
+        publicKey: passkey.publicKey,
+        counter: passkey.counter as unknown as number,
+        transports: passkey.transports.split(
+          ',',
+        ) as AuthenticatorTransportFuture[],
+      },
+    });
+
+    if (!verification.verified) {
+      throw new UnauthorizedException('Invalid passkey');
+    }
+
+    this.db.passkey.update({
+      data: { counter: BigInt(verification.authenticationInfo.newCounter) },
+      where: { id: passkey.id },
+    });
+
+    return this.createUserToken(user);
   }
 }
