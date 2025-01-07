@@ -114,9 +114,9 @@ export class AuthService {
       },
     });
   }
-  async generatePasskeyAuthenticationOptions(user: JwtPayload) {
+  async generatePasskeyAuthenticationOptions(userId: number) {
     const userPasskeys = await this.db.passkey.findMany({
-      where: { userId: user.id },
+      where: { userId },
     });
 
     const options: PublicKeyCredentialRequestOptionsJSON =
@@ -132,23 +132,35 @@ export class AuthService {
 
     await this.db.user.update({
       data: { passkeyOptions: JSON.stringify(options) },
-      where: { id: user.id },
+      where: { id: userId },
     });
 
     return options;
   }
 
   async verifyPasskeyAuthenticationResponse(
-    user: JwtPayload,
+    userId: number,
     response: AuthenticationResponseJSON,
   ) {
+    const user = await this.db.activeUser.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        profileImageUrl: true,
+        pushSubscription: true,
+        createdAt: true,
+        authProvider: true,
+      },
+    });
     const currentOptions = JSON.parse(
-      (await this.db.user.findUnique({ where: { id: user.id } }))
+      (await this.db.user.findUnique({ where: { id: userId } }))
         .passkeyOptions as string,
     ) as PublicKeyCredentialCreationOptionsJSON;
 
     const passkey = await this.db.passkey.findUniqueOrThrow({
-      where: { userId: user.id, id: response.id },
+      where: { userId, id: response.id },
     });
 
     const verification = await verifyAuthenticationResponse({
