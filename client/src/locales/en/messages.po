@@ -15,22 +15,30 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/service/validator.ts:4
-msgid "소문자 알파벳과 숫자, 언더바(_)만 사용가능합니다."
-msgstr ""
+#~ msgid "소문자 알파벳과 숫자, 언더바(_)만 사용가능합니다."
+#~ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/service/validator.ts:7
-msgid "1자리 이상 입력해주세요."
-msgstr ""
+#~ msgid "1자리 이상 입력해주세요."
+#~ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/service/validator.ts:9
-msgid "6자리 이상 입력해주세요."
+#~ msgid "6자리 이상 입력해주세요."
+#~ msgstr ""
+
+#: src/ui/page/Setting.tsx:78
+msgid "{myEmail}님이 회원님을 콕 찔렀어요!"
 msgstr ""
 
 #: src/ui/page/Introduction.tsx:103
 msgid "{platform}를 위한 웹 어플리케이션"
 msgstr "Web application for {platform}"
+
+#: src/ui/page/User.tsx:82
+msgid "{targetUserName}님을 차단할까요?"
+msgstr ""
 
 #: src/ui/domain/PokeListItem.tsx:113
 #: src/ui/domain/PokeListItem.tsx:173
@@ -53,6 +61,14 @@ msgstr ""
 msgid "<0>주소 표시줄 오른쪽에서 더보기 > 홈 화면에 추가 > 설치를 탭합니다.</0><1>화면에 표시된 안내를 따릅니다.</1>"
 msgstr ""
 
+#: src/service/validator.ts:9
+msgid "1자리 이상 입력해주세요."
+msgstr ""
+
+#: src/service/validator.ts:11
+msgid "6자리 이상 입력해주세요."
+msgstr ""
+
 #: src/ui/page/Introduction.Platform.tsx:88
 msgid "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr ""
@@ -61,7 +77,13 @@ msgstr ""
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr ""
 
+#: src/ui/page/Setting.tsx:125
+msgid "Passkey 등록"
+msgstr ""
+
 #: src/ui/page/SignIn.tsx:54
+#: src/ui/page/Setting.tsx:111
+#: src/ui/page/Setting.tsx:118
 #: src/ui/page/Register.tsx:56
 msgid "Passkey가 등록되었습니다."
 msgstr ""
@@ -70,20 +92,53 @@ msgstr ""
 msgid "Passkey로 시작하기"
 msgstr "Get started with Passkey"
 
+#: src/ui/page/Setting.tsx:176
+msgid "개인정보처리방침"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:167
+msgid "계정"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:152
+msgid "계정 삭제"
+msgstr ""
+
+#: src/ui/page/Search.tsx:141
+msgid "그림 찌르기"
+msgstr ""
+
 #: src/ui/domain/PokeListItem.tsx:285
 msgid "나도 콕! 찌르기 👉"
 msgstr ""
 
+#: src/ui/page/User.tsx:144
 #: src/ui/page/MyPage.tsx:127
 msgid "나를 콕!"
 msgstr ""
 
+#: src/ui/page/Setting.tsx:158
+msgid "내 계정"
+msgstr ""
+
+#: src/ui/page/Search.tsx:148
+msgid "내 위치 찌르기"
+msgstr ""
+
+#: src/ui/page/User.tsx:142
 #: src/ui/page/MyPage.tsx:125
 msgid "내가 콕!"
 msgstr ""
 
+#: src/ui/page/Search.tsx:80
+msgid "누구를 콕콕! 찌를까요?"
+msgstr ""
+
+#: src/ui/page/User.tsx:61
 #: src/ui/page/ThirdPartyRegister.tsx:54
 #: src/ui/page/SignIn.tsx:60
+#: src/ui/page/Setting.tsx:120
+#: src/ui/page/Setting.BlockedUser.tsx:33
 #: src/ui/page/Register.tsx:67
 msgid "다시 시도해주세요."
 msgstr ""
@@ -94,12 +149,21 @@ msgstr ""
 msgid "다음"
 msgstr ""
 
+#: src/ui/page/Setting.tsx:145
+msgid "로그아웃"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:139
+msgid "로그아웃할까요?"
+msgstr ""
+
 #: src/ui/page/SignIn.tsx:98
 #: src/ui/page/SignIn.tsx:158
 #: src/ui/page/Home.tsx:36
 msgid "로그인"
 msgstr "Sign in"
 
+#: src/ui/page/User.tsx:140
 #: src/ui/page/MyPage.tsx:121
 msgid "모든 콕!"
 msgstr ""
@@ -107,6 +171,10 @@ msgstr ""
 #: src/ui/page/Introduction.tsx:74
 msgid "미리보기"
 msgstr "Preview"
+
+#: src/ui/page/Search.tsx:177
+msgid "바로 콕 찌르기"
+msgstr ""
 
 #: src/ui/page/Introduction.tsx:66
 msgid "버전 {VERSION}"
@@ -117,6 +185,10 @@ msgstr "Version {VERSION}"
 #: src/ui/domain/PokeListItem.tsx:157
 #: src/ui/domain/PokeListItem.tsx:187
 msgid "보기"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:130
+msgid "보안"
 msgstr ""
 
 #: src/ui/page/SignIn.tsx:114
@@ -137,13 +209,25 @@ msgstr "Fast and simple modern social media"
 msgid "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
 msgstr "No Passkeys available. You can sign in with your ID."
 
+#: src/ui/page/User.tsx:56
+msgid "사용자를 차단했습니다."
+msgstr ""
+
 #: src/ui/page/Introduction.tsx:63
 msgid "새로운 소식"
 msgstr "What's new"
 
+#: src/ui/page/Setting.tsx:51
+msgid "설정"
+msgstr ""
+
 #: src/ui/page/Introduction.tsx:42
 msgid "설치"
 msgstr "Install"
+
+#: src/service/validator.ts:6
+msgid "소문자 알파벳과 숫자, 언더바(_)만 사용가능합니다."
+msgstr ""
 
 #: src/ui/page/ThirdPartyRegister.tsx:127
 #: src/ui/page/SignIn.tsx:133
@@ -156,11 +240,27 @@ msgstr ""
 msgid "아이디로 로그인"
 msgstr "Sign in with ID"
 
+#: src/ui/page/Setting.tsx:96
+msgid "알림"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:99
+msgid "연결"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:178
+msgid "오픈소스 라이브러리"
+msgstr ""
+
 #: src/ui/provider/Notification.tsx:26
 #: src/ui/page/Introduction.tsx:28
 #: src/ui/page/Introduction.tsx:49
 msgid "요기콕콕!"
 msgstr "Yogi Poke!"
+
+#: src/ui/page/Search.tsx:129
+msgid "유저를 찾지 못했어요."
+msgstr ""
 
 #: src/ui/page/Home.tsx:60
 msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
@@ -171,8 +271,20 @@ msgstr "This device does not support Passkeys. You can sign in with your ID."
 msgid "이름"
 msgstr ""
 
+#: src/ui/page/Search.tsx:99
+msgid "이름 또는 아이디로 검색해요"
+msgstr ""
+
+#: src/ui/page/Search.tsx:155
+msgid "이모티콘 찌르기"
+msgstr ""
+
 #: src/ui/page/Register.tsx:64
 msgid "이미 사용중인 아이디입니다."
+msgstr ""
+
+#: src/ui/page/Setting.tsx:177
+msgid "이용 약관"
 msgstr ""
 
 #: src/ui/page/Introduction.tsx:69
@@ -189,8 +301,32 @@ msgstr ""
 msgid "자주 콕 찌르는 상대를<0/>즐겨찾기해보세요."
 msgstr ""
 
+#: src/ui/page/Setting.tsx:196
+msgid "정보"
+msgstr ""
+
 #: src/ui/page/Like.tsx:33
 msgid "즐겨찾기"
+msgstr ""
+
+#: src/ui/page/Setting.tsx:199
+msgid "지원"
+msgstr ""
+
+#: src/ui/page/Setting.BlockedUser.tsx:70
+msgid "차단 해제"
+msgstr ""
+
+#: src/ui/page/Setting.BlockedUser.tsx:29
+msgid "차단을 해제했습니다."
+msgstr ""
+
+#: src/ui/page/Setting.tsx:164
+msgid "차단한 계정"
+msgstr ""
+
+#: src/ui/page/Setting.BlockedUser.tsx:42
+msgid "차단한 사용자가 없습니다."
 msgstr ""
 
 #: src/ui/page/NotFound.tsx:9
@@ -201,8 +337,17 @@ msgstr ""
 msgid "처음으로 콕 찔러보세요!"
 msgstr ""
 
+#: src/ui/page/Search.tsx:178
+msgid "콕 찌르기"
+msgstr ""
+
 #: src/ui/page/MyPage.tsx:142
 msgid "콕 찌르기 👉"
+msgstr ""
+
+#: src/ui/page/User.tsx:155
+#: src/ui/page/Setting.tsx:75
+msgid "콕! 찌르기"
 msgstr ""
 
 #: src/ui/page/Introduction.Platform.tsx:41
