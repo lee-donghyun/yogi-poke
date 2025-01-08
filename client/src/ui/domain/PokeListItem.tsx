@@ -78,6 +78,7 @@ const DrawingPokeBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
       <Trans>
@@ -89,7 +90,7 @@ const DrawingPokeBody = ({
         onClick={() =>
           overlay(ShowDrawing, {
             lines,
-            title: `${targetUserName}님에게 보낸 그림`,
+            title: t`${targetUserName}님에게 보낸 그림`,
           })
         }
         type="button"
@@ -108,6 +109,7 @@ const DrawingPokedBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
       <Trans>
@@ -119,7 +121,7 @@ const DrawingPokedBody = ({
         onClick={() =>
           overlay(ShowDrawing, {
             lines,
-            title: `${targetUserName}님이 보낸 그림`,
+            title: t`${targetUserName}님이 보낸 그림`,
           })
         }
         type="button"
@@ -138,6 +140,7 @@ const GeolocationPokeBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
       <Trans>
@@ -149,7 +152,7 @@ const GeolocationPokeBody = ({
         onClick={() =>
           overlay(ShowGeolocation, {
             position,
-            title: `${targetUserName}님에게 보낸 위치`,
+            title: t`${targetUserName}님에게 보낸 위치`,
           })
         }
         type="button"
@@ -168,6 +171,7 @@ const GeolocationPokedBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
       <Trans>
@@ -179,7 +183,7 @@ const GeolocationPokedBody = ({
         onClick={() =>
           overlay(ShowGeolocation, {
             position,
-            title: `${targetUserName}님이 보낸 위치`,
+            title: t`${targetUserName}님이 보낸 위치`,
           })
         }
         type="button"
