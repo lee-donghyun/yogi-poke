@@ -141,7 +141,8 @@ export const MyPage = () => {
                   navigate({ pathname: "/search" }, { replace: true });
                 }}
               >
-                <Trans>콕 찌르기 👉</Trans>
+                <Trans>콕 찌르기</Trans>
+                {" 👉"}
               </button>
             </div>
           )}
