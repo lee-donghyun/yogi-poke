@@ -31,7 +31,7 @@ const stepFieldNameMap = {
 export const Register = () => {
   useAuthNavigator({ goToApp: "/search" });
   const push = useNotification();
-  const { i18n, t } = useLingui();
+  const { t } = useLingui();
   const { navigate, params } = useRouter();
   const { client, patchUser, registerToken } = useUser();
   const { register: registerPasskey } = usePasskey();
@@ -100,7 +100,7 @@ export const Register = () => {
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
   const hasError = currentFieldError !== null;
-  const translatedCurrentFieldError = hasError && i18n._(currentFieldError);
+  const translatedCurrentFieldError = hasError && t(currentFieldError);
 
   return (
     <div className="min-h-screen">

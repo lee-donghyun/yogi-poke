@@ -1,3 +1,5 @@
+import { msg } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import ky from "ky";
 import { useRef, useState } from "react";
 import useSWR from "swr";
@@ -10,14 +12,14 @@ const EMOJI_DICT_URL = "/asset/emoji.json";
 const MESSAGE_LENGTH = 5;
 
 const BOOKMARK = [
-  { depth: 0, icon: "😀", title: "스마일리 및 사람" },
-  { depth: 6916, icon: "🐵", title: "동물 및 자연" },
-  { depth: 8892, icon: "🍇", title: "음식 및 음료" },
-  { depth: 10608, icon: "🌍", title: "여행 및 장소" },
-  { depth: 13468, icon: "🎃", title: "활동" },
-  { depth: 14560, icon: "👓", title: "사물" },
-  { depth: 17940, icon: "🏧", title: "기호" },
-  { depth: 20852, icon: "🏁", title: "깃발" },
+  { depth: 0, icon: "😀", title: msg`스마일리 및 사람` },
+  { depth: 6916, icon: "🐵", title: msg`동물 및 자연` },
+  { depth: 8892, icon: "🍇", title: msg`음식 및 음료` },
+  { depth: 10608, icon: "🌍", title: msg`여행 및 장소` },
+  { depth: 13468, icon: "🎃", title: msg`활동` },
+  { depth: 14560, icon: "👓", title: msg`사물` },
+  { depth: 17940, icon: "🏧", title: msg`기호` },
+  { depth: 20852, icon: "🏁", title: msg`깃발` },
 ];
 
 const Emoji = ({
@@ -44,6 +46,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
   ({ close, context }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { isMutating, trigger } = usePoke();
+    const { t } = useLingui();
 
     const [input, setInput] = useState<string[]>([]);
     const focusIndex = input.length;
@@ -57,7 +60,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
     return (
       <div className="py-5">
         <p className="px-5 text-lg font-semibold text-zinc-800">
-          이모티콘 찌르기 😊
+          <Trans>이모티콘 찌르기</Trans> 😊
         </p>
         <div className="flex gap-2 px-5 pt-5">
           {Array.from({ length: MESSAGE_LENGTH }).map((_, index) => (
@@ -89,7 +92,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
                 <span className="text-xl">{icon}</span>
                 {index === bookmarkPage && (
                   <span className="whitespace-pre text-xs text-zinc-700">
-                    {title}
+                    {t(title)}
                   </span>
                 )}
               </button>
@@ -136,7 +139,7 @@ export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
             }
             type="button"
           >
-            찌르기 👉
+            <Trans>찌르기</Trans> 👉
           </button>
         </div>
       </div>
