@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { HTTPError } from "ky";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
@@ -16,6 +17,7 @@ const cx = {
 };
 export const Quit = createLayer(({ close }) => {
   const push = useNotification();
+  const { i18n, t } = useLingui();
   const [password, setPassword] = useState("");
   const { client } = useUser();
 
@@ -27,7 +29,7 @@ export const Quit = createLayer(({ close }) => {
       onError: (err: HTTPError) => {
         switch (err.response?.status) {
           default:
-            push({ content: "다시 시도해주세요." });
+            push({ content: t`다시 시도해주세요.` });
             break;
         }
       },
@@ -40,6 +42,9 @@ export const Quit = createLayer(({ close }) => {
   );
 
   const passwordError = validator.password(password);
+  const hasError = passwordError !== null;
+  const translatedPasswordError = hasError && i18n._(passwordError);
+
   return (
     <div className="flex min-h-[calc(100vh-env(safe-area-inset-bottom)-env(safe-area-inset-top))] flex-col bg-white">
       <div
@@ -52,19 +57,23 @@ export const Quit = createLayer(({ close }) => {
           onClick={close}
           type="button"
         >
-          취소
+          <Trans>취소</Trans>
         </button>
-        <p className="text-center font-medium">요기콕콕! 계정 삭제</p>
+        <p className="text-center font-medium">
+          <Trans>요기콕콕! 계정 삭제</Trans>
+        </p>
         <span></span>
       </div>
       <div className="flex flex-1 flex-col p-5">
         <p className="text-zinc-600">
-          계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든
-          활동이 영구 삭제됩니다.
+          <Trans>
+            계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든
+            활동이 영구 삭제됩니다.
+          </Trans>
         </p>
         <div className={cx.formItem}>
           <label className={cx.label} htmlFor="password">
-            비밀번호
+            <Trans>비밀번호</Trans>
           </label>
           <input
             className={cx.input}
@@ -74,9 +83,7 @@ export const Quit = createLayer(({ close }) => {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
-          {typeof passwordError === "string" && (
-            <p className={cx.helper}>{passwordError}</p>
-          )}
+          {hasError && <p className={cx.helper}>{translatedPasswordError}</p>}
         </div>
         <div className="flex-1"></div>
         <button
@@ -85,7 +92,7 @@ export const Quit = createLayer(({ close }) => {
           onClick={() => void trigger({ password })}
           type="button"
         >
-          계속
+          <Trans>계속</Trans>
         </button>
       </div>
     </div>

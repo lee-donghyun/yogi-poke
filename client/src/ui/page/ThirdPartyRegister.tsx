@@ -80,7 +80,7 @@ export const ThridPartyRegister = () => {
 
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
-  const hasError = typeof currentFieldError === "string";
+  const hasError = currentFieldError !== null;
   const translatedCurrentFieldError = hasError && i18n._(currentFieldError);
 
   return (
