@@ -61,6 +61,7 @@ msgstr ""
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr ""
 
+#: src/ui/page/SignIn.tsx:54
 #: src/ui/page/Register.tsx:56
 msgid "Passkey가 등록되었습니다."
 msgstr ""
@@ -81,14 +82,20 @@ msgstr ""
 msgid "내가 콕!"
 msgstr ""
 
+#: src/ui/page/ThirdPartyRegister.tsx:54
+#: src/ui/page/SignIn.tsx:60
 #: src/ui/page/Register.tsx:67
 msgid "다시 시도해주세요."
 msgstr ""
 
+#: src/ui/page/ThirdPartyRegister.tsx:152
+#: src/ui/page/SignIn.tsx:158
 #: src/ui/page/Register.tsx:193
 msgid "다음"
 msgstr ""
 
+#: src/ui/page/SignIn.tsx:98
+#: src/ui/page/SignIn.tsx:158
 #: src/ui/page/Home.tsx:36
 msgid "로그인"
 msgstr "Sign in"
@@ -112,6 +119,7 @@ msgstr "Version {VERSION}"
 msgid "보기"
 msgstr ""
 
+#: src/ui/page/SignIn.tsx:114
 #: src/ui/page/Register.tsx:127
 msgid "비밀번호"
 msgstr ""
@@ -137,6 +145,8 @@ msgstr "What's new"
 msgid "설치"
 msgstr "Install"
 
+#: src/ui/page/ThirdPartyRegister.tsx:127
+#: src/ui/page/SignIn.tsx:133
 #: src/ui/page/Register.tsx:168
 msgid "아이디"
 msgstr ""
@@ -156,6 +166,7 @@ msgstr "Yogi Poke!"
 msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
 msgstr "This device does not support Passkeys. You can sign in with your ID."
 
+#: src/ui/page/ThirdPartyRegister.tsx:108
 #: src/ui/page/Register.tsx:149
 msgid "이름"
 msgstr ""
@@ -168,6 +179,8 @@ msgstr ""
 msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
 msgstr "Now you can draw and poke!"
 
+#: src/ui/page/ThirdPartyRegister.tsx:48
+#: src/ui/page/SignIn.tsx:49
 #: src/ui/page/Register.tsx:51
 msgid "이제 콕 찔리면 알림이 울립니다."
 msgstr ""
@@ -201,6 +214,8 @@ msgstr ""
 msgid "홈으로 이동"
 msgstr ""
 
+#: src/ui/page/ThirdPartyRegister.tsx:92
+#: src/ui/page/ThirdPartyRegister.tsx:152
 #: src/ui/page/Register.tsx:111
 #: src/ui/page/Register.tsx:193
 #: src/ui/page/Home.tsx:31

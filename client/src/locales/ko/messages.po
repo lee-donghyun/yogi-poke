@@ -61,6 +61,7 @@ msgstr "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케�
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 
+#: src/ui/page/SignIn.tsx:54
 #: src/ui/page/Register.tsx:56
 msgid "Passkey가 등록되었습니다."
 msgstr "Passkey가 등록되었습니다."
@@ -81,14 +82,20 @@ msgstr "나를 콕!"
 msgid "내가 콕!"
 msgstr "내가 콕!"
 
+#: src/ui/page/ThirdPartyRegister.tsx:54
+#: src/ui/page/SignIn.tsx:60
 #: src/ui/page/Register.tsx:67
 msgid "다시 시도해주세요."
 msgstr "다시 시도해주세요."
 
+#: src/ui/page/ThirdPartyRegister.tsx:152
+#: src/ui/page/SignIn.tsx:158
 #: src/ui/page/Register.tsx:193
 msgid "다음"
 msgstr "다음"
 
+#: src/ui/page/SignIn.tsx:98
+#: src/ui/page/SignIn.tsx:158
 #: src/ui/page/Home.tsx:36
 msgid "로그인"
 msgstr "로그인"
@@ -112,6 +119,7 @@ msgstr "버전 {VERSION}"
 msgid "보기"
 msgstr "보기"
 
+#: src/ui/page/SignIn.tsx:114
 #: src/ui/page/Register.tsx:127
 msgid "비밀번호"
 msgstr "비밀번호"
@@ -137,6 +145,8 @@ msgstr "새로운 소식"
 msgid "설치"
 msgstr "설치"
 
+#: src/ui/page/ThirdPartyRegister.tsx:127
+#: src/ui/page/SignIn.tsx:133
 #: src/ui/page/Register.tsx:168
 msgid "아이디"
 msgstr "아이디"
@@ -156,6 +166,7 @@ msgstr "요기콕콕!"
 msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
 msgstr "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
 
+#: src/ui/page/ThirdPartyRegister.tsx:108
 #: src/ui/page/Register.tsx:149
 msgid "이름"
 msgstr "이름"
@@ -168,6 +179,8 @@ msgstr "이미 사용중인 아이디입니다."
 msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
 msgstr "이제 그림을 그려서 콕! 찌를 수 있습니다."
 
+#: src/ui/page/ThirdPartyRegister.tsx:48
+#: src/ui/page/SignIn.tsx:49
 #: src/ui/page/Register.tsx:51
 msgid "이제 콕 찔리면 알림이 울립니다."
 msgstr "이제 콕 찔리면 알림이 울립니다."
@@ -201,6 +214,8 @@ msgstr "홈 화면에 요기콕콕! 설치하기"
 msgid "홈으로 이동"
 msgstr "홈으로 이동"
 
+#: src/ui/page/ThirdPartyRegister.tsx:92
+#: src/ui/page/ThirdPartyRegister.tsx:152
 #: src/ui/page/Register.tsx:111
 #: src/ui/page/Register.tsx:193
 #: src/ui/page/Home.tsx:31
