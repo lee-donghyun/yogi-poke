@@ -1,5 +1,4 @@
-import { t } from "@lingui/core/macro";
-import { Trans } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { Link, useRouter } from "router2";
 
@@ -46,6 +45,7 @@ export const Home = () => {
   useAuthNavigator({ goToApp: "/search" });
   const overlay = useStackedLayer();
   const push = useNotification();
+  const { t } = useLingui();
   const { authenticate } = usePasskey();
 
   return (

@@ -1,5 +1,4 @@
-import { t } from "@lingui/core/macro";
-import { Trans } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 
 import { ArrowUpOnSquare } from "../icon/ArrowUpOnSquare.tsx";
 import { DevicePhoneMobile } from "../icon/DevicePhoneMobile.tsx";
@@ -14,6 +13,7 @@ const VERSION = "25.01.08";
 
 export const Introduction = () => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <div className="min-h-screen pb-60">
       <div className="flex px-5 pt-32">
