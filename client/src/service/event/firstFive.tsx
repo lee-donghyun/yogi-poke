@@ -70,6 +70,9 @@ const EventLayer = createDraggableSheet(({ close }) => {
     </div>
   );
 });
+/**
+ * @deprecated 이벤트 종료
+ */
 export const eventPokeProps: Parameters<typeof usePoke>[0] = {
   onSuccess: ({ meta: { email, myInfo }, push, stack }) => {
     if (
