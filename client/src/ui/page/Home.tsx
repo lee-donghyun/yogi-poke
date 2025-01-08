@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { Link, useRouter } from "router2";
@@ -17,7 +18,7 @@ const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   return (
     <div className="p-6 pt-0">
       <p className="border-b border-zinc-100 pb-6 pt-4 text-lg font-semibold text-zinc-800">
-        아이디로 로그인
+        <Trans>아이디로 로그인</Trans>
       </p>
       <div className="flex flex-col gap-4 pt-6">
         <Link
@@ -28,12 +29,12 @@ const PrivateLoginSheet = createDraggableSheet(({ close }) => {
           replace
         >
           <button className="block h-12 w-full rounded-2xl bg-zinc-800 px-4 text-start font-semibold text-white duration-200 active:opacity-60 disabled:opacity-60">
-            회원가입
+            <Trans>회원가입</Trans>
           </button>
         </Link>
         <Link className="block" onClick={close} pathname="/sign-in" replace>
           <button className="block h-12 w-full rounded-2xl bg-zinc-100 px-4 text-start font-semibold text-zinc-900 duration-200 active:opacity-60 disabled:opacity-60">
-            로그인
+            <Trans>로그인</Trans>
           </button>
         </Link>
       </div>
@@ -56,17 +57,13 @@ export const Home = () => {
           onClick={() => {
             if (!browserSupportsWebAuthn()) {
               push({
-                content:
-                  "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다.",
+                content: t`이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다.`,
               });
               return;
             }
-            authenticate().catch((err) => {
-              console.log(err);
-
+            authenticate().catch(() => {
               push({
-                content:
-                  "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다.",
+                content: t`사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다.`,
               });
             });
           }}
@@ -86,7 +83,7 @@ export const Home = () => {
           className="rounded-2xl p-2 text-sm text-zinc-400 duration-300 active:opacity-60"
           onClick={() => overlay(PrivateLoginSheet)}
         >
-          아이디로 로그인
+          <Trans>아이디로 로그인</Trans>
         </button>
       </div>
     </div>

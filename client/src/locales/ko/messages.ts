@@ -1,0 +1,1 @@
+/*eslint-disable*/import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"eHnzA5\":[\"Passkey로 시작하기\"],\"g2Cyzs\":[\"로그인\"],\"jXNy8g\":[\"사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다.\"],\"U2W0i2\":[\"아이디로 로그인\"],\"cFSMS1\":[\"이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다.\"],\"PqC6Sr\":[\"회원가입\"]}")as Messages;
