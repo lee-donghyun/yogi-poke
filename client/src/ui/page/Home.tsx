@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { Link, useRouter } from "router2";
 
@@ -74,7 +75,9 @@ export const Home = () => {
           <span className="text-zinc-100">
             <Key />
           </span>
-          <p className="flex-1 text-left text-white">Passkey로 시작하기</p>
+          <p className="flex-1 text-left text-white">
+            <Trans>Passkey로 시작하기</Trans>
+          </p>
           <span className="text-zinc-500">
             <ChevronRight />
           </span>
