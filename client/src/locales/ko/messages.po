@@ -13,9 +13,37 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#. js-lingui-explicit-id
+#: src/service/validator.ts:4
+msgid "소문자 알파벳과 숫자, 언더바(_)만 사용가능합니다."
+msgstr "소문자 알파벳과 숫자, 언더바(_)만 사용가능합니다."
+
+#. js-lingui-explicit-id
+#: src/service/validator.ts:7
+msgid "1자리 이상 입력해주세요."
+msgstr "1자리 이상 입력해주세요."
+
+#. js-lingui-explicit-id
+#: src/service/validator.ts:9
+msgid "6자리 이상 입력해주세요."
+msgstr "6자리 이상 입력해주세요."
+
 #: src/ui/page/Introduction.tsx:103
 msgid "{platform}를 위한 웹 어플리케이션"
 msgstr "{platform}를 위한 웹 어플리케이션"
+
+#: src/ui/domain/PokeListItem.tsx:113
+#: src/ui/domain/PokeListItem.tsx:173
+msgid "<0>{targetUserName}</0>님이 회원님에게 그림을 보냈습니다:"
+msgstr "<0>{targetUserName}</0>님이 회원님에게 그림을 보냈습니다:"
+
+#: src/ui/domain/PokeListItem.tsx:66
+msgid "<0>{targetUserName}</0>님이 회원님에게 메세지를 보냈습니다: {message}"
+msgstr "<0>{targetUserName}</0>님이 회원님에게 메세지를 보냈습니다: {message}"
+
+#: src/ui/domain/PokeListItem.tsx:36
+msgid "<0>{targetUserName}</0>님이 회원님을 콕 찔렀습니다"
+msgstr "<0>{targetUserName}</0>님이 회원님을 콕 찔렀습니다"
 
 #: src/ui/page/Introduction.Platform.tsx:50
 msgid "<0><1>Safari</1> 브라우저를 열고 <2>요기콕콕! 웹 사이트</2>로 이동합니다.</0><3>웹 사이트를 보는 동안 메뉴 막대에서 <4/>을 탭하십시오.</3><5>옵션 목록을 아래로 스크롤한 다음, <6>홈 화면에 추가</6>를 탭하십시오.</5>"
@@ -33,13 +61,41 @@ msgstr "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케�
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 
+#: src/ui/page/Register.tsx:56
+msgid "Passkey가 등록되었습니다."
+msgstr "Passkey가 등록되었습니다."
+
 #: src/ui/page/Home.tsx:76
 msgid "Passkey로 시작하기"
 msgstr "Passkey로 시작하기"
 
+#: src/ui/domain/PokeListItem.tsx:285
+msgid "나도 콕! 찌르기 👉"
+msgstr "나도 콕! 찌르기 👉"
+
+#: src/ui/page/MyPage.tsx:127
+msgid "나를 콕!"
+msgstr "나를 콕!"
+
+#: src/ui/page/MyPage.tsx:125
+msgid "내가 콕!"
+msgstr "내가 콕!"
+
+#: src/ui/page/Register.tsx:67
+msgid "다시 시도해주세요."
+msgstr "다시 시도해주세요."
+
+#: src/ui/page/Register.tsx:193
+msgid "다음"
+msgstr "다음"
+
 #: src/ui/page/Home.tsx:36
 msgid "로그인"
 msgstr "로그인"
+
+#: src/ui/page/MyPage.tsx:121
+msgid "모든 콕!"
+msgstr "모든 콕!"
 
 #: src/ui/page/Introduction.tsx:74
 msgid "미리보기"
@@ -48,6 +104,22 @@ msgstr "미리보기"
 #: src/ui/page/Introduction.tsx:66
 msgid "버전 {VERSION}"
 msgstr "버전 {VERSION}"
+
+#: src/ui/domain/PokeListItem.tsx:97
+#: src/ui/domain/PokeListItem.tsx:127
+#: src/ui/domain/PokeListItem.tsx:157
+#: src/ui/domain/PokeListItem.tsx:187
+msgid "보기"
+msgstr "보기"
+
+#: src/ui/page/Register.tsx:127
+msgid "비밀번호"
+msgstr "비밀번호"
+
+#: src/ui/page/Register.tsx:125
+#~ msgctxt "well.."
+#~ msgid "비밀번호"
+#~ msgstr "비밀번호"
 
 #: src/ui/page/Introduction.tsx:31
 msgid "빠르고 간결한 최신 소셜 미디어"
@@ -65,6 +137,10 @@ msgstr "새로운 소식"
 msgid "설치"
 msgstr "설치"
 
+#: src/ui/page/Register.tsx:168
+msgid "아이디"
+msgstr "아이디"
+
 #: src/ui/page/Home.tsx:20
 #: src/ui/page/Home.tsx:86
 msgid "아이디로 로그인"
@@ -80,9 +156,21 @@ msgstr "요기콕콕!"
 msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
 msgstr "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
 
+#: src/ui/page/Register.tsx:149
+msgid "이름"
+msgstr "이름"
+
+#: src/ui/page/Register.tsx:64
+msgid "이미 사용중인 아이디입니다."
+msgstr "이미 사용중인 아이디입니다."
+
 #: src/ui/page/Introduction.tsx:69
 msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
 msgstr "이제 그림을 그려서 콕! 찌를 수 있습니다."
+
+#: src/ui/page/Register.tsx:51
+msgid "이제 콕 찔리면 알림이 울립니다."
+msgstr "이제 콕 찔리면 알림이 울립니다."
 
 #: src/ui/page/Like.tsx:56
 msgid "자주 콕 찌르는 상대를<0/>즐겨찾기해보세요."
@@ -96,6 +184,14 @@ msgstr "즐겨찾기"
 msgid "찾을 수 없는 페이지입니다."
 msgstr "찾을 수 없는 페이지입니다."
 
+#: src/ui/page/MyPage.tsx:134
+msgid "처음으로 콕 찔러보세요!"
+msgstr "처음으로 콕 찔러보세요!"
+
+#: src/ui/page/MyPage.tsx:142
+msgid "콕 찌르기 👉"
+msgstr "콕 찌르기 👉"
+
 #: src/ui/page/Introduction.Platform.tsx:41
 #: src/ui/page/Introduction.Platform.tsx:85
 msgid "홈 화면에 요기콕콕! 설치하기"
@@ -105,6 +201,24 @@ msgstr "홈 화면에 요기콕콕! 설치하기"
 msgid "홈으로 이동"
 msgstr "홈으로 이동"
 
+#: src/ui/page/Register.tsx:111
+#: src/ui/page/Register.tsx:193
 #: src/ui/page/Home.tsx:31
 msgid "회원가입"
 msgstr "회원가입"
+
+#: src/ui/domain/PokeListItem.tsx:83
+msgid "회원님이 <0>{targetUserName}</0>님에게 그림을 보냈습니다:"
+msgstr "회원님이 <0>{targetUserName}</0>님에게 그림을 보냈습니다:"
+
+#: src/ui/domain/PokeListItem.tsx:51
+msgid "회원님이 <0>{targetUserName}</0>님에게 메세지를 보냈습니다: {message}"
+msgstr "회원님이 <0>{targetUserName}</0>님에게 메세지를 보냈습니다: {message}"
+
+#: src/ui/domain/PokeListItem.tsx:143
+msgid "회원님이 <0>{targetUserName}</0>님에게 위치를 보냈습니다:"
+msgstr "회원님이 <0>{targetUserName}</0>님에게 위치를 보냈습니다:"
+
+#: src/ui/domain/PokeListItem.tsx:27
+msgid "회원님이 <0>{targetUserName}</0>님을 콕 찔렀습니다"
+msgstr "회원님이 <0>{targetUserName}</0>님을 콕 찔렀습니다"

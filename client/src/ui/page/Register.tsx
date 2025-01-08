@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { HTTPError } from "ky";
 import { useCallback, useState } from "react";
 import { useRouter } from "router2";
@@ -30,6 +31,7 @@ const stepFieldNameMap = {
 export const Register = () => {
   useAuthNavigator({ goToApp: "/search" });
   const push = useNotification();
+  const { i18n, t } = useLingui();
   const { navigate, params } = useRouter();
   const { client, patchUser, registerToken } = useUser();
   const { register: registerPasskey } = usePasskey();
@@ -46,12 +48,12 @@ export const Register = () => {
           getPushNotificationSubscription()
             .then((pushSubscription) => patchUser({ pushSubscription }, token))
             .then(() => {
-              push({ content: "이제 콕 찔리면 알림이 울립니다." });
+              push({ content: t`이제 콕 찔리면 알림이 울립니다.` });
             })
             .catch(console.error);
           registerPasskey({ token, useAutoRegister: true, userId })
             .then(() => {
-              push({ content: "Passkey가 등록되었습니다." });
+              push({ content: t`Passkey가 등록되었습니다.` });
             })
             .catch(console.error);
         }),
@@ -59,10 +61,10 @@ export const Register = () => {
       onError: (err: HTTPError) => {
         switch (err.response.status) {
           case 409:
-            push({ content: "이미 사용중인 아이디입니다." });
+            push({ content: t`이미 사용중인 아이디입니다.` });
             break;
           default:
-            push({ content: "다시 시도해주세요." });
+            push({ content: t`다시 시도해주세요.` });
             break;
         }
       },
@@ -97,6 +99,8 @@ export const Register = () => {
 
   const currentKey = stepFieldNameMap[step];
   const currentFieldError = validator[currentKey](data[currentKey]);
+  const hasError = typeof currentFieldError === "string";
+  const translatedCurrentFieldError = hasError && i18n._(currentFieldError);
 
   return (
     <div className="min-h-screen">
@@ -104,7 +108,7 @@ export const Register = () => {
         onBack={() => {
           navigate({ pathname: "/" }, { replace: true });
         }}
-        title="회원가입"
+        title={t`회원가입`}
       />
       <div className="h-40"></div>
       <form
@@ -120,7 +124,7 @@ export const Register = () => {
           style={step > 2 ? undefined : { opacity: 0, pointerEvents: "none" }}
         >
           <label className={cx.label} htmlFor="password">
-            비밀번호
+            <Trans>비밀번호</Trans>
           </label>
           <input
             className={cx.input}
@@ -133,8 +137,8 @@ export const Register = () => {
             }}
             type="password"
           />
-          {step === 3 && typeof currentFieldError === "string" && (
-            <p className={cx.helper}>{currentFieldError}</p>
+          {step === 3 && hasError && (
+            <p className={cx.helper}>{translatedCurrentFieldError}</p>
           )}
         </div>
         <div
@@ -142,7 +146,7 @@ export const Register = () => {
           style={step > 1 ? undefined : { opacity: 0, pointerEvents: "none" }}
         >
           <label className={cx.label} htmlFor="name">
-            이름
+            <Trans>이름</Trans>
           </label>
           <input
             className={cx.input}
@@ -155,13 +159,13 @@ export const Register = () => {
             }}
             type="text"
           />
-          {step === 2 && typeof currentFieldError === "string" && (
-            <p className={cx.helper}>{currentFieldError}</p>
+          {step === 2 && hasError && (
+            <p className={cx.helper}>{translatedCurrentFieldError}</p>
           )}
         </div>
         <div className={cx.formItem}>
           <label className={cx.label} htmlFor="email">
-            아이디
+            <Trans>아이디</Trans>
           </label>
           <input
             className={cx.input}
@@ -174,21 +178,19 @@ export const Register = () => {
             }}
             type="text"
           />
-          {step === 1 && typeof currentFieldError === "string" && (
-            <p className={cx.helper}>{currentFieldError}</p>
+          {step === 1 && hasError && (
+            <p className={cx.helper}>{translatedCurrentFieldError}</p>
           )}
         </div>
-        <button
-          disabled={isMutating || typeof currentFieldError === "string"}
-        />
+        <button disabled={isMutating || hasError} />
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
           className="block h-12 w-full rounded-2xl bg-black text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={isMutating || typeof currentFieldError === "string"}
+          disabled={isMutating || hasError}
           onClick={onSubmit}
         >
-          {step === 3 ? "회원가입" : "다음"}
+          {step === 3 ? t`회원가입` : t`다음`}
         </button>
       </div>
     </div>
