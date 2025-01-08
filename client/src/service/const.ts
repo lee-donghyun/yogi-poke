@@ -6,7 +6,7 @@ export const DELETED_USER = {
   authProvider: AuthProvider.INSTAGRAM,
   email: "",
   id: -1,
-  name: "(알수없음)",
+  name: "(dleleted user)",
   profileImageUrl: null,
 };
 

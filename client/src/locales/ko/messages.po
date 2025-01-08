@@ -96,6 +96,10 @@ msgstr "Passkey로 시작하기"
 msgid "개인정보처리방침"
 msgstr "개인정보처리방침"
 
+#: src/ui/page/Setting.Quit.tsx:95
+msgid "계속"
+msgstr "계속"
+
 #: src/ui/page/Setting.tsx:167
 msgid "계정"
 msgstr "계정"
@@ -103,6 +107,10 @@ msgstr "계정"
 #: src/ui/page/Setting.tsx:152
 msgid "계정 삭제"
 msgstr "계정 삭제"
+
+#: src/ui/page/Setting.Quit.tsx:69
+msgid "계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든 활동이 영구 삭제됩니다."
+msgstr "계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든 활동이 영구 삭제됩니다."
 
 #: src/ui/page/Search.tsx:141
 msgid "그림 찌르기"
@@ -138,6 +146,7 @@ msgstr "누구를 콕콕! 찌를까요?"
 #: src/ui/page/ThirdPartyRegister.tsx:54
 #: src/ui/page/SignIn.tsx:60
 #: src/ui/page/Setting.tsx:120
+#: src/ui/page/Setting.Quit.tsx:32
 #: src/ui/page/Setting.BlockedUser.tsx:33
 #: src/ui/page/Register.tsx:67
 msgid "다시 시도해주세요."
@@ -192,6 +201,7 @@ msgid "보안"
 msgstr "보안"
 
 #: src/ui/page/SignIn.tsx:114
+#: src/ui/page/Setting.Quit.tsx:76
 #: src/ui/page/Register.tsx:127
 msgid "비밀번호"
 msgstr "비밀번호"
@@ -257,6 +267,10 @@ msgstr "오픈소스 라이브러리"
 #: src/ui/page/Introduction.tsx:49
 msgid "요기콕콕!"
 msgstr "요기콕콕!"
+
+#: src/ui/page/Setting.Quit.tsx:63
+msgid "요기콕콕! 계정 삭제"
+msgstr "요기콕콕! 계정 삭제"
 
 #: src/ui/page/Search.tsx:129
 msgid "유저를 찾지 못했어요."
@@ -336,6 +350,10 @@ msgstr "찾을 수 없는 페이지입니다."
 #: src/ui/page/MyPage.tsx:134
 msgid "처음으로 콕 찔러보세요!"
 msgstr "처음으로 콕 찔러보세요!"
+
+#: src/ui/page/Setting.Quit.tsx:60
+msgid "취소"
+msgstr "취소"
 
 #: src/ui/page/Search.tsx:178
 msgid "콕 찌르기"
