@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { HTTPError } from "ky";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
@@ -50,15 +51,18 @@ export const usePoke = (
       meta: { email: string; myInfo: MyInfo | null };
       push: ReturnType<typeof useNotification>;
       stack: ReturnType<typeof useStackedLayer>;
+      t: ReturnType<typeof useLingui>["t"];
     }) => void;
   } = {
     onSuccess: (helper) => {
-      helper.push({ content: `${helper.meta.email}님을 콕! 찔렀습니다.` });
+      const userEmail = helper.meta.email;
+      helper.push({ content: helper.t`${userEmail}님을 콕! 찔렀습니다.` });
     },
   },
 ) => {
   const stack = useStackedLayer();
   const push = useNotification();
+  const { t } = useLingui();
   const { client, myInfo, refreshUser } = useUser();
   const { mutate: mutateRelatedPokeList } = useRelatedPokeList();
   const { mutate: globalMutate } = useSWRConfig();
@@ -78,20 +82,20 @@ export const usePoke = (
         const cause = (err as { cause: PokeError }).cause;
         switch (cause.status) {
           case 403: {
+            const userEmail = cause.email;
             push({
-              content: `${cause.email}님을 콕! 찌를 수 없습니다.`,
+              content: t`${userEmail}님을 콕! 찌를 수 없습니다.`,
             });
             return;
           }
           case 409: {
             push({
-              content:
-                "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.",
+              content: t`이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요.`,
             });
             return;
           }
           default: {
-            push({ content: "다시 시도해주세요." });
+            push({ content: t`다시 시도해주세요.` });
             return;
           }
         }
@@ -101,7 +105,7 @@ export const usePoke = (
         void mutateRelatedPokeList();
         void globalMutate(SWR_KEY_USER(email));
         void globalMutate(SWR_KEY_MATE_POKE(email));
-        onSuccess({ meta: { email, myInfo }, push, stack });
+        onSuccess({ meta: { email, myInfo }, push, stack, t });
       },
     },
   );
