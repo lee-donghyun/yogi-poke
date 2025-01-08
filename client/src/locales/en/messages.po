@@ -5,7 +5,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
+"Language: ko\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -15,58 +15,58 @@ msgstr ""
 
 #: src/ui/page/Introduction.tsx:103
 msgid "{platform}를 위한 웹 어플리케이션"
-msgstr ""
+msgstr "Web application for {platform}"
 
 #: src/ui/page/Home.tsx:76
 msgid "Passkey로 시작하기"
-msgstr ""
+msgstr "Get started with Passkey"
 
 #: src/ui/page/Home.tsx:37
 msgid "로그인"
-msgstr ""
+msgstr "Sign in"
 
 #: src/ui/page/Introduction.tsx:74
 msgid "미리보기"
-msgstr ""
+msgstr "Preview"
 
 #: src/ui/page/Introduction.tsx:66
 msgid "버전 {VERSION}"
-msgstr ""
+msgstr "Version {VERSION}"
 
 #: src/ui/page/Introduction.tsx:31
 msgid "빠르고 간결한 최신 소셜 미디어"
-msgstr ""
+msgstr "Fast and simple modern social media"
 
 #: src/ui/page/Home.tsx:66
 msgid "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
-msgstr ""
+msgstr "No Passkeys available. You can sign in with your ID."
 
 #: src/ui/page/Introduction.tsx:63
 msgid "새로운 소식"
-msgstr ""
+msgstr "What's new"
 
 #: src/ui/page/Introduction.tsx:42
 msgid "설치"
-msgstr ""
+msgstr "Install"
 
 #: src/ui/page/Home.tsx:21
 #: src/ui/page/Home.tsx:86
 msgid "아이디로 로그인"
-msgstr ""
+msgstr "Sign in with ID"
 
 #: src/ui/page/Introduction.tsx:28
 #: src/ui/page/Introduction.tsx:49
 msgid "요기콕콕!"
-msgstr ""
+msgstr "Yogi Poke!"
 
 #: src/ui/page/Home.tsx:60
 msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
-msgstr ""
+msgstr "This device does not support Passkeys. You can sign in with your ID."
 
 #: src/ui/page/Introduction.tsx:69
 msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
-msgstr ""
+msgstr "Now you can draw and poke!"
 
 #: src/ui/page/Home.tsx:32
 msgid "회원가입"
-msgstr ""
+msgstr "Register"

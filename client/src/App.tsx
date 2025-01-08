@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { BrowserRouter } from "router2";
 
+import { messages } from "./locales/en/messages.ts";
 import { Home } from "./ui/page/Home";
 import { Like } from "./ui/page/Like";
 import { MyPage } from "./ui/page/MyPage";
@@ -21,7 +22,8 @@ import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
 
 dayjs.extend(duration);
-i18n.activate("ko");
+i18n.load("en", messages);
+i18n.activate("en");
 
 export const App = () => {
   return (
