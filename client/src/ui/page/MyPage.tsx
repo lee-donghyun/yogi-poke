@@ -38,7 +38,9 @@ const MenuSheet = createDraggableSheet(({ close }) => {
             }}
           >
             <Setting />
-            <span>설정</span>
+            <span>
+              <Trans>설정</Trans>
+            </span>
           </button>
         </li>
       </ul>
