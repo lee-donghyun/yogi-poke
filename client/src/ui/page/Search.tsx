@@ -21,9 +21,12 @@ import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
 
 const cx = {
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   animatedPokeOptionButton: "absolute right-0",
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   hiddenAnimatedPokeOptionButton: "translate-x-1/4 scale-x-50 opacity-0",
   pokeOptionButton:
+    // eslint-disable-next-line lingui/no-unlocalized-strings
     "whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300",
 };
 

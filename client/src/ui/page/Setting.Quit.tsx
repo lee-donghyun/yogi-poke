@@ -10,8 +10,11 @@ import { releaseToken } from "../provider/PwaProvider.tsx";
 import { createLayer } from "../provider/StackedLayerProvider.tsx";
 
 const cx = {
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   formItem: "flex flex-col gap-2 h-32 duration-300 mt-5",
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   helper: "text-sm text-zinc-600",
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   input: "border rounded text-zinc-800 p-2",
   label: "text-lg",
 };

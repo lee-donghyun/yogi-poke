@@ -76,7 +76,7 @@ export const MyPage = () => {
       <div className="p-5">
         <div className="flex justify-center pt-16">
           <img
-            alt="프로필 이미지"
+            alt={t`프로필 이미지`}
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
