@@ -13,6 +13,27 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/ui/page/Home.tsx:79
+#: src/ui/page/Home.tsx:76
 msgid "Passkey로 시작하기"
+msgstr ""
+
+#: src/ui/page/Home.tsx:37
+msgid "로그인"
+msgstr ""
+
+#: src/ui/page/Home.tsx:66
+msgid "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
+msgstr ""
+
+#: src/ui/page/Home.tsx:21
+#: src/ui/page/Home.tsx:86
+msgid "아이디로 로그인"
+msgstr ""
+
+#: src/ui/page/Home.tsx:60
+msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
+msgstr ""
+
+#: src/ui/page/Home.tsx:32
+msgid "회원가입"
 msgstr ""
