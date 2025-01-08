@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import { Link } from "router2";
 
 import { DELETED_USER } from "../../service/const.ts";
@@ -199,6 +199,7 @@ export const PokeListItem = ({
   type,
 }: PocketListItemProps) => {
   const overlay = useStackedLayer();
+  const { i18n } = useLingui();
   return (
     <div
       {...(animation && {
@@ -230,7 +231,7 @@ export const PokeListItem = ({
               )}
             </Link>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
-              {getReadableDateOffset(date)}
+              {i18n._(getReadableDateOffset(date))}
             </span>
           </p>
           {payload.type === "normal" && type === "poke" && (

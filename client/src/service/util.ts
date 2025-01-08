@@ -1,26 +1,36 @@
+import { MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 import dayjs from "dayjs";
 
 import type { Line } from "../ui/base/Canvas";
 
 import { AuthProvider, User } from "./dataType";
 
-export const getReadableDateOffset = (date: string) => {
+export const getReadableDateOffset = (date: string): MessageDescriptor => {
   const now = dayjs();
   const then = dayjs(date);
 
   if (now.diff(then, "hour") < 1) {
-    return `${now.diff(then, "minute") + 1}분 전`;
+    const diff = now.diff(then, "minute") + 1;
+    return msg`${diff}분 전`;
   }
   if (now.diff(then, "day") < 1) {
-    return `${now.diff(then, "hour") + 1}시간 전`;
+    const diff = now.diff(then, "hour") + 1;
+    return msg`${diff}시간 전`;
   }
   if (now.diff(then, "week") < 1) {
-    return `${now.diff(then, "day") + 1}일 전`;
+    const diff = now.diff(then, "day") + 1;
+    return msg`${diff}일 전`;
   }
   if (now.diff(then, "year") < 1) {
-    return then.format("M월 D일");
+    const month = then.get("M") + 1;
+    const dateOfMonth = then.get("D");
+    return msg`${month}월 ${dateOfMonth}일`;
   }
-  return then.format("Y년 M월 D일");
+  const year = then.get("y");
+  const month = then.get("M") + 1;
+  const dateOfMonth = then.get("D");
+  return msg`${year}년 ${month}월 ${dateOfMonth}일`;
 };
 
 export const getPushNotificationSubscription = async () => {
