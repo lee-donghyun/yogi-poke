@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { lazy, Suspense } from "react";
 
 import { useUser } from "../provider/Auth.tsx";
@@ -10,8 +11,12 @@ const QRCodeSVG = lazy(() =>
 
 export const SharedProfile = createDraggableSheet(({ close }) => {
   const push = useNotification();
+  const { t } = useLingui();
   const { myInfo } = useUser();
-  const shareUrl = `https://yogi-poke.vercel.app/me/${myInfo?.email}`;
+
+  const myEmail = myInfo?.email;
+  const shareUrl = `https://yogi-poke.vercel.app/me/${myEmail}`;
+
   return (
     <div className="pb-20 pt-8">
       <div className="flex size-full flex-col items-center">
@@ -28,7 +33,7 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
             value={shareUrl}
           />
         </Suspense>
-        <p className="pt-5 text-xl font-bold text-black">@{myInfo?.email}</p>
+        <p className="pt-5 text-xl font-bold text-black">@{myEmail}</p>
         <div className="flex w-52 gap-3 pt-8">
           {[
             navigator?.share && {
@@ -36,22 +41,20 @@ export const SharedProfile = createDraggableSheet(({ close }) => {
               onClick: () => {
                 close();
                 void navigator.share({
-                  title: `(@${myInfo?.email}) - 요기콕콕! 프로필 공유`,
+                  title: t`(@${myEmail}) - 요기콕콕! 프로필 공유`,
                   url: shareUrl,
                 });
               },
-              text: "공유하기",
+              text: t`공유하기`,
             },
             navigator?.clipboard?.writeText && {
               key: "copy",
               onClick: () => {
                 void navigator?.clipboard.writeText(shareUrl).then(() => {
-                  push({
-                    content: "클립보드에 복사되었습니다.",
-                  });
+                  push({ content: t`클립보드에 복사되었습니다.` });
                 });
               },
-              text: "복사하기",
+              text: t`복사하기`,
             },
           ]
             .filter(Boolean)

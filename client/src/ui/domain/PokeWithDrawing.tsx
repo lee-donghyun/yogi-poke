@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useState } from "react";
 
 import { useDomSize } from "../../hook/base/useDomSize";
@@ -35,7 +36,9 @@ export const PokeWithDrawing = createDraggableSheet<{ email: string }>(
 
     return (
       <div className="p-6">
-        <p className="text-lg font-semibold text-zinc-800">그림 찌르기 🎨</p>
+        <p className="text-lg font-semibold text-zinc-800">
+          <Trans>그림 찌르기</Trans> 🎨
+        </p>
         <div className="h-6"></div>
         <div
           className="relative aspect-square w-full"
@@ -95,7 +98,7 @@ export const PokeWithDrawing = createDraggableSheet<{ email: string }>(
             }
             type="button"
           >
-            찌르기 👉
+            <Trans>찌르기</Trans> 👉
           </button>
         </div>
       </div>

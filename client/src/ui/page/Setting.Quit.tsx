@@ -17,7 +17,7 @@ const cx = {
 };
 export const Quit = createLayer(({ close }) => {
   const push = useNotification();
-  const { i18n, t } = useLingui();
+  const { t } = useLingui();
   const [password, setPassword] = useState("");
   const { client } = useUser();
 
@@ -43,7 +43,7 @@ export const Quit = createLayer(({ close }) => {
 
   const passwordError = validator.password(password);
   const hasError = passwordError !== null;
-  const translatedPasswordError = hasError && i18n._(passwordError);
+  const translatedPasswordError = hasError && t(passwordError);
 
   return (
     <div className="flex min-h-[calc(100vh-env(safe-area-inset-bottom)-env(safe-area-inset-top))] flex-col bg-white">
