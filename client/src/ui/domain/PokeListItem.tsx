@@ -199,7 +199,7 @@ export const PokeListItem = ({
   type,
 }: PocketListItemProps) => {
   const overlay = useStackedLayer();
-  const { i18n } = useLingui();
+  const { t } = useLingui();
   return (
     <div
       {...(animation && {
@@ -231,7 +231,7 @@ export const PokeListItem = ({
               )}
             </Link>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
-              {i18n._(getReadableDateOffset(date))}
+              {t(getReadableDateOffset(date))}
             </span>
           </p>
           {payload.type === "normal" && type === "poke" && (
