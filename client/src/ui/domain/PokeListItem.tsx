@@ -204,6 +204,7 @@ export const PokeListItem = ({
 }: PocketListItemProps) => {
   const overlay = useStackedLayer();
   const { t } = useLingui();
+  const targetUserName = targetUser.name;
   return (
     <div
       {...(animation && {
@@ -216,7 +217,7 @@ export const PokeListItem = ({
     >
       <div className="flex">
         <img
-          alt={`${targetUser.name} 프로필 이미지`}
+          alt={t`${targetUserName} 프로필 이미지`}
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
           src={targetUser.profileImageUrl ?? "/asset/default_user_profile.png"}
         />

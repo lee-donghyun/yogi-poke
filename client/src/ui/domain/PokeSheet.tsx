@@ -12,6 +12,7 @@ import { PokeWithGeoLocation } from "./PokeWithGeolocation.tsx";
 
 const cx = {
   pokeButton:
+    // eslint-disable-next-line lingui/no-unlocalized-strings
     "h-12 rounded-2xl bg-zinc-100 px-4 text-start font-semibold duration-200 active:opacity-60 disabled:opacity-60",
 };
 

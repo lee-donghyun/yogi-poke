@@ -96,7 +96,7 @@ export const User = () => {
       <div className="p-5">
         <div className="flex justify-center pt-16">
           <img
-            alt="프로필 이미지"
+            alt={t`프로필 이미지`}
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
@@ -158,8 +158,8 @@ export const User = () => {
           <p className="mt-1 text-center text-sm text-zinc-500">
             <b className="font-medium">
               <Timer to={lastPoked} />
-            </b>
-            {" 후에 찌를 수 있어요"}
+            </b>{" "}
+            <Trans>후에 찌를 수 있어요</Trans>
           </p>
         )}
       </div>
