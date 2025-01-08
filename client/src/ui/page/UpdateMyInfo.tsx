@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
@@ -18,6 +19,8 @@ const FORM_NAME = {
 export const UpdateMyInfo = createLayer(({ close }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const push = useNotification();
+  const { t } = useLingui();
+
   const { client, myInfo, patchUser } = useUser();
   const [data, setData] = useState<Form>(
     myInfo ?? { name: "", profileImageUrl: null },
@@ -38,7 +41,7 @@ export const UpdateMyInfo = createLayer(({ close }) => {
     },
     {
       onError: () => {
-        push({ content: "다시 시도해주세요." });
+        push({ content: t`다시 시도해주세요.` });
       },
       onSuccess: () => {
         close();
@@ -58,16 +61,18 @@ export const UpdateMyInfo = createLayer(({ close }) => {
           onClick={close}
           type="button"
         >
-          취소
+          <Trans>취소</Trans>
         </button>
-        <p className="text-center font-medium">프로필 편집</p>
+        <p className="text-center font-medium">
+          <Trans>프로필 편집</Trans>
+        </p>
         <button
           className="justify-self-end disabled:opacity-60"
           disabled={isMutating}
           onClick={() => formRef.current && void trigger(formRef.current)}
           type="button"
         >
-          완료
+          <Trans>완료</Trans>
         </button>
       </div>
       <form
@@ -82,7 +87,9 @@ export const UpdateMyInfo = createLayer(({ close }) => {
               className="h-20 w-20 rounded-full bg-zinc-200 object-cover"
               src={data.profileImageUrl ?? "/asset/default_user_profile.png"}
             />
-            <p className="text-sm font-medium text-zinc-800">사진 수정</p>
+            <p className="text-sm font-medium text-zinc-800">
+              <Trans>사진 수정</Trans>
+            </p>
             <input
               accept="image/png,image/jpg,image/jpeg"
               className="hidden"
@@ -94,7 +101,7 @@ export const UpdateMyInfo = createLayer(({ close }) => {
                   return;
                 }
                 if (file.size > 4_000_000) {
-                  push({ content: "더 작은 사진을 사용해주세요." });
+                  push({ content: t`더 작은 사진을 사용해주세요.` });
                   return;
                 }
                 const profileImageUrl = URL.createObjectURL(file);
@@ -108,7 +115,9 @@ export const UpdateMyInfo = createLayer(({ close }) => {
           className="grid items-center gap-3 pt-8 text-sm"
           style={{ gridTemplateColumns: "80px 1fr" }}
         >
-          <label htmlFor="name">이름</label>
+          <label htmlFor="name">
+            <Trans>이름</Trans>
+          </label>
           <input
             className="rounded-none border-b p-2 text-zinc-800 outline-none focus:border-black"
             id="name"
