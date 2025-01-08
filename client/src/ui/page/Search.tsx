@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
@@ -29,6 +30,7 @@ const cx = {
 export const Search = () => {
   useAuthNavigator({ goToAuth: "/sign-in" });
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   const { navigate, params } = useRouter();
 
   const searchText = params?.searchText ?? "";
@@ -75,7 +77,7 @@ export const Search = () => {
       <div className="p-5">
         <div className="flex justify-between pt-32">
           <p className="text-2xl font-bold text-zinc-800">
-            누구를 콕콕! 찌를까요?
+            <Trans>누구를 콕콕! 찌를까요?</Trans>
           </p>
           <button
             className="text-zinc-500"
@@ -94,7 +96,7 @@ export const Search = () => {
             onChange={({ target: { value } }) => {
               setSearchText(value);
             }}
-            placeholder="이름 또는 아이디로 검색해요"
+            placeholder={t`이름 또는 아이디로 검색해요`}
             type="text"
             value={searchText}
           />
@@ -124,7 +126,7 @@ export const Search = () => {
                 <span className="font-semibold text-zinc-900">
                   @{deferredSearchText}
                 </span>{" "}
-                유저를 찾지 못했어요.
+                <Trans>유저를 찾지 못했어요.</Trans>
               </p>
             </div>
           )}
@@ -136,21 +138,21 @@ export const Search = () => {
           onClick={validateAndOverlay(PokeWithDrawing)}
           type="button"
         >
-          그림 찌르기 🎨
+          <Trans>그림 찌르기</Trans> 🎨
         </button>
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-28`} bottom-28 ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
           onClick={validateAndOverlay(PokeWithGeoLocation)}
           type="button"
         >
-          내 위치 찌르기 📍
+          <Trans>내 위치 찌르기</Trans> 📍
         </button>
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-14`} bottom-14 ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
           onClick={validateAndOverlay(PokeWithEmoji)}
           type="button"
         >
-          이모티콘 찌르기 😊
+          <Trans>이모티콘 찌르기</Trans> 😊
         </button>
         <button
           className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden ${cx.pokeOptionButton}`}
@@ -172,7 +174,9 @@ export const Search = () => {
             setPokeOptionOpen(true);
           }}
         >
-          {pokeOptionOpen && "바로 "}콕 찌르기 👉
+          {pokeOptionOpen && <Trans>바로 콕 찌르기</Trans>}
+          {!pokeOptionOpen && <Trans>콕 찌르기</Trans>}
+          {" 👉"}
         </button>
       </div>
       <DomainBottomNavigation />
