@@ -17,11 +17,27 @@ msgstr ""
 msgid "{platform}를 위한 웹 어플리케이션"
 msgstr "{platform}를 위한 웹 어플리케이션"
 
+#: src/ui/page/Introduction.Platform.tsx:50
+msgid "<0><1>Safari</1> 브라우저를 열고 <2>요기콕콕! 웹 사이트</2>로 이동합니다.</0><3>웹 사이트를 보는 동안 메뉴 막대에서 <4/>을 탭하십시오.</3><5>옵션 목록을 아래로 스크롤한 다음, <6>홈 화면에 추가</6>를 탭하십시오.</5>"
+msgstr "<0><1>Safari</1> 브라우저를 열고 <2>요기콕콕! 웹 사이트</2>로 이동합니다.</0><3>웹 사이트를 보는 동안 메뉴 막대에서 <4/>을 탭하십시오.</3><5>옵션 목록을 아래로 스크롤한 다음, <6>홈 화면에 추가</6>를 탭하십시오.</5>"
+
+#: src/ui/page/Introduction.Platform.tsx:94
+msgid "<0>주소 표시줄 오른쪽에서 더보기 > 홈 화면에 추가 > 설치를 탭합니다.</0><1>화면에 표시된 안내를 따릅니다.</1>"
+msgstr "<0>주소 표시줄 오른쪽에서 더보기 > 홈 화면에 추가 > 설치를 탭합니다.</0><1>화면에 표시된 안내를 따릅니다.</1>"
+
+#: src/ui/page/Introduction.Platform.tsx:88
+msgid "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
+msgstr "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
+
+#: src/ui/page/Introduction.Platform.tsx:44
+msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
+msgstr "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
+
 #: src/ui/page/Home.tsx:76
 msgid "Passkey로 시작하기"
 msgstr "Passkey로 시작하기"
 
-#: src/ui/page/Home.tsx:37
+#: src/ui/page/Home.tsx:36
 msgid "로그인"
 msgstr "로그인"
 
@@ -49,11 +65,12 @@ msgstr "새로운 소식"
 msgid "설치"
 msgstr "설치"
 
-#: src/ui/page/Home.tsx:21
+#: src/ui/page/Home.tsx:20
 #: src/ui/page/Home.tsx:86
 msgid "아이디로 로그인"
 msgstr "아이디로 로그인"
 
+#: src/ui/provider/Notification.tsx:26
 #: src/ui/page/Introduction.tsx:28
 #: src/ui/page/Introduction.tsx:49
 msgid "요기콕콕!"
@@ -67,6 +84,11 @@ msgstr "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그�
 msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
 msgstr "이제 그림을 그려서 콕! 찌를 수 있습니다."
 
-#: src/ui/page/Home.tsx:32
+#: src/ui/page/Introduction.Platform.tsx:41
+#: src/ui/page/Introduction.Platform.tsx:85
+msgid "홈 화면에 요기콕콕! 설치하기"
+msgstr "홈 화면에 요기콕콕! 설치하기"
+
+#: src/ui/page/Home.tsx:31
 msgid "회원가입"
 msgstr "회원가입"
