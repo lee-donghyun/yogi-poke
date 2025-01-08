@@ -1,5 +1,6 @@
 import { createConfig } from "eslint-config-react-app-essentials";
 import reactCompiler from "eslint-plugin-react-compiler";
+import pluginLingui from "eslint-plugin-lingui";
 
 export default [
   ...createConfig({
@@ -15,4 +16,5 @@ export default [
       "react-compiler/react-compiler": "error",
     },
   },
+  pluginLingui.configs["flat/recommended"],
 ];

@@ -1,3 +1,5 @@
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { BrowserRouter } from "router2";
@@ -19,40 +21,43 @@ import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
 
 dayjs.extend(duration);
+i18n.activate("ko");
 
 export const App = () => {
   return (
-    <NotificationProvider>
-      <StackedLayerProvider>
-        <PwaProvider>
-          {(prefetch) => (
-            <AuthProvider myInfo={prefetch.myInfo}>
-              <BrowserRouter
-                routes={{
-                  "/": Home,
-                  "/404": NotFound,
-                  "/like": Like,
-                  "/my-page": MyPage,
-                  "/register": Register,
-                  "/search": Search,
-                  "/setting": Setting,
-                  "/sign-in": SignIn,
-                  "/third-party-register": ThridPartyRegister,
-                  "/user/:userId": User,
-                }}
-              >
-                {(Page) => (
-                  <MessageProvider>
-                    <StackedLayerProvider>
-                      <Page />
-                    </StackedLayerProvider>
-                  </MessageProvider>
-                )}
-              </BrowserRouter>
-            </AuthProvider>
-          )}
-        </PwaProvider>
-      </StackedLayerProvider>
-    </NotificationProvider>
+    <I18nProvider i18n={i18n}>
+      <NotificationProvider>
+        <StackedLayerProvider>
+          <PwaProvider>
+            {(prefetch) => (
+              <AuthProvider myInfo={prefetch.myInfo}>
+                <BrowserRouter
+                  routes={{
+                    "/": Home,
+                    "/404": NotFound,
+                    "/like": Like,
+                    "/my-page": MyPage,
+                    "/register": Register,
+                    "/search": Search,
+                    "/setting": Setting,
+                    "/sign-in": SignIn,
+                    "/third-party-register": ThridPartyRegister,
+                    "/user/:userId": User,
+                  }}
+                >
+                  {(Page) => (
+                    <MessageProvider>
+                      <StackedLayerProvider>
+                        <Page />
+                      </StackedLayerProvider>
+                    </MessageProvider>
+                  )}
+                </BrowserRouter>
+              </AuthProvider>
+            )}
+          </PwaProvider>
+        </StackedLayerProvider>
+      </NotificationProvider>
+    </I18nProvider>
   );
 };
