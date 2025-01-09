@@ -37,7 +37,7 @@ msgstr "{hours}時間 {minutes}分"
 msgid "{month}월 {dateOfMonth}일"
 msgstr "{month}月{dateOfMonth}日"
 
-#: src/ui/page/Setting.tsx:78
+#: src/ui/page/Setting.tsx:79
 msgid "{myEmail}님이 회원님을 콕 찔렀어요!"
 msgstr "{myEmail}さんがあなたをポークしました！"
 
@@ -114,13 +114,13 @@ msgstr "Androidデバイスのホーム画面にYogi Poke!を追加して、簡�
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr "iPhoneのホーム画面にYogi Poke!を追加して、簡単にアプリをインストールできます。"
 
-#: src/ui/page/Setting.tsx:125
+#: src/ui/page/Setting.tsx:126
 msgid "Passkey 등록"
 msgstr "Passkey登録"
 
 #: src/ui/page/SignIn.tsx:57
-#: src/ui/page/Setting.tsx:111
-#: src/ui/page/Setting.tsx:118
+#: src/ui/page/Setting.tsx:112
+#: src/ui/page/Setting.tsx:119
 #: src/ui/page/Register.tsx:59
 msgid "Passkey가 등록되었습니다."
 msgstr "Passkeyが登録されました。"
@@ -133,7 +133,7 @@ msgstr "Passkeyで始める"
 msgid "QR 코드 스캔"
 msgstr "QRコードをスキャン"
 
-#: src/ui/page/Setting.tsx:176
+#: src/ui/page/Setting.tsx:198
 msgid "개인정보처리방침"
 msgstr "プライバシーポリシー"
 
@@ -141,11 +141,11 @@ msgstr "プライバシーポリシー"
 msgid "계속"
 msgstr "続ける"
 
-#: src/ui/page/Setting.tsx:167
+#: src/ui/page/Setting.tsx:168
 msgid "계정"
 msgstr "アカウント"
 
-#: src/ui/page/Setting.tsx:152
+#: src/ui/page/Setting.tsx:153
 msgid "계정 삭제"
 msgstr "アカウント削除"
 
@@ -184,9 +184,13 @@ msgstr "私をポーク！"
 msgid "나와의 거리: <0/>m"
 msgstr "私との距離: <0/>m"
 
-#: src/ui/page/Setting.tsx:158
+#: src/ui/page/Setting.tsx:159
 msgid "내 계정"
 msgstr "私のアカウント"
+
+#: src/ui/page/Setting.tsx:189
+msgid "내 앱"
+msgstr "私のアプリ"
 
 #: src/ui/page/Search.tsx:151
 #: src/ui/domain/PokeWithGeolocation.tsx:29
@@ -207,7 +211,7 @@ msgstr "誰をポークしますか？"
 #: src/ui/page/UpdateMyInfo.tsx:44
 #: src/ui/page/ThirdPartyRegister.tsx:57
 #: src/ui/page/SignIn.tsx:63
-#: src/ui/page/Setting.tsx:120
+#: src/ui/page/Setting.tsx:121
 #: src/ui/page/Setting.Quit.tsx:35
 #: src/ui/page/Setting.BlockedUser.tsx:33
 #: src/ui/page/Register.tsx:70
@@ -229,11 +233,11 @@ msgstr "もっと小さい写真を使用してください。"
 msgid "동물 및 자연"
 msgstr "動物と自然"
 
-#: src/ui/page/Setting.tsx:145
+#: src/ui/page/Setting.tsx:146
 msgid "로그아웃"
 msgstr "ログアウト"
 
-#: src/ui/page/Setting.tsx:139
+#: src/ui/page/Setting.tsx:140
 msgid "로그아웃할까요?"
 msgstr "ログアウトしますか？"
 
@@ -271,7 +275,7 @@ msgstr "バージョン {VERSION}"
 msgid "보기"
 msgstr "見る"
 
-#: src/ui/page/Setting.tsx:130
+#: src/ui/page/Setting.tsx:131
 msgid "보안"
 msgstr "セキュリティ"
 
@@ -318,7 +322,7 @@ msgstr "相手のQRコードをスキャンしてポークできます。"
 msgid "새로운 소식"
 msgstr "新着ニュース"
 
-#: src/ui/page/Setting.tsx:51
+#: src/ui/page/Setting.tsx:54
 #: src/ui/page/MyPage.tsx:42
 msgid "설정"
 msgstr "設定"
@@ -350,19 +354,32 @@ msgstr "IDでログイン"
 msgid "아이폰 홈 화면에 추가 미리보기"
 msgstr "iPhoneホーム画面に追加プレビュー"
 
-#: src/ui/page/Setting.tsx:96
+#: src/ui/page/Setting.tsx:97
 msgid "알림"
 msgstr "通知"
+
+#: src/ui/page/Setting.tsx:186
+msgid "언어"
+msgstr "言語"
+
+#: src/ui/page/Setting.tsx:181
+#: src/ui/page/Setting.Language.tsx:12
+msgid "언어 선택"
+msgstr "言語を選択"
 
 #: src/ui/domain/PokeWithEmoji.tsx:18
 msgid "여행 및 장소"
 msgstr "旅行と場所"
 
-#: src/ui/page/Setting.tsx:99
+#: src/ui/page/Setting.tsx:100
 msgid "연결"
 msgstr "接続"
 
-#: src/ui/page/Setting.tsx:178
+#: src/ui/page/Setting.Language.tsx:17
+msgid "영어"
+msgstr "英語"
+
+#: src/ui/page/Setting.tsx:200
 msgid "오픈소스 라이브러리"
 msgstr "オープンソースライブラリ"
 
@@ -371,6 +388,7 @@ msgid "완료"
 msgstr "完了"
 
 #: src/ui/provider/Notification.tsx:26
+#: src/ui/provider/I18nProvider.tsx:15
 #: src/ui/page/Introduction.tsx:28
 #: src/ui/page/Introduction.tsx:49
 #: src/ui/base/Navigation.tsx:10
@@ -417,7 +435,7 @@ msgstr "すでに使用されているIDです。"
 msgid "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요."
 msgstr "すでにポークしました。相手が反応するまで待ってください。"
 
-#: src/ui/page/Setting.tsx:177
+#: src/ui/page/Setting.tsx:199
 msgid "이용 약관"
 msgstr "利用規約"
 
@@ -431,11 +449,15 @@ msgstr "今、絵を描いてポークできます。"
 msgid "이제 콕 찔리면 알림이 울립니다."
 msgstr "今、ポークされると通知が鳴ります。"
 
+#: src/ui/page/Setting.Language.tsx:18
+msgid "일본어"
+msgstr "日本語"
+
 #: src/ui/page/Like.tsx:56
 msgid "자주 콕 찌르는 상대를<0/>즐겨찾기해보세요."
 msgstr "よくポークする相手を<0/>お気に入りにしてみましょう。"
 
-#: src/ui/page/Setting.tsx:196
+#: src/ui/page/Setting.tsx:218
 msgid "정보"
 msgstr "情報"
 
@@ -443,7 +465,7 @@ msgstr "情報"
 msgid "즐겨찾기"
 msgstr "お気に入り"
 
-#: src/ui/page/Setting.tsx:199
+#: src/ui/page/Setting.tsx:221
 msgid "지원"
 msgstr "サポート"
 
@@ -461,7 +483,7 @@ msgstr "ブロック解除"
 msgid "차단을 해제했습니다."
 msgstr "ブロックを解除しました。"
 
-#: src/ui/page/Setting.tsx:164
+#: src/ui/page/Setting.tsx:165
 msgid "차단한 계정"
 msgstr "ブロックしたアカウント"
 
@@ -488,7 +510,7 @@ msgid "콕 찌르기"
 msgstr "ポークする"
 
 #: src/ui/page/User.tsx:155
-#: src/ui/page/Setting.tsx:75
+#: src/ui/page/Setting.tsx:76
 #: src/ui/domain/PokeSheet.tsx:39
 msgid "콕! 찌르기"
 msgstr "ポーク！"
@@ -506,6 +528,10 @@ msgstr "プロフィール画像"
 #: src/ui/page/UpdateMyInfo.tsx:67
 msgid "프로필 편집"
 msgstr "プロフィール編集"
+
+#: src/ui/page/Setting.Language.tsx:15
+msgid "한국어"
+msgstr "韓国語"
 
 #: src/ui/page/Introduction.Platform.tsx:43
 #: src/ui/page/Introduction.Platform.tsx:88
