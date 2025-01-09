@@ -1,11 +1,11 @@
-import { i18n } from "@lingui/core";
+import { i18n, Messages } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { BrowserRouter } from "router2";
 
-import { messages as en } from "./locales/en/messages.ts";
-import { messages as ko } from "./locales/ko/messages.ts";
+import en from "./locales/en/messages.json";
+import ko from "./locales/ko/messages.json";
 import { Home } from "./ui/page/Home";
 import { Like } from "./ui/page/Like";
 import { MyPage } from "./ui/page/MyPage";
@@ -23,9 +23,9 @@ import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
 
 dayjs.extend(duration);
-i18n.load("en", en);
-i18n.load("ko", ko);
-i18n.activate("ko");
+i18n.load("en", en.messages as Messages);
+i18n.load("ko", ko.messages as Messages);
+i18n.activate("en");
 
 export const App = () => {
   return (

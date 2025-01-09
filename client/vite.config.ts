@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
         },
         authToken: env.SENTRY_AUTH_TOKEN,
       }),
-      // lingui(),
+      lingui(),
     ],
     server: {
       proxy: {
