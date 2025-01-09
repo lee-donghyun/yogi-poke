@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { HTTPError } from "ky";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
@@ -9,13 +10,17 @@ import { releaseToken } from "../provider/PwaProvider.tsx";
 import { createLayer } from "../provider/StackedLayerProvider.tsx";
 
 const cx = {
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   formItem: "flex flex-col gap-2 h-32 duration-300 mt-5",
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   helper: "text-sm text-zinc-600",
+  // eslint-disable-next-line lingui/no-unlocalized-strings
   input: "border rounded text-zinc-800 p-2",
   label: "text-lg",
 };
 export const Quit = createLayer(({ close }) => {
   const push = useNotification();
+  const { t } = useLingui();
   const [password, setPassword] = useState("");
   const { client } = useUser();
 
@@ -27,7 +32,7 @@ export const Quit = createLayer(({ close }) => {
       onError: (err: HTTPError) => {
         switch (err.response?.status) {
           default:
-            push({ content: "다시 시도해주세요." });
+            push({ content: t`다시 시도해주세요.` });
             break;
         }
       },
@@ -40,6 +45,9 @@ export const Quit = createLayer(({ close }) => {
   );
 
   const passwordError = validator.password(password);
+  const hasError = passwordError !== null;
+  const translatedPasswordError = hasError && t(passwordError);
+
   return (
     <div className="flex min-h-[calc(100vh-env(safe-area-inset-bottom)-env(safe-area-inset-top))] flex-col bg-white">
       <div
@@ -52,19 +60,23 @@ export const Quit = createLayer(({ close }) => {
           onClick={close}
           type="button"
         >
-          취소
+          <Trans>취소</Trans>
         </button>
-        <p className="text-center font-medium">요기콕콕! 계정 삭제</p>
+        <p className="text-center font-medium">
+          <Trans>요기콕콕! 계정 삭제</Trans>
+        </p>
         <span></span>
       </div>
       <div className="flex flex-1 flex-col p-5">
         <p className="text-zinc-600">
-          계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든
-          활동이 영구 삭제됩니다.
+          <Trans>
+            계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든
+            활동이 영구 삭제됩니다.
+          </Trans>
         </p>
         <div className={cx.formItem}>
           <label className={cx.label} htmlFor="password">
-            비밀번호
+            <Trans>비밀번호</Trans>
           </label>
           <input
             className={cx.input}
@@ -74,18 +86,16 @@ export const Quit = createLayer(({ close }) => {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
-          {typeof passwordError === "string" && (
-            <p className={cx.helper}>{passwordError}</p>
-          )}
+          {hasError && <p className={cx.helper}>{translatedPasswordError}</p>}
         </div>
         <div className="flex-1"></div>
         <button
           className="block w-full rounded-full bg-black p-3 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={typeof passwordError === "string"}
+          disabled={typeof passwordError === "string" || isMutating}
           onClick={() => void trigger({ password })}
           type="button"
         >
-          계속
+          <Trans>계속</Trans>
         </button>
       </div>
     </div>

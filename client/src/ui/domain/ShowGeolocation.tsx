@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -32,7 +33,9 @@ export const ShowGeolocation = createDraggableSheet<{
     <div className="p-6 pt-2.5">
       <p className="text-lg font-semibold text-zinc-800">{context.title}</p>
       <p className="pb-6 pt-3 text-sm text-zinc-400">
-        나와의 거리: <CountUp duration={1500} from={0} to={distance} />m
+        <Trans>
+          나와의 거리: <CountUp duration={1500} from={0} to={distance} />m
+        </Trans>
       </p>
       <div
         className="relative aspect-square w-full overflow-hidden rounded-2xl"
@@ -42,7 +45,7 @@ export const ShowGeolocation = createDraggableSheet<{
         <ErrorBoundary
           fallback={
             <div className="size-full bg-zinc-100 p-5 text-zinc-700">
-              사용할 수 없는 기기입니다.
+              <Trans>사용할 수 없는 기기입니다.</Trans>
             </div>
           }
         >

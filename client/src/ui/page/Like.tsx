@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
@@ -28,7 +29,9 @@ export const Like = () => {
     <div className="min-h-screen">
       <Navigation />
       <div className="p-5">
-        <p className="pt-32 text-2xl font-bold text-zinc-800">즐겨찾기</p>
+        <p className="pt-32 text-2xl font-bold text-zinc-800">
+          <Trans>즐겨찾기</Trans>
+        </p>
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
@@ -50,9 +53,11 @@ export const Like = () => {
                 <CircleXIcon />
               </span>
               <p className="pt-6 text-center">
-                자주 콕 찌르는 상대를
-                <br />
-                즐겨찾기해보세요.
+                <Trans>
+                  자주 콕 찌르는 상대를
+                  <br />
+                  즐겨찾기해보세요.
+                </Trans>
               </p>
             </div>
           )}
