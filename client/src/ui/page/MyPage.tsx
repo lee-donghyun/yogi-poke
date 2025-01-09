@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
@@ -37,7 +38,9 @@ const MenuSheet = createDraggableSheet(({ close }) => {
             }}
           >
             <Setting />
-            <span>설정</span>
+            <span>
+              <Trans>설정</Trans>
+            </span>
           </button>
         </li>
       </ul>
@@ -49,6 +52,7 @@ export const MyPage = () => {
   useAuthNavigator({ goToAuth: true });
   const { navigate } = useRouter();
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   const { myInfo } = useUser({ revalidateIfHasToken: true });
 
   const { data, error, intersectorRef, isFreshData } = useRelatedPokeList();
@@ -72,7 +76,7 @@ export const MyPage = () => {
       <div className="p-5">
         <div className="flex justify-center pt-16">
           <img
-            alt="프로필 이미지"
+            alt={t`프로필 이미지`}
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
@@ -116,26 +120,29 @@ export const MyPage = () => {
         </div>
         <div className="mt-10 flex items-center">
           <Stat
-            label="모든 콕!"
+            label={t`모든 콕!`}
             value={myInfo && myInfo.pokes + myInfo.pokeds}
           />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="내가 콕!" value={myInfo?.pokes} />
+          <Stat label={t`내가 콕!`} value={myInfo?.pokes} />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="나를 콕!" value={myInfo?.pokeds} />
+          <Stat label={t`나를 콕!`} value={myInfo?.pokeds} />
         </div>
         <div className="mt-10 flex flex-col gap-4">
           {(error || data?.[0].length === 0) && (
             <div className="flex flex-col items-center pt-10 text-zinc-700">
               <Blink />
-              <p className="pt-6">처음으로 콕 찔러보세요!</p>
+              <p className="pt-6">
+                <Trans>처음으로 콕 찔러보세요!</Trans>
+              </p>
               <button
                 className="mt-12 rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
                 onClick={() => {
                   navigate({ pathname: "/search" }, { replace: true });
                 }}
               >
-                콕 찌르기 👉
+                <Trans>콕 찌르기</Trans>
+                {" 👉"}
               </button>
             </div>
           )}

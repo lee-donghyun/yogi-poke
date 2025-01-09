@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
@@ -21,6 +22,7 @@ import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 
 export const User = () => {
   useAuthNavigator({ goToAuth: true });
+  const { t } = useLingui();
   const { client, myInfo, refreshUser } = useUser();
   const overlay = useStackedLayer();
   const { params } = useRouter();
@@ -51,12 +53,12 @@ export const User = () => {
         .patch(api, { json: { isAccepted: false } })
         .then(() => mutateAll())
         .then(() => {
-          push({ content: "사용자를 차단했습니다." });
+          push({ content: t`사용자를 차단했습니다.` });
           history.back();
         }),
     {
       onError: () => {
-        push({ content: "다시 시도해주세요." });
+        push({ content: t`다시 시도해주세요.` });
       },
     },
   );
@@ -76,7 +78,8 @@ export const User = () => {
             disabled={isBlockLoading}
             key="block"
             onClick={() => {
-              if (confirm(`${data?.name}님을 차단할까요?`)) {
+              const targetUserName = data?.name;
+              if (confirm(t`${targetUserName}님을 차단할까요?`)) {
                 void triggerBlock();
               }
             }}
@@ -93,7 +96,7 @@ export const User = () => {
       <div className="p-5">
         <div className="flex justify-center pt-16">
           <img
-            alt="프로필 이미지"
+            alt={t`프로필 이미지`}
             className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
@@ -134,11 +137,11 @@ export const User = () => {
           <p className="mt-1">{data?.name ?? <span className="block h-6" />}</p>
         </div>
         <div className="mt-10 flex items-center">
-          <Stat label="모든 콕!" value={data?.totalPokes} />
+          <Stat label={t`모든 콕!`} value={data?.totalPokes} />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="내가 콕!" value={data?.pokes} />
+          <Stat label={t`내가 콕!`} value={data?.pokes} />
           <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label="나를 콕!" value={data?.pokeds} />
+          <Stat label={t`나를 콕!`} value={data?.pokeds} />
         </div>
       </div>
       <div className="p-5">
@@ -149,14 +152,14 @@ export const User = () => {
             overlay(PokeSheet, { targetUserEmail: userEmail });
           }}
         >
-          콕! 찌르기 👉
+          <Trans>콕! 찌르기</Trans> 👉
         </button>
         {isDayjs(lastPoked) && !isPokable && (
           <p className="mt-1 text-center text-sm text-zinc-500">
             <b className="font-medium">
               <Timer to={lastPoked} />
-            </b>
-            {" 후에 찌를 수 있어요"}
+            </b>{" "}
+            <Trans>후에 찌를 수 있어요</Trans>
           </p>
         )}
       </div>

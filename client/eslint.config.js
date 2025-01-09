@@ -1,5 +1,6 @@
 import { createConfig } from "eslint-config-react-app-essentials";
 import reactCompiler from "eslint-plugin-react-compiler";
+import pluginLingui from "eslint-plugin-lingui";
 
 export default [
   ...createConfig({
@@ -15,4 +16,30 @@ export default [
       "react-compiler/react-compiler": "error",
     },
   },
+  {
+    plugins: {
+      lingui: pluginLingui,
+    },
+    rules: {
+      "lingui/no-unlocalized-strings": [
+        "error",
+        {
+          ignore: ["^(?![A-Z])\\S+$", "^[A-Z0-9_-]+$"],
+          ignoreNames: [
+            { regex: { pattern: "className", flags: "i" } },
+            "src",
+            "type",
+            "id",
+            "width",
+            "height",
+            "displayName",
+          ],
+          ignoreFunctions: ["Error", "*.includes", "console.*"],
+          useTsTypes: true,
+          ignoreMethodsOnTypes: [],
+        },
+      ],
+    },
+  },
+  pluginLingui.configs["flat/recommended"],
 ];

@@ -1,17 +1,18 @@
-import { createRef, ReactNode, useRef } from "react";
+import { createRef, Key, ReactNode, useRef } from "react";
 
 import { ChevronRight } from "../icon/ChevronRight.tsx";
 
-interface SettingGroupProps<T extends string> {
-  onOpenSubgroup: (title: T) => void;
+interface SettingGroupProps<T> {
+  onOpenSubgroup: (id: T) => void;
   subGroups: {
     children: ReactNode;
+    id: T;
     open: boolean;
-    title: T;
+    title: string;
   }[];
   title: string;
 }
-export const SettingGroup = <T extends string>({
+export const SettingGroup = <T extends Key>({
   onOpenSubgroup,
   subGroups,
   title,
@@ -31,7 +32,7 @@ export const SettingGroup = <T extends string>({
             <button
               className="flex w-full items-center justify-between py-4 text-lg font-medium"
               onClick={() => {
-                onOpenSubgroup(subGroup.title);
+                onOpenSubgroup(subGroup.id);
               }}
             >
               {subGroup.title}

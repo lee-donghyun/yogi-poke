@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useRef } from "react";
 import { useRouter } from "router2";
 
@@ -22,9 +23,11 @@ export const QrScannerSheet = createDraggableSheet(({ close }) => {
 
   return (
     <div className="p-6 pt-2.5">
-      <p className="text-lg font-semibold text-zinc-800">QR 코드 스캔</p>
+      <p className="text-lg font-semibold text-zinc-800">
+        <Trans>QR 코드 스캔</Trans>
+      </p>
       <p className="pb-6 pt-3 text-sm text-zinc-400">
-        상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요.
+        <Trans>상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요.</Trans>
       </p>
       <Suspense
         fallback={

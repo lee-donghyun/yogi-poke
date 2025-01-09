@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { Link } from "router2";
 
 import { DELETED_USER } from "../../service/const.ts";
@@ -23,15 +24,19 @@ interface PocketListItemProps {
 
 const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
   <p className="text-sm text-zinc-800">
-    회원님이 <span className="font-semibold">{targetUserName}</span>
-    님을 콕 찔렀습니다
+    <Trans>
+      회원님이 <span className="font-semibold">{targetUserName}</span>
+      님을 콕 찔렀습니다
+    </Trans>
   </p>
 );
 
 const NormalPokedBody = ({ targetUserName }: { targetUserName: string }) => (
   <p className="text-sm text-zinc-800">
-    <span className="font-semibold">{targetUserName}</span>님이 회원님을 콕
-    찔렀습니다
+    <Trans>
+      <span className="font-semibold">{targetUserName}</span>님이 회원님을 콕
+      찔렀습니다
+    </Trans>
   </p>
 );
 
@@ -43,8 +48,10 @@ const EmojiPokeBody = ({
   targetUserName: string;
 }) => (
   <p className="text-sm text-zinc-800">
-    회원님이 <span className="font-semibold">{targetUserName}</span>
-    님에게 메세지를 보냈습니다: {message}
+    <Trans>
+      회원님이 <span className="font-semibold">{targetUserName}</span>
+      님에게 메세지를 보냈습니다: {message}
+    </Trans>
   </p>
 );
 
@@ -56,8 +63,10 @@ const EmojiPokedBody = ({
   targetUserName: string;
 }) => (
   <p className="text-sm text-zinc-800">
-    <span className="font-semibold">{targetUserName}</span>님이 회원님에게
-    메세지를 보냈습니다: {message}
+    <Trans>
+      <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+      메세지를 보냈습니다: {message}
+    </Trans>
   </p>
 );
 
@@ -69,21 +78,24 @@ const DrawingPokeBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
-      회원님이 <span className="font-semibold">{targetUserName}</span>
-      님에게 그림을 보냈습니다:{" "}
+      <Trans>
+        회원님이 <span className="font-semibold">{targetUserName}</span>
+        님에게 그림을 보냈습니다:
+      </Trans>{" "}
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
           overlay(ShowDrawing, {
             lines,
-            title: `${targetUserName}님에게 보낸 그림`,
+            title: t`${targetUserName}님에게 보낸 그림`,
           })
         }
         type="button"
       >
-        보기
+        <Trans>보기</Trans>
       </button>
     </p>
   );
@@ -97,21 +109,24 @@ const DrawingPokedBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
-      <span className="font-semibold">{targetUserName}</span>님이 회원님에게
-      그림을 보냈습니다:{" "}
+      <Trans>
+        <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+        그림을 보냈습니다:
+      </Trans>{" "}
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
           overlay(ShowDrawing, {
             lines,
-            title: `${targetUserName}님이 보낸 그림`,
+            title: t`${targetUserName}님이 보낸 그림`,
           })
         }
         type="button"
       >
-        보기
+        <Trans>보기</Trans>
       </button>
     </p>
   );
@@ -125,21 +140,24 @@ const GeolocationPokeBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
-      회원님이 <span className="font-semibold">{targetUserName}</span>
-      님에게 위치를 보냈습니다:{" "}
+      <Trans>
+        회원님이 <span className="font-semibold">{targetUserName}</span>
+        님에게 위치를 보냈습니다:
+      </Trans>{" "}
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
           overlay(ShowGeolocation, {
             position,
-            title: `${targetUserName}님에게 보낸 위치`,
+            title: t`${targetUserName}님에게 보낸 위치`,
           })
         }
         type="button"
       >
-        보기
+        <Trans>보기</Trans>
       </button>
     </p>
   );
@@ -153,21 +171,24 @@ const GeolocationPokedBody = ({
   targetUserName: string;
 }) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
   return (
     <p className="text-sm text-zinc-800">
-      <span className="font-semibold">{targetUserName}</span>님이 회원님에게
-      그림을 보냈습니다:{" "}
+      <Trans>
+        <span className="font-semibold">{targetUserName}</span>님이 회원님에게
+        그림을 보냈습니다:
+      </Trans>{" "}
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
           overlay(ShowGeolocation, {
             position,
-            title: `${targetUserName}님이 보낸 위치`,
+            title: t`${targetUserName}님이 보낸 위치`,
           })
         }
         type="button"
       >
-        보기
+        <Trans>보기</Trans>
       </button>
     </p>
   );
@@ -182,6 +203,8 @@ export const PokeListItem = ({
   type,
 }: PocketListItemProps) => {
   const overlay = useStackedLayer();
+  const { t } = useLingui();
+  const targetUserName = targetUser.name;
   return (
     <div
       {...(animation && {
@@ -194,7 +217,7 @@ export const PokeListItem = ({
     >
       <div className="flex">
         <img
-          alt={`${targetUser.name} 프로필 이미지`}
+          alt={t`${targetUserName} 프로필 이미지`}
           className="mt-1 h-8 w-8 min-w-[2rem] rounded-full bg-zinc-200 object-cover"
           src={targetUser.profileImageUrl ?? "/asset/default_user_profile.png"}
         />
@@ -213,7 +236,7 @@ export const PokeListItem = ({
               )}
             </Link>
             <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
-              {getReadableDateOffset(date)}
+              {t(getReadableDateOffset(date))}
             </span>
           </p>
           {payload.type === "normal" && type === "poke" && (
@@ -265,7 +288,7 @@ export const PokeListItem = ({
                 overlay(PokeSheet, { targetUserEmail: targetUser.email })
               }
             >
-              나도 콕! 찌르기 👉
+              <Trans>나도 콕! 찌르기 👉</Trans>
             </button>
           )}
         </div>
