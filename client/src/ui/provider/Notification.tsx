@@ -1,3 +1,4 @@
+import { useLingui } from "@lingui/react/macro";
 import { createContext, JSX, useContext } from "react";
 import { toast, Toaster } from "sonner";
 
@@ -20,8 +21,9 @@ export const NotificationProvider = ({
 }: {
   children: JSX.Element;
 }) => {
+  const { t } = useLingui();
   const push = ({ content }: NotificationData) => {
-    toast("요기콕콕!", { description: content });
+    toast(t`요기콕콕!`, { description: content });
   };
 
   return (

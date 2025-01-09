@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { JSX } from "react";
 
 import { ChevronLeft } from "../icon/ChevronLeft.tsx";
@@ -5,7 +6,10 @@ import { ChevronLeft } from "../icon/ChevronLeft.tsx";
 export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
   return (
     <div className="fixed inset-x-0 top-0 z-10 flex justify-end bg-white p-5">
-      <p className="flex-1 font-bold italic">요기콕콕!👉</p>
+      <p className="flex-1 font-bold italic">
+        <Trans>요기콕콕!</Trans>
+        👉
+      </p>
       <div className="flex gap-5">{actions}</div>
     </div>
   );

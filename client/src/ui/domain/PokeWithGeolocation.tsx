@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -24,7 +25,9 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
 
     return (
       <div className="p-6">
-        <p className="text-lg font-semibold text-zinc-800">내 위치 찌르기 📍</p>
+        <p className="text-lg font-semibold text-zinc-800">
+          <Trans>내 위치 찌르기</Trans> 📍
+        </p>
         <div className="h-6"></div>
         <div
           className="relative aspect-square w-full overflow-hidden rounded-2xl"
@@ -34,7 +37,7 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
           <ErrorBoundary
             fallback={
               <div className="size-full bg-zinc-100 p-5 text-zinc-700">
-                사용할 수 없는 기기입니다.
+                <Trans>사용할 수 없는 기기입니다.</Trans>
               </div>
             }
           >
@@ -79,7 +82,7 @@ export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
             }
             type="button"
           >
-            찌르기 👉
+            <Trans>찌르기</Trans> 👉
           </button>
         </div>
       </div>

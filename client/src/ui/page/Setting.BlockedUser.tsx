@@ -1,3 +1,4 @@
+import { Trans, useLingui } from "@lingui/react/macro";
 import { Link } from "router2";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -11,6 +12,7 @@ const SWR_KEY_BLOCKED_USER = ["relation/blocked"];
 
 export const BlockedUser = () => {
   const push = useNotification();
+  const { t } = useLingui();
 
   const { client, refreshUser } = useUser();
   const { mutate: mutateRelatedPokes } = useRelatedPokeList();
@@ -24,11 +26,11 @@ export const BlockedUser = () => {
         .patch(`relation/${arg}`, { json: { isAccepted: true } })
         .then(() => Promise.allSettled([refreshUser(), mutateRelatedPokes()]))
         .then(() => {
-          push({ content: "차단을 해제했습니다." });
+          push({ content: t`차단을 해제했습니다.` });
         }),
     {
       onError: () => {
-        push({ content: "다시 시도해주세요." });
+        push({ content: t`다시 시도해주세요.` });
       },
     },
   );
@@ -36,7 +38,9 @@ export const BlockedUser = () => {
   return (
     <div className="flex flex-col py-1">
       {data && data.length === 0 && (
-        <p className="py-2 text-zinc-700">차단한 사용자가 없습니다.</p>
+        <p className="py-2 text-zinc-700">
+          <Trans>차단한 사용자가 없습니다.</Trans>
+        </p>
       )}
       {data &&
         data?.length > 0 &&
@@ -63,7 +67,7 @@ export const BlockedUser = () => {
               }}
               type="button"
             >
-              차단 해제
+              <Trans>차단 해제</Trans>
             </button>
           </div>
         ))}
