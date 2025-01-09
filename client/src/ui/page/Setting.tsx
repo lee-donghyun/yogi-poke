@@ -13,6 +13,7 @@ import { useNotification } from "../provider/Notification.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { BlockedUser } from "./Setting.BlockedUser.tsx";
+import { Language } from "./Setting.Language.tsx";
 import { Quit } from "./Setting.Quit.tsx";
 
 enum Menu {
@@ -21,6 +22,7 @@ enum Menu {
   Information,
   Notification,
   Security,
+  Language,
 }
 
 type Open = Menu | null;
@@ -165,6 +167,27 @@ export const Setting = () => {
             },
           ]}
           title={t`계정`}
+        />
+        <SettingGroup
+          onOpenSubgroup={onOpenSubgroup}
+          subGroups={[
+            {
+              children: (
+                <button
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
+                  onClick={() => {
+                    overlay(Language);
+                  }}
+                >
+                  <Trans>언어 선택</Trans>
+                </button>
+              ),
+              id: Menu.Language,
+              open: open === Menu.Language,
+              title: t`언어`,
+            },
+          ]}
+          title={t`내 앱`}
         />
         <SettingGroup
           onOpenSubgroup={onOpenSubgroup}
