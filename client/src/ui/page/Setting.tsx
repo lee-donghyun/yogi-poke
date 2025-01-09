@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePasskey } from "../../hook/domain/usePasskey.ts";
 import { switch_ } from "../../lib/expify.ts";
 import { getPushNotificationSubscription } from "../../service/util.ts";
+import { AButton } from "../base/AButton.tsx";
 import { StackedNavigation } from "../base/Navigation.tsx";
 import { SettingGroup } from "../base/SettingGroup.tsx";
 import { CheckCircleOutline } from "../icon/CheckCircleOutline.tsx";
@@ -59,18 +60,16 @@ export const Setting = () => {
           subGroups={[
             {
               children: (
-                <button
-                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
-                  onClick={
-                    (async () => {
-                      const pushSubscription = isPushEnabled
-                        ? null
-                        : await getPushNotificationSubscription().catch(
-                            () => null,
-                          );
-                      void patchUser({ pushSubscription });
-                    }) as VoidFunction
-                  }
+                <AButton
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"
+                  onClick={async () => {
+                    const pushSubscription = isPushEnabled
+                      ? null
+                      : await getPushNotificationSubscription().catch(
+                          () => null,
+                        );
+                    void patchUser({ pushSubscription });
+                  }}
                 >
                   <div className="pr-5">
                     <p>
@@ -91,7 +90,7 @@ export const Setting = () => {
                       <CheckCircleOutline />
                     )}
                   </span>
-                </button>
+                </AButton>
               ),
               id: Menu.Notification,
               open: open === Menu.Notification,
@@ -105,9 +104,9 @@ export const Setting = () => {
           subGroups={[
             {
               children: (
-                <button
-                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
-                  onClick={() => {
+                <AButton
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"
+                  onClick={() =>
                     registerPasskey()
                       .then(() => {
                         push({ content: t`Passkey가 등록되었습니다.` });
@@ -121,11 +120,11 @@ export const Setting = () => {
                             )
                             .default(() => t`다시 시도해주세요.`),
                         });
-                      });
-                  }}
+                      })
+                  }
                 >
                   <Trans>Passkey 등록</Trans>
-                </button>
+                </AButton>
               ),
               id: Menu.Security,
               open: open === Menu.Security,
