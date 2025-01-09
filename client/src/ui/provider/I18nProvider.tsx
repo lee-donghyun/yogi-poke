@@ -4,8 +4,13 @@ import { I18nProvider as LinguiProvider } from "@lingui/react";
 import { useLingui } from "@lingui/react/macro";
 import { ReactNode, useEffect } from "react";
 
-const LOCALE_PERSIST_KEY = "LOCALE";
-const DEFAULT_LOCALE = "ko";
+export const LOCALE_PERSIST_KEY = "LOCALE";
+export enum Locale {
+  EN = "en",
+  JA = "ja",
+  KO = "ko",
+}
+const DEFAULT_LOCALE = Locale.KO;
 
 const Meta = () => {
   const { t } = useLingui();
