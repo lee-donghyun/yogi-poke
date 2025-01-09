@@ -91,7 +91,7 @@ export const Quit = createLayer(({ close }) => {
         <div className="flex-1"></div>
         <button
           className="block w-full rounded-full bg-black p-3 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={typeof passwordError === "string"}
+          disabled={typeof passwordError === "string" || isMutating}
           onClick={() => void trigger({ password })}
           type="button"
         >
