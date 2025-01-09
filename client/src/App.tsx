@@ -1,11 +1,7 @@
-import { i18n, Messages } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { BrowserRouter } from "router2";
 
-import en from "./locales/en/messages.json";
-import ko from "./locales/ko/messages.json";
 import { Home } from "./ui/page/Home";
 import { Like } from "./ui/page/Like";
 import { MyPage } from "./ui/page/MyPage";
@@ -17,19 +13,17 @@ import { SignIn } from "./ui/page/SignIn";
 import { ThridPartyRegister } from "./ui/page/ThirdPartyRegister";
 import { User } from "./ui/page/User";
 import { AuthProvider } from "./ui/provider/Auth.tsx";
+import { I18nProvider } from "./ui/provider/I18nProvider.tsx";
 import { MessageProvider } from "./ui/provider/Message.tsx";
 import { NotificationProvider } from "./ui/provider/Notification.tsx";
 import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
 
 dayjs.extend(duration);
-i18n.load("en", en.messages as Messages);
-i18n.load("ko", ko.messages as Messages);
-i18n.activate("en");
 
 export const App = () => {
   return (
-    <I18nProvider i18n={i18n}>
+    <I18nProvider>
       <NotificationProvider>
         <StackedLayerProvider>
           <PwaProvider>

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@lingui/core": "^5.1.2",
+    "@lingui/detect-locale": "^5.1.2",
     "@lingui/react": "^5.1.2",
     "@react-spring/konva": "^9.7.5",
     "@sentry/vite-plugin": "^2.22.7",
