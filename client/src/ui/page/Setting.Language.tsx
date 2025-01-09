@@ -2,6 +2,7 @@ import { Messages } from "@lingui/core";
 import { Trans, useLingui } from "@lingui/react/macro";
 
 import { AButton } from "../base/AButton";
+import { Locale, LOCALE_PERSIST_KEY } from "../provider/I18nProvider";
 import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
 export const Language = createDraggableSheet(({ close }) => {
@@ -12,10 +13,10 @@ export const Language = createDraggableSheet(({ close }) => {
         <Trans>언어 선택</Trans>
       </p>
       {[
-        { label: "한국어", locale: "ko", translatedLabel: t`한국어` },
+        { label: "한국어", locale: Locale.KO, translatedLabel: t`한국어` },
         // eslint-disable-next-line lingui/no-unlocalized-strings
-        { label: "English", locale: "en", translatedLabel: t`영어` },
-        { label: "日本語", locale: "ja", translatedLabel: t`일본어` },
+        { label: "English", locale: Locale.EN, translatedLabel: t`영어` },
+        { label: "日本語", locale: Locale.JA, translatedLabel: t`일본어` },
       ].map(({ label, locale, translatedLabel }) => (
         <AButton
           className="w-full rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"
@@ -25,6 +26,7 @@ export const Language = createDraggableSheet(({ close }) => {
               `../../locales/${locale}/messages.json`
             )) as { messages: Messages };
             i18n.loadAndActivate({ locale, messages: catalog.messages });
+            localStorage.setItem(LOCALE_PERSIST_KEY, locale);
             close();
           }}
         >
