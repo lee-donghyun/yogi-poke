@@ -9,7 +9,8 @@ SELECT
   "referrerId",
   "deletedAt",
   "authProvider",
-  "authProviderId"
+  "authProviderId",
+  "passkeyOptions"
 FROM
   "User"
 WHERE
