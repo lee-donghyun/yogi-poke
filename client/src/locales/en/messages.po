@@ -69,9 +69,13 @@ msgstr "Picture sent by {targetUserName}"
 msgid "{targetUserName}님이 보낸 위치"
 msgstr "Location sent by {targetUserName}"
 
-#: src/hook/domain/usePoke.ts:87
+#: src/hook/domain/usePoke.ts:88
 msgid "{userEmail}님을 콕! 찌를 수 없습니다."
 msgstr "Cannot poke {userEmail}."
+
+#: src/hook/domain/usePoke.ts:60
+msgid "{userEmail}님을 콕! 찔렀습니다."
+msgstr "You poked {userEmail}!"
 
 #: src/service/util.ts:33
 msgid "{year}년 {month}월 {dateOfMonth}일"
@@ -215,7 +219,7 @@ msgstr "Who should I poke?"
 #: src/ui/page/Setting.Quit.tsx:35
 #: src/ui/page/Setting.BlockedUser.tsx:33
 #: src/ui/page/Register.tsx:70
-#: src/hook/domain/usePoke.ts:98
+#: src/hook/domain/usePoke.ts:99
 msgid "다시 시도해주세요."
 msgstr "Please try again."
 
@@ -363,7 +367,7 @@ msgid "언어"
 msgstr "Language"
 
 #: src/ui/page/Setting.tsx:181
-#: src/ui/page/Setting.Language.tsx:12
+#: src/ui/page/Setting.Language.tsx:13
 msgid "언어 선택"
 msgstr "Select Language"
 
@@ -375,7 +379,7 @@ msgstr "Travel & Places"
 msgid "연결"
 msgstr "Connection"
 
-#: src/ui/page/Setting.Language.tsx:17
+#: src/ui/page/Setting.Language.tsx:18
 msgid "영어"
 msgstr "English"
 
@@ -388,7 +392,7 @@ msgid "완료"
 msgstr "Done"
 
 #: src/ui/provider/Notification.tsx:26
-#: src/ui/provider/I18nProvider.tsx:15
+#: src/ui/provider/I18nProvider.tsx:20
 #: src/ui/page/Introduction.tsx:28
 #: src/ui/page/Introduction.tsx:49
 #: src/ui/base/Navigation.tsx:10
@@ -431,7 +435,7 @@ msgstr "Poke with an Emoji"
 msgid "이미 사용중인 아이디입니다."
 msgstr "This ID is already in use."
 
-#: src/hook/domain/usePoke.ts:93
+#: src/hook/domain/usePoke.ts:94
 msgid "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요."
 msgstr "You have already poked. Please wait for the other person to respond."
 
@@ -449,7 +453,7 @@ msgstr "You can now poke with a drawing."
 msgid "이제 콕 찔리면 알림이 울립니다."
 msgstr "You will now receive a notification when poked."
 
-#: src/ui/page/Setting.Language.tsx:18
+#: src/ui/page/Setting.Language.tsx:19
 msgid "일본어"
 msgstr "Japanese"
 
@@ -529,7 +533,7 @@ msgstr "Profile Image"
 msgid "프로필 편집"
 msgstr "Edit Profile"
 
-#: src/ui/page/Setting.Language.tsx:15
+#: src/ui/page/Setting.Language.tsx:16
 msgid "한국어"
 msgstr "Korean"
 
