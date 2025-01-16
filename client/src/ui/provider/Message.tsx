@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "router2";
 
-import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList";
+import { mutateRelatedPokeList } from "../../hook/domain/useRelatedPokeList";
 
 type Message =
   | {
@@ -16,7 +16,6 @@ type Message =
 
 export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const { navigate } = useRouter();
-  const { mutate } = useRelatedPokeList();
 
   useEffect(() => {
     const listener = (event: MessageEvent<Message>) => {
@@ -25,7 +24,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
           navigate({ pathname: event.data.data.url });
           break;
         case "REVALIDATE_RELATED_POKES":
-          void mutate();
+          void mutateRelatedPokeList();
           break;
       }
     };
@@ -33,7 +32,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       self.navigator.serviceWorker.removeEventListener("message", listener);
     };
-  }, [mutate, navigate]);
+  }, [navigate]);
 
   return children;
 };
