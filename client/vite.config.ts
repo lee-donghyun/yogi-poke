@@ -11,11 +11,12 @@ export default defineConfig(({ mode }) => {
       react({
         babel: {
           plugins: [
-            "babel-plugin-react-compiler",
             "@lingui/babel-plugin-lingui-macro",
+            "babel-plugin-react-compiler",
           ],
         },
       }),
+      lingui(),
       sentryVitePlugin({
         org: "yogi-company",
         project: "yogi-poke-web",
@@ -24,7 +25,6 @@ export default defineConfig(({ mode }) => {
         },
         authToken: env.SENTRY_AUTH_TOKEN,
       }),
-      lingui(),
     ],
     server: {
       proxy: {

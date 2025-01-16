@@ -1,3 +1,4 @@
+import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react/macro";
 import { HTTPError } from "ky";
 import { useSWRConfig } from "swr";
@@ -56,7 +57,7 @@ export const usePoke = (
   } = {
     onSuccess: (helper) => {
       const userEmail = helper.meta.email;
-      helper.push({ content: helper.t`${userEmail}님을 콕! 찔렀습니다.` });
+      helper.push({ content: helper.t(msg`${userEmail}님을 콕! 찔렀습니다.`) });
     },
   },
 ) => {
