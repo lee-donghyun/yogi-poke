@@ -4,7 +4,7 @@ import { ArrowUpOnSquare } from "../icon/ArrowUpOnSquare.tsx";
 import { DevicePhoneMobile } from "../icon/DevicePhoneMobile.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import {
-  instructionSheet,
+  InstructionSheet,
   platform,
   pwaHelpUrl,
 } from "./Introduction.Platform.tsx";
@@ -35,7 +35,7 @@ export const Introduction = () => {
             <button
               className="rounded-full bg-blue-500 px-5 py-0.5 font-medium text-white active:opacity-60"
               onClick={() => {
-                overlay(instructionSheet);
+                overlay(InstructionSheet);
               }}
               type="button"
             >
