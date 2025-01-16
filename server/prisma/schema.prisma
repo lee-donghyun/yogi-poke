@@ -8,16 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum AuthProvider {
-  EMAIL
-  INSTAGRAM
-}
-
-enum PasskeyDeviceType {
-  singleDevice
-  multiDevice
-}
-
 model User {
   id               Int          @id @default(autoincrement())
   createdAt        DateTime     @default(now())
@@ -33,6 +23,45 @@ model User {
   passkeyOptions   Json?
 }
 
+model Passkey {
+  id             String            @id @unique
+  publicKey      Bytes
+  userId         Int
+  webauthnUserID String
+  counter        BigInt
+  deviceType     PasskeyDeviceType
+  backedUp       Boolean
+  transports     String?
+  user           ActiveUser        @relation(fields: [userId], references: [id])
+}
+
+model Relation {
+  id         Int         @id @default(autoincrement())
+  fromUserId Int
+  toUserId   Int
+  isAccepted Boolean     @default(true)
+  pokes      Poke[]      @relation("relation-poke")
+  pokeds     Poke[]      @relation("relation-poked")
+  fromUser   ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
+  toUser     ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
+
+  @@unique([fromUserId, toUserId])
+}
+
+model Poke {
+  id                Int         @id @default(autoincrement())
+  createdAt         DateTime    @default(now())
+  payload           Json
+  fromUserId        Int
+  toUserId          Int
+  relationId        Int
+  reverseRelationId Int
+  relation          Relation    @relation("relation-poke", fields: [relationId], references: [id])
+  reverseRelation   Relation    @relation("relation-poked", fields: [reverseRelationId], references: [id])
+  fromUser          ActiveUser? @relation("user-poke", fields: [fromUserId], references: [id])
+  toUser            ActiveUser? @relation("user-poked", fields: [toUserId], references: [id])
+}
+
 view ActiveUser {
   id               Int           @unique
   createdAt        DateTime
@@ -46,51 +75,19 @@ view ActiveUser {
   authProvider     AuthProvider?
   authProviderId   String?
   passkeyOptions   Json?
-
-  pokes           Poke[]     @relation("user-poke")
-  pokeds          Poke[]     @relation("user-poked")
-  goingRelations  Relation[] @relation("user-from")
-  comingRelations Relation[] @relation("user-to")
-  Passkey         Passkey[]
+  pokes            Poke[]        @relation("user-poke")
+  pokeds           Poke[]        @relation("user-poked")
+  goingRelations   Relation[]    @relation("user-from")
+  comingRelations  Relation[]    @relation("user-to")
+  Passkey          Passkey[]
 }
 
-model Passkey {
-  id             String            @id @unique
-  publicKey      Bytes
-  userId         Int
-  user           ActiveUser        @relation(fields: [userId], references: [id])
-  webauthnUserID String
-  counter        BigInt
-  deviceType     PasskeyDeviceType
-  backedUp       Boolean
-  transports     String?
+enum AuthProvider {
+  EMAIL
+  INSTAGRAM
 }
 
-model Relation {
-  id         Int     @id @default(autoincrement())
-  fromUserId Int
-  toUserId   Int
-  isAccepted Boolean @default(true)
-
-  fromUser ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
-  toUser   ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
-  pokes    Poke[]      @relation("relation-poke")
-  pokeds   Poke[]      @relation("relation-poked")
-
-  @@unique([fromUserId, toUserId])
-}
-
-model Poke {
-  id                Int      @id @default(autoincrement())
-  createdAt         DateTime @default(now())
-  payload           Json
-  fromUserId        Int
-  toUserId          Int
-  relationId        Int
-  reverseRelationId Int
-
-  fromUser        ActiveUser? @relation("user-poke", fields: [fromUserId], references: [id])
-  toUser          ActiveUser? @relation("user-poked", fields: [toUserId], references: [id])
-  relation        Relation    @relation("relation-poke", fields: [relationId], references: [id])
-  reverseRelation Relation    @relation("relation-poked", fields: [reverseRelationId], references: [id])
+enum PasskeyDeviceType {
+  singleDevice
+  multiDevice
 }
