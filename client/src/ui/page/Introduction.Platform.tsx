@@ -105,7 +105,7 @@ const AndroidInstruction = () => (
   </div>
 );
 
-export const instructionSheet = switch_<
+export const InstructionSheet = switch_<
   Platform,
   ReturnType<typeof createDraggableSheet>
 >(platform)
