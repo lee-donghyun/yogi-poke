@@ -3,7 +3,6 @@ import {
   ArrayNotEmpty,
   Equals,
   IsArray,
-  IsIn,
   IsNotEmptyObject,
   IsNumber,
   IsString,
@@ -13,6 +12,27 @@ import {
 class PokePayload {
   type: string;
 }
+// sort-partition: Drawing에 필요한 class
+class Line {
+  @IsString()
+  color: string;
+
+  @IsNumber()
+  id: number;
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  points: number[];
+}
+
+class Position {
+  @IsNumber()
+  latitude: number;
+
+  @IsNumber()
+  longitude: number;
+}
+// sort-partition: PokePayload extends
 class DrawingPokePayload extends PokePayload {
   @ArrayNotEmpty()
   @IsArray()
@@ -31,6 +51,7 @@ class EmojiPokePayload extends PokePayload {
   @Equals('emoji')
   type: 'emoji';
 }
+
 class GeolocationPokePayload extends PokePayload {
   @Type(() => Position)
   position: Position;
@@ -38,27 +59,9 @@ class GeolocationPokePayload extends PokePayload {
   type: 'geolocation';
 }
 
-class Line {
-  @IsString()
-  color: string;
-
-  @IsNumber()
-  id: number;
-
-  @IsArray()
-  @IsNumber({}, { each: true })
-  points: number[];
-}
 class NormalPokePayload extends PokePayload {
   @Equals('normal')
   type: 'normal';
-}
-class Position {
-  @IsNumber()
-  latitude: number;
-
-  @IsNumber()
-  longitude: number;
 }
 
 export class RequestRelationDto {
