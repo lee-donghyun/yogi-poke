@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import perfectionist from 'eslint-plugin-perfectionist';
 
 export default [
   {
@@ -34,4 +35,6 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+
+  perfectionist.configs['recommended-alphabetical'],
 ];

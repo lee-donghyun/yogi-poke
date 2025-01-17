@@ -11,11 +11,11 @@ export class FileUtilService implements OnModuleInit {
   private minioClient: MinioClient;
   async onModuleInit() {
     this.minioClient = new MinioClient({
+      accessKey: process.env.STORAGE_ACCESS_KEY,
       endPoint: process.env.STORAGE_ENDPOINT,
       port: Number(process.env.STORAGE_PORT ?? 9000),
-      useSSL: false,
-      accessKey: process.env.STORAGE_ACCESS_KEY,
       secretKey: process.env.STORAGE_SECRET_KEY,
+      useSSL: false,
     });
   }
   async uploadAndGetUrl(buffer: Buffer, fileName: string) {

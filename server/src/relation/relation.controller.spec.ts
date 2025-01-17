@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { RelationController } from './relation.controller';
 
 describe('RelationController', () => {
