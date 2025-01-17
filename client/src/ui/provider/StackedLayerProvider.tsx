@@ -62,5 +62,3 @@ export const StackedLayerProvider = ({
     </StackedLayerContext.Provider>
   );
 };
-
-export const createLayer = (Layer: Layer): Layer<never> => Layer;
