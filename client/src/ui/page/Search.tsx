@@ -75,7 +75,7 @@ export const Search = () => {
     };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <Navigation />
       <div className="p-5">
         <div className="flex justify-between pt-32">

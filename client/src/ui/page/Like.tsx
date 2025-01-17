@@ -26,7 +26,7 @@ export const Like = () => {
   const [prev] = useState(data);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <Navigation />
       <div className="p-5">
         <p className="pt-32 text-2xl font-bold text-zinc-800">
