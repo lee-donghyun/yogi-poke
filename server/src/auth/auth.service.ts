@@ -15,6 +15,7 @@ import {
   verifyAuthenticationResponse,
   verifyRegistrationResponse,
 } from '@simplewebauthn/server';
+import { Request } from 'express';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import { passKeyConstants } from './auth.constant';
@@ -38,7 +39,7 @@ export class AuthService {
       await generateAuthenticationOptions({
         allowCredentials: userPasskeys.map((passkey) => ({
           id: passkey.id,
-          transports: passkey.transports.split(
+          transports: passkey.transports?.split(
             ',',
           ) as AuthenticatorTransportFuture[],
         })),
@@ -66,7 +67,7 @@ export class AuthService {
       },
       excludeCredentials: userPasskeys.map((passkey) => ({
         id: passkey.id,
-        transports: passkey.transports.split(
+        transports: passkey.transports?.split(
           ',',
         ) as AuthenticatorTransportFuture[],
       })),
@@ -82,7 +83,7 @@ export class AuthService {
 
     return options;
   }
-  validateRequest(request: any): boolean {
+  validateRequest(request: { user?: JwtPayload | null } & Request): boolean {
     request.user = null;
     const token = request.headers.authorization;
 
@@ -101,7 +102,7 @@ export class AuthService {
     userId: number,
     response: AuthenticationResponseJSON,
   ) {
-    const user = await this.db.activeUser.findUnique({
+    const user = await this.db.activeUser.findUniqueOrThrow({
       select: {
         authProvider: true,
         createdAt: true,
@@ -114,7 +115,7 @@ export class AuthService {
       where: { id: userId },
     });
     const currentOptions = JSON.parse(
-      (await this.db.user.findUnique({ where: { id: userId } }))
+      (await this.db.user.findUniqueOrThrow({ where: { id: userId } }))
         .passkeyOptions as string,
     ) as PublicKeyCredentialCreationOptionsJSON;
 
@@ -127,7 +128,7 @@ export class AuthService {
         counter: passkey.counter as unknown as number,
         id: passkey.id,
         publicKey: passkey.publicKey,
-        transports: passkey.transports.split(
+        transports: passkey.transports?.split(
           ',',
         ) as AuthenticatorTransportFuture[],
       },
@@ -141,7 +142,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid passkey');
     }
 
-    this.db.passkey.update({
+    void this.db.passkey.update({
       data: { counter: BigInt(verification.authenticationInfo.newCounter) },
       where: { id: passkey.id },
     });
@@ -153,7 +154,7 @@ export class AuthService {
     response: RegistrationResponseJSON,
   ) {
     const currentOptions = JSON.parse(
-      (await this.db.user.findUnique({ where: { id: user.id } }))
+      (await this.db.user.findUniqueOrThrow({ where: { id: user.id } }))
         .passkeyOptions as string,
     ) as PublicKeyCredentialCreationOptionsJSON;
 
@@ -165,6 +166,9 @@ export class AuthService {
     });
 
     const { registrationInfo } = verification;
+    if (!registrationInfo) {
+      throw new UnauthorizedException('Invalid passkey');
+    }
     const { credential, credentialBackedUp, credentialDeviceType } =
       registrationInfo;
 
@@ -175,7 +179,7 @@ export class AuthService {
         deviceType: credentialDeviceType,
         id: credential.id,
         publicKey: credential.publicKey,
-        transports: credential.transports.join(','),
+        transports: credential.transports?.join(','),
         userId: user.id,
         webauthnUserID: currentOptions.user.id,
       },

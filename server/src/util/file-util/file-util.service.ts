@@ -9,7 +9,7 @@ import { Client as MinioClient } from 'minio';
 @Injectable()
 export class FileUtilService implements OnModuleInit {
   private minioClient: MinioClient;
-  async onModuleInit() {
+  onModuleInit() {
     this.minioClient = new MinioClient({
       accessKey: process.env.STORAGE_ACCESS_KEY,
       endPoint: process.env.STORAGE_ENDPOINT,
