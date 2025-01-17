@@ -2,9 +2,10 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
+import { ModalNavigation } from "../base/Navigation.tsx";
+import { createStackedPage } from "../base/StackedPage.tsx";
 import { useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
-import { createLayer } from "../provider/StackedLayerProvider.tsx";
 
 interface Form {
   name: string;
@@ -16,7 +17,7 @@ const FORM_NAME = {
   PROFILE_IMAGE: "profileImageUrl",
 };
 
-export const UpdateMyInfo = createLayer(({ close }) => {
+export const UpdateMyInfo = createStackedPage(({ close }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const push = useNotification();
   const { t } = useLingui();
@@ -50,31 +51,21 @@ export const UpdateMyInfo = createLayer(({ close }) => {
   );
 
   return (
-    <div className="min-h-[calc(100vh-env(safe-area-inset-bottom)-env(safe-area-inset-top))] bg-white">
-      <div
-        className="z-10 grid bg-white p-5"
-        style={{ gridTemplateColumns: "80px 1fr 80px" }}
-      >
-        <button
-          className="justify-self-start text-zinc-600 disabled:opacity-60"
-          disabled={isMutating}
-          onClick={close}
-          type="button"
-        >
-          <Trans>취소</Trans>
-        </button>
-        <p className="text-center font-medium">
-          <Trans>프로필 편집</Trans>
-        </p>
-        <button
-          className="justify-self-end disabled:opacity-60"
-          disabled={isMutating}
-          onClick={() => formRef.current && void trigger(formRef.current)}
-          type="button"
-        >
-          <Trans>완료</Trans>
-        </button>
-      </div>
+    <div>
+      <ModalNavigation
+        left={{
+          disabled: isMutating,
+          label: t`취소`,
+          onClick: close,
+        }}
+        right={{
+          disabled: isMutating,
+          label: t`완료`,
+          onClick: () => formRef.current && void trigger(formRef.current),
+        }}
+        title={t`프로필 편집`}
+      />
+      <div className="h-16"></div>
       <form
         className="h-full overflow-y-scroll p-5"
         onSubmit={(e) => e.preventDefault()}
