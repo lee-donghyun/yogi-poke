@@ -14,12 +14,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { FileUtilService } from './file-util/file-util.service';
-import { JwtPayload } from 'src/auth/auth.interface';
-import { User } from 'src/auth/auth.decorator';
-import { DocumentUtilService } from './document-util/document-util.service';
 import { Response } from 'express';
+import { User } from 'src/auth/auth.decorator';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtPayload } from 'src/auth/auth.interface';
+
+import { DocumentUtilService } from './document-util/document-util.service';
+import { FileUtilService } from './file-util/file-util.service';
 
 @Controller('util')
 export class UtilController {
@@ -28,9 +29,37 @@ export class UtilController {
     private readonly documentUtilService: DocumentUtilService,
   ) {}
 
+  @Get('/document/:referrer')
+  async getDocument(
+    @Param('referrer') referrer: string,
+    @Headers('user-agent') userAgent: string,
+    @Res() res: Response,
+  ) {
+    const isCrawler = this.documentUtilService.isCrawler(userAgent);
+    if (isCrawler) {
+      const document = await this.documentUtilService.getDocument(referrer);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8').send(document);
+      return;
+    }
+    const clientUrl = `${process.env.CLIENT_URL}/?tag=${referrer}`;
+    res.redirect(HttpStatus.TEMPORARY_REDIRECT, clientUrl);
+    return;
+  }
+
+  @Get('/web-manifest')
+  async getWebManifest(@Headers('referer') referer: string) {
+    const tag = referer ? new URL(referer).searchParams.get('tag') : null;
+    return this.documentUtilService.getWebManifest(tag);
+  }
+
+  @Get('/health-check')
+  async healthCheck() {
+    return 'OK';
+  }
+
+  @Post('/image')
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('profileImageUrl'))
-  @Post('/image')
   async uploadImage(
     @User() user: JwtPayload,
     @UploadedFile(
@@ -51,33 +80,5 @@ export class UtilController {
       filename,
     );
     return url;
-  }
-
-  @Get('/web-manifest')
-  async getWebManifest(@Headers('referer') referer: string) {
-    const tag = referer ? new URL(referer).searchParams.get('tag') : null;
-    return this.documentUtilService.getWebManifest(tag);
-  }
-
-  @Get('/document/:referrer')
-  async getDocument(
-    @Param('referrer') referrer: string,
-    @Headers('user-agent') userAgent: string,
-    @Res() res: Response,
-  ) {
-    const isCrawler = this.documentUtilService.isCrawler(userAgent);
-    if (isCrawler) {
-      const document = await this.documentUtilService.getDocument(referrer);
-      res.setHeader('Content-Type', 'text/html; charset=utf-8').send(document);
-      return;
-    }
-    const clientUrl = `${process.env.CLIENT_URL}/?tag=${referrer}`;
-    res.redirect(HttpStatus.TEMPORARY_REDIRECT, clientUrl);
-    return;
-  }
-
-  @Get('/health-check')
-  async healthCheck() {
-    return 'OK';
   }
 }

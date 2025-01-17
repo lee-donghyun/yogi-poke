@@ -1,96 +1,42 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { Pagination } from './user.interface';
-import { compare, hash } from 'bcrypt';
 import { AuthProvider, Prisma } from '@prisma/client';
+import { compare, hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { JwtPayload } from 'src/auth/auth.interface';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+import { Pagination } from './user.interface';
 
 @Injectable()
 export class UserService {
   constructor(private db: PrismaService) {}
+  async deleteUser(id: number) {
+    return this.db.user.update({
+      data: { deletedAt: new Date() },
+      where: { id },
+    });
+  }
   async getUser(
     user:
-      | { email: string }
-      | { authProvider: AuthProvider; authProviderId: string },
+      | { authProvider: AuthProvider; authProviderId: string }
+      | { email: string },
   ): Promise<JwtPayload> {
     const found = await this.db.activeUser.findFirst({
-      where: user,
       select: {
+        authProvider: true,
         createdAt: true,
         email: true,
         id: true,
         name: true,
         profileImageUrl: true,
         pushSubscription: true,
-        authProvider: true,
       },
+      where: user,
     });
     if (found === null) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
     return found;
-  }
-  async isUsedEmail(email: string) {
-    return this.db.user
-      .findFirst({
-        where: { email },
-      })
-      .then((res) => res !== null);
-  }
-
-  async registerUser(
-    user:
-      | {
-          type: typeof AuthProvider.EMAIL;
-          email: string;
-          password: string;
-          name: string;
-          referrerId?: number;
-        }
-      | {
-          type: typeof AuthProvider.INSTAGRAM;
-          email: string;
-          name: string;
-          authProviderId: string;
-          referrerId?: number;
-        },
-  ): Promise<JwtPayload> {
-    if (await this.isUsedEmail(user.email)) {
-      throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
-    }
-
-    const isValidReferrerId = user.referrerId
-      ? await this.db.activeUser.findFirst({
-          where: { id: user.referrerId },
-        })
-      : null;
-
-    const password =
-      user.type === AuthProvider.EMAIL ? user.password : randomUUID();
-
-    const encryptedPassword = await hash(password, 10);
-
-    return this.db.user.create({
-      data: {
-        email: user.email,
-        name: user.name,
-        password: encryptedPassword,
-        referrerId: isValidReferrerId?.id,
-        authProvider: user.type,
-        authProviderId:
-          user.type === AuthProvider.INSTAGRAM ? user.authProviderId : null,
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        createdAt: true,
-        profileImageUrl: true,
-        pushSubscription: true,
-        authProvider: true,
-      },
-    });
   }
 
   async getUserByEmailAndPassword(user: { email: string; password: string }) {
@@ -107,35 +53,6 @@ export class UserService {
     return found;
   }
 
-  async patchUser({
-    id,
-    name,
-    pushSubscription,
-    profileImageUrl,
-  }: {
-    id: number;
-    password?: string;
-    name?: string;
-    pushSubscription?: PushSubscriptionJSON | null;
-    profileImageUrl?: string;
-  }) {
-    return this.db.user.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        pushSubscription:
-          pushSubscription === null
-            ? Prisma.DbNull
-            : pushSubscription === undefined
-              ? undefined
-              : JSON.stringify(pushSubscription),
-        profileImageUrl,
-      },
-    });
-  }
-
   async getUserList(
     { email, ids, name }: { email?: string; ids?: number[]; name?: string },
     { limit, page }: Pagination,
@@ -143,6 +60,14 @@ export class UserService {
     selfId: number,
   ) {
     return this.db.activeUser.findMany({
+      orderBy: { id: orderBy },
+      select: {
+        authProvider: true,
+        email: true,
+        id: true,
+        name: true,
+        profileImageUrl: true,
+      },
       skip: limit * (page - 1),
       take: limit,
       where: {
@@ -178,21 +103,97 @@ export class UserService {
           },
         ],
       },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        profileImageUrl: true,
-        authProvider: true,
-      },
-      orderBy: { id: orderBy },
     });
   }
 
-  async deleteUser(id: number) {
+  async isUsedEmail(email: string) {
+    return this.db.user
+      .findFirst({
+        where: { email },
+      })
+      .then((res) => res !== null);
+  }
+
+  async patchUser({
+    id,
+    name,
+    profileImageUrl,
+    pushSubscription,
+  }: {
+    id: number;
+    name?: string;
+    password?: string;
+    profileImageUrl?: string;
+    pushSubscription?: null | PushSubscriptionJSON;
+  }) {
     return this.db.user.update({
-      where: { id },
-      data: { deletedAt: new Date() },
+      data: {
+        name,
+        profileImageUrl,
+        pushSubscription:
+          pushSubscription === null
+            ? Prisma.DbNull
+            : pushSubscription === undefined
+              ? undefined
+              : JSON.stringify(pushSubscription),
+      },
+      where: {
+        id,
+      },
+    });
+  }
+
+  async registerUser(
+    user:
+      | {
+          authProviderId: string;
+          email: string;
+          name: string;
+          referrerId?: number;
+          type: typeof AuthProvider.INSTAGRAM;
+        }
+      | {
+          email: string;
+          name: string;
+          password: string;
+          referrerId?: number;
+          type: typeof AuthProvider.EMAIL;
+        },
+  ): Promise<JwtPayload> {
+    if (await this.isUsedEmail(user.email)) {
+      throw new HttpException('Already Used Email', HttpStatus.CONFLICT);
+    }
+
+    const isValidReferrerId = user.referrerId
+      ? await this.db.activeUser.findFirst({
+          where: { id: user.referrerId },
+        })
+      : null;
+
+    const password =
+      user.type === AuthProvider.EMAIL ? user.password : randomUUID();
+
+    const encryptedPassword = await hash(password, 10);
+
+    return this.db.user.create({
+      data: {
+        authProvider: user.type,
+        authProviderId:
+          user.type === AuthProvider.INSTAGRAM ? user.authProviderId : null,
+        email: user.email,
+        name: user.name,
+        password: encryptedPassword,
+        referrerId: isValidReferrerId?.id,
+      },
+      select: {
+        authProvider: true,
+        createdAt: true,
+        email: true,
+        id: true,
+        name: true,
+        profileImageUrl: true,
+        pushSubscription: true,
+      },
     });
   }
 }

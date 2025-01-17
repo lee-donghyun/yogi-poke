@@ -1,14 +1,17 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
+import { AuthModule } from 'src/auth/auth.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { PushModule } from 'src/push/push.module';
+import { RelationModule } from 'src/relation/relation.module';
+import { UserModule } from 'src/user/user.module';
+import { UtilModule } from 'src/util/util.module';
+
 import { MateController } from './mate.controller';
 import { MateService } from './mate.service';
-import { UserModule } from 'src/user/user.module';
-import { AuthModule } from 'src/auth/auth.module';
-import { PushModule } from 'src/push/push.module';
-import { UtilModule } from 'src/util/util.module';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { RelationModule } from 'src/relation/relation.module';
 
 @Module({
+  controllers: [MateController],
+  exports: [MateService],
   imports: [
     forwardRef(() => UserModule),
     RelationModule,
@@ -18,7 +21,5 @@ import { RelationModule } from 'src/relation/relation.module';
     PrismaModule,
   ],
   providers: [MateService],
-  controllers: [MateController],
-  exports: [MateService],
 })
 export class MateModule {}

@@ -6,22 +6,22 @@ import { sendNotification } from 'web-push';
 export class PushService {
   static readonly NOTIFICATION_OPTION = {
     vapidDetails: {
-      subject: process.env.VAPID_SUBJECT!,
-      publicKey: process.env.VAPID_PUBLIC_KEY!,
       privateKey: process.env.VAPID_PRIVATE_KEY!,
+      publicKey: process.env.VAPID_PUBLIC_KEY!,
+      subject: process.env.VAPID_SUBJECT!,
     },
   };
   constructor(private db: PrismaService) {}
   async sendPushNotification(
     userId: number,
     payload: {
-      type: 'POKE';
       data: {
-        title: string;
         options: {
           body: string;
         };
+        title: string;
       };
+      type: 'POKE';
     },
   ) {
     const user = await this.db.activeUser.findFirst({ where: { id: userId } });
