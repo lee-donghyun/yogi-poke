@@ -1,9 +1,4 @@
-import { AuthProvider, User } from '@prisma/client';
-
-export interface AuthorizedTokenPayload {
-  authProvider: typeof AuthProvider.INSTAGRAM;
-  authProviderId: string;
-}
+import { User } from '@prisma/client';
 
 export type JwtPayload = Pick<
   User,
