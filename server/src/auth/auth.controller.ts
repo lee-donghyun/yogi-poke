@@ -3,7 +3,6 @@ import {
   AuthenticationResponseJSON,
   type RegistrationResponseJSON,
 } from '@simplewebauthn/server';
-import { UserService } from 'src/user/user.service';
 
 import { User } from './auth.decorator';
 import { AuthGuard } from './auth.guard';
