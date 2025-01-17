@@ -1,14 +1,8 @@
-import { enableBodyScroll } from "body-scroll-lock-upgrade";
-import { JSX, lazy, Suspense, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { RemoveScroll } from "react-remove-scroll";
 
 import { client } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
-
-const Introduction = lazy(() =>
-  import("../page/Introduction.tsx").then((mod) => ({
-    default: mod.Introduction,
-  })),
-);
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
@@ -40,7 +34,6 @@ const isPwaMode = () => {
 const closeSplash = (delay: number) => {
   setTimeout(() => {
     splashElement?.classList.add("opacity-0", "pointer-events-none");
-    enableBodyScroll(document.body);
   }, delay);
 };
 
@@ -64,8 +57,10 @@ interface Prefetch {
 
 export const PwaProvider = ({
   children,
+  fallback,
 }: {
-  children: (prefetch: Prefetch) => JSX.Element;
+  children: (prefetch: Prefetch) => ReactNode;
+  fallback: ReactNode;
 }) => {
   const [prefetch, setPrefetch] = useState<null | Prefetch>(null);
 
@@ -92,18 +87,14 @@ export const PwaProvider = ({
 
   if (!isPwa) {
     closeSplash(500);
-    return (
-      <Suspense>
-        <Introduction />
-      </Suspense>
-    );
+    return fallback;
   }
   if (token === null) {
     closeSplash(500);
     return children({ myInfo: null });
   }
   if (prefetch === null) {
-    return <div></div>;
+    return <RemoveScroll>{null}</RemoveScroll>;
   }
   closeSplash(100);
   return children(prefetch);
