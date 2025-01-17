@@ -4,10 +4,10 @@ export class RegisterUserDto {
   email: string;
 
   @IsString()
-  password: string;
+  name: string;
 
   @IsString()
-  name: string;
+  password: string;
 
   @IsOptional()
   referrerId?: number;

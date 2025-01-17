@@ -3,14 +3,14 @@ import { IsInt, IsOptional, IsPositive } from 'class-validator';
 
 export class GetPokeListDto {
   @IsInt()
-  @IsPositive()
   @IsOptional()
+  @IsPositive()
   @Type(() => Number)
   limit: number;
 
   @IsInt()
-  @IsPositive()
   @IsOptional()
+  @IsPositive()
   @Type(() => Number)
   page: number;
 }
