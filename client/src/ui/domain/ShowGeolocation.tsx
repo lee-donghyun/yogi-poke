@@ -6,7 +6,7 @@ import { useDomSize } from "../../hook/base/useDomSize";
 import { useGeolocation } from "../../hook/base/useGeolocation";
 import { getDistance } from "../../service/util";
 import { CountUp } from "../base/CountUp";
-import { createDraggableSheet } from "../provider/StackedLayerProvider";
+import { createDraggableSheet } from "../base/DraggableSheet";
 
 const Map = lazy(() =>
   import("../base/Map").then((module) => ({ default: module.Map })),
