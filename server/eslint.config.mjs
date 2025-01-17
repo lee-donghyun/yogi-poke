@@ -36,5 +36,14 @@ export default [
     },
   },
 
-  perfectionist.configs['recommended-alphabetical'],
+  {
+    ...perfectionist.configs['recommended-alphabetical'],
+    rules: {
+      ...perfectionist.configs['recommended-alphabetical'].rules,
+      'perfectionist/sort-modules': [
+        'error',
+        { partitionByComment: 'sort-partition' },
+      ],
+    },
+  },
 ];

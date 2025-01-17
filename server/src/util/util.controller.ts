@@ -47,13 +47,13 @@ export class UtilController {
   }
 
   @Get('/web-manifest')
-  async getWebManifest(@Headers('referer') referer: string) {
+  getWebManifest(@Headers('referer') referer: string) {
     const tag = referer ? new URL(referer).searchParams.get('tag') : null;
     return this.documentUtilService.getWebManifest(tag);
   }
 
   @Get('/health-check')
-  async healthCheck() {
+  healthCheck() {
     return 'OK';
   }
 
