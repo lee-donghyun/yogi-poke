@@ -1,0 +1,30 @@
+import { ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { RemoveScroll } from "react-remove-scroll";
+
+export const Backdrop = ({
+  children,
+  close,
+  visible,
+}: {
+  children: ReactNode;
+  close: () => void;
+  visible: boolean;
+}) => {
+  return createPortal(
+    <RemoveScroll>
+      <button
+        className={`fixed inset-0 z-40 rounded-t-3xl bg-black ${
+          visible ? "stacked-backdrop-from" : "stacked-backdrop-to"
+        }`}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            close();
+          }
+        }}
+      />
+      {children}
+    </RemoveScroll>,
+    document.body,
+  );
+};
