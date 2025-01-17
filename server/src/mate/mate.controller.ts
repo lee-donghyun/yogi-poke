@@ -100,7 +100,7 @@ export class MateController {
           }),
         )
         .subscribe((body) => {
-          this.pushService.sendPushNotification(toUserId, {
+          void this.pushService.sendPushNotification(toUserId, {
             data: {
               options: { body },
               title: `@${email}`,

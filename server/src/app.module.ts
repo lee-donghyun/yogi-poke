@@ -11,11 +11,11 @@ import { UtilModule } from './util/util.module';
 @Module({
   imports: [
     SentryModule.forRoot(),
+    AuthModule,
     UserModule,
     MateModule,
     UtilModule,
     RelationModule,
-    AuthModule,
   ],
   providers: [
     {
