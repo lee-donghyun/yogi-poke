@@ -6,9 +6,9 @@ import { sendNotification } from 'web-push';
 export class PushService {
   static readonly NOTIFICATION_OPTION = {
     vapidDetails: {
-      subject: process.env.VAPID_SUBJECT as string,
-      publicKey: process.env.VAPID_PUBLIC_KEY as string,
-      privateKey: process.env.VAPID_PRIVATE_KEY as string,
+      subject: process.env.VAPID_SUBJECT!,
+      publicKey: process.env.VAPID_PUBLIC_KEY!,
+      privateKey: process.env.VAPID_PRIVATE_KEY!,
     },
   };
   constructor(private db: PrismaService) {}
