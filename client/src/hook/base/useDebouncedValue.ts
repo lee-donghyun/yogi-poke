@@ -1,6 +1,7 @@
-import { startTransition, useDeferredValue, useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 export const useDebouncedValue = <T>(value: T, timeout: number) => {
+  const [, startTransition] = useTransition();
   const [state, setState] = useState(value);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -12,5 +13,5 @@ export const useDebouncedValue = <T>(value: T, timeout: number) => {
       clearTimeout(timer);
     };
   }, [value, timeout]);
-  return useDeferredValue(state);
+  return state;
 };

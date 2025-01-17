@@ -4,10 +4,11 @@ import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import { validator } from "../../service/validator.ts";
+import { ModalNavigation } from "../base/Navigation.tsx";
+import { createStackedPage } from "../base/StackedPage.tsx";
 import { useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
-import { createLayer } from "../provider/StackedLayerProvider.tsx";
 
 const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings
@@ -18,7 +19,7 @@ const cx = {
   input: "border rounded text-zinc-800 p-2",
   label: "text-lg",
 };
-export const Quit = createLayer(({ close }) => {
+export const Quit = createStackedPage(({ close }) => {
   const push = useNotification();
   const { t } = useLingui();
   const [password, setPassword] = useState("");
@@ -49,26 +50,23 @@ export const Quit = createLayer(({ close }) => {
   const translatedPasswordError = hasError && t(passwordError);
 
   return (
-    <div className="flex min-h-[calc(100vh-env(safe-area-inset-bottom)-env(safe-area-inset-top))] flex-col bg-white">
-      <div
-        className="z-10 grid bg-white p-5"
-        style={{ gridTemplateColumns: "80px 1fr 80px" }}
-      >
-        <button
-          className="justify-self-start text-zinc-600 disabled:opacity-60"
-          disabled={isMutating}
-          onClick={close}
-          type="button"
-        >
-          <Trans>취소</Trans>
-        </button>
-        <p className="text-center font-medium">
-          <Trans>요기콕콕! 계정 삭제</Trans>
-        </p>
-        <span></span>
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-zinc-600">
+    <div>
+      <ModalNavigation
+        left={{
+          disabled: isMutating,
+          label: t`취소`,
+          onClick: close,
+        }}
+        right={{
+          disabled: typeof passwordError === "string" || isMutating,
+          label: t`계속`,
+          onClick: () => void trigger({ password }),
+        }}
+        title={t`요기콕콕! 계정 삭제`}
+      />
+      <div className="h-16"></div>
+      <div className="p-5">
+        <p className="py-5 text-zinc-600">
           <Trans>
             계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든
             활동이 영구 삭제됩니다.
@@ -88,15 +86,6 @@ export const Quit = createLayer(({ close }) => {
           />
           {hasError && <p className={cx.helper}>{translatedPasswordError}</p>}
         </div>
-        <div className="flex-1"></div>
-        <button
-          className="block w-full rounded-full bg-black p-3 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={typeof passwordError === "string" || isMutating}
-          onClick={() => void trigger({ password })}
-          type="button"
-        >
-          <Trans>계속</Trans>
-        </button>
       </div>
     </div>
   );
