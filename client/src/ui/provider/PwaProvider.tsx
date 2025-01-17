@@ -1,14 +1,8 @@
 import { enableBodyScroll } from "body-scroll-lock-upgrade";
-import { JSX, lazy, Suspense, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { client } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
-
-const Introduction = lazy(() =>
-  import("../page/Introduction.tsx").then((mod) => ({
-    default: mod.Introduction,
-  })),
-);
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
@@ -64,8 +58,10 @@ interface Prefetch {
 
 export const PwaProvider = ({
   children,
+  fallback,
 }: {
-  children: (prefetch: Prefetch) => JSX.Element;
+  children: (prefetch: Prefetch) => ReactNode;
+  fallback: ReactNode;
 }) => {
   const [prefetch, setPrefetch] = useState<null | Prefetch>(null);
 
@@ -92,18 +88,14 @@ export const PwaProvider = ({
 
   if (!isPwa) {
     closeSplash(500);
-    return (
-      <Suspense>
-        <Introduction />
-      </Suspense>
-    );
+    return fallback;
   }
   if (token === null) {
     closeSplash(500);
     return children({ myInfo: null });
   }
   if (prefetch === null) {
-    return <div></div>;
+    return null;
   }
   closeSplash(100);
   return children(prefetch);
