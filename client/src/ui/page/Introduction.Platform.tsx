@@ -1,8 +1,8 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 
 import { switch_ } from "../../lib/expify.ts";
+import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 import { ArrowUpOnSquare } from "../icon/ArrowUpOnSquare.tsx";
-import { createDraggableSheet } from "../provider/StackedLayerProvider.tsx";
 
 enum Platform {
   ANDROID = "Android",

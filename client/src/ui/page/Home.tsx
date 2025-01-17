@@ -3,14 +3,12 @@ import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { Link, useRouter } from "router2";
 
 import { usePasskey } from "../../hook/domain/usePasskey.ts";
+import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 import { ChevronRight } from "../icon/ChevronRight.tsx";
 import { Key } from "../icon/Key.tsx";
 import { useAuthNavigator } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
-import {
-  createDraggableSheet,
-  useStackedLayer,
-} from "../provider/StackedLayerProvider.tsx";
+import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 
 const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();
