@@ -11,19 +11,20 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { UserService } from './user.service';
-import { AuthService } from 'src/auth/auth.service';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/auth/auth.decorator';
-import { JwtPayload } from 'src/auth/auth.interface';
-import { MateService } from 'src/mate/mate.service';
-import { signInUserDto } from './dto/sign-in.dto';
-import { PatchUserDto } from './dto/patch-user.dto';
-import { GetUserListParamDto } from './dto/get-user-list.dto';
-import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
 import { AuthProvider } from '@prisma/client';
+import { User } from 'src/auth/auth.decorator';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { JwtPayload } from 'src/auth/auth.interface';
+import { AuthService } from 'src/auth/auth.service';
+import { MateService } from 'src/mate/mate.service';
+
+import { DeleteUserDto } from './dto/delete-user.dto';
+import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
+import { GetUserListParamDto } from './dto/get-user-list.dto';
+import { PatchUserDto } from './dto/patch-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
+import { signInUserDto } from './dto/sign-in.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -33,47 +34,59 @@ export class UserController {
     private mateService: MateService,
   ) {}
 
-  @Post('/register')
-  @HttpCode(HttpStatus.CREATED)
-  async registerUser(@Body() body: RegisterUserDto) {
-    const user = await this.userService.registerUser({
-      ...body,
-      type: AuthProvider.EMAIL,
+  @Delete('/my-info')
+  @UseGuards(AuthGuard)
+  async deleteMyInfo(
+    @User() userPayload: JwtPayload,
+    @Query() query: DeleteUserDto,
+  ) {
+    await this.userService.getUserByEmailAndPassword({
+      email: userPayload.email,
+      password: query.password,
     });
-    return this.authService.createUserToken(user);
+    return await this.userService.deleteUser(userPayload.id);
   }
 
-  @UseGuards(AuthGuard)
   @Get('/my-info')
+  @UseGuards(AuthGuard)
   async getMyInfo(@User() userPayload: JwtPayload) {
     const user = await this.userService.getUser({ email: userPayload.email });
     const pokes = await this.mateService.getPokedCount({ fromUserId: user.id });
     const pokeds = await this.mateService.getPokedCount({ toUserId: user.id });
-    return { ...user, pokes, pokeds };
+    return { ...user, pokeds, pokes };
   }
 
-  @Post('/sign-in')
-  async signIn(@Body() body: signInUserDto) {
-    const user = await this.userService.getUserByEmailAndPassword(body);
-    return this.authService.createUserToken(user);
-  }
-
+  @Get('/:email')
   @UseGuards(AuthGuard)
-  @Patch('/my-info')
-  async patchMyInfo(
+  async getUserByEamil(
     @User() userPayload: JwtPayload,
-    @Body() body: PatchUserDto,
+    @Param() param: GetUserByEmailParamDto,
   ) {
-    const user = await this.userService.getUser({ email: userPayload.email });
-    const updated = await this.userService.patchUser({
-      id: user.id,
-      ...body,
+    const { authProvider, email, id, name, profileImageUrl } =
+      await this.userService.getUser(param);
+    const pokes = await this.mateService.getPokedCount({
+      fromUserId: userPayload.id,
+      toUserId: id,
     });
-    return updated;
+    const pokeds = await this.mateService.getPokedCount({
+      fromUserId: id,
+      toUserId: userPayload.id,
+    });
+    const totalPokes = await this.mateService.getPokeCount(id);
+    return {
+      authProvider,
+      email,
+      id,
+      name,
+      pokeds,
+      pokes,
+      profileImageUrl,
+      totalPokes,
+    };
   }
 
-  @UseGuards(AuthGuard)
   @Get('/')
+  @UseGuards(AuthGuard)
   async getUserList(
     @User() userPayload: JwtPayload,
     @Query() param: GetUserListParamDto,
@@ -86,45 +99,33 @@ export class UserController {
     );
   }
 
+  @Patch('/my-info')
   @UseGuards(AuthGuard)
-  @Get('/:email')
-  async getUserByEamil(
+  async patchMyInfo(
     @User() userPayload: JwtPayload,
-    @Param() param: GetUserByEmailParamDto,
+    @Body() body: PatchUserDto,
   ) {
-    const { email, id, name, profileImageUrl, authProvider } =
-      await this.userService.getUser(param);
-    const pokes = await this.mateService.getPokedCount({
-      fromUserId: userPayload.id,
-      toUserId: id,
+    const user = await this.userService.getUser({ email: userPayload.email });
+    const updated = await this.userService.patchUser({
+      id: user.id,
+      ...body,
     });
-    const pokeds = await this.mateService.getPokedCount({
-      fromUserId: id,
-      toUserId: userPayload.id,
-    });
-    const totalPokes = await this.mateService.getPokeCount(id);
-    return {
-      email,
-      id,
-      name,
-      profileImageUrl,
-      pokeds,
-      pokes,
-      totalPokes,
-      authProvider,
-    };
+    return updated;
   }
 
-  @UseGuards(AuthGuard)
-  @Delete('/my-info')
-  async deleteMyInfo(
-    @User() userPayload: JwtPayload,
-    @Query() query: DeleteUserDto,
-  ) {
-    await this.userService.getUserByEmailAndPassword({
-      email: userPayload.email,
-      password: query.password,
+  @HttpCode(HttpStatus.CREATED)
+  @Post('/register')
+  async registerUser(@Body() body: RegisterUserDto) {
+    const user = await this.userService.registerUser({
+      ...body,
+      type: AuthProvider.EMAIL,
     });
-    return await this.userService.deleteUser(userPayload.id);
+    return this.authService.createUserToken(user);
+  }
+
+  @Post('/sign-in')
+  async signIn(@Body() body: signInUserDto) {
+    const user = await this.userService.getUserByEmailAndPassword(body);
+    return this.authService.createUserToken(user);
   }
 }

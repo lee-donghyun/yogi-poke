@@ -1,26 +1,20 @@
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import {
   AuthenticationResponseJSON,
   type RegistrationResponseJSON,
 } from '@simplewebauthn/server';
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserService } from 'src/user/user.service';
+
 import { User } from './auth.decorator';
-import { JwtPayload } from './auth.interface';
 import { AuthGuard } from './auth.guard';
+import { JwtPayload } from './auth.interface';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard)
-  @Get('passkey/registration')
-  async getPasskey(@User() user: JwtPayload) {
-    return await this.authService.generatePasskeyRegistrationOptions(user);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('passkey/registration')
+  @UseGuards(AuthGuard)
   async createPasskey(
     @User() user: JwtPayload,
     @Body() passkey: RegistrationResponseJSON,
@@ -29,6 +23,12 @@ export class AuthController {
       user,
       passkey,
     );
+  }
+
+  @Get('passkey/registration')
+  @UseGuards(AuthGuard)
+  async getPasskey(@User() user: JwtPayload) {
+    return await this.authService.generatePasskeyRegistrationOptions(user);
   }
 
   @Get('passkey/authentication')
