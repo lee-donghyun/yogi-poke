@@ -106,7 +106,7 @@ export const Register = () => {
   const translatedCurrentFieldError = hasError && t(currentFieldError);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <StackedNavigation
         onBack={() => {
           navigate({ pathname: "/" }, { replace: true });

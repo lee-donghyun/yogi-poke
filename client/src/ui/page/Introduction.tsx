@@ -15,7 +15,7 @@ export const Introduction = () => {
   const overlay = useStackedLayer();
   const { t } = useLingui();
   return (
-    <div className="min-h-screen pb-60">
+    <div className="min-h-dvh pb-60">
       <div className="flex px-5 pt-32">
         <img
           alt="요기콕콕👉"

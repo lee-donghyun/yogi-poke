@@ -56,7 +56,7 @@ export const MyPage = () => {
   const { data, error, intersectorRef, isFreshData } = useRelatedPokeList();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <Navigation
         actions={[
           <button
