@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import * as Sentry from '@sentry/nestjs';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
+
+import { AppModule } from './app.module';
 
 Sentry.init({
   dsn: 'https://80b9d57cecbc790b6d7013e52ff0f70b@o4505527670210560.ingest.us.sentry.io/4508529031380992',
@@ -17,4 +18,4 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(process.env.PORT ?? 8080);
 }
-bootstrap();
+void bootstrap();

@@ -1,19 +1,19 @@
 import { IsObject, IsOptional, IsString } from 'class-validator';
 
 export class PatchUserDto {
-  @IsString()
   @IsOptional()
-  password?: string;
-
   @IsString()
-  @IsOptional()
   name?: string;
 
   @IsOptional()
-  @IsObject()
-  pushSubscription?: PushSubscriptionJSON;
-
   @IsString()
+  password?: string;
+
   @IsOptional()
+  @IsString()
   profileImageUrl?: string;
+
+  @IsObject()
+  @IsOptional()
+  pushSubscription?: PushSubscriptionJSON;
 }

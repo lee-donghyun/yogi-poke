@@ -63,22 +63,22 @@ model Poke {
 }
 
 view ActiveUser {
-  id               Int           @unique
+  id               Int          @unique
   createdAt        DateTime
   name             String
-  email            String        @unique
+  email            String       @unique
   password         String
   pushSubscription Json?
   profileImageUrl  String?
   referrerId       Int?
   deletedAt        DateTime?
-  authProvider     AuthProvider?
+  authProvider     AuthProvider
   authProviderId   String?
   passkeyOptions   Json?
-  pokes            Poke[]        @relation("user-poke")
-  pokeds           Poke[]        @relation("user-poked")
-  goingRelations   Relation[]    @relation("user-from")
-  comingRelations  Relation[]    @relation("user-to")
+  pokes            Poke[]       @relation("user-poke")
+  pokeds           Poke[]       @relation("user-poked")
+  goingRelations   Relation[]   @relation("user-from")
+  comingRelations  Relation[]   @relation("user-to")
   Passkey          Passkey[]
 }
 

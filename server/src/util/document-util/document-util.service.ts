@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { Jimp } from 'jimp';
-import { FileUtilService } from '../file-util/file-util.service';
 import { resolve } from 'path';
 import { cwd } from 'process';
+import { PrismaService } from 'src/prisma/prisma.service';
+
+import { FileUtilService } from '../file-util/file-util.service';
 
 @Injectable()
 export class DocumentUtilService {
@@ -11,47 +12,7 @@ export class DocumentUtilService {
     private readonly prismaService: PrismaService,
     private readonly fileUtilService: FileUtilService,
   ) {}
-  getWebManifest(tag: string | null) {
-    return {
-      theme_color: '#ffffff',
-      background_color: '#ffffff',
-      display: 'standalone',
-      scope: '/',
-      start_url: `/?is-pwa=1${tag ? `&tag=${tag}` : ''}`,
-      name: '\uc694\uae30\ucf55\ucf55!',
-      short_name: '\uc694\uae30\ucf55\ucf55!',
-      description:
-        '\ud83d\udc4b \uc9c0\uae08 \uc774 \uc21c\uac04, \uc0c8\ub85c\uc6b4 \uc18c\uc15c \ubbf8\ub514\uc5b4 \ud601\uc2e0\uc774 \uc2dc\uc791\ub429\ub2c8\ub2e4.',
-      icons: [
-        {
-          src: '/icon-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: '/icon-256x256.png',
-          sizes: '256x256',
-          type: 'image/png',
-        },
-        {
-          src: '/icon-384x384.png',
-          sizes: '384x384',
-          type: 'image/png',
-        },
-        {
-          src: '/icon-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    };
-  }
-
-  isCrawler(userAgent: string) {
-    return userAgent.includes('scrap');
-  }
-
-  async getDocument(tag: string | null) {
+  async getDocument(tag: null | string) {
     const user = tag
       ? await this.prismaService.activeUser.findUnique({
           where: { email: tag },
@@ -59,8 +20,8 @@ export class DocumentUtilService {
       : null;
     if (!user) {
       return this.getRawDocument({
-        title: '요기콕콕!',
         image: '/asset/logo.png',
+        title: '요기콕콕!',
         url: 'https://yogi-poke.vercel.app',
       });
     }
@@ -71,7 +32,7 @@ export class DocumentUtilService {
     const profileImageJimp = await Jimp.read(
       user.profileImageUrl ?? resolve(cwd(), 'public/default_user_profile.png'),
     );
-    profileImageJimp.resize({ w: 200, h: 200 });
+    profileImageJimp.resize({ h: 200, w: 200 });
     ogImageTemplateJimp.composite(
       profileImageJimp.circle(),
       ogImageTemplateJimp.width - 280,
@@ -83,13 +44,53 @@ export class DocumentUtilService {
       `og-image-${user.id}.png`,
     );
     return this.getRawDocument({
-      title: `${user.name}님을 콕 찔러보세요.`,
       image: ogImageUrl,
+      title: `${user.name}님을 콕 찔러보세요.`,
       url: `https://yogi-poke.vercel.app/me/${user.email}`,
     });
   }
 
-  private getRawDocument(og: { title: string; image: string; url: string }) {
+  getWebManifest(tag: null | string) {
+    return {
+      background_color: '#ffffff',
+      description:
+        '\ud83d\udc4b \uc9c0\uae08 \uc774 \uc21c\uac04, \uc0c8\ub85c\uc6b4 \uc18c\uc15c \ubbf8\ub514\uc5b4 \ud601\uc2e0\uc774 \uc2dc\uc791\ub429\ub2c8\ub2e4.',
+      display: 'standalone',
+      icons: [
+        {
+          sizes: '192x192',
+          src: '/icon-192x192.png',
+          type: 'image/png',
+        },
+        {
+          sizes: '256x256',
+          src: '/icon-256x256.png',
+          type: 'image/png',
+        },
+        {
+          sizes: '384x384',
+          src: '/icon-384x384.png',
+          type: 'image/png',
+        },
+        {
+          sizes: '512x512',
+          src: '/icon-512x512.png',
+          type: 'image/png',
+        },
+      ],
+      name: '\uc694\uae30\ucf55\ucf55!',
+      scope: '/',
+      short_name: '\uc694\uae30\ucf55\ucf55!',
+      start_url: `/?is-pwa=1${tag ? `&tag=${tag}` : ''}`,
+      theme_color: '#ffffff',
+    };
+  }
+
+  isCrawler(userAgent: string) {
+    return userAgent.includes('scrap');
+  }
+
+  private getRawDocument(og: { image: string; title: string; url: string }) {
     return `<!DOCTYPE html>
     <html lang="ko">
       <head>
