@@ -2,8 +2,8 @@ import { Messages } from "@lingui/core";
 import { Trans, useLingui } from "@lingui/react/macro";
 
 import { AButton } from "../base/AButton";
+import { createDraggableSheet } from "../base/DraggableSheet";
 import { Locale, LOCALE_PERSIST_KEY } from "../provider/I18nProvider";
-import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
 export const Language = createDraggableSheet(({ close }) => {
   const { i18n, t } = useLingui();

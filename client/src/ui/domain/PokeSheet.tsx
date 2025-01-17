@@ -1,11 +1,8 @@
 import { Trans } from "@lingui/react/macro";
 
 import { usePoke } from "../../hook/domain/usePoke.ts";
-import {
-  createDraggableSheet,
-  Layer,
-  useStackedLayer,
-} from "../provider/StackedLayerProvider.tsx";
+import { createDraggableSheet } from "../base/DraggableSheet.tsx";
+import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { PokeWithDrawing } from "./PokeWithDrawing.tsx";
 import { PokeWithEmoji } from "./PokeWithEmoji.tsx";
 import { PokeWithGeoLocation } from "./PokeWithGeolocation.tsx";

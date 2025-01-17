@@ -4,9 +4,9 @@ import { lazy, Suspense, useState } from "react";
 import { useDomSize } from "../../hook/base/useDomSize";
 import { usePoke } from "../../hook/domain/usePoke";
 import { getNormalizedPoints } from "../../service/util";
+import { createDraggableSheet } from "../../ui/base/DraggableSheet.tsx";
 import { type Line } from "../base/Canvas";
 import { XMark } from "../icon/XMark";
-import { createDraggableSheet } from "../provider/StackedLayerProvider";
 
 const Canvas = lazy(() =>
   import("../base/Canvas").then((module) => ({ default: module.Canvas })),

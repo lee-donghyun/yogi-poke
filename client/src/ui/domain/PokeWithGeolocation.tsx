@@ -8,7 +8,7 @@ import {
   useGeolocation,
 } from "../../hook/base/useGeolocation";
 import { usePoke } from "../../hook/domain/usePoke";
-import { createDraggableSheet } from "../provider/StackedLayerProvider";
+import { createDraggableSheet } from "../base/DraggableSheet";
 
 const Map = lazy(() =>
   import("../base/Map").then((module) => ({ default: module.Map })),

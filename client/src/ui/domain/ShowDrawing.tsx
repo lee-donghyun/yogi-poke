@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { useDomSize } from "../../hook/base/useDomSize";
 import { getDenormalizedPoints } from "../../service/util";
 import { type Line } from "../base/Canvas";
-import { createDraggableSheet } from "../provider/StackedLayerProvider";
+import { createDraggableSheet } from "../base/DraggableSheet";
 
 const CanvasRenderer = lazy(() =>
   import("../base/CanvasRenderer").then((module) => ({
