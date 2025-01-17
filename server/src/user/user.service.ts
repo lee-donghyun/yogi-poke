@@ -129,8 +129,8 @@ export class UserService {
           pushSubscription === null
             ? Prisma.DbNull
             : pushSubscription === undefined
-            ? undefined
-            : JSON.stringify(pushSubscription),
+              ? undefined
+              : JSON.stringify(pushSubscription),
         profileImageUrl,
       },
     });

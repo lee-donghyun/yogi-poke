@@ -48,7 +48,7 @@ export class AuthService {
     }
   }
   createUserToken(user: JwtPayload) {
-    return this.jwtService.sign(user) as string;
+    return this.jwtService.sign(user);
   }
   async generatePasskeyRegistrationOptions(user: JwtPayload) {
     const userPasskeys = await this.db.passkey.findMany({

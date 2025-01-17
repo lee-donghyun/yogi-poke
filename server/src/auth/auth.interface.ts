@@ -11,7 +11,7 @@ export type JwtPayload = Pick<
   | 'authProvider'
 >;
 
-export type AuthorizedTokenPayload = {
+export interface AuthorizedTokenPayload {
   authProvider: typeof AuthProvider.INSTAGRAM;
   authProviderId: string;
-};
+}
