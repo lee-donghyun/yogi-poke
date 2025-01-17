@@ -4,6 +4,7 @@ import { useRouter } from "router2";
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
 import { DELETED_USER } from "../../service/const.ts";
 import { isVerifiedUser } from "../../service/util.ts";
+import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 import { Navigation } from "../base/Navigation.tsx";
 import { Stat } from "../base/Stat.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
@@ -15,10 +16,7 @@ import { Edit } from "../icon/Edit.tsx";
 import { Menu } from "../icon/Menu.tsx";
 import { Setting } from "../icon/Setting.tsx";
 import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
-import {
-  createDraggableSheet,
-  useStackedLayer,
-} from "../provider/StackedLayerProvider.tsx";
+import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { SharedProfile } from "./SharedProfile.tsx";
 import { UpdateMyInfo } from "./UpdateMyInfo.tsx";
 

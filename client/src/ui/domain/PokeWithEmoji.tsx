@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import useSWR from "swr";
 
 import { usePoke } from "../../hook/domain/usePoke.ts";
-import { createDraggableSheet } from "../provider/StackedLayerProvider.tsx";
+import { createDraggableSheet } from "../../ui/base/DraggableSheet.tsx";
 
 const EMOJI_DICT_URL = "/asset/emoji.json";
 

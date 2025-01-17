@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import { lazy, Suspense } from "react";
 import { BrowserRouter } from "router2";
 
 import { Home } from "./ui/page/Home";
@@ -21,41 +22,53 @@ import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
 
 dayjs.extend(duration);
 
+const Introduction = lazy(() =>
+  import("./ui/page/Introduction.tsx").then((mod) => ({
+    default: mod.Introduction,
+  })),
+);
+
 export const App = () => {
   return (
-    <I18nProvider>
-      <NotificationProvider>
-        <StackedLayerProvider>
-          <PwaProvider>
-            {(prefetch) => (
-              <AuthProvider myInfo={prefetch.myInfo}>
-                <BrowserRouter
-                  routes={{
-                    "/": Home,
-                    "/404": NotFound,
-                    "/like": Like,
-                    "/my-page": MyPage,
-                    "/register": Register,
-                    "/search": Search,
-                    "/setting": Setting,
-                    "/sign-in": SignIn,
-                    "/third-party-register": ThridPartyRegister,
-                    "/user/:userId": User,
-                  }}
-                >
-                  {(Page) => (
-                    <MessageProvider>
-                      <StackedLayerProvider>
-                        <Page />
-                      </StackedLayerProvider>
-                    </MessageProvider>
-                  )}
-                </BrowserRouter>
-              </AuthProvider>
-            )}
-          </PwaProvider>
-        </StackedLayerProvider>
-      </NotificationProvider>
-    </I18nProvider>
+    <BrowserRouter
+      routes={{
+        "/": Home,
+        "/404": NotFound,
+        "/like": Like,
+        "/my-page": MyPage,
+        "/register": Register,
+        "/search": Search,
+        "/setting": Setting,
+        "/sign-in": SignIn,
+        "/third-party-register": ThridPartyRegister,
+        "/user/:userId": User,
+      }}
+    >
+      {(Page) => (
+        <I18nProvider>
+          <NotificationProvider>
+            <PwaProvider
+              fallback={
+                <StackedLayerProvider>
+                  <Suspense>
+                    <Introduction />
+                  </Suspense>
+                </StackedLayerProvider>
+              }
+            >
+              {(prefetch) => (
+                <AuthProvider myInfo={prefetch.myInfo}>
+                  <MessageProvider>
+                    <StackedLayerProvider>
+                      <Page />
+                    </StackedLayerProvider>
+                  </MessageProvider>
+                </AuthProvider>
+              )}
+            </PwaProvider>
+          </NotificationProvider>
+        </I18nProvider>
+      )}
+    </BrowserRouter>
   );
 };

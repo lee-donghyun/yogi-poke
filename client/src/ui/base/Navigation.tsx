@@ -39,3 +39,44 @@ export const StackedNavigation = ({
     </div>
   );
 };
+interface ActionButtonProps {
+  disabled?: boolean;
+  label: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+interface ModalNavigationProps {
+  left: ActionButtonProps;
+  right: ActionButtonProps;
+  title: string;
+}
+
+export const ModalNavigation = ({
+  left,
+  right,
+  title,
+}: ModalNavigationProps) => {
+  return (
+    <div
+      className="fixed inset-x-0 top-0 z-10 grid bg-white p-5"
+      style={{ gridTemplateColumns: "80px 1fr 80px" }}
+    >
+      <button
+        className="justify-self-start text-zinc-600 disabled:opacity-60"
+        disabled={left.disabled}
+        onClick={left.onClick}
+        type="button"
+      >
+        {left.label}
+      </button>
+      <p className="text-center font-medium">{title}</p>
+      <button
+        className="justify-self-end disabled:opacity-60"
+        disabled={right.disabled}
+        onClick={right.onClick}
+        type="button"
+      >
+        {right.label}
+      </button>
+    </div>
+  );
+};

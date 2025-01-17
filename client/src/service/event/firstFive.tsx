@@ -1,7 +1,7 @@
 /* eslint-disable lingui/no-unlocalized-strings */
 import { type usePoke } from "../../hook/domain/usePoke.ts";
+import { createDraggableSheet } from "../../ui/base/DraggableSheet.tsx";
 import { useUser } from "../../ui/provider/Auth.tsx";
-import { createDraggableSheet } from "../../ui/provider/StackedLayerProvider.tsx";
 
 const CloseIcon = () => (
   <svg
