@@ -1,41 +1,46 @@
+// @ts-check
 import eslint from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import perfectionist from 'eslint-plugin-perfectionist';
 
-export default [
+export default tseslint.config(
   {
-    ignores: ['**/eslint.config.mjs'],
+    ignores: [
+      'eslint.config.mjs',
+      'src/**/*.test.ts',
+      'src/**/files/**',
+      'test/**',
+    ],
   },
-
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   eslintPluginPrettierRecommended,
-
   {
     languageOptions: {
       globals: {
         ...globals.node,
         ...globals.jest,
       },
-
-      parser: tseslint.parser,
+      ecmaVersion: 5,
+      sourceType: 'module',
       parserOptions: {
-        project: 'tsconfig.json',
-        tsconfigRootDir: '.',
-        sourceType: 'module',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
+  },
+  {
     rules: {
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
-
   {
     ...perfectionist.configs['recommended-alphabetical'],
     rules: {
@@ -46,4 +51,4 @@ export default [
       ],
     },
   },
-];
+);
