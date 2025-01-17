@@ -1,52 +1,30 @@
+import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
+  Equals,
+  IsArray,
+  IsNotEmptyObject,
+  IsNumber,
   IsString,
   ValidateNested,
-  IsNotEmptyObject,
-  IsIn,
-  ArrayNotEmpty,
-  IsArray,
-  IsNumber,
-  Equals,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 class PokePayload {
   type: string;
 }
-class NormalPokePayload extends PokePayload {
-  @Equals('normal')
-  type: 'normal';
-}
-
-class EmojiPokePayload extends PokePayload {
-  @Equals('emoji')
-  type: 'emoji';
-
-  @IsString()
-  message: string;
-}
+// sort-partition: Drawing에 필요한 class
 class Line {
-  @IsNumber()
-  id: number;
-
   @IsString()
   color: string;
+
+  @IsNumber()
+  id: number;
 
   @IsArray()
   @IsNumber({}, { each: true })
   points: number[];
 }
 
-class DrawingPokePayload extends PokePayload {
-  @Equals('drawing')
-  type: 'drawing';
-
-  @IsArray()
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => Line)
-  lines: Line[][];
-}
 class Position {
   @IsNumber()
   latitude: number;
@@ -54,11 +32,36 @@ class Position {
   @IsNumber()
   longitude: number;
 }
+// sort-partition: PokePayload extends
+class DrawingPokePayload extends PokePayload {
+  @ArrayNotEmpty()
+  @IsArray()
+  @Type(() => Line)
+  @ValidateNested({ each: true })
+  lines: Line[][];
+
+  @Equals('drawing')
+  type: 'drawing';
+}
+
+class EmojiPokePayload extends PokePayload {
+  @IsString()
+  message: string;
+
+  @Equals('emoji')
+  type: 'emoji';
+}
+
 class GeolocationPokePayload extends PokePayload {
-  @Equals('geolocation')
-  type: 'geolocation';
   @Type(() => Position)
   position: Position;
+  @Equals('geolocation')
+  type: 'geolocation';
+}
+
+class NormalPokePayload extends PokePayload {
+  @Equals('normal')
+  type: 'normal';
 }
 
 export class RequestRelationDto {
@@ -66,22 +69,22 @@ export class RequestRelationDto {
   email: string;
 
   @IsNotEmptyObject()
-  @ValidateNested()
   @Type(() => PokePayload, {
     discriminator: {
       property: 'type',
       subTypes: [
-        { value: NormalPokePayload, name: 'normal' },
-        { value: EmojiPokePayload, name: 'emoji' },
-        { value: DrawingPokePayload, name: 'drawing' },
-        { value: GeolocationPokePayload, name: 'geolocation' },
+        { name: 'normal', value: NormalPokePayload },
+        { name: 'emoji', value: EmojiPokePayload },
+        { name: 'drawing', value: DrawingPokePayload },
+        { name: 'geolocation', value: GeolocationPokePayload },
       ],
     },
     keepDiscriminatorProperty: true,
   })
+  @ValidateNested()
   payload:
-    | NormalPokePayload
-    | EmojiPokePayload
     | DrawingPokePayload
-    | GeolocationPokePayload;
+    | EmojiPokePayload
+    | GeolocationPokePayload
+    | NormalPokePayload;
 }

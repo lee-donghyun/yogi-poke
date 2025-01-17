@@ -2,9 +2,10 @@ import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { User } from 'src/auth/auth.decorator';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { JwtPayload } from 'src/auth/auth.interface';
+import { UserService } from 'src/user/user.service';
+
 import { PatchRelationDto } from './dto/patch-relation.dto';
 import { RelationService } from './relation.service';
-import { UserService } from 'src/user/user.service';
 
 @Controller('relation')
 export class RelationController {
@@ -12,8 +13,14 @@ export class RelationController {
     private userService: UserService,
     private relationService: RelationService,
   ) {}
+  @Get('/blocked')
   @UseGuards(AuthGuard)
+  async getBlockedUsers(@User() userPayload: JwtPayload) {
+    return await this.relationService.getBlockedUsers(userPayload.id);
+  }
+
   @Patch('/:email')
+  @UseGuards(AuthGuard)
   async patchRelation(
     @User() userPayload: JwtPayload,
     @Body() body: PatchRelationDto,
@@ -24,11 +31,5 @@ export class RelationController {
       fromUserId: userPayload.id,
       toUserId,
     });
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('/blocked')
-  async getBlockedUsers(@User() userPayload: JwtPayload) {
-    return await this.relationService.getBlockedUsers(userPayload.id);
   }
 }

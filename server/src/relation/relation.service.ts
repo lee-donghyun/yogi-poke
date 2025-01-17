@@ -4,13 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RelationService {
   constructor(private db: PrismaService) {}
-  async getRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.db.relation.findFirst({
-      where: { fromUserId, toUserId },
-    });
-    return relation;
-  }
-
   async createRelation(fromUserId: number, toUserId: number) {
     const relation = await this.getRelation(fromUserId, toUserId);
     if (relation !== null) {
@@ -21,6 +14,34 @@ export class RelationService {
     });
     return made;
   }
+
+  async getBlockedUsers(userId: number) {
+    return this.db.relation
+      .findMany({
+        select: {
+          toUser: {
+            select: {
+              email: true,
+              id: true,
+              name: true,
+              profileImageUrl: true,
+            },
+          },
+        },
+        where: {
+          fromUserId: userId,
+          isAccepted: false,
+        },
+      })
+      .then((relations) => relations.map((relation) => relation.toUser));
+  }
+  async getRelation(fromUserId: number, toUserId: number) {
+    const relation = await this.db.relation.findFirst({
+      where: { fromUserId, toUserId },
+    });
+    return relation;
+  }
+
   async updateUserAcception(
     isAccepted: boolean,
     {
@@ -32,35 +53,14 @@ export class RelationService {
     },
   ) {
     return this.db.relation.upsert({
+      create: { fromUserId, isAccepted, toUserId },
+      update: { isAccepted },
       where: {
         fromUserId_toUserId: {
           fromUserId,
           toUserId,
         },
       },
-      update: { isAccepted },
-      create: { fromUserId, toUserId, isAccepted },
     });
-  }
-
-  async getBlockedUsers(userId: number) {
-    return this.db.relation
-      .findMany({
-        where: {
-          fromUserId: userId,
-          isAccepted: false,
-        },
-        select: {
-          toUser: {
-            select: {
-              id: true,
-              email: true,
-              name: true,
-              profileImageUrl: true,
-            },
-          },
-        },
-      })
-      .then((relations) => relations.map((relation) => relation.toUser));
   }
 }
