@@ -26,9 +26,6 @@ importers:
       '@simplewebauthn/browser':
         specifier: ^13.0.0
         version: 13.0.0
-      body-scroll-lock-upgrade:
-        specifier: ^1.1.0
-        version: 1.1.0
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -1215,9 +1212,6 @@ packages:
 
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
-
-  body-scroll-lock-upgrade@1.1.0:
-    resolution: {integrity: sha512-nnfVAS+tB7CS9RaksuHVTpgHWHF7fE/ptIBJnwZrMqImIvWJF1OGcLnMpBhC6qhkx9oelvyxmWXwmIJXCV98Sw==}
 
   brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -4134,8 +4128,6 @@ snapshots:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.2
-
-  body-scroll-lock-upgrade@1.1.0: {}
 
   brace-expansion@1.1.11:
     dependencies:
