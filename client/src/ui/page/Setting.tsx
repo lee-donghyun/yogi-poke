@@ -46,7 +46,7 @@ export const Setting = () => {
   const myEmail = myInfo?.email;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <StackedNavigation
         onBack={() => {
           history.back();
