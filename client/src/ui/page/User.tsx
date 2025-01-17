@@ -70,7 +70,7 @@ export const User = () => {
   const isPokable = lastPoked ? dayjs().diff(lastPoked, "hour") >= 24 : true;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
       <StackedNavigation
         actions={[
           <button
