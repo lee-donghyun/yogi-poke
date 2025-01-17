@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useDeferredValue, useState } from "react";
+import { CSSProperties, ReactNode, useState, useTransition } from "react";
 
 import { run } from "../../lib/run";
 import { Layer } from "../provider/StackedLayerProvider";
@@ -11,22 +11,18 @@ const DraggableSheet = ({
 }: {
   children: ReactNode;
 } & Omit<Parameters<Layer>[0], "context">) => {
+  const [, startTransition] = useTransition();
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
   const [translate, setTranslate] = useState<{ x: number; y: number } | null>(
     null,
   );
-  const deferredTranslate = useDeferredValue(translate);
 
   const paperStyle = run<CSSProperties>(() => {
-    if (deferredTranslate) {
-      const scale = Math.min(
-        1,
-        (startPoint.y + deferredTranslate.y) / startPoint.y,
-      );
+    if (translate) {
+      const scale = Math.min(1, (startPoint.y + translate.y) / startPoint.y);
       return {
         transform:
-          `translate(${deferredTranslate.x}px,${deferredTranslate.y}px) ` +
-          `scale(${scale})`,
+          `translate(${translate.x}px,${translate.y}px) ` + `scale(${scale})`,
       };
     }
     // eslint-disable-next-line lingui/no-unlocalized-strings
@@ -47,9 +43,11 @@ const DraggableSheet = ({
     const { x, y } = startPoint;
     const diffY = clientY - y;
     const diffX = clientX - x;
-    setTranslate({
-      x: diffX > 0 ? Math.sqrt(clientX - x) : -Math.sqrt(-(clientX - x)),
-      y: diffY > 0 ? diffY : -Math.sqrt(-diffY) * 1.6,
+    startTransition(() => {
+      setTranslate({
+        x: diffX > 0 ? Math.sqrt(clientX - x) : -Math.sqrt(-(clientX - x)),
+        y: diffY > 0 ? diffY : -Math.sqrt(-diffY) * 1.6,
+      });
     });
   };
 
