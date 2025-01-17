@@ -13,7 +13,7 @@ const StackedPage = ({
   return (
     <Backdrop close={close} visible={visible}>
       <div
-        className={`fixed inset-0 z-40 ${
+        className={`fixed inset-0 z-40 overflow-y-scroll ${
           visible ? "stacked-layer-from" : "stacked-layer-to"
         }`}
       >
