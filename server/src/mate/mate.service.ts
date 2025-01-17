@@ -31,15 +31,13 @@ export class MateService {
     return this.db.poke.count({
       where: {
         AND: [
-          typeof fromUserId == 'number' && {
-            fromUserId,
-            relation: { isAccepted: true },
-          },
-          typeof toUserId == 'number' && {
-            reverseRelation: { isAccepted: true },
-            toUserId,
-          },
-        ].filter(Boolean),
+          ...(typeof fromUserId == 'number'
+            ? [{ fromUserId, relation: { isAccepted: true } }]
+            : []),
+          ...(typeof toUserId == 'number'
+            ? [{ reverseRelation: { isAccepted: true }, toUserId }]
+            : []),
+        ],
       },
     });
   }
