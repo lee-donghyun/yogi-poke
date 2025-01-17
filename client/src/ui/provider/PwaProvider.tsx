@@ -1,5 +1,5 @@
-import { enableBodyScroll } from "body-scroll-lock-upgrade";
 import { ReactNode, useEffect, useState } from "react";
+import { RemoveScroll } from "react-remove-scroll";
 
 import { client } from "../../service/api.ts";
 import { MyInfo } from "../../service/dataType.ts";
@@ -34,7 +34,6 @@ const isPwaMode = () => {
 const closeSplash = (delay: number) => {
   setTimeout(() => {
     splashElement?.classList.add("opacity-0", "pointer-events-none");
-    enableBodyScroll(document.body);
   }, delay);
 };
 
@@ -95,7 +94,7 @@ export const PwaProvider = ({
     return children({ myInfo: null });
   }
   if (prefetch === null) {
-    return null;
+    return <RemoveScroll>{null}</RemoveScroll>;
   }
   closeSplash(100);
   return children(prefetch);
