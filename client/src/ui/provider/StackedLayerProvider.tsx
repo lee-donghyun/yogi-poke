@@ -6,12 +6,14 @@ export type Layer<Context = never> = (props: {
   visible: boolean;
 }) => JSX.Element;
 
-interface Push {
+interface Overlay {
   <T>(Component: Layer<T>, context: T): void;
   (Component: Layer<never>): void;
 }
 
-const StackedLayerContext = createContext<Push>(() => {
+const DELAY = 500;
+
+const StackedLayerContext = createContext<Overlay>(() => {
   throw new Error(
     "useStackedLayer hook-domain must be called in StackedLayerProvider context",
   );
@@ -25,31 +27,38 @@ export const StackedLayerProvider = ({
 }: {
   children: JSX.Element;
 }) => {
-  const [show, setShow] = useState(false);
-  const [Layer, setLayer] = useState<Layer | null>(null);
+  const [visible, setVisible] = useState(false);
   const [context, setContext] = useState<never>(null as never);
-  const push: Push = (Component: Parameters<Push>[0], context?: unknown) => {
+  const [Layer, setLayer] = useState<Layer | null>(null);
+
+  const overlay: Overlay = (
+    Component: Parameters<Overlay>[0],
+    context?: unknown,
+  ) => {
     setLayer(() => Component);
-    setShow(true);
+    setVisible(true);
     setContext(context as never);
   };
-  const pop = () => {
-    setShow(false);
+
+  const close = () => {
+    setVisible(false);
     setTimeout(() => {
-      setShow((show) => {
+      setVisible((show) => {
+        // 딜레이 전에 다른 레이어가 추가되었을 경우, 레이어를 유지한다.
         if (!show) {
           setLayer(null);
-          return false;
         }
-        return true;
+        return show;
       });
-    }, 500);
+    }, DELAY);
   };
 
   return (
-    <StackedLayerContext.Provider value={push}>
+    <StackedLayerContext.Provider value={overlay}>
       {children}
-      {isLayer(Layer) && <Layer close={pop} context={context} visible={show} />}
+      {isLayer(Layer) && (
+        <Layer close={close} context={context} visible={visible} />
+      )}
     </StackedLayerContext.Provider>
   );
 };
