@@ -1,4 +1,4 @@
-import { Link, useRouter } from "router2";
+import { useRouter } from "router2";
 
 import { BottomNavigation } from "../base/BottomNavigation.tsx";
 import { Search } from "../icon/Search.tsx";
@@ -6,39 +6,43 @@ import { Star } from "../icon/Star.tsx";
 import { useUser } from "../provider/Auth.tsx";
 
 export const DomainBottomNavigation = () => {
-  const { path } = useRouter();
+  const { path, replace } = useRouter();
   const { myInfo } = useUser();
+  const onClick = (pathname: string) => {
+    if (pathname === path) {
+      window.scrollTo({ behavior: "smooth", top: 0 });
+    } else {
+      replace({ pathname });
+    }
+  };
   return (
     <BottomNavigation
       menus={[
-        <Link
+        <button
           className={`flex flex-1 justify-center ${path === "/search" ? "text-black" : "text-zinc-400"}`}
           key="search"
-          pathname="/search"
-          replace
+          onClick={() => onClick("/search")}
         >
           <Search />
-        </Link>,
-        <Link
+        </button>,
+        <button
           className={`flex flex-1 justify-center ${path === "/like" ? "text-black" : "text-zinc-400"}`}
           key="like"
-          pathname="/like"
-          replace
+          onClick={() => onClick("/like")}
         >
           <Star />
-        </Link>,
-        <Link
+        </button>,
+        <button
           className="flex flex-1 justify-center"
           key="myPage"
-          pathname="/my-page"
-          replace
+          onClick={() => onClick("/my-page")}
         >
           <img
             alt=""
             className={`h-6 w-6 rounded-full border-[1.5px] bg-zinc-200 object-cover ${path === "/my-page" ? "border-black" : "border-transparent"}`}
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
-        </Link>,
+        </button>,
       ]}
     />
   );
