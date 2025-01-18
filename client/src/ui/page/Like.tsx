@@ -14,7 +14,7 @@ import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 
 export const Like = () => {
-  const { navigate } = useRouter();
+  const { push } = useRouter();
   const [likes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
   const { data } = useSWR<User[]>(
     !(likes.length === 0)
@@ -39,7 +39,7 @@ export const Like = () => {
               isVerifiedUser={isVerifiedUser(user)}
               key={user.email + dataUpdatedAt}
               onClick={() => {
-                navigate({ pathname: `/user/${user.email}` });
+                push({ pathname: `/user/${user.email}` });
               }}
               selected={false}
               userEmail={user.email}
