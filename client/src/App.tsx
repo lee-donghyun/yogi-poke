@@ -3,6 +3,7 @@ import duration from "dayjs/plugin/duration";
 import { lazy, Suspense } from "react";
 import { BrowserRouter } from "router2";
 
+import { config } from "./service/router.ts";
 import { Home } from "./ui/page/Home";
 import { Like } from "./ui/page/Like";
 import { MyPage } from "./ui/page/MyPage";
@@ -31,6 +32,7 @@ const Introduction = lazy(() =>
 export const App = () => {
   return (
     <BrowserRouter
+      config={config}
       routes={{
         "/": Home,
         "/404": NotFound,

@@ -21,7 +21,7 @@ import { SharedProfile } from "./SharedProfile.tsx";
 import { UpdateMyInfo } from "./UpdateMyInfo.tsx";
 
 const MenuSheet = createDraggableSheet(({ close }) => {
-  const { navigate } = useRouter();
+  const { push } = useRouter();
   return (
     <div className="p-3 pb-32">
       <ul>
@@ -31,7 +31,7 @@ const MenuSheet = createDraggableSheet(({ close }) => {
             onClick={() => {
               close();
               setTimeout(() => {
-                navigate({ pathname: "/setting" });
+                push({ pathname: "/setting" });
               }, 200);
             }}
           >
@@ -48,7 +48,7 @@ const MenuSheet = createDraggableSheet(({ close }) => {
 
 export const MyPage = () => {
   useAuthNavigator({ goToAuth: true });
-  const { navigate } = useRouter();
+  const { replace } = useRouter();
   const overlay = useStackedLayer();
   const { t } = useLingui();
   const { myInfo } = useUser({ revalidateIfHasToken: true });
@@ -136,7 +136,7 @@ export const MyPage = () => {
               <button
                 className="mt-12 rounded-full bg-black p-3 text-white active:opacity-60 disabled:bg-zinc-300"
                 onClick={() => {
-                  navigate({ pathname: "/search" }, { replace: true });
+                  replace({ pathname: "/search" });
                 }}
               >
                 <Trans>콕 찌르기</Trans>
@@ -144,45 +144,43 @@ export const MyPage = () => {
               </button>
             </div>
           )}
-          {data
-            ?.map((pokes, pageIndex) =>
-              pokes.map(
-                (
-                  {
-                    createdAt,
-                    fromUserId,
-                    id,
-                    payload,
-                    relation: { fromUser, toUser },
-                  },
-                  index,
-                ) => {
-                  const type = fromUserId === myInfo?.id ? "poke" : "poked";
-                  const targetUser = {
-                    poke: toUser,
-                    poked: fromUser,
-                  }[type];
-                  const animation = isFreshData(pageIndex)
-                    ? { delayTimes: index }
-                    : null;
-                  const isVerified = targetUser
-                    ? isVerifiedUser(targetUser)
-                    : false;
-                  return (
-                    <PokeListItem
-                      animation={animation}
-                      date={createdAt}
-                      isVerifiedUser={isVerified}
-                      key={id}
-                      payload={payload}
-                      targetUser={targetUser ?? DELETED_USER}
-                      type={type}
-                    />
-                  );
+          {data?.flatMap((pokes, pageIndex) =>
+            pokes.map(
+              (
+                {
+                  createdAt,
+                  fromUserId,
+                  id,
+                  payload,
+                  relation: { fromUser, toUser },
                 },
-              ),
-            )
-            .flat()}
+                index,
+              ) => {
+                const type = fromUserId === myInfo?.id ? "poke" : "poked";
+                const targetUser = {
+                  poke: toUser,
+                  poked: fromUser,
+                }[type];
+                const animation = isFreshData(pageIndex)
+                  ? { delayTimes: index }
+                  : null;
+                const isVerified = targetUser
+                  ? isVerifiedUser(targetUser)
+                  : false;
+                return (
+                  <PokeListItem
+                    animation={animation}
+                    date={createdAt}
+                    isVerifiedUser={isVerified}
+                    key={id}
+                    payload={payload}
+                    targetUser={targetUser ?? DELETED_USER}
+                    type={type}
+                  />
+                );
+              },
+            ),
+          )}
           <div className="h-24" ref={intersectorRef}></div>
         </div>
       </div>

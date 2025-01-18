@@ -9,7 +9,7 @@ const QrScanner = lazy(() =>
 );
 
 export const QrScannerSheet = createDraggableSheet(({ close }) => {
-  const { navigate } = useRouter();
+  const { push } = useRouter();
 
   const navigatedRef = useRef(false);
 
@@ -18,7 +18,7 @@ export const QrScannerSheet = createDraggableSheet(({ close }) => {
     if (typeof email !== "string" || navigatedRef.current) return;
     navigatedRef.current = true;
     close();
-    navigate({ pathname: `/user/${email}` });
+    push({ pathname: `/user/${email}` });
   };
 
   return (
