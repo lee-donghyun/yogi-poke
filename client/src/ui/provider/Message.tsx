@@ -15,13 +15,13 @@ type Message =
     };
 
 export const MessageProvider = ({ children }: { children: ReactNode }) => {
-  const { navigate } = useRouter();
+  const { push } = useRouter();
 
   useEffect(() => {
     const listener = (event: MessageEvent<Message>) => {
       switch (event.data.type) {
         case "NAVIGATE":
-          navigate({ pathname: event.data.data.url });
+          push({ pathname: event.data.data.url });
           break;
         case "REVALIDATE_RELATED_POKES":
           void mutateRelatedPokeList();
@@ -32,7 +32,7 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       self.navigator.serviceWorker.removeEventListener("message", listener);
     };
-  }, [navigate]);
+  }, [push]);
 
   return children;
 };

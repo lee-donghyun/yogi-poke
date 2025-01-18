@@ -34,14 +34,14 @@ export const Search = () => {
   useAuthNavigator({ goToAuth: "/sign-in" });
   const overlay = useStackedLayer();
   const { t } = useLingui();
-  const { navigate, params } = useRouter();
+  const { params, replace } = useRouter();
 
   const searchText = params?.searchText ?? "";
   const setSearchText = (searchText: string) => {
-    navigate(
-      { pathname: "/search", ...(searchText && { query: { searchText } }) },
-      { replace: true },
-    );
+    replace({
+      pathname: "/search",
+      ...(searchText && { query: { searchText } }),
+    });
   };
   const deferredSearchText = useDebouncedValue(searchText, 300);
   const [selected, setSelected] = useState<null | User>(null);
