@@ -33,7 +33,7 @@ export const ThridPartyRegister = () => {
   useAuthNavigator({ goToApp: "/search" });
   const push = useNotification();
   const { t } = useLingui();
-  const { navigate, params } = useRouter();
+  const { params, replace } = useRouter();
   const { patchUser, registerToken } = useUser();
 
   const [step, setStep] = useState<1 | 2>(1);
@@ -90,7 +90,7 @@ export const ThridPartyRegister = () => {
     <div className="min-h-dvh">
       <StackedNavigation
         onBack={() => {
-          navigate({ pathname: "/" }, { replace: true });
+          replace({ pathname: "/" });
         }}
         title={t`회원가입`}
       />

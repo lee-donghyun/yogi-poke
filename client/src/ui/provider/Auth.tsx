@@ -89,28 +89,22 @@ export const useAuthNavigator = ({
   const AUTH_PATH = typeof goToAuth === "string" ? goToAuth : "/sign-in";
   const APP_PATH = typeof goToApp === "string" ? goToApp : "/search";
 
-  const { navigate, params, path } = useRouter();
+  const { params, path, replace } = useRouter();
   const { isLoggedIn } = useUser();
 
   if (goToAuth && !isLoggedIn) {
-    navigate(
-      {
-        pathname: AUTH_PATH,
-        ...(path && { query: { ...params, [RETURN_URL_KEY]: path } }),
-      },
-      { replace: true },
-    );
+    replace({
+      pathname: AUTH_PATH,
+      ...(path && { query: { ...params, [RETURN_URL_KEY]: path } }),
+    });
   }
 
   if (goToApp && isLoggedIn) {
     const pathname = params[RETURN_URL_KEY] ?? APP_PATH;
-    navigate(
-      {
-        pathname,
-        query: { ...params },
-      },
-      { replace: true },
-    );
+    replace({
+      pathname,
+      query: { ...params },
+    });
   }
 };
 
