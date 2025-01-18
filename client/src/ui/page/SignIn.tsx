@@ -33,7 +33,7 @@ export const SignIn = () => {
   useAuthNavigator({ goToApp: "/search" });
   const push = useNotification();
   const { t } = useLingui();
-  const { navigate } = useRouter();
+  const { replace } = useRouter();
   const { patchUser, registerToken } = useUser();
   const { register: registerPasskey } = usePasskey();
 
@@ -96,7 +96,7 @@ export const SignIn = () => {
     <div className="min-h-dvh">
       <StackedNavigation
         onBack={() => {
-          navigate({ pathname: "/" }, { replace: true });
+          replace({ pathname: "/" });
         }}
         title={t`로그인`}
       />

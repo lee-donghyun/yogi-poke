@@ -35,7 +35,7 @@ export const Register = () => {
   useAuthNavigator({ goToApp: "/search" });
   const push = useNotification();
   const { t } = useLingui();
-  const { navigate, params } = useRouter();
+  const { params, replace } = useRouter();
   const { client, patchUser, registerToken } = useUser();
   const { register: registerPasskey } = usePasskey();
 
@@ -109,7 +109,7 @@ export const Register = () => {
     <div className="min-h-dvh">
       <StackedNavigation
         onBack={() => {
-          navigate({ pathname: "/" }, { replace: true });
+          replace({ pathname: "/" });
         }}
         title={t`회원가입`}
       />
