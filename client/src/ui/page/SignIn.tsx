@@ -136,6 +136,7 @@ export const SignIn = () => {
             <Trans>아이디</Trans>
           </label>
           <input
+            autoCapitalize="off"
             className={cx.input}
             disabled={isMutating}
             id="email"
