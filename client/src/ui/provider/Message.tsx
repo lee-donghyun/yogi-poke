@@ -28,9 +28,9 @@ export const MessageProvider = ({ children }: { children: ReactNode }) => {
           break;
       }
     };
-    self.navigator.serviceWorker.addEventListener("message", listener);
+    self?.navigator?.serviceWorker.addEventListener("message", listener);
     return () => {
-      self.navigator.serviceWorker.removeEventListener("message", listener);
+      self?.navigator?.serviceWorker.removeEventListener("message", listener);
     };
   }, [push]);
 
