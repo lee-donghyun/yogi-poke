@@ -4,6 +4,7 @@ import { useRouter } from "router2";
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
 import { DELETED_USER } from "../../service/const.ts";
 import { isVerifiedUser } from "../../service/util.ts";
+import { BACKDROP_ANIMATION_DURATION } from "../base/Backdrop.tsx";
 import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 import { Navigation } from "../base/Navigation.tsx";
 import { Stat } from "../base/Stat.tsx";
@@ -32,7 +33,7 @@ const MenuSheet = createDraggableSheet(({ close }) => {
               close();
               setTimeout(() => {
                 push({ pathname: "/setting" });
-              }, 200);
+              }, BACKDROP_ANIMATION_DURATION);
             }}
           >
             <Setting />
