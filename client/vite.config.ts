@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
           filesToDeleteAfterUpload: "dist/assets/*.js.map",
         },
         authToken: env.SENTRY_AUTH_TOKEN,
+        disable: env.MODE === "local",
       }),
     ],
     server: {

@@ -1,12 +1,11 @@
-import { Messages } from "@lingui/core";
 import { Trans, useLingui } from "@lingui/react/macro";
 
 import { AButton } from "../base/AButton";
 import { createDraggableSheet } from "../base/DraggableSheet";
-import { Locale, LOCALE_PERSIST_KEY } from "../provider/I18nProvider";
+import { Locale, setLocale } from "../provider/I18nProvider";
 
 export const Language = createDraggableSheet(({ close }) => {
-  const { i18n, t } = useLingui();
+  const { t } = useLingui();
   return (
     <div className="p-6 pt-2.5">
       <p className="pb-3 text-lg font-semibold text-zinc-800">
@@ -22,11 +21,7 @@ export const Language = createDraggableSheet(({ close }) => {
           className="w-full rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"
           key={label}
           onClick={async () => {
-            const catalog = (await import(
-              `../../locales/${locale}/messages.json`
-            )) as { messages: Messages };
-            i18n.loadAndActivate({ locale, messages: catalog.messages });
-            localStorage.setItem(LOCALE_PERSIST_KEY, locale);
+            await setLocale(locale);
             close();
           }}
         >
