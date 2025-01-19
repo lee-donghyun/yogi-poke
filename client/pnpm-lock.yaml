@@ -63,8 +63,8 @@ importers:
         specifier: ^2.6.2
         version: 2.6.2(@types/react@19.0.1)(react@19.0.0)
       router2:
-        specifier: ^6.0.0
-        version: 6.0.0(@types/react-dom@19.0.1)(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2)
+        specifier: ^7.0.0
+        version: 7.0.0(@types/react-dom@19.0.1)(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2)
       sonner:
         specifier: ^1.7.0
         version: 1.7.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2612,8 +2612,8 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  router2@6.0.0:
-    resolution: {integrity: sha512-FQBKe3ouEatwIENMfzf4ctMBw3/wkZzgYHqMba8YNnieBHVzB4WW8LTHGxA/Oq09X7fxWe64GllD5DQtwOwOUA==}
+  router2@7.0.0:
+    resolution: {integrity: sha512-bG6B7GdpcGWbwGMHwdaCeX5Nqni+nyWvTFEsrY8wSqVMfkQwnUdlHwj6wCP5VlVuwraxAfscIS8gUcBs2fS+Lw==}
     peerDependencies:
       '@types/react': ^19.0.1
       '@types/react-dom': ^19.0.1
@@ -5637,7 +5637,7 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.28.1
       fsevents: 2.3.3
 
-  router2@6.0.0(@types/react-dom@19.0.1)(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2):
+  router2@7.0.0(@types/react-dom@19.0.1)(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.2):
     dependencies:
       '@types/react': 19.0.1
       '@types/react-dom': 19.0.1

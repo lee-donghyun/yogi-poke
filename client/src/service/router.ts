@@ -7,7 +7,7 @@ export const config: Config = {
     afterBack: ({ current }) => {
       window.scrollTo({ top: scroll.get(current.pathname) ?? 0 });
     },
-    afterFoward: () => {
+    afterForward: () => {
       window.scrollTo({ top: 0 });
     },
     afterPush: () => {
@@ -16,14 +16,17 @@ export const config: Config = {
     afterReplace: ({ current }) => {
       window.scrollTo({ top: scroll.get(current.pathname) ?? 0 });
     },
-    beforeBack: ({ prev }) => {
+    beforeBack: ({ prev }, next) => {
       scroll.set(prev.pathname, window.scrollY);
+      next();
     },
-    beforePush: ({ prev }) => {
+    beforePush: ({ prev }, next) => {
       scroll.set(prev.pathname, window.scrollY);
+      document.startViewTransition(next);
     },
-    beforeReplace: ({ prev }) => {
+    beforeReplace: ({ prev }, next) => {
       scroll.set(prev.pathname, window.scrollY);
+      next();
     },
   },
 };
