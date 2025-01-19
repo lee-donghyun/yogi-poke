@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 
+export const BACKDROP_ANIMATION_DURATION = 500;
+
 export const Backdrop = ({
   children,
   close,
