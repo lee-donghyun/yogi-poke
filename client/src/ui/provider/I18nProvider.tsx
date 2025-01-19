@@ -2,7 +2,7 @@ import { i18n, Messages } from "@lingui/core";
 import { detect, fromNavigator, fromStorage } from "@lingui/detect-locale";
 import { I18nProvider as LinguiProvider } from "@lingui/react";
 import { useLingui } from "@lingui/react/macro";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 export const LOCALE_PERSIST_KEY = "LOCALE";
 export enum Locale {
@@ -11,6 +11,31 @@ export enum Locale {
   KO = "ko",
 }
 const DEFAULT_LOCALE = Locale.KO;
+
+const detectLocale = () => {
+  const detected = detect(
+    fromStorage(LOCALE_PERSIST_KEY),
+    fromNavigator(),
+  )?.split("-")[0];
+
+  if ([Locale.EN, Locale.JA, Locale.KO].includes(detected as Locale)) {
+    return detected as Locale;
+  }
+
+  return DEFAULT_LOCALE;
+};
+
+export const setLocale = async (locale: Locale) => {
+  localStorage.setItem(LOCALE_PERSIST_KEY, locale);
+  const { messages } = (await import(
+    `../../locales/${locale}/messages.po`
+  )) as {
+    messages: Messages;
+  };
+  i18n.loadAndActivate({ locale, messages });
+};
+
+export const initLocale = () => setLocale(detectLocale());
 
 const Meta = () => {
   const { t } = useLingui();
@@ -23,21 +48,6 @@ const Meta = () => {
 };
 
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
-  useEffect(() => {
-    void (async () => {
-      const locale = (
-        detect(fromStorage(LOCALE_PERSIST_KEY), fromNavigator()) ??
-        DEFAULT_LOCALE
-      ).split("-")[0];
-
-      const catalog = (await import(
-        `../../locales/${locale}/messages.json`
-      )) as { messages: Messages };
-
-      i18n.loadAndActivate({ locale, messages: catalog.messages });
-    })();
-  }, []);
-
   return (
     <LinguiProvider i18n={i18n}>
       <Meta />
