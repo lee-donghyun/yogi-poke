@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter } from "router2";
 
 import { config } from "./service/router.ts";
+import { BACKDROP_ANIMATION_DURATION } from "./ui/base/Backdrop.tsx";
 import { Home } from "./ui/page/Home";
 import { Like } from "./ui/page/Like";
 import { MyPage } from "./ui/page/MyPage";
@@ -51,7 +52,9 @@ export const App = () => {
           <NotificationProvider>
             <PwaProvider
               fallback={
-                <StackedLayerProvider>
+                <StackedLayerProvider
+                  unmountAfter={BACKDROP_ANIMATION_DURATION}
+                >
                   <Suspense>
                     <Introduction />
                   </Suspense>
@@ -61,7 +64,9 @@ export const App = () => {
               {(prefetch) => (
                 <AuthProvider myInfo={prefetch.myInfo}>
                   <MessageProvider>
-                    <StackedLayerProvider>
+                    <StackedLayerProvider
+                      unmountAfter={BACKDROP_ANIMATION_DURATION}
+                    >
                       <Page />
                     </StackedLayerProvider>
                   </MessageProvider>

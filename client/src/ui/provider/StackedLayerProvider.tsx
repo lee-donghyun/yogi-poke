@@ -11,8 +11,6 @@ interface Overlay {
   (Component: Layer<never>): void;
 }
 
-const DELAY = 500;
-
 const StackedLayerContext = createContext<Overlay>(() => {
   throw new Error(
     "useStackedLayer hook-domain must be called in StackedLayerProvider context",
@@ -24,8 +22,10 @@ export const useStackedLayer = () => use(StackedLayerContext);
 
 export const StackedLayerProvider = ({
   children,
+  unmountAfter,
 }: {
   children: JSX.Element;
+  unmountAfter: number;
 }) => {
   const [visible, setVisible] = useState(false);
   const [context, setContext] = useState<never>(null as never);
@@ -50,7 +50,7 @@ export const StackedLayerProvider = ({
         }
         return show;
       });
-    }, DELAY);
+    }, unmountAfter);
   };
 
   return (
