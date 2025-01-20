@@ -7,7 +7,9 @@ import { useDebouncedValue } from "../../hook/base/useDebouncedValue.ts";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { User } from "../../service/dataType.ts";
 import {
+  combineMiddlewares,
   dataUpdatedAtMiddleware,
+  InferMiddlewareType,
   useShouldAnimateMiddleware,
 } from "../../service/swr.ts";
 import { isVerifiedUser } from "../../service/util.ts";
@@ -37,10 +39,8 @@ const SEARCH_TEXT_KEY = "q";
 
 type Key = [string, { email: string; limit: number; name: string }];
 
-const shouldAnimateMiddlewareOptoins = {
-  isEqualKey: (a: Key, b: Key) =>
-    a[1].email === b[1].email && a[1].name === b[1].name,
-};
+const isEqualKey = (a: Key, b: Key) =>
+  a[1].email === b[1].email && a[1].name === b[1].name;
 export const Search = () => {
   useAuthNavigator({ goToAuth: "/sign-in" });
   const overlay = useStackedLayer();
@@ -57,6 +57,10 @@ export const Search = () => {
   const deferredSearchText = useDebouncedValue(searchText, 300);
   const [selected, setSelected] = useState<null | User>(null);
 
+  const use = combineMiddlewares(
+    useShouldAnimateMiddleware(isEqualKey),
+    dataUpdatedAtMiddleware,
+  );
   const { data, dataUpdatedAt, isLoading, shouldAnimate } = useSWR<User[]>(
     ["user", { email: deferredSearchText, limit: 5, name: deferredSearchText }],
     {
@@ -65,12 +69,9 @@ export const Search = () => {
         setSelected(null);
         setPokeOptionOpen(false);
       },
-      use: [
-        useShouldAnimateMiddleware(shouldAnimateMiddlewareOptoins),
-        dataUpdatedAtMiddleware,
-      ],
+      use,
     },
-  ) as { dataUpdatedAt: number; shouldAnimate: boolean } & SWRResponse<User[]>;
+  ) as InferMiddlewareType<typeof use> & SWRResponse<User[]>;
 
   const { isMutating, trigger } = usePoke();
 
