@@ -22,14 +22,16 @@ const createShouldAnimateMiddleware = <Key extends SWRKey>(
         const isInitialized = context.initialKey !== null;
         const swr = useSWRNext(key, fetcher, config);
 
-        if (!isInitialized) {
-          context.initialKey = key as Key;
-          context.hasCacheForInitialKey = swr.data !== undefined;
-        } else if (
-          !context.keyChanged &&
-          !isEqualKey(key as Key, context.initialKey as Key)
-        ) {
-          context.keyChanged = true;
+        if (key) {
+          if (!isInitialized) {
+            context.initialKey = key as Key;
+            context.hasCacheForInitialKey = swr.data !== undefined;
+          } else if (
+            !context.keyChanged &&
+            !isEqualKey(key as Key, context.initialKey as Key)
+          ) {
+            context.keyChanged = true;
+          }
         }
 
         return {
