@@ -1,37 +1,46 @@
-import { Middleware } from "swr";
+import useSWR, { Key, Middleware } from "swr";
+import { Fetcher, SWRConfiguration, SWRResponse } from "swr/_internal";
 
 export type TypedMiddleware<T> = { __type: T } & Middleware;
 
-/**
- * combineMiddlewares의 반환값을 통해 useSWR의 반환값을 추론합니다.
- * @example
- * const use = combineMiddlewares(
-    useShouldAnimateMiddleware(isEqualKey),
-    dataUpdatedAtMiddleware,
-  );
-  const { dataUpdatedAt, shouldAnimate } = useSWR(
-    ["user"], { use },
-  ) as InferMiddlewareType<typeof use> & SWRResponse<User[]>;
- */
-export type InferMiddlewareType<T> = T extends TypedMiddleware<infer U>[]
-  ? U
-  : never;
+type MergeProperties<T> = {
+  [K in T as keyof K]: K[keyof K];
+};
+type MergeMiddleware<T extends TypedMiddleware<unknown>[]> = MergeProperties<
+  T[number] extends TypedMiddleware<infer P> ? P : never
+>;
+type SWRConfigurationWithOptionalFallback<Options> = Options extends Required<
+  Pick<SWRConfiguration, "fallbackData">
+> &
+  SWRConfiguration
+  ? Omit<Options, "fallbackData"> & Pick<Partial<Options>, "fallbackData">
+  : Options;
+type ArgumentsTuple = readonly [unknown, ...unknown[]];
 
-interface CombineMiddlewares {
-  <A>(a: TypedMiddleware<A>): TypedMiddleware<A>[];
-  <A, B>(
-    a: TypedMiddleware<A>,
-    b: TypedMiddleware<B>,
-  ): TypedMiddleware<A & B>[];
-  <A, B, C>(
-    a: TypedMiddleware<A>,
-    b: TypedMiddleware<B>,
-    c: TypedMiddleware<C>,
-  ): TypedMiddleware<A & B & C>[];
-}
-export const combineMiddlewares: CombineMiddlewares = (
-  ...middlewares: TypedMiddleware<unknown>[]
-) => middlewares;
+type StrictTupleKey = ArgumentsTuple | false | null | undefined;
+type StrictKey = (() => StrictTupleKey) | StrictTupleKey;
+
+type UseSWRMiddleware = <
+  Data = unknown,
+  Middewares extends TypedMiddleware<unknown>[] = TypedMiddleware<unknown>[],
+  SWRKey extends Key = StrictKey,
+  Error = unknown,
+  SWROptions extends
+    | ({ use: Middewares } & Omit<
+        SWRConfiguration<Data, Error, Fetcher<Data, SWRKey>>,
+        "use"
+      >)
+    | undefined =
+    | ({ use: Middewares } & Omit<
+        SWRConfiguration<Data, Error, Fetcher<Data, SWRKey>>,
+        "use"
+      >)
+    | undefined,
+>(
+  key: SWRKey,
+  config: SWRConfigurationWithOptionalFallback<SWROptions>,
+) => MergeMiddleware<Middewares> & SWRResponse<Data, Error, SWROptions>;
 
 export const createTypedMiddleware = <T>(middleware: Middleware) =>
   middleware as TypedMiddleware<T>;
+export const useSWRMiddleware = useSWR as UseSWRMiddleware;

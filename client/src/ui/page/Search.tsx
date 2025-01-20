@@ -1,17 +1,13 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
-import useSWR, { SWRResponse } from "swr";
 
 import { useDebouncedValue } from "../../hook/base/useDebouncedValue.ts";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { User } from "../../service/dataType.ts";
 import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
 import { useShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
-import {
-  combineMiddlewares,
-  InferMiddlewareType,
-} from "../../service/swr/middleware.ts";
+import { useSWRMiddleware } from "../../service/swr/middleware.ts";
 import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
@@ -57,11 +53,12 @@ export const Search = () => {
   const deferredSearchText = useDebouncedValue(searchText, 300);
   const [selected, setSelected] = useState<null | User>(null);
 
-  const use = combineMiddlewares(
-    useShouldAnimateMiddleware(isEqualKey),
-    dataUpdatedAtMiddleware,
-  );
-  const { data, dataUpdatedAt, isLoading, shouldAnimate } = useSWR<User[]>(
+  const use = [useShouldAnimateMiddleware(isEqualKey), dataUpdatedAtMiddleware];
+  const { data, dataUpdatedAt, isLoading, shouldAnimate } = useSWRMiddleware<
+    User[],
+    typeof use,
+    Key
+  >(
     ["user", { email: deferredSearchText, limit: 5, name: deferredSearchText }],
     {
       keepPreviousData: true,
@@ -71,7 +68,7 @@ export const Search = () => {
       },
       use,
     },
-  ) as InferMiddlewareType<typeof use> & SWRResponse<User[]>;
+  );
 
   const { isMutating, trigger } = usePoke();
 
