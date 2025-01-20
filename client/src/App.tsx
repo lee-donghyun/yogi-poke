@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
 import { lazy, Suspense } from "react";
 import { BrowserRouter } from "router2";
 
@@ -16,14 +14,11 @@ import { SignIn } from "./ui/page/SignIn";
 import { ThridPartyRegister } from "./ui/page/ThirdPartyRegister";
 import { User } from "./ui/page/User";
 import { AuthProvider } from "./ui/provider/Auth.tsx";
-import { I18nProvider, initLocale } from "./ui/provider/I18nProvider.tsx";
+import { I18nProvider } from "./ui/provider/I18nProvider.tsx";
 import { MessageProvider } from "./ui/provider/Message.tsx";
 import { NotificationProvider } from "./ui/provider/Notification.tsx";
 import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
-
-dayjs.extend(duration);
-void initLocale();
 
 const Introduction = lazy(() =>
   import("./ui/page/Introduction.tsx").then((mod) => ({
