@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
 import { lazy, Suspense } from "react";
 import { BrowserRouter } from "router2";
 
@@ -21,8 +19,6 @@ import { MessageProvider } from "./ui/provider/Message.tsx";
 import { NotificationProvider } from "./ui/provider/Notification.tsx";
 import { PwaProvider } from "./ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "./ui/provider/StackedLayerProvider.tsx";
-
-dayjs.extend(duration);
 
 const Introduction = lazy(() =>
   import("./ui/page/Introduction.tsx").then((mod) => ({
