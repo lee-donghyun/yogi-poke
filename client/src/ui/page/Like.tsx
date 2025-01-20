@@ -1,16 +1,12 @@
 import { Trans } from "@lingui/react/macro";
 import { useRouter } from "router2";
-import useSWR, { SWRResponse } from "swr";
 
 import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
 import { LIKE_PERSIST_KEY } from "../../service/const.ts";
 import { User } from "../../service/dataType.ts";
 import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
 import { useShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
-import {
-  combineMiddlewares,
-  InferMiddlewareType,
-} from "../../service/swr/middleware.ts";
+import { useSWRMiddleware } from "../../service/swr/middleware.ts";
 import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
@@ -24,16 +20,17 @@ export const Like = () => {
   const { push } = useRouter();
   const [likes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
 
-  const use = combineMiddlewares(
-    useShouldAnimateMiddleware(isEqualKey),
-    dataUpdatedAtMiddleware,
-  );
-  const { data, dataUpdatedAt, shouldAnimate } = useSWR<User[], unknown, Key>(
+  const use = [useShouldAnimateMiddleware(isEqualKey), dataUpdatedAtMiddleware];
+  const { data, dataUpdatedAt, shouldAnimate } = useSWRMiddleware<
+    User[],
+    typeof use,
+    Key
+  >(
     !(likes.length === 0)
       ? ["user", likes.map((id) => `ids[]=${id}`).join("&")]
       : null,
     { use },
-  ) as InferMiddlewareType<typeof use> & SWRResponse<User[]>;
+  );
   const noLikes = likes.length === 0 || data?.length === 0;
 
   return (
