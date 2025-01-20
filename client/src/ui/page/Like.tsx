@@ -3,11 +3,10 @@ import { useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
 
-import { useCreatedAt } from "../../hook/base/useCreatedAt.ts";
 import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
 import { LIKE_PERSIST_KEY } from "../../service/const.ts";
 import { User } from "../../service/dataType.ts";
-import { isVerifiedUser } from "../../service/util.ts";
+import { createdAt, isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
@@ -22,7 +21,7 @@ export const Like = () => {
       : null,
   );
   const noLikes = likes.length === 0 || data?.length === 0;
-  const dataUpdatedAt = useCreatedAt(data);
+  const dataUpdatedAt = createdAt(data);
   const [prev] = useState(data);
 
   return (

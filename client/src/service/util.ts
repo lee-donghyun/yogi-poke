@@ -87,3 +87,16 @@ export const getDenormalizedPoints = (size: number) => (lines: Line[]) =>
     ...line,
     points: line.points.map((point) => (point * size) / 1000),
   }));
+
+const map = new WeakMap<WeakKey, number>();
+export const createdAt = (dep: undefined | WeakKey) => {
+  if (dep === undefined) {
+    return 0;
+  }
+  if (map.has(dep)) {
+    return map.get(dep)!;
+  }
+  const createdAt = Date.now();
+  map.set(dep, createdAt);
+  return createdAt;
+};

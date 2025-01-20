@@ -3,11 +3,10 @@ import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
 import useSWR from "swr";
 
-import { useCreatedAt } from "../../hook/base/useCreatedAt.ts";
 import { useDebouncedValue } from "../../hook/base/useDebouncedValue.ts";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { User } from "../../service/dataType.ts";
-import { isVerifiedUser } from "../../service/util.ts";
+import { createdAt, isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
 import { PokeWithDrawing } from "../domain/PokeWithDrawing.tsx";
@@ -56,7 +55,7 @@ export const Search = () => {
       },
     },
   );
-  const dataUpdatedAt = useCreatedAt(data);
+  const dataUpdatedAt = createdAt(data);
 
   const { isMutating, trigger } = usePoke();
 
