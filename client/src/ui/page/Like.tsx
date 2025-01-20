@@ -1,29 +1,37 @@
 import { Trans } from "@lingui/react/macro";
-import { useState } from "react";
 import { useRouter } from "router2";
-import useSWR from "swr";
 
-import { useCreatedAt } from "../../hook/base/useCreatedAt.ts";
 import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
 import { LIKE_PERSIST_KEY } from "../../service/const.ts";
 import { User } from "../../service/dataType.ts";
+import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
+import { useShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
+import { useSWRMiddleware } from "../../service/swr/middleware.ts";
 import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 
+type Key = [string, string] | null;
+const isEqualKey = (a: Key, b: Key) => a?.[0] === b?.[0] && a?.[1] === b?.[1];
+
 export const Like = () => {
   const { push } = useRouter();
   const [likes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
-  const { data } = useSWR<User[]>(
+
+  const use = [useShouldAnimateMiddleware(isEqualKey), dataUpdatedAtMiddleware];
+  const { data, dataUpdatedAt, shouldAnimate } = useSWRMiddleware<
+    User[],
+    typeof use,
+    Key
+  >(
     !(likes.length === 0)
       ? ["user", likes.map((id) => `ids[]=${id}`).join("&")]
       : null,
+    { use },
   );
   const noLikes = likes.length === 0 || data?.length === 0;
-  const dataUpdatedAt = useCreatedAt(data);
-  const [prev] = useState(data);
 
   return (
     <div className="min-h-dvh">
@@ -35,7 +43,7 @@ export const Like = () => {
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
-              animation={prev === data ? null : { delayTimes: i }}
+              animation={shouldAnimate ? { delayTimes: i } : null}
               isVerifiedUser={isVerifiedUser(user)}
               key={user.email + dataUpdatedAt}
               onClick={() => {
