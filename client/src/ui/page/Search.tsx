@@ -1,12 +1,16 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
-import useSWR from "swr";
+import useSWR, { SWRResponse } from "swr";
 
 import { useDebouncedValue } from "../../hook/base/useDebouncedValue.ts";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { User } from "../../service/dataType.ts";
-import { createdAt, isVerifiedUser } from "../../service/util.ts";
+import {
+  dataUpdatedAtMiddleware,
+  useShouldAnimateMiddleware,
+} from "../../service/swr.ts";
+import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
 import { PokeWithDrawing } from "../domain/PokeWithDrawing.tsx";
@@ -29,23 +33,31 @@ const cx = {
     "whitespace-pre rounded-full bg-black px-4 py-3 font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300",
 };
 
+const SEARCH_TEXT_KEY = "q";
+
+type Key = [string, { email: string; limit: number; name: string }];
+
+const shouldAnimateMiddlewareOptoins = {
+  isEqualKey: (a: Key, b: Key) =>
+    a[1].email === b[1].email && a[1].name === b[1].name,
+};
 export const Search = () => {
   useAuthNavigator({ goToAuth: "/sign-in" });
   const overlay = useStackedLayer();
   const { t } = useLingui();
   const { params, replace } = useRouter();
 
-  const searchText = params?.searchText ?? "";
+  const searchText = params?.[SEARCH_TEXT_KEY] ?? "";
   const setSearchText = (searchText: string) => {
     replace({
       pathname: "/search",
-      ...(searchText && { query: { searchText } }),
+      ...(searchText && { query: { [SEARCH_TEXT_KEY]: searchText } }),
     });
   };
   const deferredSearchText = useDebouncedValue(searchText, 300);
   const [selected, setSelected] = useState<null | User>(null);
 
-  const { data, isLoading } = useSWR<User[]>(
+  const { data, dataUpdatedAt, isLoading, shouldAnimate } = useSWR<User[]>(
     ["user", { email: deferredSearchText, limit: 5, name: deferredSearchText }],
     {
       keepPreviousData: true,
@@ -53,9 +65,12 @@ export const Search = () => {
         setSelected(null);
         setPokeOptionOpen(false);
       },
+      use: [
+        useShouldAnimateMiddleware(shouldAnimateMiddlewareOptoins),
+        dataUpdatedAtMiddleware,
+      ],
     },
-  );
-  const dataUpdatedAt = createdAt(data);
+  ) as { dataUpdatedAt: number; shouldAnimate: boolean } & SWRResponse<User[]>;
 
   const { isMutating, trigger } = usePoke();
 
@@ -94,6 +109,7 @@ export const Search = () => {
         <div className="flex items-center pt-10">
           <span className="block w-5 text-xl font-bold">@</span>
           <input
+            autoCapitalize="off"
             className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
             onChange={({ target: { value } }) => {
               setSearchText(value);
@@ -106,9 +122,9 @@ export const Search = () => {
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
             <UserListItem
-              animation={{ delayTimes: i }}
+              animation={shouldAnimate ? { delayTimes: i } : null}
               isVerifiedUser={isVerifiedUser(user)}
-              key={user.email + dataUpdatedAt}
+              key={user.email + dataUpdatedAt} // data 변경 시 애니메이션을 위해 dataUpdatedAt 추가
               onClick={() => {
                 setSelected(user);
                 setPokeOptionOpen(false);
