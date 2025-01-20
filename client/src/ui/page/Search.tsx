@@ -6,12 +6,12 @@ import useSWR, { SWRResponse } from "swr";
 import { useDebouncedValue } from "../../hook/base/useDebouncedValue.ts";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { User } from "../../service/dataType.ts";
+import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
+import { useShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
 import {
   combineMiddlewares,
-  dataUpdatedAtMiddleware,
   InferMiddlewareType,
-  useShouldAnimateMiddleware,
-} from "../../service/swr.ts";
+} from "../../service/swr/middleware.ts";
 import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";

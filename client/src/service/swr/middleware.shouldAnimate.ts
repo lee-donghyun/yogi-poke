@@ -1,43 +1,8 @@
 import { useMemo } from "react";
-import { Middleware, Key as SWRKey } from "swr";
+import { Key as SWRKey } from "swr";
 
-import { createdAt, withContext } from "./util";
-
-type TypedMiddleware<T> = { __type: T } & Middleware;
-
-interface CombineMiddlewares {
-  <A>(a: TypedMiddleware<A>): TypedMiddleware<A>[];
-  <A, B>(
-    a: TypedMiddleware<A>,
-    b: TypedMiddleware<B>,
-  ): TypedMiddleware<A & B>[];
-  <A, B, C>(
-    a: TypedMiddleware<A>,
-    b: TypedMiddleware<B>,
-    c: TypedMiddleware<C>,
-  ): TypedMiddleware<A & B & C>[];
-}
-
-/**
- * combineMiddlewares의 반환값을 통해 useSWR의 반환값을 추론합니다.
- * @example
- * const use = combineMiddlewares(
-    useShouldAnimateMiddleware(isEqualKey),
-    dataUpdatedAtMiddleware,
-  );
-  const { dataUpdatedAt, shouldAnimate } = useSWR(
-    ["user"], { use },
-  ) as InferMiddlewareType<typeof use> & SWRResponse<User[]>;
- */
-export type InferMiddlewareType<T> = T extends TypedMiddleware<infer U>[]
-  ? U
-  : never;
-
-const createTypedMiddleware = <T>(middleware: Middleware) =>
-  middleware as TypedMiddleware<T>;
-export const combineMiddlewares: CombineMiddlewares = (
-  ...middlewares: TypedMiddleware<unknown>[]
-) => middlewares;
+import { withContext } from "../util";
+import { createTypedMiddleware, TypedMiddleware } from "./middleware";
 
 interface ShouldAnimateContext {
   hasCacheForInitialKey: boolean;
@@ -87,14 +52,3 @@ const createShouldAnimateMiddleware = <Key extends SWRKey>(
 export const useShouldAnimateMiddleware = <Key extends SWRKey>(
   isEqualKey: IsEqualKey<Key>,
 ) => useMemo(() => createShouldAnimateMiddleware(isEqualKey), [isEqualKey]);
-
-export const dataUpdatedAtMiddleware = createTypedMiddleware<{
-  dataUpdatedAt: number;
-}>((useSWRNext) => (key, fetcher, config) => {
-  const swr = useSWRNext(key, fetcher, config);
-  const dataUpdatedAt = createdAt(swr.data as WeakKey);
-  return {
-    ...swr,
-    dataUpdatedAt,
-  };
-});
