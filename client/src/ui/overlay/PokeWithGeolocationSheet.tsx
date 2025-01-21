@@ -14,7 +14,7 @@ const Map = lazy(() =>
   import("../base/Map").then((module) => ({ default: module.Map })),
 );
 
-export const PokeWithGeoLocation = createDraggableSheet<{ email: string }>(
+export const PokeWithGeoLocationSheet = createDraggableSheet<{ email: string }>(
   ({ close, context: { email } }) => {
     const {
       domRef,

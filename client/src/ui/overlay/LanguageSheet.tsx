@@ -4,7 +4,7 @@ import { AButton } from "../base/AButton";
 import { createDraggableSheet } from "../base/DraggableSheet";
 import { Locale, setLocale } from "../provider/I18nProvider";
 
-export const Language = createDraggableSheet(({ close }) => {
+export const LanguageSheet = createDraggableSheet(({ close }) => {
   const { t } = useLingui();
   return (
     <div className="p-6 pt-2.5">

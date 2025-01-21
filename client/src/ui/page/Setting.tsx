@@ -9,12 +9,12 @@ import { StackedNavigation } from "../base/Navigation.tsx";
 import { SettingGroup } from "../base/SettingGroup.tsx";
 import { CheckCircleOutline } from "../icon/CheckCircleOutline.tsx";
 import { CheckCircleSolid } from "../icon/CheckCircleSolid.tsx";
+import { LanguageSheet } from "../overlay/LanguageSheet.tsx";
 import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import { BlockedUser } from "./Setting.BlockedUser.tsx";
-import { Language } from "./Setting.Language.tsx";
 import { Quit } from "./Setting.Quit.tsx";
 
 enum Menu {
@@ -175,7 +175,7 @@ export const Setting = () => {
                 <button
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%]"
                   onClick={() => {
-                    overlay(Language);
+                    overlay(LanguageSheet);
                   }}
                 >
                   <Trans>언어 선택</Trans>
