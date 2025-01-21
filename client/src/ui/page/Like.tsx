@@ -5,7 +5,7 @@ import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
 import { LIKE_PERSIST_KEY } from "../../service/const.ts";
 import { User } from "../../service/dataType.ts";
 import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
-import { useShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
+import { createShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
 import { useSWRMiddleware } from "../../service/swr/middleware.ts";
 import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
@@ -15,21 +15,23 @@ import { CircleXIcon } from "../icon/CircleX.tsx";
 
 type Key = [string, string] | null;
 const isEqualKey = (a: Key, b: Key) => a?.[0] === b?.[0] && a?.[1] === b?.[1];
-
+const middlewares = [
+  createShouldAnimateMiddleware(isEqualKey),
+  dataUpdatedAtMiddleware,
+];
 export const Like = () => {
   const { push } = useRouter();
   const [likes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
 
-  const use = [useShouldAnimateMiddleware(isEqualKey), dataUpdatedAtMiddleware];
   const { data, dataUpdatedAt, shouldAnimate } = useSWRMiddleware<
     User[],
-    typeof use,
+    typeof middlewares,
     Key
   >(
     !(likes.length === 0)
       ? ["user", likes.map((id) => `ids[]=${id}`).join("&")]
       : null,
-    { use },
+    { use: middlewares },
   );
   const noLikes = likes.length === 0 || data?.length === 0;
 
