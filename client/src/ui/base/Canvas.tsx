@@ -21,8 +21,6 @@ interface Trace {
   y: number;
 }
 
-const AnimatedLine = animated.Line as unknown as typeof Line;
-
 const ANIMATED_DURATION = 300;
 
 export const Trace = ({
@@ -39,11 +37,14 @@ export const Trace = ({
   });
 
   return (
-    <AnimatedLine
-      {...(animatedProps as unknown as {
-        opacity: number;
-        strokeWidth: number;
-      })}
+    /**
+     * hack: spring konva 버그로 인해 Line 컴포넌트를 사용할 수 없음
+     * @see https://github.com/pmndrs/react-spring/issues/1515
+     */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    <animated.Line
+      {...animatedProps}
       lineCap="round"
       lineJoin="round"
       points={[from.x, from.y, to.x, to.y]}

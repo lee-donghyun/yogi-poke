@@ -14,15 +14,18 @@ const subscribe = (onStoreChange: Notifier) => {
 };
 
 export const useLocalStorage = <T>(key: string, defaultValue: T) => {
-  const value = useSyncExternalStore(
-    subscribe,
-    () => localStorage.getItem(key) ?? JSON.stringify(defaultValue),
-  );
+  const value = useSyncExternalStore(subscribe, () => {
+    const item = localStorage.getItem(key);
+    if (item !== null) {
+      return item;
+    }
+    const defaultItem = JSON.stringify(defaultValue);
+    localStorage.setItem(key, defaultItem);
+    return defaultItem;
+  });
   const setValue = (value: T) => {
     localStorage.setItem(key, JSON.stringify(value));
-    LISTENERS.forEach((l) => {
-      l();
-    });
+    LISTENERS.forEach((l) => l());
   };
   return [
     try_(() => JSON.parse(value) as T)._catch(() => defaultValue),

@@ -12,14 +12,17 @@ export enum Locale {
 }
 const DEFAULT_LOCALE = Locale.KO;
 
+const isValidLocale = (locale: unknown): locale is Locale =>
+  [Locale.EN, Locale.JA, Locale.KO].includes(locale as Locale);
+
 const detectLocale = () => {
   const detected = detect(
     fromStorage(LOCALE_PERSIST_KEY),
     fromNavigator(),
   )?.split("-")[0];
 
-  if ([Locale.EN, Locale.JA, Locale.KO].includes(detected as Locale)) {
-    return detected as Locale;
+  if (isValidLocale(detected)) {
+    return detected;
   }
 
   return DEFAULT_LOCALE;
