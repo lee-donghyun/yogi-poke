@@ -9,7 +9,7 @@ import { MyPage } from "./ui/page/MyPage";
 import { NotFound } from "./ui/page/NotFound.tsx";
 import { Register } from "./ui/page/Register";
 import { Search } from "./ui/page/Search";
-import { Setting } from "./ui/page/Setting";
+import { Setting } from "./ui/page/Setting.tsx";
 import { SignIn } from "./ui/page/SignIn";
 import { ThridPartyRegister } from "./ui/page/ThirdPartyRegister";
 import { User } from "./ui/page/User";
