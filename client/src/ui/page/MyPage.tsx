@@ -15,9 +15,9 @@ import { Edit } from "../icon/Edit.tsx";
 import { Menu } from "../icon/Menu.tsx";
 import { MenuSheet } from "../overlay/MenuSheet.tsx";
 import { SharedProfileSheet } from "../overlay/SharedProfileSheet.tsx";
+import { UpdateMyInfoStack } from "../overlay/UpdateMyInfoStack.tsx";
 import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { UpdateMyInfo } from "./UpdateMyInfo.tsx";
 
 export const MyPage = () => {
   useAuthNavigator({ goToAuth: true });
@@ -66,7 +66,7 @@ export const MyPage = () => {
               <button
                 className="active:opacity-60"
                 onClick={() => {
-                  overlay(UpdateMyInfo);
+                  overlay(UpdateMyInfoStack);
                 }}
                 type="button"
               >

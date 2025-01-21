@@ -7,15 +7,15 @@ import { getPushNotificationSubscription } from "../../service/util.ts";
 import { AButton } from "../base/AButton.tsx";
 import { StackedNavigation } from "../base/Navigation.tsx";
 import { SettingGroup } from "../base/SettingGroup.tsx";
+import { BlockedUser } from "../domain/BlockedUser.tsx";
 import { CheckCircleOutline } from "../icon/CheckCircleOutline.tsx";
 import { CheckCircleSolid } from "../icon/CheckCircleSolid.tsx";
 import { LanguageSheet } from "../overlay/LanguageSheet.tsx";
+import { QuitStack } from "../overlay/QuitStack.tsx";
 import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useNotification } from "../provider/Notification.tsx";
 import { releaseToken } from "../provider/PwaProvider.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { BlockedUser } from "./Setting.BlockedUser.tsx";
-import { Quit } from "./Setting.Quit.tsx";
 
 enum Menu {
   Account,
@@ -148,7 +148,7 @@ export const Setting = () => {
                   <button
                     className="flex w-full items-center justify-between rounded-xl py-3 text-start text-zinc-500 duration-150 active:scale-[98%]"
                     key="탈퇴"
-                    onClick={() => overlay(Quit)}
+                    onClick={() => overlay(QuitStack)}
                   >
                     <Trans>계정 삭제</Trans>
                   </button>
