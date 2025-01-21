@@ -5,9 +5,9 @@ import { withContext } from "../util";
 import { createTypedMiddleware, TypedMiddleware } from "./middleware";
 
 interface ShouldAnimateContext {
-  hasCacheForInitialKey: boolean;
+  cachedDataForInitialKey: unknown;
   initialKey: null | SWRKey;
-  keyChanged: boolean;
+  keyChangedFromInitialKeyAndDataLoaded: boolean;
 }
 type IsEqualKey<Key extends SWRKey> = (a: Key, b: Key) => boolean;
 const createShouldAnimateMiddleware = <Key extends SWRKey>(
@@ -19,35 +19,38 @@ const createShouldAnimateMiddleware = <Key extends SWRKey>(
   >(
     (context) =>
       createTypedMiddleware((useSWRNext) => (key, fetcher, config) => {
-        const isInitialized = context.initialKey !== null;
         const swr = useSWRNext(key, fetcher, config);
 
         if (key) {
+          const isInitialized = context.initialKey !== null;
           if (!isInitialized) {
             context.initialKey = key as Key;
-            context.hasCacheForInitialKey = swr.data !== undefined;
+            const hasCacheForInitialKey = swr.data !== undefined;
+            if (hasCacheForInitialKey) {
+              context.cachedDataForInitialKey = swr.data;
+            }
           } else if (
-            !context.keyChanged &&
-            !isEqualKey(key as Key, context.initialKey as Key)
+            context.keyChangedFromInitialKeyAndDataLoaded === false &&
+            swr.data !== undefined &&
+            swr.data !== context.cachedDataForInitialKey &&
+            !isEqualKey(context.initialKey as Key, key as Key)
           ) {
-            context.keyChanged = true;
+            context.keyChangedFromInitialKeyAndDataLoaded = true;
           }
         }
 
         return {
           ...swr,
-          /**
-           * 캐시된 데이터가 있으면서 첫 마운트일때 애니메이션 없이 렌더링
-           */
           shouldAnimate: !(
-            context.hasCacheForInitialKey && !context.keyChanged
+            context.cachedDataForInitialKey !== undefined &&
+            context.keyChangedFromInitialKeyAndDataLoaded === false
           ),
         };
       }),
     {
-      hasCacheForInitialKey: false,
+      cachedDataForInitialKey: undefined,
       initialKey: null,
-      keyChanged: false,
+      keyChangedFromInitialKeyAndDataLoaded: false,
     },
   );
 
