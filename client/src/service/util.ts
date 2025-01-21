@@ -100,11 +100,3 @@ export const createdAt = (dep: undefined | WeakKey) => {
   map.set(dep, createdAt);
   return createdAt;
 };
-
-export const withContext = <Context extends object, Funtion>(
-  fn: (context: Context) => Funtion,
-  initialContext: Context,
-): Funtion => {
-  const context = { ...initialContext };
-  return fn(context);
-};
