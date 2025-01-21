@@ -2,12 +2,12 @@ import { Trans, useLingui } from "@lingui/react/macro";
 
 import { ArrowUpOnSquare } from "../icon/ArrowUpOnSquare.tsx";
 import { DevicePhoneMobile } from "../icon/DevicePhoneMobile.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 import {
   InstructionSheet,
   platform,
   pwaHelpUrl,
-} from "./Introduction.Platform.tsx";
+} from "../overlay/IntroductionSheet.tsx";
+import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
 
 const VERSION = "25.01.08";
 

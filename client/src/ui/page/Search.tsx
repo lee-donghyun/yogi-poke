@@ -11,15 +11,15 @@ import { useSWRMiddleware } from "../../service/swr/middleware.ts";
 import { isVerifiedUser } from "../../service/util.ts";
 import { Navigation } from "../base/Navigation.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
-import { PokeWithDrawing } from "../domain/PokeWithDrawing.tsx";
-import { PokeWithEmoji } from "../domain/PokeWithEmoji.tsx";
-import { PokeWithGeoLocation } from "../domain/PokeWithGeolocation.tsx";
+import { PokeWithDrawingSheet } from "../overlay/PokeWithDrawingSheet.tsx";
+import { PokeWithEmojiSheet } from "../overlay/PokeWithEmojiSheet.tsx";
+import { PokeWithGeoLocationSheet } from "../overlay/PokeWithGeolocationSheet.tsx";
 import { UserListItem } from "../domain/UserListItem.tsx";
 import { CircleXIcon } from "../icon/CircleX.tsx";
 import { QrCode } from "../icon/QrCode.tsx";
+import { QrScannerSheet } from "../overlay/QrScannerSheet.tsx";
 import { useAuthNavigator } from "../provider/Auth.tsx";
 import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { QrScannerSheet } from "./Search.QrScannerSheet.tsx";
 
 const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings
@@ -156,21 +156,21 @@ export const Search = () => {
       <div className="fixed bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))] right-5">
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-[10.5rem]`} bottom-[10.5rem] ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
-          onClick={validateAndOverlay(PokeWithDrawing)}
+          onClick={validateAndOverlay(PokeWithDrawingSheet)}
           type="button"
         >
           <Trans>그림 찌르기</Trans> 🎨
         </button>
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-28`} bottom-28 ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
-          onClick={validateAndOverlay(PokeWithGeoLocation)}
+          onClick={validateAndOverlay(PokeWithGeoLocationSheet)}
           type="button"
         >
           <Trans>내 위치 찌르기</Trans> 📍
         </button>
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-14`} bottom-14 ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
-          onClick={validateAndOverlay(PokeWithEmoji)}
+          onClick={validateAndOverlay(PokeWithEmojiSheet)}
           type="button"
         >
           <Trans>이모티콘 찌르기</Trans> 😊

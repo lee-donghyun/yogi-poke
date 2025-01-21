@@ -11,7 +11,7 @@ const CanvasRenderer = lazy(() =>
   })),
 );
 
-export const ShowDrawing = createDraggableSheet<{
+export const ShowDrawingSheet = createDraggableSheet<{
   lines: Line[];
   title: string;
 }>(({ context }) => {

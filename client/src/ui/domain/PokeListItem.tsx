@@ -6,10 +6,10 @@ import { Poke, User } from "../../service/dataType.ts";
 import { getReadableDateOffset } from "../../service/util.ts";
 import { type Line } from "../base/Canvas.tsx";
 import { CheckBadge } from "../icon/CheckBadge.tsx";
+import { PokeSheet } from "../overlay/PokeSheet.tsx";
+import { ShowDrawingSheet } from "../overlay/ShowDrawingSheet.tsx";
+import { ShowGeolocationSheet } from "../overlay/ShowGeolocationSheet.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { PokeSheet } from "./PokeSheet.tsx";
-import { ShowDrawing } from "./ShowDrawing.tsx";
-import { ShowGeolocation } from "./ShowGeolocation.tsx";
 
 interface PocketListItemProps {
   animation: {
@@ -88,7 +88,7 @@ const DrawingPokeBody = ({
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
-          overlay(ShowDrawing, {
+          overlay(ShowDrawingSheet, {
             lines,
             title: t`${targetUserName}님에게 보낸 그림`,
           })
@@ -119,7 +119,7 @@ const DrawingPokedBody = ({
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
-          overlay(ShowDrawing, {
+          overlay(ShowDrawingSheet, {
             lines,
             title: t`${targetUserName}님이 보낸 그림`,
           })
@@ -150,7 +150,7 @@ const GeolocationPokeBody = ({
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
-          overlay(ShowGeolocation, {
+          overlay(ShowGeolocationSheet, {
             position,
             title: t`${targetUserName}님에게 보낸 위치`,
           })
@@ -181,7 +181,7 @@ const GeolocationPokedBody = ({
       <button
         className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
         onClick={() =>
-          overlay(ShowGeolocation, {
+          overlay(ShowGeolocationSheet, {
             position,
             title: t`${targetUserName}님이 보낸 위치`,
           })
