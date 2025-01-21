@@ -81,9 +81,7 @@ const DraggableSheet = ({
   );
 };
 
-export const createDraggableSheet = <Context extends object = never>(
-  Content: Layer<Context>,
-) => {
+export const createDraggableSheet = <Context,>(Content: Layer<Context>) => {
   if (import.meta.env.DEV) {
     console.warn("DraggableSheet is created. This must be created once.");
   }
