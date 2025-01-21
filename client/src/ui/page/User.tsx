@@ -12,7 +12,7 @@ import { isVerifiedUser } from "../../service/util.ts";
 import { StackedNavigation } from "../base/Navigation.tsx";
 import { Stat } from "../base/Stat.tsx";
 import { Timer } from "../base/Timer.tsx";
-import { PokeSheet } from "../domain/PokeSheet.tsx";
+import { PokeSheet } from "../overlay/PokeSheet.tsx";
 import { Block } from "../icon/Block.tsx";
 import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { Star, StarSolid } from "../icon/Star.tsx";

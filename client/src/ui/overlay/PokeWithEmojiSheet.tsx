@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import useSWR from "swr";
 
 import { usePoke } from "../../hook/domain/usePoke.ts";
-import { createDraggableSheet } from "../../ui/base/DraggableSheet.tsx";
+import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 
 const EMOJI_DICT_URL = "/asset/emoji.json";
 
@@ -42,7 +42,7 @@ const Emoji = ({
   );
 };
 
-export const PokeWithEmoji = createDraggableSheet<{ email: string }>(
+export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
   ({ close, context }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { isMutating, trigger } = usePoke();
