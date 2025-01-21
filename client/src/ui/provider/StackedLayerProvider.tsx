@@ -1,6 +1,6 @@
 import { createContext, JSX, use, useState } from "react";
 
-export type Layer<Context = never> = (props: {
+export type Layer<Context = unknown> = (props: {
   close: () => void;
   context: Context;
   visible: boolean;
@@ -8,7 +8,7 @@ export type Layer<Context = never> = (props: {
 
 interface Overlay {
   <T>(Component: Layer<T>, context: T): void;
-  (Component: Layer<never>): void;
+  (Component: Layer): void;
 }
 
 const StackedLayerContext = createContext<Overlay>(() => {
@@ -28,7 +28,7 @@ export const StackedLayerProvider = ({
   unmountAfter: number;
 }) => {
   const [visible, setVisible] = useState(false);
-  const [context, setContext] = useState<never>(null as never);
+  const [context, setContext] = useState<unknown>(null);
   const [Layer, setLayer] = useState<Layer | null>(null);
 
   const overlay: Overlay = (
@@ -37,7 +37,7 @@ export const StackedLayerProvider = ({
   ) => {
     setLayer(() => Component);
     setVisible(true);
-    setContext(context as never);
+    setContext(context);
   };
 
   const close = () => {
