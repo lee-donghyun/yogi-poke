@@ -36,17 +36,17 @@ export const CanvasRenderer = ({
     }
   }, [drawCount, pointsCount]);
 
-  const draws = lines.reduce(
+  const draws = lines.reduce<{ lines: Line[]; top: number }>(
     ({ lines, top }, line) => {
       return {
         lines: [...lines, { ...line, points: line.points.slice(0, top * 4) }],
         top: Math.max(0, top - Math.min(line.points.length / 4, top)),
       };
     },
-    { lines: [], top: drawCount } as { lines: Line[]; top: number },
+    { lines: [], top: drawCount },
   );
 
-  const traces = draws.lines.reduce(
+  const traces = draws.lines.reduce<{ x: number; y: number }[][]>(
     (acc, line) => {
       return [
         ...acc,
@@ -62,7 +62,7 @@ export const CanvasRenderer = ({
         ]).flat(),
       ];
     },
-    [] as { x: number; y: number }[][],
+    [],
   );
 
   return (
