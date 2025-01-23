@@ -5,7 +5,7 @@ import ReactDOM from "react-dom/client";
 
 import "./index.css";
 import { App } from "./App.tsx";
-import { initLocale } from "./ui/provider/I18nProvider.tsx";
+import { initLocale } from "./service/i18n.ts";
 
 dayjs.extend(duration);
 void initLocale();

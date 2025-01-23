@@ -3,9 +3,9 @@ import { Trans } from "@lingui/react/macro";
 import { usePoke } from "../../hook/domain/usePoke.ts";
 import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { PokeWithDrawing } from "./PokeWithDrawing.tsx";
-import { PokeWithEmoji } from "./PokeWithEmoji.tsx";
-import { PokeWithGeoLocation } from "./PokeWithGeolocation.tsx";
+import { PokeWithDrawingSheet } from "./PokeWithDrawingSheet.tsx";
+import { PokeWithEmojiSheet } from "./PokeWithEmojiSheet.tsx";
+import { PokeWithGeoLocationSheet } from "./PokeWithGeolocationSheet.tsx";
 
 const cx = {
   pokeButton:
@@ -39,21 +39,21 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
           <button
             className={cx.pokeButton + " text-zinc-900"}
             disabled={isMutating}
-            onClick={() => closeAndOpen(PokeWithDrawing)}
+            onClick={() => closeAndOpen(PokeWithDrawingSheet)}
           >
             <Trans>그림 찌르기</Trans> 🎨
           </button>
           <button
             className={cx.pokeButton + " text-zinc-900"}
             disabled={isMutating}
-            onClick={() => closeAndOpen(PokeWithGeoLocation)}
+            onClick={() => closeAndOpen(PokeWithGeoLocationSheet)}
           >
             <Trans>내 위치 찌르기</Trans> 📍
           </button>
           <button
             className={cx.pokeButton + " text-zinc-900"}
             disabled={isMutating}
-            onClick={() => closeAndOpen(PokeWithEmoji)}
+            onClick={() => closeAndOpen(PokeWithEmojiSheet)}
           >
             <Trans>이모티콘 찌르기</Trans> 😊
           </button>
