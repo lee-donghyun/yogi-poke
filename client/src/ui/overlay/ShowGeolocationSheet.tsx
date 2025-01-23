@@ -12,7 +12,7 @@ const Map = lazy(() =>
   import("../base/Map").then((module) => ({ default: module.Map })),
 );
 
-export const ShowGeolocation = createDraggableSheet<{
+export const ShowGeolocationSheet = createDraggableSheet<{
   position: { latitude: number; longitude: number };
   title: string;
 }>(({ context }) => {
