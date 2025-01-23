@@ -4,8 +4,6 @@ import { useRouter } from "router2";
 import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
 import { DELETED_USER } from "../../service/const.ts";
 import { isVerifiedUser } from "../../service/util.ts";
-import { BACKDROP_ANIMATION_DURATION } from "../base/Backdrop.tsx";
-import { createDraggableSheet } from "../base/DraggableSheet.tsx";
 import { Navigation } from "../base/Navigation.tsx";
 import { Stat } from "../base/Stat.tsx";
 import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
@@ -15,37 +13,11 @@ import { Blink } from "../icon/Blink.tsx";
 import { CheckBadge } from "../icon/CheckBadge.tsx";
 import { Edit } from "../icon/Edit.tsx";
 import { Menu } from "../icon/Menu.tsx";
-import { Setting } from "../icon/Setting.tsx";
+import { MenuSheet } from "../overlay/MenuSheet.tsx";
+import { SharedProfileSheet } from "../overlay/SharedProfileSheet.tsx";
+import { UpdateMyInfoStack } from "../overlay/UpdateMyInfoStack.tsx";
 import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
 import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { SharedProfile } from "./SharedProfile.tsx";
-import { UpdateMyInfo } from "./UpdateMyInfo.tsx";
-
-const MenuSheet = createDraggableSheet(({ close }) => {
-  const { push } = useRouter();
-  return (
-    <div className="p-3 pb-32">
-      <ul>
-        <li>
-          <button
-            className="flex w-full items-center gap-3 rounded-xl px-2 py-3 duration-150 active:scale-[98%] active:bg-zinc-100"
-            onClick={() => {
-              close();
-              setTimeout(() => {
-                push({ pathname: "/setting" });
-              }, BACKDROP_ANIMATION_DURATION);
-            }}
-          >
-            <Setting />
-            <span>
-              <Trans>설정</Trans>
-            </span>
-          </button>
-        </li>
-      </ul>
-    </div>
-  );
-});
 
 export const MyPage = () => {
   useAuthNavigator({ goToAuth: true });
@@ -94,7 +66,7 @@ export const MyPage = () => {
               <button
                 className="active:opacity-60"
                 onClick={() => {
-                  overlay(UpdateMyInfo);
+                  overlay(UpdateMyInfoStack);
                 }}
                 type="button"
               >
@@ -105,7 +77,7 @@ export const MyPage = () => {
               <button
                 className="active:opacity-60"
                 onClick={() => {
-                  overlay(SharedProfile);
+                  overlay(SharedProfileSheet);
                 }}
                 type="button"
               >

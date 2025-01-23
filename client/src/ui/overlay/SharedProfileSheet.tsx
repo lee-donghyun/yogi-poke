@@ -9,7 +9,7 @@ const QRCodeSVG = lazy(() =>
   import("qrcode.react").then((mod) => ({ default: mod.QRCodeSVG })),
 );
 
-export const SharedProfile = createDraggableSheet(({ close }) => {
+export const SharedProfileSheet = createDraggableSheet(({ close }) => {
   const push = useNotification();
   const { t } = useLingui();
   const { myInfo } = useUser();

@@ -17,7 +17,7 @@ const FORM_NAME = {
   PROFILE_IMAGE: "profileImageUrl",
 };
 
-export const UpdateMyInfo = createStackedPage(({ close }) => {
+export const UpdateMyInfoStack = createStackedPage(({ close }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const push = useNotification();
   const { t } = useLingui();

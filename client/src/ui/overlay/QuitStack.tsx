@@ -19,7 +19,7 @@ const cx = {
   input: "border rounded text-zinc-800 p-2",
   label: "text-lg",
 };
-export const Quit = createStackedPage(({ close }) => {
+export const QuitStack = createStackedPage(({ close }) => {
   const push = useNotification();
   const { t } = useLingui();
   const [password, setPassword] = useState("");
