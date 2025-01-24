@@ -235,7 +235,7 @@ export const PokeListItem = ({
                 </span>
               )}
             </Link>
-            <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
+            <span className="absolute top-1 right-0 text-xs font-normal text-zinc-400">
               {t(getReadableDateOffset(date))}
             </span>
           </p>
