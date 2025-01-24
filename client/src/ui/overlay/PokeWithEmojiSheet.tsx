@@ -33,7 +33,7 @@ const Emoji = ({
 }) => {
   return (
     <button
-      className={`flex h-28 flex-1 items-center justify-center rounded bg-zinc-50 text-5xl ${focus ? "border-b-4 border-black" : ""}`}
+      className={`flex h-28 flex-1 items-center justify-center rounded-sm bg-zinc-50 text-5xl ${focus ? "border-b-4 border-black" : ""}`}
       onClick={onClick}
       type="button"
     >
