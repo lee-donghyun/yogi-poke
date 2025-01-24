@@ -28,7 +28,7 @@ export const UserListItem = ({
     <button
       className={`rounded-lg p-2 text-start duration-75 active:scale-[98%] active:bg-yellow-50 ${
         selected ? "bg-yellow-200" : ""
-      } ${animation ? "from-right opacity-0" : ""}`}
+      } ${animation ? "animate-from-right opacity-0" : ""}`}
       onClick={onClick}
       style={
         animation

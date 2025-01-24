@@ -71,9 +71,6 @@ importers:
       swr:
         specifier: ^2.3.0
         version: 2.3.0(react@19.0.0)
-      tailwindcss-animated:
-        specifier: ^1.1.2
-        version: 1.1.2(tailwindcss@4.0.0)
     devDependencies:
       '@lingui/babel-plugin-lingui-macro':
         specifier: ^5.1.2
@@ -2882,11 +2879,6 @@ packages:
     resolution: {integrity: sha512-NyZ76wA4yElZWBHzSgEJc28a0u6QZvhb6w0azeL2k7+Q1gAzVK+IqQYXhVOC/mzi+HZIozrZvBVeSeOZNR2bqA==}
     peerDependencies:
       react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  tailwindcss-animated@1.1.2:
-    resolution: {integrity: sha512-SI4owS5ojserhgEYIZA/uFVdNjU2GMB2P3sjtjmFA52VxoUi+Hht6oR5+RdT+CxrX9cNNYEa+vbTWHvN9zbj3w==}
-    peerDependencies:
-      tailwindcss: '>=3.1.0'
 
   tailwindcss@4.0.0:
     resolution: {integrity: sha512-ULRPI3A+e39T7pSaf1xoi58AqqJxVCLg8F/uM5A3FadUbnyDTgltVnXJvdkTjwCOGA6NazqHVcwPJC5h2vRYVQ==}
@@ -6061,10 +6053,6 @@ snapshots:
       dequal: 2.0.3
       react: 19.0.0
       use-sync-external-store: 1.4.0(react@19.0.0)
-
-  tailwindcss-animated@1.1.2(tailwindcss@4.0.0):
-    dependencies:
-      tailwindcss: 4.0.0
 
   tailwindcss@4.0.0: {}
 
