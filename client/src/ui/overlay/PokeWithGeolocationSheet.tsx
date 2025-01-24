@@ -11,7 +11,7 @@ import { usePoke } from "~/hook/domain/usePoke";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 const Map = lazy(() =>
-  import("../base/Map").then((module) => ({ default: module.Map })),
+  import("~/ui/base/Map").then((module) => ({ default: module.Map })),
 );
 
 export const PokeWithGeoLocationSheet = createDraggableSheet<{ email: string }>(

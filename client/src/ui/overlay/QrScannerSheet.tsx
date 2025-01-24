@@ -5,7 +5,9 @@ import { useRouter } from "router2";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
 
 const QrScanner = lazy(() =>
-  import("../base/QrScanner.tsx").then((mod) => ({ default: mod.QrScanner })),
+  import("~/ui//base/QrScanner.tsx").then((mod) => ({
+    default: mod.QrScanner,
+  })),
 );
 
 export const QrScannerSheet = createDraggableSheet(({ close }) => {

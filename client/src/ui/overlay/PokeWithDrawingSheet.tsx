@@ -9,7 +9,7 @@ import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
 import { XMark } from "~/ui/icon/XMark.tsx";
 
 const Canvas = lazy(() =>
-  import("../base/Canvas.tsx").then((module) => ({ default: module.Canvas })),
+  import("~/ui/base/Canvas.tsx").then((module) => ({ default: module.Canvas })),
 );
 
 const PALETTE = [
