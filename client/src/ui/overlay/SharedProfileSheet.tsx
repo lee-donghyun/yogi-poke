@@ -18,7 +18,7 @@ export const SharedProfileSheet = createDraggableSheet(({ close }) => {
   const shareUrl = `https://yogi-poke.vercel.app/me/${myEmail}`;
 
   return (
-    <div className="pb-20 pt-8">
+    <div className="pt-8 pb-20">
       <div className="flex size-full flex-col items-center">
         <Suspense
           fallback={

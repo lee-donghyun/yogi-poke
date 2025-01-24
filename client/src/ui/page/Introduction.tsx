@@ -19,10 +19,10 @@ export const Introduction = () => {
       <div className="flex px-5 pt-32">
         <img
           alt="요기콕콕👉"
-          className="size-28 rounded-3xl border"
+          className="size-28 rounded-3xl border border-zinc-200"
           src="/asset/icon.jpg"
         />
-        <div className="flex flex-1 flex-col justify-between pl-5 pt-2">
+        <div className="flex flex-1 flex-col justify-between pt-2 pl-5">
           <div>
             <h1 className="text-xl font-bold">
               <Trans>요기콕콕!</Trans>
@@ -58,7 +58,7 @@ export const Introduction = () => {
           </div>
         </div>
       </div>
-      <div className="mx-6 mt-4 border-t pt-3">
+      <div className="mx-6 mt-4 border-t border-zinc-200 pt-3">
         <h2 className="text-lg font-bold text-zinc-900">
           <Trans>새로운 소식</Trans>
         </h2>
@@ -69,7 +69,7 @@ export const Introduction = () => {
           <Trans>이제 그림을 그려서 콕! 찌를 수 있습니다.</Trans>
         </p>
       </div>
-      <div className="mx-5 mt-8 border-t pt-3">
+      <div className="mx-5 mt-8 border-t border-zinc-200 pt-3">
         <h2 className="text-lg font-bold text-zinc-900">
           <Trans>미리보기</Trans>
         </h2>
@@ -86,7 +86,7 @@ export const Introduction = () => {
         ].map((src) => (
           <img
             alt=""
-            className="w-44 snap-start scroll-mx-6 rounded-2xl border"
+            className="w-44 snap-start scroll-mx-6 rounded-2xl border border-zinc-200"
             key={src}
             src={src}
           />

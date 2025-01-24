@@ -16,7 +16,7 @@ const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings
   helper: "text-sm text-zinc-600",
   // eslint-disable-next-line lingui/no-unlocalized-strings
-  input: "border rounded text-zinc-800 p-2",
+  input: "border border-zinc-200 rounded-sm text-zinc-800 p-2",
   label: "text-lg",
 };
 export const QuitStack = createStackedPage(({ close }) => {
