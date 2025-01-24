@@ -2,24 +2,24 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
 
-import { useDebouncedValue } from "../../hook/base/useDebouncedValue.ts";
-import { usePoke } from "../../hook/domain/usePoke.ts";
-import { User } from "../../service/dataType.ts";
-import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
-import { createShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
-import { useSWRMiddleware } from "../../service/swr/middleware.ts";
-import { isVerifiedUser } from "../../service/util.ts";
-import { Navigation } from "../base/Navigation.tsx";
-import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
-import { UserListItem } from "../domain/UserListItem.tsx";
-import { CircleXIcon } from "../icon/CircleX.tsx";
-import { QrCode } from "../icon/QrCode.tsx";
-import { PokeWithDrawingSheet } from "../overlay/PokeWithDrawingSheet.tsx";
-import { PokeWithEmojiSheet } from "../overlay/PokeWithEmojiSheet.tsx";
-import { PokeWithGeoLocationSheet } from "../overlay/PokeWithGeolocationSheet.tsx";
-import { QrScannerSheet } from "../overlay/QrScannerSheet.tsx";
-import { useAuthNavigator } from "../provider/Auth.tsx";
-import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { useDebouncedValue } from "~/hook/base/useDebouncedValue.ts";
+import { usePoke } from "~/hook/domain/usePoke.ts";
+import { User } from "~/service/dataType.ts";
+import { dataUpdatedAtMiddleware } from "~/service/swr/middleware.dataUpdatedAt.ts";
+import { createShouldAnimateMiddleware } from "~/service/swr/middleware.shouldAnimate.ts";
+import { useSWRMiddleware } from "~/service/swr/middleware.ts";
+import { isVerifiedUser } from "~/service/util.ts";
+import { Navigation } from "~/ui/base/Navigation.tsx";
+import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
+import { UserListItem } from "~/ui/domain/UserListItem.tsx";
+import { CircleXIcon } from "~/ui/icon/CircleX.tsx";
+import { QrCode } from "~/ui/icon/QrCode.tsx";
+import { PokeWithDrawingSheet } from "~/ui/overlay/PokeWithDrawingSheet.tsx";
+import { PokeWithEmojiSheet } from "~/ui/overlay/PokeWithEmojiSheet.tsx";
+import { PokeWithGeoLocationSheet } from "~/ui/overlay/PokeWithGeolocationSheet.tsx";
+import { QrScannerSheet } from "~/ui/overlay/QrScannerSheet.tsx";
+import { useAuthNavigator } from "~/ui/provider/Auth.tsx";
+import { Layer, useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings

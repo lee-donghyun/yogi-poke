@@ -1,17 +1,17 @@
 import { Trans } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
-import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
-import { LIKE_PERSIST_KEY } from "../../service/const.ts";
-import { User } from "../../service/dataType.ts";
-import { dataUpdatedAtMiddleware } from "../../service/swr/middleware.dataUpdatedAt.ts";
-import { createShouldAnimateMiddleware } from "../../service/swr/middleware.shouldAnimate.ts";
-import { useSWRMiddleware } from "../../service/swr/middleware.ts";
-import { isVerifiedUser } from "../../service/util.ts";
-import { Navigation } from "../base/Navigation.tsx";
-import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
-import { UserListItem } from "../domain/UserListItem.tsx";
-import { CircleXIcon } from "../icon/CircleX.tsx";
+import { useLocalStorage } from "~/hook/base/useLocalStorage.ts";
+import { LIKE_PERSIST_KEY } from "~/service/const.ts";
+import { User } from "~/service/dataType.ts";
+import { dataUpdatedAtMiddleware } from "~/service/swr/middleware.dataUpdatedAt.ts";
+import { createShouldAnimateMiddleware } from "~/service/swr/middleware.shouldAnimate.ts";
+import { useSWRMiddleware } from "~/service/swr/middleware.ts";
+import { isVerifiedUser } from "~/service/util.ts";
+import { Navigation } from "~/ui/base/Navigation.tsx";
+import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
+import { UserListItem } from "~/ui/domain/UserListItem.tsx";
+import { CircleXIcon } from "~/ui/icon/CircleX.tsx";
 
 type Key = [string, string] | null;
 const isEqualKey = (a: Key, b: Key) => a?.[0] === b?.[0] && a?.[1] === b?.[1];

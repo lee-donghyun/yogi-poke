@@ -1,4 +1,4 @@
-import { AuthProvider } from "./dataType";
+import { AuthProvider } from "~/service/dataType";
 
 export const LIKE_PERSIST_KEY = "LIKE";
 

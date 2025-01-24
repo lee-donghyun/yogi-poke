@@ -3,22 +3,22 @@ import { Fetcher, SWRConfiguration, SWRResponse } from "swr/_internal";
 
 export type TypedMiddleware<T> = { __type: T } & Middleware;
 
-type MergeProperties<T> = {
-  [K in T as keyof K]: K[keyof K];
-};
+type ArgumentsTuple = readonly [unknown, ...unknown[]];
 type MergeMiddleware<T extends TypedMiddleware<unknown>[]> = MergeProperties<
   T[number] extends TypedMiddleware<infer P> ? P : never
 >;
+type MergeProperties<T> = {
+  [K in T as keyof K]: K[keyof K];
+};
+type StrictKey = (() => StrictTupleKey) | StrictTupleKey;
+
+type StrictTupleKey = ArgumentsTuple | false | null | undefined;
 type SWRConfigurationWithOptionalFallback<Options> = Options extends Required<
   Pick<SWRConfiguration, "fallbackData">
 > &
   SWRConfiguration
   ? Omit<Options, "fallbackData"> & Pick<Partial<Options>, "fallbackData">
   : Options;
-type ArgumentsTuple = readonly [unknown, ...unknown[]];
-
-type StrictTupleKey = ArgumentsTuple | false | null | undefined;
-type StrictKey = (() => StrictTupleKey) | StrictTupleKey;
 
 type UseSWRMiddleware = <
   Data = unknown,

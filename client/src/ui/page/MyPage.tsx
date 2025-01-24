@@ -1,23 +1,23 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
-import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
-import { DELETED_USER } from "../../service/const.ts";
-import { isVerifiedUser } from "../../service/util.ts";
-import { Navigation } from "../base/Navigation.tsx";
-import { Stat } from "../base/Stat.tsx";
-import { DomainBottomNavigation } from "../domain/DomainBottomNavigation.tsx";
-import { PokeListItem } from "../domain/PokeListItem.tsx";
-import { ArrowUpOnSquare } from "../icon/ArrowUpOnSquare.tsx";
-import { Blink } from "../icon/Blink.tsx";
-import { CheckBadge } from "../icon/CheckBadge.tsx";
-import { Edit } from "../icon/Edit.tsx";
-import { Menu } from "../icon/Menu.tsx";
-import { MenuSheet } from "../overlay/MenuSheet.tsx";
-import { SharedProfileSheet } from "../overlay/SharedProfileSheet.tsx";
-import { UpdateMyInfoStack } from "../overlay/UpdateMyInfoStack.tsx";
-import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
+import { DELETED_USER } from "~/service/const.ts";
+import { isVerifiedUser } from "~/service/util.ts";
+import { Navigation } from "~/ui/base/Navigation.tsx";
+import { Stat } from "~/ui/base/Stat.tsx";
+import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
+import { PokeListItem } from "~/ui/domain/PokeListItem.tsx";
+import { ArrowUpOnSquare } from "~/ui/icon/ArrowUpOnSquare.tsx";
+import { Blink } from "~/ui/icon/Blink.tsx";
+import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
+import { Edit } from "~/ui/icon/Edit.tsx";
+import { Menu } from "~/ui/icon/Menu.tsx";
+import { MenuSheet } from "~/ui/overlay/MenuSheet.tsx";
+import { SharedProfileSheet } from "~/ui/overlay/SharedProfileSheet.tsx";
+import { UpdateMyInfoStack } from "~/ui/overlay/UpdateMyInfoStack.tsx";
+import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 export const MyPage = () => {
   useAuthNavigator({ goToAuth: true });

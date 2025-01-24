@@ -4,36 +4,36 @@ import { HTTPError } from "ky";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
-import { MyInfo } from "../../service/dataType.ts";
-import { type Line } from "../../ui/base/Canvas.tsx";
-import { useUser } from "../../ui/provider/Auth.tsx";
-import { useNotification } from "../../ui/provider/Notification.tsx";
-import { useStackedLayer } from "../../ui/provider/StackedLayerProvider.tsx";
-import { useRelatedPokeList } from "./useRelatedPokeList.ts";
-import { SWR_KEY_USER } from "./useUserProfile.ts";
-import { SWR_KEY_MATE_POKE } from "./useUserRelatedPokeList.ts";
+import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
+import { SWR_KEY_USER } from "~/hook/domain/useUserProfile.ts";
+import { SWR_KEY_MATE_POKE } from "~/hook/domain/useUserRelatedPokeList.ts";
+import { MyInfo } from "~/service/dataType.ts";
+import { type Line } from "~/ui/base/Canvas.tsx";
+import { useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
-interface PokeError {
-  email: string;
-  status: number;
-}
-
-interface NormalPokePayload {
-  type: "normal";
+interface DrawingPokePayload {
+  lines: Line[];
+  type: "drawing";
 }
 
 interface EmojiPokePayload {
   message: string;
   type: "emoji";
 }
-interface DrawingPokePayload {
-  lines: Line[];
-  type: "drawing";
-}
 
 interface GeolocationPokePayload {
   position: { latitude: number; longitude: number };
   type: "geolocation";
+}
+interface NormalPokePayload {
+  type: "normal";
+}
+
+interface PokeError {
+  email: string;
+  status: number;
 }
 interface PokePayload {
   email: string;

@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-import { AuthProvider } from "../../service/dataType.ts";
+import { AuthProvider } from "~/service/dataType.ts";
 
 interface UserData {
   authProvider: AuthProvider;
