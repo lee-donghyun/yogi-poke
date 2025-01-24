@@ -113,7 +113,7 @@ export const Search = () => {
           <span className="block w-5 text-xl font-bold">@</span>
           <input
             autoCapitalize="off"
-            className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
+            className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-hidden placeholder:font-normal"
             onChange={({ target: { value } }) => {
               setSearchText(value);
             }}

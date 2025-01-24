@@ -17,7 +17,7 @@ const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings
   helper: "text-sm text-zinc-600",
   // eslint-disable-next-line lingui/no-unlocalized-strings
-  input: "border rounded text-zinc-800 p-2",
+  input: "border border-zinc-200 rounded-sm text-zinc-800 p-2",
   label: "text-lg",
 };
 
@@ -188,7 +188,7 @@ export const Register = () => {
         </div>
         <button disabled={isMutating || hasError} />
       </form>
-      <div className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+      <div className="fixed inset-x-0 bottom-0 bg-linear-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
           className="block h-12 w-full rounded-2xl bg-black text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={isMutating || hasError}
