@@ -4,8 +4,8 @@ import ky from "ky";
 import { useRef, useState } from "react";
 import useSWR from "swr";
 
-import { usePoke } from "../../hook/domain/usePoke.ts";
-import { createDraggableSheet } from "../base/DraggableSheet.tsx";
+import { usePoke } from "~/hook/domain/usePoke.ts";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
 
 const EMOJI_DICT_URL = "/asset/emoji.json";
 

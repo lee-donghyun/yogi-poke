@@ -1,4 +1,4 @@
-import { type Line } from "../ui/base/Canvas";
+import { type Line } from "~/ui/base/Canvas";
 
 export enum AuthProvider {
   EMAIL = "EMAIL",
@@ -17,14 +17,6 @@ export interface MyInfo {
   token: string;
 }
 
-export interface User {
-  authProvider: AuthProvider;
-  email: string;
-  id: number;
-  name: string;
-  profileImageUrl: null | string;
-}
-
 export interface Poke {
   createdAt: string;
   fromUserId: number;
@@ -41,4 +33,12 @@ export interface Poke {
 export interface Relation {
   fromUser: null | User;
   toUser: null | User;
+}
+
+export interface User {
+  authProvider: AuthProvider;
+  email: string;
+  id: number;
+  name: string;
+  profileImageUrl: null | string;
 }

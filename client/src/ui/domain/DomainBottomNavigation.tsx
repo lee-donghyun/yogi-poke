@@ -1,9 +1,9 @@
 import { useRouter } from "router2";
 
-import { BottomNavigation } from "../base/BottomNavigation.tsx";
-import { Search } from "../icon/Search.tsx";
-import { Star } from "../icon/Star.tsx";
-import { useUser } from "../provider/Auth.tsx";
+import { BottomNavigation } from "~/ui/base/BottomNavigation.tsx";
+import { Search } from "~/ui/icon/Search.tsx";
+import { Star } from "~/ui/icon/Star.tsx";
+import { useUser } from "~/ui/provider/Auth.tsx";
 
 enum Path {
   LIKE = "/like",

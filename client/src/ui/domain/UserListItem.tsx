@@ -1,7 +1,7 @@
 import { Link } from "router2";
 
-import { CheckBadge } from "../icon/CheckBadge.tsx";
-import { ChevronRight } from "../icon/ChevronRight.tsx";
+import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
+import { ChevronRight } from "~/ui/icon/ChevronRight.tsx";
 
 interface UserListItemProps {
   animation: {

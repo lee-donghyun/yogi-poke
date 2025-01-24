@@ -1,14 +1,14 @@
 import { useRef } from "react";
 import { Key as SWRKey } from "swr";
 
-import { createTypedMiddleware } from "./middleware";
+import { createTypedMiddleware } from "~/service/swr/middleware";
 
+type IsEqualKey<Key extends SWRKey> = (a: Key, b: Key) => boolean;
 interface ShouldAnimateContext {
   cachedDataForInitialKey: unknown;
   initialKey: null | SWRKey;
   keyChangedFromInitialKeyAndDataLoaded: boolean;
 }
-type IsEqualKey<Key extends SWRKey> = (a: Key, b: Key) => boolean;
 export const createShouldAnimateMiddleware = <Key extends SWRKey>(
   isEqualKey: IsEqualKey<Key>,
 ) =>

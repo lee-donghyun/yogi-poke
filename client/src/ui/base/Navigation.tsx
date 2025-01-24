@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro";
 import { JSX } from "react";
 
-import { ChevronLeft } from "../icon/ChevronLeft.tsx";
+import { ChevronLeft } from "~/ui/icon/ChevronLeft.tsx";
 
 export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
   return (

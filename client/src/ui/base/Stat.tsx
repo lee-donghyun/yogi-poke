@@ -1,4 +1,4 @@
-import { CountUp } from "./CountUp.tsx";
+import { CountUp } from "~/ui/base/CountUp.tsx";
 
 export const Stat = ({
   label,

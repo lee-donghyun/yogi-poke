@@ -3,10 +3,10 @@ import { Link } from "router2";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
-import { User } from "../../service/dataType.ts";
-import { useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
+import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
+import { User } from "~/service/dataType.ts";
+import { useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
 
 const SWR_KEY_BLOCKED_USER = ["relation/blocked"];
 

@@ -1,5 +1,5 @@
-import { createdAt } from "../util";
-import { createTypedMiddleware } from "./middleware";
+import { createTypedMiddleware } from "~/service/swr/middleware";
+import { createdAt } from "~/service/util";
 
 export const dataUpdatedAtMiddleware = createTypedMiddleware<{
   dataUpdatedAt: number;

@@ -1,15 +1,15 @@
 import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useState } from "react";
 
-import { useDomSize } from "../../hook/base/useDomSize.ts";
-import { usePoke } from "../../hook/domain/usePoke.ts";
-import { getNormalizedPoints } from "../../service/util.ts";
-import { type Line } from "../base/Canvas.tsx";
-import { createDraggableSheet } from "../base/DraggableSheet.tsx";
-import { XMark } from "../icon/XMark.tsx";
+import { useDomSize } from "~/hook/base/useDomSize.ts";
+import { usePoke } from "~/hook/domain/usePoke.ts";
+import { getNormalizedPoints } from "~/service/util.ts";
+import { type Line } from "~/ui/base/Canvas.tsx";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
+import { XMark } from "~/ui/icon/XMark.tsx";
 
 const Canvas = lazy(() =>
-  import("../base/Canvas.tsx").then((module) => ({ default: module.Canvas })),
+  import("~/ui/base/Canvas.tsx").then((module) => ({ default: module.Canvas })),
 );
 
 const PALETTE = [

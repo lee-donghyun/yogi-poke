@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import { RemoveScroll } from "react-remove-scroll";
 
-import { client } from "../../service/api.ts";
-import { MyInfo } from "../../service/dataType.ts";
+import { client } from "~/service/api.ts";
+import { MyInfo } from "~/service/dataType.ts";
 
 const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";

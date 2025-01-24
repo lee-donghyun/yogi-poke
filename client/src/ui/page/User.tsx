@@ -3,22 +3,22 @@ import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
-import { useLocalStorage } from "../../hook/base/useLocalStorage.ts";
-import { useRelatedPokeList } from "../../hook/domain/useRelatedPokeList.ts";
-import { useUserPofile } from "../../hook/domain/useUserProfile.ts";
-import { useUserRelatedPokeList } from "../../hook/domain/useUserRelatedPokeList.ts";
-import { LIKE_PERSIST_KEY } from "../../service/const.ts";
-import { isVerifiedUser } from "../../service/util.ts";
-import { StackedNavigation } from "../base/Navigation.tsx";
-import { Stat } from "../base/Stat.tsx";
-import { Timer } from "../base/Timer.tsx";
-import { Block } from "../icon/Block.tsx";
-import { CheckBadge } from "../icon/CheckBadge.tsx";
-import { Star, StarSolid } from "../icon/Star.tsx";
-import { PokeSheet } from "../overlay/PokeSheet.tsx";
-import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { useLocalStorage } from "~/hook/base/useLocalStorage.ts";
+import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
+import { useUserPofile } from "~/hook/domain/useUserProfile.ts";
+import { useUserRelatedPokeList } from "~/hook/domain/useUserRelatedPokeList.ts";
+import { LIKE_PERSIST_KEY } from "~/service/const.ts";
+import { isVerifiedUser } from "~/service/util.ts";
+import { StackedNavigation } from "~/ui/base/Navigation.tsx";
+import { Stat } from "~/ui/base/Stat.tsx";
+import { Timer } from "~/ui/base/Timer.tsx";
+import { Block } from "~/ui/icon/Block.tsx";
+import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
+import { Star, StarSolid } from "~/ui/icon/Star.tsx";
+import { PokeSheet } from "~/ui/overlay/PokeSheet.tsx";
+import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 export const User = () => {
   useAuthNavigator({ goToAuth: true });

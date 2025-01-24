@@ -2,10 +2,10 @@ import { Trans, useLingui } from "@lingui/react/macro";
 import { useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
-import { ModalNavigation } from "../base/Navigation.tsx";
-import { createStackedPage } from "../base/StackedPage.tsx";
-import { useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
+import { ModalNavigation } from "~/ui/base/Navigation.tsx";
+import { createStackedPage } from "~/ui/base/StackedPage.tsx";
+import { useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
 
 interface Form {
   name: string;

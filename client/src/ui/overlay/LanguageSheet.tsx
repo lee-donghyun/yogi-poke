@@ -1,8 +1,8 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 
-import { Locale, setLocale } from "../../service/i18n";
-import { AButton } from "../base/AButton";
-import { createDraggableSheet } from "../base/DraggableSheet";
+import { Locale, setLocale } from "~/service/i18n";
+import { AButton } from "~/ui/base/AButton";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 export const LanguageSheet = createDraggableSheet(({ close }) => {
   const { t } = useLingui();
