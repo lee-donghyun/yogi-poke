@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
-import { BACKDROP_ANIMATION_DURATION } from "../base/Backdrop";
-import { createDraggableSheet } from "../base/DraggableSheet";
-import { Setting } from "../icon/Setting";
+import { BACKDROP_ANIMATION_DURATION } from "~/ui/base/Backdrop";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet";
+import { Setting } from "~/ui/icon/Setting";
 
 export const MenuSheet = createDraggableSheet(({ close }) => {
   const { push } = useRouter();

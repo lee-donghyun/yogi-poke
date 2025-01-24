@@ -4,7 +4,7 @@ import {
   startRegistration,
 } from "@simplewebauthn/browser";
 
-import { useUser } from "../../ui/provider/Auth";
+import { useUser } from "~/ui/provider/Auth";
 
 const PASSKEY_USER_ID_PERSIST_KEY = "PASSKEY_USER_ID";
 

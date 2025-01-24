@@ -1,8 +1,8 @@
 import { CSSProperties, ReactNode, useState, useTransition } from "react";
 
-import { run } from "../../lib/run";
-import { Layer } from "../provider/StackedLayerProvider";
-import { Backdrop } from "./Backdrop";
+import { run } from "~/lib/run";
+import { Backdrop } from "~/ui/base/Backdrop";
+import { Layer } from "~/ui/provider/StackedLayerProvider";
 
 const DraggableSheet = ({
   children,

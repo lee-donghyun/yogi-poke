@@ -1,8 +1,8 @@
 import { Map as MapboxMap, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { useGeolocation } from "../../hook/base/useGeolocation";
-import { LocationPuck } from "./LocationPuck";
+import { useGeolocation } from "~/hook/base/useGeolocation";
+import { LocationPuck } from "~/ui/base/LocationPuck";
 
 export const Map = ({
   height,

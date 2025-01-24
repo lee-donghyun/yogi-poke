@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-import { try_ } from "../../lib/expify.ts";
+import { try_ } from "~/lib/expify.ts";
 
 type Notifier = () => void;
 

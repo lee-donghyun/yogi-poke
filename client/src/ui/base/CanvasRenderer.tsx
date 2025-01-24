@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Line as KonvaLine, Layer, Stage } from "react-konva";
 
-import { type Line, Trace } from "./Canvas";
+import { type Line, Trace } from "~/ui/base/Canvas";
 
 interface CanvasRendererProps {
   height: number;

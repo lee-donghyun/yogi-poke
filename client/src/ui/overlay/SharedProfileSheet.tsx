@@ -1,9 +1,9 @@
 import { useLingui } from "@lingui/react/macro";
 import { lazy, Suspense } from "react";
 
-import { createDraggableSheet } from "../base/DraggableSheet.tsx";
-import { useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
+import { useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
 
 const QRCodeSVG = lazy(() =>
   import("qrcode.react").then((mod) => ({ default: mod.QRCodeSVG })),
