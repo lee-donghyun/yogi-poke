@@ -2,13 +2,13 @@ import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { useDomSize } from "../../hook/base/useDomSize";
+import { useDomSize } from "~/hook/base/useDomSize";
 import {
   GeolocationConsumer,
   useGeolocation,
-} from "../../hook/base/useGeolocation";
-import { usePoke } from "../../hook/domain/usePoke";
-import { createDraggableSheet } from "../base/DraggableSheet";
+} from "~/hook/base/useGeolocation";
+import { usePoke } from "~/hook/domain/usePoke";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 const Map = lazy(() =>
   import("../base/Map").then((module) => ({ default: module.Map })),

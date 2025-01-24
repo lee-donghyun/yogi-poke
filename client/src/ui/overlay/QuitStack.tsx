@@ -3,12 +3,12 @@ import { HTTPError } from "ky";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 
-import { validator } from "../../service/validator.ts";
-import { ModalNavigation } from "../base/Navigation.tsx";
-import { createStackedPage } from "../base/StackedPage.tsx";
-import { useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
-import { releaseToken } from "../provider/PwaProvider.tsx";
+import { validator } from "~/service/validator.ts";
+import { ModalNavigation } from "~/ui/base/Navigation.tsx";
+import { createStackedPage } from "~/ui/base/StackedPage.tsx";
+import { useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
+import { releaseToken } from "~/ui/provider/PwaProvider.tsx";
 
 const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings

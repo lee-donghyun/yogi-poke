@@ -1,21 +1,21 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 
-import { usePasskey } from "../../hook/domain/usePasskey.ts";
-import { switch_ } from "../../lib/expify.ts";
-import { getPushNotificationSubscription } from "../../service/util.ts";
-import { AButton } from "../base/AButton.tsx";
-import { StackedNavigation } from "../base/Navigation.tsx";
-import { SettingGroup } from "../base/SettingGroup.tsx";
-import { BlockedUser } from "../domain/BlockedUser.tsx";
-import { CheckCircleOutline } from "../icon/CheckCircleOutline.tsx";
-import { CheckCircleSolid } from "../icon/CheckCircleSolid.tsx";
-import { LanguageSheet } from "../overlay/LanguageSheet.tsx";
-import { QuitStack } from "../overlay/QuitStack.tsx";
-import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
-import { releaseToken } from "../provider/PwaProvider.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { usePasskey } from "~/hook/domain/usePasskey.ts";
+import { switch_ } from "~/lib/expify.ts";
+import { getPushNotificationSubscription } from "~/service/util.ts";
+import { AButton } from "~/ui/base/AButton.tsx";
+import { StackedNavigation } from "~/ui/base/Navigation.tsx";
+import { SettingGroup } from "~/ui/base/SettingGroup.tsx";
+import { BlockedUser } from "~/ui/domain/BlockedUser.tsx";
+import { CheckCircleOutline } from "~/ui/icon/CheckCircleOutline.tsx";
+import { CheckCircleSolid } from "~/ui/icon/CheckCircleSolid.tsx";
+import { LanguageSheet } from "~/ui/overlay/LanguageSheet.tsx";
+import { QuitStack } from "~/ui/overlay/QuitStack.tsx";
+import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
+import { releaseToken } from "~/ui/provider/PwaProvider.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 enum Menu {
   Account,

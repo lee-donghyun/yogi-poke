@@ -3,7 +3,7 @@ import { useLingui } from "@lingui/react/macro";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 
-import { DAY_IN_UNIX, MINUTE_IN_UNIX } from "../../service/const";
+import { DAY_IN_UNIX, MINUTE_IN_UNIX } from "~/service/const";
 
 const getString = (to: Dayjs) => {
   const duration = dayjs.duration(to.diff() + DAY_IN_UNIX - MINUTE_IN_UNIX);

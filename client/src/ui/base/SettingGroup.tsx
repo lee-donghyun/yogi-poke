@@ -1,6 +1,6 @@
 import { createRef, Key, ReactNode, useRef } from "react";
 
-import { ChevronRight } from "../icon/ChevronRight.tsx";
+import { ChevronRight } from "~/ui/icon/ChevronRight.tsx";
 
 interface SettingGroupProps<T> {
   onOpenSubgroup: (id: T) => void;

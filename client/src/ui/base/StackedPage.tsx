@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
-import { Layer } from "../provider/StackedLayerProvider";
-import { Backdrop } from "./Backdrop";
+import { Backdrop } from "~/ui/base/Backdrop";
+import { Layer } from "~/ui/provider/StackedLayerProvider";
 
 const StackedPage = ({
   children,

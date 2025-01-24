@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro";
 import { Link, useRouter } from "router2";
 
-import { createDraggableSheet } from "../base/DraggableSheet";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 export const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();

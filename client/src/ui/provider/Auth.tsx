@@ -11,9 +11,9 @@ import {
 import { useRouter } from "router2";
 import { SWRConfig } from "swr";
 
-import { client } from "../../service/api.ts";
-import { MyInfo } from "../../service/dataType.ts";
-import { persisteToken } from "./PwaProvider.tsx";
+import { client } from "~/service/api.ts";
+import { MyInfo } from "~/service/dataType.ts";
+import { persisteToken } from "~/ui/provider/PwaProvider.tsx";
 
 interface PatchUserPayload {
   name?: string;
