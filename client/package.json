@@ -34,8 +34,7 @@
     "react-remove-scroll": "^2.6.2",
     "router2": "^8.0.0",
     "sonner": "^1.7.0",
-    "swr": "^2.3.0",
-    "tailwindcss-animated": "^1.1.2"
+    "swr": "^2.3.0"
   },
   "devDependencies": {
     "@lingui/babel-plugin-lingui-macro": "^5.1.2",

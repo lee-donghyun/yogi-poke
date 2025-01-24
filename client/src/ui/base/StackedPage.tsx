@@ -14,7 +14,7 @@ const StackedPage = ({
     <Backdrop close={close} visible={visible}>
       <div
         className={`fixed inset-0 z-40 overflow-y-scroll ${
-          visible ? "stacked-layer-from" : "stacked-layer-to"
+          visible ? "animate-stacked-layer-from" : "animate-stacked-layer-to"
         }`}
       >
         <div className="h-full bg-white">{children}</div>

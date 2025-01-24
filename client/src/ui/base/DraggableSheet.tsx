@@ -60,7 +60,7 @@ const DraggableSheet = ({
     <Backdrop close={close} visible={visible}>
       <div
         className={`fixed inset-0 top-auto z-40 ${
-          visible ? "stacked-layer-from" : "stacked-layer-to"
+          visible ? "animate-stacked-layer-from" : "animate-stacked-layer-to"
         }`}
       >
         <div className="p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
