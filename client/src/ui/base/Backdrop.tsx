@@ -17,7 +17,9 @@ export const Backdrop = ({
     <RemoveScroll>
       <button
         className={`fixed inset-0 z-40 rounded-t-3xl bg-black ${
-          visible ? "stacked-backdrop-from" : "stacked-backdrop-to"
+          visible
+            ? "animate-stacked-backdrop-from"
+            : "animate-stacked-backdrop-to"
         }`}
         onClick={(e) => {
           if (e.target === e.currentTarget) {

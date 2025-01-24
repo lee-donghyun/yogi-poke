@@ -208,7 +208,7 @@ export const PokeListItem = ({
   return (
     <div
       {...(animation && {
-        className: "from-bottom opacity-0",
+        className: "animate-from-bottom opacity-0",
         style: {
           animationDelay: `${animation.delayTimes * 50}ms`,
           transform: "translateY(60px)",
@@ -235,7 +235,7 @@ export const PokeListItem = ({
                 </span>
               )}
             </Link>
-            <span className="absolute right-0 top-1 text-xs font-normal text-zinc-400">
+            <span className="absolute top-1 right-0 text-xs font-normal text-zinc-400">
               {t(getReadableDateOffset(date))}
             </span>
           </p>

@@ -32,7 +32,7 @@ export const ShowGeolocationSheet = createDraggableSheet<{
   return (
     <div className="p-6 pt-2.5">
       <p className="text-lg font-semibold text-zinc-800">{context.title}</p>
-      <p className="pb-6 pt-3 text-sm text-zinc-400">
+      <p className="pt-3 pb-6 text-sm text-zinc-400">
         <Trans>
           나와의 거리: <CountUp duration={1500} from={0} to={distance} />m
         </Trans>

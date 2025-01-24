@@ -58,7 +58,7 @@ export const BlockedUser = () => {
               <p className="text-sm text-zinc-800">{user.name}</p>
             </div>
             <button
-              className="self-center rounded border border-zinc-700 px-1 text-sm text-zinc-700 disabled:opacity-60"
+              className="self-center rounded-sm border border-zinc-700 px-1 text-sm text-zinc-700 disabled:opacity-60"
               disabled={isMutating}
               onClick={(e) => {
                 e.stopPropagation();

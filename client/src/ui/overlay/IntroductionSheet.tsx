@@ -48,7 +48,7 @@ const IosInstruction = () => {
           수 있습니다.
         </Trans>
       </p>
-      <ol className="list-decimal pl-5 pt-3 text-sm text-zinc-600">
+      <ol className="list-decimal pt-3 pl-5 text-sm text-zinc-600">
         <Trans>
           <li>
             <span className="font-semibold">Safari</span> 브라우저를 열고{" "}
@@ -93,7 +93,7 @@ const AndroidInstruction = () => (
         설치할 수 있습니다.
       </Trans>
     </p>
-    <ol className="list-decimal pl-5 pt-3 text-sm text-zinc-600">
+    <ol className="list-decimal pt-3 pl-5 text-sm text-zinc-600">
       <Trans>
         <li>
           주소 표시줄 오른쪽에서 더보기 {">"} 홈 화면에 추가 {">"} 설치를

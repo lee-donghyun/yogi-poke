@@ -113,7 +113,7 @@ export const Search = () => {
           <span className="block w-5 text-xl font-bold">@</span>
           <input
             autoCapitalize="off"
-            className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-none placeholder:font-normal"
+            className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-hidden placeholder:font-normal"
             onChange={({ target: { value } }) => {
               setSearchText(value);
             }}
@@ -139,7 +139,7 @@ export const Search = () => {
             />
           ))}
           {data?.length === 0 && (
-            <div className="from-bottom flex flex-col items-center pt-16 text-zinc-600">
+            <div className="animate-from-bottom flex flex-col items-center pt-16 text-zinc-600">
               <span className="text-zinc-400">
                 <CircleXIcon />
               </span>
@@ -153,7 +153,7 @@ export const Search = () => {
           )}
         </div>
       </div>
-      <div className="fixed bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))] right-5">
+      <div className="fixed right-5 bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))]">
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-[10.5rem]`} bottom-[10.5rem] ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
           onClick={validateAndOverlay(PokeWithDrawingSheet)}
