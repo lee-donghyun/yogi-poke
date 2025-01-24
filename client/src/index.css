@@ -1,14 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+body {
+  min-height: 100dvh;
+}
+
+/* app과 같은 경험을 위해 inert 처리 */
 * {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   user-select: none;
   -webkit-touch-callout: none;
-}
-body {
-  min-height: 100vh;
 }
 input,
 input:before,
@@ -22,139 +22,105 @@ textarea:after {
   -ms-user-select: initial;
   user-select: initial;
 }
+
+/* 페이지 간 view transition */
 ::view-transition-old(root) {
   animation: 0.4s ease none move-out;
 }
-
 ::view-transition-new(root) {
   animation: 0.4s ease forwards move-in;
 }
-.from-top {
-  animation-duration: 500ms;
-  animation-name: fromTop;
-  animation-fill-mode: forwards;
-}
-.to-top {
-  animation-duration: 500ms;
-  animation-name: toTop;
-  animation-fill-mode: forwards;
-}
-.from-right {
-  animation-duration: 300ms;
-  animation-name: fromRight;
-  animation-fill-mode: forwards;
-}
-.from-bottom {
-  animation-duration: 300ms;
-  animation-name: fromBottom;
-  animation-fill-mode: forwards;
-}
-.stacked-layer-from {
-  animation-duration: 500ms;
-  animation-name: stackedLayerFrom;
-  animation-fill-mode: forwards;
-}
-.stacked-layer-to {
-  animation-duration: 500ms;
-  animation-name: stackedLayerTo;
-  animation-fill-mode: forwards;
-}
-.stacked-backdrop-from {
-  animation-duration: 500ms;
-  animation-name: stackedBackdropFrom;
-  animation-fill-mode: forwards;
-}
-.stacked-backdrop-to {
-  animation-duration: 500ms;
-  animation-name: stackedBackdropTo;
-  animation-fill-mode: forwards;
-}
 
-@keyframes fromTop {
-  from {
-    transform: translateY(-120px);
+@theme {
+  --animate-from-right: 0.3s ease forwards from-right;
+  --animate-from-bottom: 0.3s ease forwards from-bottom;
+  --animate-stacked-layer-from: 0.5s ease forwards stacked-layer-from;
+  --animate-stacked-layer-to: 0.5s ease forwards stacked-layer-to;
+  --animate-stacked-backdrop-from: 0.5s ease forwards stacked-backdrop-from;
+  --animate-stacked-backdrop-to: 0.5s ease forwards stacked-backdrop-to;
+  --animate-jump-in: 0.3s ease forwards jump-in;
+
+  @keyframes from-right {
+    from {
+      transform: translateX(120px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
-  to {
-    transform: translateY(0);
+  @keyframes from-bottom {
+    from {
+      transform: translateY(60px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
-}
-@keyframes toTop {
-  from {
-    transform: translateY(0);
+  @keyframes stacked-layer-from {
+    from {
+      transform: translateY(110%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
-  to {
-    transform: translateY(-120px);
+  @keyframes stacked-layer-to {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(110%);
+    }
   }
-}
-@keyframes fromRight {
-  from {
-    transform: translateX(120px);
-    opacity: 0;
+  @keyframes stacked-backdrop-from {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.1;
+    }
   }
-  to {
-    transform: translateX(0);
-    opacity: 1;
+  @keyframes stacked-backdrop-to {
+    from {
+      opacity: 0.1;
+    }
+    to {
+      opacity: 0;
+    }
   }
-}
-@keyframes fromBottom {
-  from {
-    transform: translateY(60px);
-    opacity: 0;
+  @keyframes move-out {
+    from {
+      transform: translateX(0%);
+      filter: brightness(1);
+    }
+    to {
+      transform: translateX(-30%);
+      filter: brightness(0.85);
+    }
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  @keyframes move-in {
+    from {
+      transform: translateX(100%);
+      filter: drop-shadow(0 0 50 rgb(0 0 0 / 0));
+    }
+    to {
+      transform: translateX(0%);
+      filter: drop-shadow(0 0 50px rgb(0 0 0 / 0.15));
+    }
   }
-}
-@keyframes stackedLayerFrom {
-  from {
-    transform: translateY(110%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes stackedLayerTo {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(110%);
-  }
-}
-@keyframes stackedBackdropFrom {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.1;
-  }
-}
-@keyframes stackedBackdropTo {
-  from {
-    opacity: 0.1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes move-out {
-  from {
-    transform: translateX(0%);
-    filter: brightness(1);
-  }
-  to {
-    transform: translateX(-30%);
-    filter: brightness(0.85);
-  }
-}
-@keyframes move-in {
-  from {
-    transform: translateX(100%);
-    filter: drop-shadow(0 0 50 rgb(0 0 0 / 0));
-  }
-  to {
-    transform: translateX(0%);
-    filter: drop-shadow(0 0 50px rgb(0 0 0 / 0.15));
+  @keyframes jump-in {
+    0% {
+      transform: scale(0%);
+    }
+    80% {
+      transform: scale(120%);
+    }
+    100% {
+      transform: scale(100%);
+    }
   }
 }

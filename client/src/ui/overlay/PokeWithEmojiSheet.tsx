@@ -33,7 +33,7 @@ const Emoji = ({
 }) => {
   return (
     <button
-      className={`flex h-28 flex-1 items-center justify-center rounded bg-zinc-50 text-5xl ${focus ? "border-b-4 border-black" : ""}`}
+      className={`flex h-28 flex-1 items-center justify-center rounded-sm bg-zinc-50 text-5xl ${focus ? "border-b-4 border-black" : ""}`}
       onClick={onClick}
       type="button"
     >
@@ -73,7 +73,7 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
           ))}
         </div>
         <div
-          className="mx-5 mb-2 mt-7 flex overflow-y-hidden overflow-x-scroll rounded-full bg-zinc-50"
+          className="mx-5 mt-7 mb-2 flex overflow-x-scroll overflow-y-hidden rounded-full bg-zinc-50"
           data-allow-touch-move-on-stacked-layer
           style={{ maxHeight: "28px" }}
         >
@@ -91,7 +91,7 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
               >
                 <span className="text-xl">{icon}</span>
                 {index === bookmarkPage && (
-                  <span className="whitespace-pre text-xs text-zinc-700">
+                  <span className="text-xs whitespace-pre text-zinc-700">
                     {t(title)}
                   </span>
                 )}

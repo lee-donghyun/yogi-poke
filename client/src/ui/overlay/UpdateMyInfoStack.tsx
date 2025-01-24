@@ -110,7 +110,7 @@ export const UpdateMyInfoStack = createStackedPage(({ close }) => {
             <Trans>이름</Trans>
           </label>
           <input
-            className="rounded-none border-b p-2 text-zinc-800 outline-none focus:border-black"
+            className="rounded-none border-b border-zinc-200 p-2 text-zinc-800 outline-hidden focus:border-black"
             id="name"
             onChange={({ target: { value: name } }) => {
               setData((p) => ({ ...p, name }));
