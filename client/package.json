@@ -49,7 +49,7 @@
     "autoprefixer": "^10.4.20",
     "babel-plugin-react-compiler": "19.0.0-beta-e552027-20250112",
     "eslint": "^9.16.0",
-    "eslint-config-react-app-essentials": "^17.3.0",
+    "eslint-config-react-app-essentials": "^18.0.0",
     "eslint-plugin-lingui": "^0.9.0",
     "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "postcss": "^8.4.49",
