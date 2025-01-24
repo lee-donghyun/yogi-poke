@@ -23,42 +23,16 @@ textarea:after {
   user-select: initial;
 }
 
-/* 페이지 간 view transition */
-::view-transition-old(root) {
-  animation: 0.4s ease none move-out;
-}
-::view-transition-new(root) {
-  animation: 0.4s ease forwards move-in;
-}
-@keyframes move-out {
-  from {
-    transform: translateX(0%);
-    filter: brightness(1);
-  }
-  to {
-    transform: translateX(-30%);
-    filter: brightness(0.85);
-  }
-}
-@keyframes move-in {
-  from {
-    transform: translateX(100%);
-    filter: drop-shadow(0 0 50 rgb(0 0 0 / 0));
-  }
-  to {
-    transform: translateX(0%);
-    filter: drop-shadow(0 0 50px rgb(0 0 0 / 0.15));
-  }
-}
-
 @theme {
-  --animate-from-right: 0.3s ease forwards from-right;
-  --animate-from-bottom: 0.3s ease forwards from-bottom;
-  --animate-stacked-layer-from: 0.5s ease forwards stacked-layer-from;
-  --animate-stacked-layer-to: 0.5s ease forwards stacked-layer-to;
-  --animate-stacked-backdrop-from: 0.5s ease forwards stacked-backdrop-from;
-  --animate-stacked-backdrop-to: 0.5s ease forwards stacked-backdrop-to;
-  --animate-jump-in: 0.3s ease forwards jump-in;
+  --animate-from-right: 0.3s ease both from-right;
+  --animate-from-bottom: 0.3s ease both from-bottom;
+  --animate-stacked-layer-from: 0.5s ease both stacked-layer-from;
+  --animate-stacked-layer-to: 0.5s ease both stacked-layer-to;
+  --animate-stacked-backdrop-from: 0.5s ease both stacked-backdrop-from;
+  --animate-stacked-backdrop-to: 0.5s ease both stacked-backdrop-to;
+  --animate-jump-in: 0.3s ease both jump-in;
+  --animate-move-out: 0.4s ease both move-out;
+  --animate-move-in: 0.4s ease both move-in;
 
   @keyframes from-right {
     from {
@@ -121,6 +95,26 @@ textarea:after {
     }
     100% {
       transform: scale(100%);
+    }
+  }
+  @keyframes move-out {
+    from {
+      transform: translateX(0%);
+      filter: brightness(1);
+    }
+    to {
+      transform: translateX(-30%);
+      filter: brightness(0.85);
+    }
+  }
+  @keyframes move-in {
+    from {
+      transform: translateX(100%);
+      filter: drop-shadow(0 0 50 rgb(0 0 0 / 0));
+    }
+    to {
+      transform: translateX(0%);
+      filter: drop-shadow(0 0 50px rgb(0 0 0 / 0.15));
     }
   }
 }
