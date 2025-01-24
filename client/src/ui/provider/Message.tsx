@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "router2";
 
-import { mutateRelatedPokeList } from "../../hook/domain/useRelatedPokeList";
+import { mutateRelatedPokeList } from "~/hook/domain/useRelatedPokeList";
 
 type Message =
   | {

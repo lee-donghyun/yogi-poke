@@ -1,15 +1,15 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Link } from "router2";
 
-import { DELETED_USER } from "../../service/const.ts";
-import { Poke, User } from "../../service/dataType.ts";
-import { getReadableDateOffset } from "../../service/util.ts";
-import { type Line } from "../base/Canvas.tsx";
-import { CheckBadge } from "../icon/CheckBadge.tsx";
-import { PokeSheet } from "../overlay/PokeSheet.tsx";
-import { ShowDrawingSheet } from "../overlay/ShowDrawingSheet.tsx";
-import { ShowGeolocationSheet } from "../overlay/ShowGeolocationSheet.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { DELETED_USER } from "~/service/const.ts";
+import { Poke, User } from "~/service/dataType.ts";
+import { getReadableDateOffset } from "~/service/util.ts";
+import { type Line } from "~/ui/base/Canvas.tsx";
+import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
+import { PokeSheet } from "~/ui/overlay/PokeSheet.tsx";
+import { ShowDrawingSheet } from "~/ui/overlay/ShowDrawingSheet.tsx";
+import { ShowGeolocationSheet } from "~/ui/overlay/ShowGeolocationSheet.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 interface PocketListItemProps {
   animation: {

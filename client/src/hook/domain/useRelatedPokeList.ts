@@ -2,8 +2,8 @@ import { useCallback, useRef } from "react";
 import { mutate } from "swr";
 import useSWRInfinite, { unstable_serialize } from "swr/infinite";
 
-import { Poke } from "../../service/dataType.ts";
-import { useIntersectionObserver } from "../base/useIntersectionObserver.ts";
+import { useIntersectionObserver } from "~/hook/base/useIntersectionObserver.ts";
+import { Poke } from "~/service/dataType.ts";
 
 const POKE_LIST_LIMIT = 20;
 

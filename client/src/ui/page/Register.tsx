@@ -4,12 +4,12 @@ import { useCallback, useState } from "react";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
-import { usePasskey } from "../../hook/domain/usePasskey.ts";
-import { getPushNotificationSubscription } from "../../service/util.ts";
-import { validator } from "../../service/validator.ts";
-import { StackedNavigation } from "../base/Navigation.tsx";
-import { useAuthNavigator, useUser } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
+import { usePasskey } from "~/hook/domain/usePasskey.ts";
+import { getPushNotificationSubscription } from "~/service/util.ts";
+import { validator } from "~/service/validator.ts";
+import { StackedNavigation } from "~/ui/base/Navigation.tsx";
+import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
 
 const cx = {
   // eslint-disable-next-line lingui/no-unlocalized-strings

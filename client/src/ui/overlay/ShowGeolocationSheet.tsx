@@ -2,14 +2,14 @@ import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { useDomSize } from "../../hook/base/useDomSize";
-import { useGeolocation } from "../../hook/base/useGeolocation";
-import { getDistance } from "../../service/util";
-import { CountUp } from "../base/CountUp";
-import { createDraggableSheet } from "../base/DraggableSheet";
+import { useDomSize } from "~/hook/base/useDomSize";
+import { useGeolocation } from "~/hook/base/useGeolocation";
+import { getDistance } from "~/service/util";
+import { CountUp } from "~/ui/base/CountUp";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 const Map = lazy(() =>
-  import("../base/Map").then((module) => ({ default: module.Map })),
+  import("~/ui/base/Map").then((module) => ({ default: module.Map })),
 );
 
 export const ShowGeolocationSheet = createDraggableSheet<{
