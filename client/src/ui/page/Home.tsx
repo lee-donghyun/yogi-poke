@@ -1,13 +1,13 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 
-import { usePasskey } from "../../hook/domain/usePasskey.ts";
-import { ChevronRight } from "../icon/ChevronRight.tsx";
-import { Key } from "../icon/Key.tsx";
-import { PrivateLoginSheet } from "../overlay/PrivateLoginSheet.tsx";
-import { useAuthNavigator } from "../provider/Auth.tsx";
-import { useNotification } from "../provider/Notification.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+import { usePasskey } from "~/hook/domain/usePasskey.ts";
+import { ChevronRight } from "~/ui/icon/ChevronRight.tsx";
+import { Key } from "~/ui/icon/Key.tsx";
+import { PrivateLoginSheet } from "~/ui/overlay/PrivateLoginSheet.tsx";
+import { useAuthNavigator } from "~/ui/provider/Auth.tsx";
+import { useNotification } from "~/ui/provider/Notification.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 export const Home = () => {
   useAuthNavigator({ goToApp: "/search" });

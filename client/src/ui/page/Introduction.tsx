@@ -1,13 +1,13 @@
 import { Trans, useLingui } from "@lingui/react/macro";
 
-import { ArrowUpOnSquare } from "../icon/ArrowUpOnSquare.tsx";
-import { DevicePhoneMobile } from "../icon/DevicePhoneMobile.tsx";
+import { ArrowUpOnSquare } from "~/ui/icon/ArrowUpOnSquare.tsx";
+import { DevicePhoneMobile } from "~/ui/icon/DevicePhoneMobile.tsx";
 import {
   InstructionSheet,
   platform,
   pwaHelpUrl,
-} from "../overlay/IntroductionSheet.tsx";
-import { useStackedLayer } from "../provider/StackedLayerProvider.tsx";
+} from "~/ui/overlay/IntroductionSheet.tsx";
+import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 const VERSION = "25.01.08";
 

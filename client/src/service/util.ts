@@ -2,9 +2,9 @@ import { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import dayjs from "dayjs";
 
-import type { Line } from "../ui/base/Canvas";
+import type { Line } from "~/ui/base/Canvas";
 
-import { AuthProvider, User } from "./dataType";
+import { AuthProvider, User } from "~/service/dataType";
 
 export const getReadableDateOffset = (date: string): MessageDescriptor => {
   const now = dayjs();

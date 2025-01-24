@@ -2,7 +2,7 @@ import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useRef } from "react";
 import { useRouter } from "router2";
 
-import { createDraggableSheet } from "../base/DraggableSheet.tsx";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
 
 const QrScanner = lazy(() =>
   import("../base/QrScanner.tsx").then((mod) => ({ default: mod.QrScanner })),

@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/react/macro";
 
-import { usePoke } from "../../hook/domain/usePoke.ts";
-import { createDraggableSheet } from "../base/DraggableSheet.tsx";
-import { Layer, useStackedLayer } from "../provider/StackedLayerProvider.tsx";
-import { PokeWithDrawingSheet } from "./PokeWithDrawingSheet.tsx";
-import { PokeWithEmojiSheet } from "./PokeWithEmojiSheet.tsx";
-import { PokeWithGeoLocationSheet } from "./PokeWithGeolocationSheet.tsx";
+import { usePoke } from "~/hook/domain/usePoke.ts";
+import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
+import { PokeWithDrawingSheet } from "~/ui/overlay/PokeWithDrawingSheet.tsx";
+import { PokeWithEmojiSheet } from "~/ui/overlay/PokeWithEmojiSheet.tsx";
+import { PokeWithGeoLocationSheet } from "~/ui/overlay/PokeWithGeolocationSheet.tsx";
+import { Layer, useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 const cx = {
   pokeButton:

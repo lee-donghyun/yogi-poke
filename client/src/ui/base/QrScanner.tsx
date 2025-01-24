@@ -1,7 +1,7 @@
 import QrScannerClient from "qr-scanner";
 import { useEffect, useRef, useState } from "react";
 
-import { Task } from "../../lib/task";
+import { Task } from "~/lib/task";
 
 export const QrScanner = ({
   onScan,
