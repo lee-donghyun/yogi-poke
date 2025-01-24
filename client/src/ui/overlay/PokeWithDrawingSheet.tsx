@@ -78,7 +78,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
               type="button"
             >
               {color === selectedColor && (
-                <div className="animate-jump-in animate-duration-300 size-2 rounded-full bg-zinc-900"></div>
+                <div className="animate-jump-in size-2 rounded-full bg-zinc-900"></div>
               )}
             </button>
           ))}

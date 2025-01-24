@@ -139,7 +139,7 @@ export const Search = () => {
             />
           ))}
           {data?.length === 0 && (
-            <div className="from-bottom flex flex-col items-center pt-16 text-zinc-600">
+            <div className="animate-from-bottom flex flex-col items-center pt-16 text-zinc-600">
               <span className="text-zinc-400">
                 <CircleXIcon />
               </span>

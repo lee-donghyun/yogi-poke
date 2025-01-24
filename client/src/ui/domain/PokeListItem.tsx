@@ -208,7 +208,7 @@ export const PokeListItem = ({
   return (
     <div
       {...(animation && {
-        className: "from-bottom opacity-0",
+        className: "animate-from-bottom opacity-0",
         style: {
           animationDelay: `${animation.delayTimes * 50}ms`,
           transform: "translateY(60px)",
