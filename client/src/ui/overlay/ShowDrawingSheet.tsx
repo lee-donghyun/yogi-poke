@@ -6,7 +6,7 @@ import { type Line } from "~/ui/base/Canvas";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 const CanvasRenderer = lazy(() =>
-  import("../base/CanvasRenderer").then((module) => ({
+  import("~/ui/base/CanvasRenderer").then((module) => ({
     default: module.CanvasRenderer,
   })),
 );

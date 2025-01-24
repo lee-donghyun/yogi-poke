@@ -9,7 +9,7 @@ import { CountUp } from "~/ui/base/CountUp";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
 const Map = lazy(() =>
-  import("../base/Map").then((module) => ({ default: module.Map })),
+  import("~/ui/base/Map").then((module) => ({ default: module.Map })),
 );
 
 export const ShowGeolocationSheet = createDraggableSheet<{

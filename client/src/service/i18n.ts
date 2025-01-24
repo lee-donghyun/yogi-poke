@@ -27,9 +27,7 @@ const detectLocale = () => {
 
 export const setLocale = async (locale: Locale) => {
   localStorage.setItem(LOCALE_PERSIST_KEY, locale);
-  const { messages } = (await import(
-    `../../locales/${locale}/messages.po`
-  )) as {
+  const { messages } = (await import(`~/locales/${locale}/messages.po`)) as {
     messages: Messages;
   };
   i18n.loadAndActivate({ locale, messages });

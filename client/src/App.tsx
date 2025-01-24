@@ -21,7 +21,7 @@ import { PwaProvider } from "~/ui/provider/PwaProvider.tsx";
 import { StackedLayerProvider } from "~/ui/provider/StackedLayerProvider.tsx";
 
 const Introduction = lazy(() =>
-  import("./ui/page/Introduction.tsx").then((mod) => ({
+  import("~/ui/page/Introduction.tsx").then((mod) => ({
     default: mod.Introduction,
   })),
 );
