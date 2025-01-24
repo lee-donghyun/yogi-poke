@@ -93,15 +93,20 @@ export const User = () => {
         }}
         title={`@${userEmail}`}
       />
-      <div className="p-5">
-        <div className="flex justify-center pt-16">
+      <div className="p-5 pt-16">
+        <div className="flex pt-5">
           <img
             alt={t`프로필 이미지`}
-            className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
+            className="size-20 rounded-full bg-zinc-200 object-cover"
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
+          <div className="flex flex-1 items-center pl-5">
+            <Stat label={t`모든 콕!`} value={data?.totalPokes} />
+            <Stat label={t`내가 콕!`} value={data?.pokes} />
+            <Stat label={t`나를 콕!`} value={data?.pokeds} />
+          </div>
         </div>
-        <div className="mt-10">
+        <div className="pt-7">
           <div className="flex items-end justify-between">
             <p className="flex items-center text-xl font-bold">
               @{userEmail}
@@ -111,49 +116,42 @@ export const User = () => {
                 </span>
               )}
             </p>
-            <button
-              className="active:opacity-60"
-              key="edit"
-              onClick={() => {
-                if (isLiked) {
-                  setLikes(likes.filter((id) => id !== data.id));
-                } else if (data) {
-                  setLikes([...likes, data.id]);
-                }
-              }}
-              type="button"
-            >
-              <span className="block scale-[80%] text-zinc-500">
-                {isLiked ? (
-                  <span className="text-yellow-500">
-                    <StarSolid />
-                  </span>
-                ) : (
-                  <Star />
-                )}
-              </span>
-            </button>
           </div>
           <p className="mt-1">{data?.name ?? <span className="block h-6" />}</p>
         </div>
-        <div className="mt-10 flex items-center">
-          <Stat label={t`모든 콕!`} value={data?.totalPokes} />
-          <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label={t`내가 콕!`} value={data?.pokes} />
-          <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label={t`나를 콕!`} value={data?.pokeds} />
+        <div className="flex gap-2 pt-5">
+          <button
+            className="block flex-1 rounded-2xl bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
+            disabled={!isPokable || isLoading}
+            onClick={() => {
+              overlay(PokeSheet, { targetUserEmail: userEmail });
+            }}
+          >
+            <Trans>콕! 찌르기</Trans> 👉
+          </button>
+          <button
+            className="rounded-2xl bg-zinc-100 px-2 active:opacity-60"
+            key="edit"
+            onClick={() => {
+              if (isLiked) {
+                setLikes(likes.filter((id) => id !== data.id));
+              } else if (data) {
+                setLikes([...likes, data.id]);
+              }
+            }}
+            type="button"
+          >
+            <span className="block scale-[80%] text-zinc-500">
+              {isLiked ? (
+                <span className="text-yellow-500">
+                  <StarSolid />
+                </span>
+              ) : (
+                <Star />
+              )}
+            </span>
+          </button>
         </div>
-      </div>
-      <div className="p-5">
-        <button
-          className="block w-full rounded-2xl bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={!isPokable || isLoading}
-          onClick={() => {
-            overlay(PokeSheet, { targetUserEmail: userEmail });
-          }}
-        >
-          <Trans>콕! 찌르기</Trans> 👉
-        </button>
         {isDayjs(lastPoked) && !isPokable && (
           <p className="mt-1 text-center text-sm text-zinc-500">
             <b className="font-medium">
