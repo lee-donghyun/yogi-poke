@@ -9,6 +9,7 @@ import { useUserPofile } from "~/hook/domain/useUserProfile.ts";
 import { useUserRelatedPokeList } from "~/hook/domain/useUserRelatedPokeList.ts";
 import { LIKE_PERSIST_KEY } from "~/service/const.ts";
 import { isVerifiedUser } from "~/service/util.ts";
+import { Image } from "~/ui/base/Image";
 import { StackedNavigation } from "~/ui/base/Navigation.tsx";
 import { Stat } from "~/ui/base/Stat.tsx";
 import { Timer } from "~/ui/base/Timer.tsx";
@@ -95,9 +96,9 @@ export const User = () => {
       />
       <div className="p-5 pt-16">
         <div className="flex pt-5">
-          <img
+          <Image
             alt={t`프로필 이미지`}
-            className="size-20 rounded-full bg-zinc-200 object-cover"
+            size={80}
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
           <div className="flex flex-1 items-center pl-5">
