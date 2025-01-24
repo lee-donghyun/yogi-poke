@@ -7,7 +7,7 @@ export const PrivateLoginSheet = createDraggableSheet(({ close }) => {
   const { params } = useRouter();
   return (
     <div className="p-6 pt-0">
-      <p className="border-b border-zinc-100 pb-6 pt-4 text-lg font-semibold text-zinc-800">
+      <p className="border-b border-zinc-100 pt-4 pb-6 text-lg font-semibold text-zinc-800">
         <Trans>아이디로 로그인</Trans>
       </p>
       <div className="flex flex-col gap-4 pt-6">
