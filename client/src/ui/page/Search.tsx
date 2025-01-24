@@ -153,7 +153,7 @@ export const Search = () => {
           )}
         </div>
       </div>
-      <div className="fixed bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))] right-5">
+      <div className="fixed right-5 bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))]">
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-[10.5rem]`} bottom-[10.5rem] ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
           onClick={validateAndOverlay(PokeWithDrawingSheet)}

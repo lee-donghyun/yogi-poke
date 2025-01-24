@@ -47,7 +47,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
         >
           {lines.length > 0 && (
             <button
-              className="absolute left-2 top-2 z-10 rounded-full bg-zinc-800 p-1 text-zinc-300 opacity-80"
+              className="absolute top-2 left-2 z-10 rounded-full bg-zinc-800 p-1 text-zinc-300 opacity-80"
               onClick={() => {
                 setLines([]);
               }}
@@ -78,7 +78,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
               type="button"
             >
               {color === selectedColor && (
-                <div className="size-2 animate-jump-in rounded-full bg-zinc-900 animate-duration-300"></div>
+                <div className="animate-jump-in animate-duration-300 size-2 rounded-full bg-zinc-900"></div>
               )}
             </button>
           ))}
