@@ -16,10 +16,8 @@ export const Backdrop = ({
   return createPortal(
     <RemoveScroll>
       <button
-        className={`fixed inset-0 z-40 rounded-t-3xl bg-black ${
-          visible
-            ? "animate-stacked-backdrop-from"
-            : "animate-stacked-backdrop-to"
+        className={`fixed inset-0 z-40 rounded-t-3xl bg-black/10 ${
+          visible ? "animate-fade-in" : "animate-fade-out"
         }`}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
