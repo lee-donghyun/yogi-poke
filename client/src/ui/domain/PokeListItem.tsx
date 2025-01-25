@@ -1,3 +1,4 @@
+import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { Link } from "router2";
 
@@ -5,7 +6,6 @@ import { DELETED_USER } from "~/service/const.ts";
 import { Poke, User } from "~/service/dataType.ts";
 import { getReadableDateOffset } from "~/service/util.ts";
 import { type Line } from "~/ui/base/Canvas.tsx";
-import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
 import { PokeSheet } from "~/ui/overlay/PokeSheet.tsx";
 import { ShowDrawingSheet } from "~/ui/overlay/ShowDrawingSheet.tsx";
 import { ShowGeolocationSheet } from "~/ui/overlay/ShowGeolocationSheet.tsx";
@@ -236,8 +236,8 @@ export const PokeListItem = ({
             >
               @{targetUser.email}
               {isVerifiedUser && (
-                <span className="ml-0.5 scale-90 text-blue-500">
-                  <CheckBadge />
+                <span className="ml-0.5 text-blue-500">
+                  <CheckBadgeIcon className="size-[1.125rem]" />
                 </span>
               )}
             </Link>

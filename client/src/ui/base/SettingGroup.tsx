@@ -1,6 +1,5 @@
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { createRef, Key, ReactNode, useRef } from "react";
-
-import { ChevronRight } from "~/ui/icon/ChevronRight.tsx";
 
 interface SettingGroupProps<T> {
   onOpenSubgroup: (id: T) => void;
@@ -39,7 +38,7 @@ export const SettingGroup = <T extends Key>({
               <span
                 className={`duration-300 ${subGroup.open ? "rotate-90" : "text-zinc-700"}`}
               >
-                <ChevronRight />
+                <ChevronRightIcon className="size-6" />
               </span>
             </button>
             <div

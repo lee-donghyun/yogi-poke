@@ -1,8 +1,8 @@
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 
 import { switch_ } from "~/lib/expify.ts";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
-import { ArrowUpOnSquare } from "~/ui/icon/ArrowUpOnSquare.tsx";
 
 enum Platform {
   ANDROID = "Android",
@@ -64,8 +64,8 @@ const IosInstruction = () => {
           </li>
           <li>
             웹 사이트를 보는 동안 메뉴 막대에서{" "}
-            <ArrowUpOnSquare className="inline-block size-5 text-blue-500" />을
-            탭하십시오.
+            <ArrowUpOnSquareIcon className="inline-block size-5 text-blue-500" />
+            을 탭하십시오.
           </li>
           <li className="mt-2">
             옵션 목록을 아래로 스크롤한 다음,{" "}
