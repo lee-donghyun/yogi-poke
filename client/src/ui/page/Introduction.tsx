@@ -1,7 +1,9 @@
+import {
+  ArrowUpOnSquareIcon,
+  DevicePhoneMobileIcon,
+} from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 
-import { ArrowUpOnSquare } from "~/ui/icon/ArrowUpOnSquare.tsx";
-import { DevicePhoneMobile } from "~/ui/icon/DevicePhoneMobile.tsx";
 import {
   InstructionSheet,
   platform,
@@ -52,7 +54,7 @@ export const Introduction = () => {
                 }}
                 type="button"
               >
-                <ArrowUpOnSquare />
+                <ArrowUpOnSquareIcon className="size-6" />
               </button>
             )}
           </div>
@@ -98,7 +100,7 @@ export const Introduction = () => {
         rel="noreferrer"
         target="_blank"
       >
-        <DevicePhoneMobile />
+        <DevicePhoneMobileIcon className="size-6" />
         <p className="pl-1 text-sm">
           <Trans>{platform}를 위한 웹 어플리케이션</Trans>
         </p>

@@ -1,3 +1,5 @@
+import { CheckBadgeIcon } from "@heroicons/react/20/solid";
+import { Bars3Icon, SparklesIcon } from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
@@ -9,9 +11,6 @@ import { Navigation } from "~/ui/base/Navigation.tsx";
 import { Stat } from "~/ui/base/Stat.tsx";
 import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
 import { PokeListItem } from "~/ui/domain/PokeListItem.tsx";
-import { Blink } from "~/ui/icon/Blink.tsx";
-import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
-import { Menu } from "~/ui/icon/Menu.tsx";
 import { MenuSheet } from "~/ui/overlay/MenuSheet.tsx";
 import { SharedProfileSheet } from "~/ui/overlay/SharedProfileSheet.tsx";
 import { UpdateMyInfoStack } from "~/ui/overlay/UpdateMyInfoStack.tsx";
@@ -31,7 +30,7 @@ export const MyPage = () => {
   const { t } = useLingui();
   const { myInfo } = useUser({ revalidateIfHasToken: true });
 
-  const { data, error, intersectorRef, isFreshData } = useRelatedPokeList();
+  const { data, intersectorRef, isFreshData } = useRelatedPokeList();
 
   return (
     <div className="min-h-dvh">
@@ -45,7 +44,7 @@ export const MyPage = () => {
             }}
             type="button"
           >
-            <Menu />
+            <Bars3Icon className="size-6" />
           </button>,
         ]}
       />
@@ -71,7 +70,7 @@ export const MyPage = () => {
               @{myInfo?.email}
               {myInfo && isVerifiedUser(myInfo) && (
                 <span className="ml-1 text-blue-500">
-                  <CheckBadge />
+                  <CheckBadgeIcon className="size-5" />
                 </span>
               )}
             </p>
@@ -100,9 +99,9 @@ export const MyPage = () => {
         </div>
 
         <div className="mt-10 flex flex-col gap-4">
-          {(error || data?.[0].length === 0) && (
-            <div className="flex flex-col items-center pt-10 text-zinc-700">
-              <Blink />
+          {data?.[0].length === 0 && (
+            <div className="animate-from-bottom flex flex-col items-center pt-10 text-zinc-700">
+              <SparklesIcon className="size-6" />
               <p className="pt-6">
                 <Trans>처음으로 콕 찔러보세요!</Trans>
               </p>

@@ -1,8 +1,7 @@
+import { MagnifyingGlassIcon, StarIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "router2";
 
 import { BottomNavigation } from "~/ui/base/BottomNavigation.tsx";
-import { Search } from "~/ui/icon/Search.tsx";
-import { Star } from "~/ui/icon/Star.tsx";
 import { useUser } from "~/ui/provider/Auth.tsx";
 
 enum Path {
@@ -35,14 +34,14 @@ export const DomainBottomNavigation = () => {
           key={Path.SEARCH}
           onClick={() => onClick(Path.SEARCH)}
         >
-          <Search />
+          <MagnifyingGlassIcon className="size-6" />
         </button>,
         <button
           className={`${cx.button} ${path === Path.LIKE ? "text-black" : "text-zinc-400"}`}
           key={Path.LIKE}
           onClick={() => onClick(Path.LIKE)}
         >
-          <Star />
+          <StarIcon className="size-6" />
         </button>,
         <button
           className={cx.button}
