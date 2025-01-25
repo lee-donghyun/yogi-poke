@@ -4,6 +4,7 @@ import { useRouter } from "router2";
 import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
 import { DELETED_USER } from "~/service/const.ts";
 import { isVerifiedUser } from "~/service/util.ts";
+import { Image } from "~/ui/base/Image";
 import { Navigation } from "~/ui/base/Navigation.tsx";
 import { Stat } from "~/ui/base/Stat.tsx";
 import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
@@ -50,9 +51,9 @@ export const MyPage = () => {
       />
       <div className="p-5 pt-16">
         <div className="flex pt-5">
-          <img
+          <Image
             alt={t`프로필 이미지`}
-            className="size-20 rounded-full bg-zinc-200 object-cover"
+            size={80}
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
           <div className="flex flex-1 items-center pl-5">
