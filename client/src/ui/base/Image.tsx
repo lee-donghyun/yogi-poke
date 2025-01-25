@@ -23,7 +23,8 @@ const ANIMATION_DURATION = 150;
 const VIEWER_SIZE_IN_VW = 64;
 
 export const Image = ({ alt, size, src, ...props }: ImageProps) => {
-  const thumbnailRef = useRef<HTMLImageElement>(null);
+  const thumbnailRef = useRef(null as unknown as HTMLImageElement);
+  const viewerRef = useRef(null as unknown as HTMLImageElement);
   const [view, setView] = useState(View.THUMBNAIL);
   const debouncedIsViewer = useDebouncedValue(
     view === View.VIEWER,
@@ -39,14 +40,12 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
       return setView(View.VIEWER);
     }
 
+    thumbnailRef.current.style.viewTransitionName = THUMBNAIL_TRANSITION_NAME;
+
     const transition = document.startViewTransition(() => setView(View.VIEWER));
 
     void transition.ready.then(() => {
-      const thumbnail = thumbnailRef.current?.getBoundingClientRect();
-      if (!thumbnail) {
-        return;
-      }
-
+      const thumbnail = thumbnailRef.current.getBoundingClientRect();
       const vw = window.innerWidth / 100;
       const vh = window.innerHeight / 100;
 
@@ -74,6 +73,10 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
         },
       );
     });
+
+    void transition.finished.then(() => {
+      thumbnailRef.current.style.viewTransitionName = "";
+    });
   };
 
   const closeViewer = () => {
@@ -81,16 +84,14 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
       return setView(View.THUMBNAIL);
     }
 
+    viewerRef.current.style.viewTransitionName = VIEWER_TRANSITION_NAME;
+
     const transition = document.startViewTransition(() =>
       setView(View.THUMBNAIL),
     );
 
     void transition.ready.then(() => {
-      const thumbnail = thumbnailRef.current?.getBoundingClientRect();
-      if (!thumbnail) {
-        return;
-      }
-
+      const thumbnail = thumbnailRef.current.getBoundingClientRect();
       const vw = window.innerWidth / 100;
       const vh = window.innerHeight / 100;
 
@@ -118,6 +119,10 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
         },
       );
     });
+
+    void transition.finished.then(() => {
+      viewerRef.current.style.viewTransitionName = "";
+    });
   };
 
   return (
@@ -129,11 +134,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
           className={`rounded-full object-cover ${mounted ? "invisible" : ""}`}
           ref={thumbnailRef}
           src={src}
-          style={{
-            height: size,
-            viewTransitionName: THUMBNAIL_TRANSITION_NAME,
-            width: size,
-          }}
+          style={{ height: size, width: size }}
         />
       </button>
       {mounted &&
@@ -159,10 +160,10 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
                   {...props}
                   alt={alt}
                   className={`rounded-full object-cover ${visible ? "" : "invisible"}`}
+                  ref={viewerRef}
                   src={src}
                   style={{
                     height: `${VIEWER_SIZE_IN_VW}vw`,
-                    viewTransitionName: VIEWER_TRANSITION_NAME,
                     width: `${VIEWER_SIZE_IN_VW}vw`,
                   }}
                 />
