@@ -1,3 +1,4 @@
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { lazy, Suspense, useState } from "react";
 
@@ -6,7 +7,6 @@ import { usePoke } from "~/hook/domain/usePoke.ts";
 import { getNormalizedPoints } from "~/service/util.ts";
 import { type Line } from "~/ui/base/Canvas.tsx";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
-import { XMark } from "~/ui/icon/XMark.tsx";
 
 const Canvas = lazy(() =>
   import("~/ui/base/Canvas.tsx").then((module) => ({ default: module.Canvas })),
@@ -53,7 +53,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
               }}
               type="button"
             >
-              <XMark />
+              <XMarkIcon className="size-6" />
             </button>
           )}
           <Suspense

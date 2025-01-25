@@ -1,3 +1,9 @@
+import { CheckBadgeIcon } from "@heroicons/react/20/solid";
+import {
+  NoSymbolIcon,
+  StarIcon as StarOutlineIcon,
+} from "@heroicons/react/24/outline";
+import { StarIcon as StarSolidIcon } from "@heroicons/react/24/solid";
 import { Trans, useLingui } from "@lingui/react/macro";
 import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
@@ -13,9 +19,6 @@ import { Image } from "~/ui/base/Image";
 import { StackedNavigation } from "~/ui/base/Navigation.tsx";
 import { Stat } from "~/ui/base/Stat.tsx";
 import { Timer } from "~/ui/base/Timer.tsx";
-import { Block } from "~/ui/icon/Block.tsx";
-import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
-import { Star, StarSolid } from "~/ui/icon/Star.tsx";
 import { PokeSheet } from "~/ui/overlay/PokeSheet.tsx";
 import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
 import { useNotification } from "~/ui/provider/Notification.tsx";
@@ -86,7 +89,7 @@ export const User = () => {
             }}
             type="button"
           >
-            <Block />
+            <NoSymbolIcon className="size-6" />
           </button>,
         ]}
         onBack={() => {
@@ -113,7 +116,7 @@ export const User = () => {
               @{userEmail}
               {data && isVerifiedUser(data) && (
                 <span className="ml-1 text-blue-500">
-                  <CheckBadge />
+                  <CheckBadgeIcon className="size-5" />
                 </span>
               )}
             </p>
@@ -142,15 +145,11 @@ export const User = () => {
             }}
             type="button"
           >
-            <span className="block scale-[80%] text-zinc-500">
-              {isLiked ? (
-                <span className="text-yellow-500">
-                  <StarSolid />
-                </span>
-              ) : (
-                <Star />
-              )}
-            </span>
+            {isLiked ? (
+              <StarSolidIcon className="size-5 text-yellow-500" />
+            ) : (
+              <StarOutlineIcon className="size-5 text-zinc-600" />
+            )}
           </button>
         </div>
         {isDayjs(lastPoked) && !isPokable && (
