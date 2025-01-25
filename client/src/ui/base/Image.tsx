@@ -120,9 +120,11 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
       );
     });
 
-    void transition.finished.then(() => {
-      viewerRef.current.style.viewTransitionName = "";
-    });
+    void transition.finished
+      .then(() => {
+        viewerRef.current.style.viewTransitionName = "";
+      })
+      .catch(console.error);
   };
 
   return (
