@@ -20,7 +20,7 @@ type ImageProps = {
 const THUMBNAIL_TRANSITION_NAME = "image-thumbnail";
 const VIEWER_TRANSITION_NAME = "image-viewer";
 const ANIMATION_DURATION = 150;
-const VIEWER_SIZE_IN_VW = 50;
+const VIEWER_SIZE_IN_VW = 64;
 
 export const Image = ({ alt, size, src, ...props }: ImageProps) => {
   const thumbnailRef = useRef<HTMLImageElement>(null);
