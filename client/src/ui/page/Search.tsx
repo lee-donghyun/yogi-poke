@@ -1,3 +1,4 @@
+import { QrCodeIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { MouseEventHandler, useState } from "react";
 import { useRouter } from "router2";
@@ -12,8 +13,6 @@ import { isVerifiedUser } from "~/service/util.ts";
 import { Navigation } from "~/ui/base/Navigation.tsx";
 import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
 import { UserListItem } from "~/ui/domain/UserListItem.tsx";
-import { CircleXIcon } from "~/ui/icon/CircleX.tsx";
-import { QrCode } from "~/ui/icon/QrCode.tsx";
 import { PokeWithDrawingSheet } from "~/ui/overlay/PokeWithDrawingSheet.tsx";
 import { PokeWithEmojiSheet } from "~/ui/overlay/PokeWithEmojiSheet.tsx";
 import { PokeWithGeoLocationSheet } from "~/ui/overlay/PokeWithGeolocationSheet.tsx";
@@ -106,7 +105,7 @@ export const Search = () => {
             }}
             type="button"
           >
-            <QrCode />
+            <QrCodeIcon className="size-6" />
           </button>
         </div>
         <div className="flex items-center pt-10">
@@ -141,7 +140,7 @@ export const Search = () => {
           {data?.length === 0 && (
             <div className="animate-from-bottom flex flex-col items-center pt-16 text-zinc-600">
               <span className="text-zinc-400">
-                <CircleXIcon />
+                <XCircleIcon className="size-6" />
               </span>
               <p className="pt-6">
                 <span className="font-semibold text-zinc-900">

@@ -1,9 +1,8 @@
+import { ChevronRightIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 
 import { usePasskey } from "~/hook/domain/usePasskey.ts";
-import { ChevronRight } from "~/ui/icon/ChevronRight.tsx";
-import { Key } from "~/ui/icon/Key.tsx";
 import { PrivateLoginSheet } from "~/ui/overlay/PrivateLoginSheet.tsx";
 import { useAuthNavigator } from "~/ui/provider/Auth.tsx";
 import { useNotification } from "~/ui/provider/Notification.tsx";
@@ -38,13 +37,13 @@ export const Home = () => {
           type="button"
         >
           <span className="text-zinc-100">
-            <Key />
+            <KeyIcon className="size-6" />
           </span>
           <p className="flex-1 text-left text-white">
             <Trans>Passkey로 시작하기</Trans>
           </p>
           <span className="text-zinc-500">
-            <ChevronRight />
+            <ChevronRightIcon className="size-6" />
           </span>
         </button>
         <button

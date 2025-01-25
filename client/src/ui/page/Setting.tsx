@@ -1,3 +1,5 @@
+import { CheckCircleIcon as CheckCircleSolidIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon as CheckCircleOutlineIcon } from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { useState } from "react";
 
@@ -8,8 +10,6 @@ import { AButton } from "~/ui/base/AButton.tsx";
 import { StackedNavigation } from "~/ui/base/Navigation.tsx";
 import { SettingGroup } from "~/ui/base/SettingGroup.tsx";
 import { BlockedUser } from "~/ui/domain/BlockedUser.tsx";
-import { CheckCircleOutline } from "~/ui/icon/CheckCircleOutline.tsx";
-import { CheckCircleSolid } from "~/ui/icon/CheckCircleSolid.tsx";
 import { LanguageSheet } from "~/ui/overlay/LanguageSheet.tsx";
 import { QuitStack } from "~/ui/overlay/QuitStack.tsx";
 import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
@@ -79,17 +79,11 @@ export const Setting = () => {
                       <Trans>{myEmail}님이 회원님을 콕 찔렀어요!</Trans>
                     </p>
                   </div>
-                  <span
-                    className={
-                      isPushEnabled ? "text-yellow-500" : "text-zinc-400"
-                    }
-                  >
-                    {isPushEnabled ? (
-                      <CheckCircleSolid />
-                    ) : (
-                      <CheckCircleOutline />
-                    )}
-                  </span>
+                  {isPushEnabled ? (
+                    <CheckCircleSolidIcon className="size-6 text-yellow-500" />
+                  ) : (
+                    <CheckCircleOutlineIcon className="size-6 text-zinc-400" />
+                  )}
                 </AButton>
               ),
               id: Menu.Notification,
