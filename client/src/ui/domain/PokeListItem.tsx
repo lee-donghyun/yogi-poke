@@ -22,6 +22,12 @@ interface PocketListItemProps {
   type: "poke" | "poked";
 }
 
+const cx = {
+  watchButton:
+    // eslint-disable-next-line lingui/no-unlocalized-strings
+    "inline-flex items-center justify-center rounded-lg bg-zinc-100 px-1 align-middle font-medium",
+};
+
 const NormalPokeBody = ({ targetUserName }: { targetUserName: string }) => (
   <p className="text-sm text-zinc-800">
     <Trans>
@@ -86,7 +92,7 @@ const DrawingPokeBody = ({
         님에게 그림을 보냈습니다:
       </Trans>{" "}
       <button
-        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        className={cx.watchButton}
         onClick={() =>
           overlay(ShowDrawingSheet, {
             lines,
@@ -117,7 +123,7 @@ const DrawingPokedBody = ({
         그림을 보냈습니다:
       </Trans>{" "}
       <button
-        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        className={cx.watchButton}
         onClick={() =>
           overlay(ShowDrawingSheet, {
             lines,
@@ -148,7 +154,7 @@ const GeolocationPokeBody = ({
         님에게 위치를 보냈습니다:
       </Trans>{" "}
       <button
-        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        className={cx.watchButton}
         onClick={() =>
           overlay(ShowGeolocationSheet, {
             position,
@@ -179,7 +185,7 @@ const GeolocationPokedBody = ({
         그림을 보냈습니다:
       </Trans>{" "}
       <button
-        className="inline-flex items-center justify-center rounded-md bg-zinc-100 px-1 align-middle font-medium"
+        className={cx.watchButton}
         onClick={() =>
           overlay(ShowGeolocationSheet, {
             position,
@@ -283,7 +289,7 @@ export const PokeListItem = ({
           )}
           {type === "poked" && targetUser !== DELETED_USER && (
             <button
-              className="mt-1.5 w-full rounded-lg bg-zinc-100 p-1 text-sm font-medium text-zinc-900 active:opacity-60 disabled:opacity-60"
+              className="mt-1.5 w-full rounded-xl bg-zinc-100 p-1 text-sm font-medium text-zinc-900 active:opacity-60 disabled:opacity-60"
               onClick={() =>
                 overlay(PokeSheet, { targetUserEmail: targetUser.email })
               }
