@@ -1,7 +1,6 @@
+import { CheckBadgeIcon } from "@heroicons/react/20/solid";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { Link } from "router2";
-
-import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
-import { ChevronRight } from "~/ui/icon/ChevronRight.tsx";
 
 interface UserListItemProps {
   animation: {
@@ -50,8 +49,8 @@ export const UserListItem = ({
           <p className="flex items-center font-medium">
             @{userEmail}
             {isVerifiedUser && (
-              <span className="ml-0.5 scale-90 text-blue-500">
-                <CheckBadge />
+              <span className="ml-0.5 text-blue-500">
+                <CheckBadgeIcon className="size-[1.125rem]" />
               </span>
             )}
           </p>
@@ -63,7 +62,7 @@ export const UserListItem = ({
             pathname={`/user/${userEmail}`}
             role="button"
           >
-            <ChevronRight />
+            <ChevronRightIcon className="size-6" />
           </Link>
         )}
       </div>

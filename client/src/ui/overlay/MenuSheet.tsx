@@ -1,9 +1,9 @@
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
 import { BACKDROP_ANIMATION_DURATION } from "~/ui/base/Backdrop";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet";
-import { Setting } from "~/ui/icon/Setting";
 
 export const MenuSheet = createDraggableSheet(({ close }) => {
   const { push } = useRouter();
@@ -20,7 +20,7 @@ export const MenuSheet = createDraggableSheet(({ close }) => {
               }, BACKDROP_ANIMATION_DURATION);
             }}
           >
-            <Setting />
+            <Cog6ToothIcon className="size-6" />
             <span>
               <Trans>설정</Trans>
             </span>

@@ -1,7 +1,6 @@
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Trans } from "@lingui/react/macro";
 import { JSX } from "react";
-
-import { ChevronLeft } from "~/ui/icon/ChevronLeft.tsx";
 
 export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
   return (
@@ -32,7 +31,7 @@ export const StackedNavigation = ({
       style={{ gridTemplateColumns: "80px 1fr 80px" }}
     >
       <button className="justify-self-start" onClick={onBack} type="button">
-        <ChevronLeft />
+        <ChevronLeftIcon className="size-6" />
       </button>
       <p className="text-center font-medium">{title}</p>
       <div className="flex gap-5 justify-self-end">{actions}</div>
