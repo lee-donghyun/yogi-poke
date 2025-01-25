@@ -4,20 +4,25 @@ import { useRouter } from "router2";
 import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
 import { DELETED_USER } from "~/service/const.ts";
 import { isVerifiedUser } from "~/service/util.ts";
+import { Image } from "~/ui/base/Image";
 import { Navigation } from "~/ui/base/Navigation.tsx";
 import { Stat } from "~/ui/base/Stat.tsx";
 import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
 import { PokeListItem } from "~/ui/domain/PokeListItem.tsx";
-import { ArrowUpOnSquare } from "~/ui/icon/ArrowUpOnSquare.tsx";
 import { Blink } from "~/ui/icon/Blink.tsx";
 import { CheckBadge } from "~/ui/icon/CheckBadge.tsx";
-import { Edit } from "~/ui/icon/Edit.tsx";
 import { Menu } from "~/ui/icon/Menu.tsx";
 import { MenuSheet } from "~/ui/overlay/MenuSheet.tsx";
 import { SharedProfileSheet } from "~/ui/overlay/SharedProfileSheet.tsx";
 import { UpdateMyInfoStack } from "~/ui/overlay/UpdateMyInfoStack.tsx";
 import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
 import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
+
+const cx = {
+  actionButton:
+    // eslint-disable-next-line lingui/no-unlocalized-strings
+    "flex-1 rounded-xl border px-2 py-1 text-sm font-medium text-zinc-800 duration-300 active:opacity-60",
+};
 
 export const MyPage = () => {
   useAuthNavigator({ goToAuth: true });
@@ -44,15 +49,23 @@ export const MyPage = () => {
           </button>,
         ]}
       />
-      <div className="p-5">
-        <div className="flex justify-center pt-16">
-          <img
+      <div className="p-5 pt-16">
+        <div className="flex pt-5">
+          <Image
             alt={t`프로필 이미지`}
-            className="h-24 w-24 rounded-full bg-zinc-200 object-cover"
+            size={80}
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
+          <div className="flex flex-1 items-center pl-5">
+            <Stat
+              label={t`모든 콕!`}
+              value={myInfo && myInfo.pokes + myInfo.pokeds}
+            />
+            <Stat label={t`내가 콕!`} value={myInfo?.pokes} />
+            <Stat label={t`나를 콕!`} value={myInfo?.pokeds} />
+          </div>
         </div>
-        <div className="mt-10">
+        <div className="pt-7">
           <div className="flex items-end justify-between">
             <p className="flex items-center text-xl font-bold">
               @{myInfo?.email}
@@ -62,43 +75,30 @@ export const MyPage = () => {
                 </span>
               )}
             </p>
-            <div className="flex gap-2">
-              <button
-                className="active:opacity-60"
-                onClick={() => {
-                  overlay(UpdateMyInfoStack);
-                }}
-                type="button"
-              >
-                <span className="block scale-[80%] text-zinc-500">
-                  <Edit />
-                </span>
-              </button>
-              <button
-                className="active:opacity-60"
-                onClick={() => {
-                  overlay(SharedProfileSheet);
-                }}
-                type="button"
-              >
-                <span className="block scale-[80%] text-zinc-500">
-                  <ArrowUpOnSquare />
-                </span>
-              </button>
-            </div>
           </div>
           <p className="mt-1">{myInfo?.name ?? <div className="h-6" />}</p>
         </div>
-        <div className="mt-10 flex items-center">
-          <Stat
-            label={t`모든 콕!`}
-            value={myInfo && myInfo.pokes + myInfo.pokeds}
-          />
-          <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label={t`내가 콕!`} value={myInfo?.pokes} />
-          <div className="h-12 w-px bg-zinc-200"></div>
-          <Stat label={t`나를 콕!`} value={myInfo?.pokeds} />
+        <div className="flex gap-2 pt-5">
+          <button
+            className={cx.actionButton}
+            onClick={() => {
+              overlay(UpdateMyInfoStack);
+            }}
+            type="button"
+          >
+            <Trans>프로필 편집</Trans>
+          </button>
+          <button
+            className={cx.actionButton}
+            onClick={() => {
+              overlay(SharedProfileSheet);
+            }}
+            type="button"
+          >
+            <Trans>프로필 공유</Trans>
+          </button>
         </div>
+
         <div className="mt-10 flex flex-col gap-4">
           {(error || data?.[0].length === 0) && (
             <div className="flex flex-col items-center pt-10 text-zinc-700">
