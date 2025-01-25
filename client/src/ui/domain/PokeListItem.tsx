@@ -182,7 +182,7 @@ const GeolocationPokedBody = ({
     <p className="text-sm text-zinc-800">
       <Trans>
         <span className="font-semibold">{targetUserName}</span>님이 회원님에게
-        그림을 보냈습니다:
+        위치를 보냈습니다:
       </Trans>{" "}
       <button
         className={cx.watchButton}
