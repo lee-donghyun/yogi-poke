@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "pushOnFollow" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN     "pushOnPoke" BOOLEAN NOT NULL DEFAULT true;
