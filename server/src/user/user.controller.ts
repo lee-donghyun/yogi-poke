@@ -92,7 +92,12 @@ export class UserController {
     @Query() param: GetUserListParamDto,
   ) {
     return this.userService.getUserList(
-      { email: param.email, ids: param.ids, name: param.name },
+      {
+        email: param.email,
+        ids: param.ids,
+        isFollowing: param.isFollowing,
+        name: param.name,
+      },
       { limit: param.limit ?? 20, page: param.page ?? 1 },
       param.orderBy ?? 'desc',
       userPayload.id,
