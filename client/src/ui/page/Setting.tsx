@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { usePasskey } from "~/hook/domain/usePasskey.ts";
 import { switch_ } from "~/lib/expify.ts";
-import { getPushNotificationSubscription } from "~/service/util.ts";
+import { getPushNotificationSubscription } from "~/service/util";
 import { AButton } from "~/ui/base/AButton.tsx";
 import { StackedNavigation } from "~/ui/base/Navigation.tsx";
 import { SettingGroup } from "~/ui/base/SettingGroup.tsx";
@@ -42,7 +42,6 @@ export const Setting = () => {
     setOpen((open) => (open === title ? null : title));
   };
 
-  const isPushEnabled = !!myInfo?.pushSubscription;
   const myEmail = myInfo?.email;
 
   return (
@@ -59,17 +58,21 @@ export const Setting = () => {
           onOpenSubgroup={onOpenSubgroup}
           subGroups={[
             {
-              children: (
+              children: [
                 <AButton
                   className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"
-                  onClick={async () => {
-                    const pushSubscription = isPushEnabled
-                      ? null
-                      : await getPushNotificationSubscription().catch(
-                          () => null,
-                        );
-                    void patchUser({ pushSubscription });
-                  }}
+                  key="poke"
+                  onClick={async () =>
+                    patchUser({
+                      pushOnPoke: !myInfo?.pushOnPoke,
+                      ...(!myInfo?.pushOnPoke && {
+                        pushSubscription:
+                          await getPushNotificationSubscription().catch(
+                            () => null,
+                          ),
+                      }),
+                    })
+                  }
                 >
                   <div className="pr-5">
                     <p>
@@ -79,13 +82,44 @@ export const Setting = () => {
                       <Trans>{myEmail}님이 회원님을 콕 찔렀어요!</Trans>
                     </p>
                   </div>
-                  {isPushEnabled ? (
+                  {myInfo?.pushOnPoke ? (
                     <CheckCircleSolidIcon className="size-6 text-yellow-500" />
                   ) : (
                     <CheckCircleOutlineIcon className="size-6 text-zinc-400" />
                   )}
-                </AButton>
-              ),
+                </AButton>,
+                <AButton
+                  className="flex w-full items-center justify-between rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"
+                  key="follow"
+                  onClick={async () =>
+                    patchUser({
+                      pushOnFollow: !myInfo?.pushOnFollow,
+                      ...(!myInfo?.pushOnFollow && {
+                        pushSubscription:
+                          await getPushNotificationSubscription().catch(
+                            () => null,
+                          ),
+                      }),
+                    })
+                  }
+                >
+                  <div className="pr-5">
+                    <p>
+                      <Trans>팔로우</Trans>
+                    </p>
+                    <p className="text-sm text-zinc-600">
+                      <Trans>
+                        {myEmail}님이 회원님을 팔로우하기 시작했습니다.
+                      </Trans>
+                    </p>
+                  </div>
+                  {myInfo?.pushOnFollow ? (
+                    <CheckCircleSolidIcon className="size-6 text-yellow-500" />
+                  ) : (
+                    <CheckCircleOutlineIcon className="size-6 text-zinc-400" />
+                  )}
+                </AButton>,
+              ],
               id: Menu.Notification,
               open: open === Menu.Notification,
               title: t`알림`,

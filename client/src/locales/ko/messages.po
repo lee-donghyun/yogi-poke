@@ -37,9 +37,13 @@ msgstr "{hours}시간 {minutes}분"
 msgid "{month}월 {dateOfMonth}일"
 msgstr "{month}월 {dateOfMonth}일"
 
-#: src/ui/page/Setting.tsx:79
+#: src/ui/page/Setting.tsx:82
 msgid "{myEmail}님이 회원님을 콕 찔렀어요!"
 msgstr "{myEmail}님이 회원님을 콕 찔렀어요!"
+
+#: src/ui/page/Setting.tsx:111
+msgid "{myEmail}님이 회원님을 팔로우하기 시작했습니다."
+msgstr "{myEmail}님이 회원님을 팔로우하기 시작했습니다."
 
 #: src/ui/page/Introduction.tsx:105
 msgid "{platform}를 위한 웹 어플리케이션"
@@ -58,8 +62,8 @@ msgid "{targetUserName}님에게 보낸 위치"
 msgstr "{targetUserName}님에게 보낸 위치"
 
 #: src/ui/page/User.tsx:86
-msgid "{targetUserName}님을 차단할까요?"
-msgstr "{targetUserName}님을 차단할까요?"
+#~ msgid "{targetUserName}님을 차단할까요?"
+#~ msgstr "{targetUserName}님을 차단할까요?"
 
 #: src/ui/domain/PokeListItem.tsx:130
 msgid "{targetUserName}님이 보낸 그림"
@@ -121,13 +125,13 @@ msgstr "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케�
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 
-#: src/ui/page/Setting.tsx:120
+#: src/ui/page/Setting.tsx:154
 msgid "Passkey 등록"
 msgstr "Passkey 등록"
 
 #: src/ui/page/SignIn.tsx:58
-#: src/ui/page/Setting.tsx:106
-#: src/ui/page/Setting.tsx:113
+#: src/ui/page/Setting.tsx:140
+#: src/ui/page/Setting.tsx:147
 #: src/ui/page/Register.tsx:59
 msgid "Passkey가 등록되었습니다."
 msgstr "Passkey가 등록되었습니다."
@@ -140,7 +144,11 @@ msgstr "Passkey로 시작하기"
 msgid "QR 코드 스캔"
 msgstr "QR 코드 스캔"
 
-#: src/ui/page/Setting.tsx:192
+#: src/ui/page/Introduction.tsx:71
+msgid "가까운 친구를 팔로우하세요"
+msgstr "가까운 친구를 팔로우하세요"
+
+#: src/ui/page/Setting.tsx:226
 msgid "개인정보처리방침"
 msgstr "개인정보처리방침"
 
@@ -148,11 +156,11 @@ msgstr "개인정보처리방침"
 msgid "계속"
 msgstr "계속"
 
-#: src/ui/page/Setting.tsx:162
+#: src/ui/page/Setting.tsx:196
 msgid "계정"
 msgstr "계정"
 
-#: src/ui/page/Setting.tsx:147
+#: src/ui/page/Setting.tsx:181
 msgid "계정 삭제"
 msgstr "계정 삭제"
 
@@ -182,7 +190,7 @@ msgstr "깃발"
 msgid "나도 콕! 찌르기 👉"
 msgstr "나도 콕! 찌르기 👉"
 
-#: src/ui/page/User.tsx:110
+#: src/ui/page/User.tsx:90
 #: src/ui/page/MyPage.tsx:64
 msgid "나를 콕!"
 msgstr "나를 콕!"
@@ -191,11 +199,11 @@ msgstr "나를 콕!"
 msgid "나와의 거리: <0/>m"
 msgstr "나와의 거리: <0/>m"
 
-#: src/ui/page/Setting.tsx:153
+#: src/ui/page/Setting.tsx:187
 msgid "내 계정"
 msgstr "내 계정"
 
-#: src/ui/page/Setting.tsx:183
+#: src/ui/page/Setting.tsx:217
 msgid "내 앱"
 msgstr "내 앱"
 
@@ -205,7 +213,7 @@ msgstr "내 앱"
 msgid "내 위치 찌르기"
 msgstr "내 위치 찌르기"
 
-#: src/ui/page/User.tsx:109
+#: src/ui/page/User.tsx:89
 #: src/ui/page/MyPage.tsx:63
 msgid "내가 콕!"
 msgstr "내가 콕!"
@@ -214,11 +222,13 @@ msgstr "내가 콕!"
 msgid "누구를 콕콕! 찌를까요?"
 msgstr "누구를 콕콕! 찌를까요?"
 
-#: src/ui/page/User.tsx:65
+#: src/ui/page/User.tsx:63
 #: src/ui/page/ThirdPartyRegister.tsx:57
 #: src/ui/page/SignIn.tsx:64
-#: src/ui/page/Setting.tsx:115
+#: src/ui/page/Setting.tsx:149
 #: src/ui/page/Register.tsx:70
+#: src/ui/overlay/UserRelationSheet.tsx:47
+#: src/ui/overlay/UserRelationSheet.tsx:66
 #: src/ui/overlay/UpdateMyInfoStack.tsx:45
 #: src/ui/overlay/QuitStack.tsx:36
 #: src/ui/domain/BlockedUser.tsx:33
@@ -240,11 +250,11 @@ msgstr "더 작은 사진을 사용해주세요."
 msgid "동물 및 자연"
 msgstr "동물 및 자연"
 
-#: src/ui/page/Setting.tsx:140
+#: src/ui/page/Setting.tsx:174
 msgid "로그아웃"
 msgstr "로그아웃"
 
-#: src/ui/page/Setting.tsx:134
+#: src/ui/page/Setting.tsx:168
 msgid "로그아웃할까요?"
 msgstr "로그아웃할까요?"
 
@@ -254,7 +264,7 @@ msgstr "로그아웃할까요?"
 msgid "로그인"
 msgstr "로그인"
 
-#: src/ui/page/User.tsx:108
+#: src/ui/page/User.tsx:88
 #: src/ui/page/MyPage.tsx:60
 msgid "모든 콕!"
 msgstr "모든 콕!"
@@ -282,7 +292,7 @@ msgstr "버전 {VERSION}"
 msgid "보기"
 msgstr "보기"
 
-#: src/ui/page/Setting.tsx:125
+#: src/ui/page/Setting.tsx:159
 msgid "보안"
 msgstr "보안"
 
@@ -308,9 +318,17 @@ msgstr "사물"
 msgid "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
 msgstr "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
 
-#: src/ui/page/User.tsx:60
+#: src/ui/overlay/UserRelationSheet.tsx:42
 msgid "사용자를 차단했습니다."
 msgstr "사용자를 차단했습니다."
+
+#: src/ui/overlay/UserRelationSheet.tsx:60
+msgid "사용자를 팔로우 취소했습니다."
+msgstr "사용자를 팔로우 취소했습니다."
+
+#: src/ui/page/User.tsx:58
+msgid "사용자를 팔로우했습니다."
+msgstr "사용자를 팔로우했습니다."
 
 #: src/ui/overlay/ShowGeolocationSheet.tsx:48
 #: src/ui/overlay/PokeWithGeolocationSheet.tsx:40
@@ -329,7 +347,7 @@ msgstr "상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요."
 msgid "새로운 소식"
 msgstr "새로운 소식"
 
-#: src/ui/page/Setting.tsx:54
+#: src/ui/page/Setting.tsx:53
 #: src/ui/overlay/MenuSheet.tsx:25
 msgid "설정"
 msgstr "설정"
@@ -361,15 +379,15 @@ msgstr "아이디로 로그인"
 msgid "아이폰 홈 화면에 추가 미리보기"
 msgstr "아이폰 홈 화면에 추가 미리보기"
 
-#: src/ui/page/Setting.tsx:91
+#: src/ui/page/Setting.tsx:125
 msgid "알림"
 msgstr "알림"
 
-#: src/ui/page/Setting.tsx:180
+#: src/ui/page/Setting.tsx:214
 msgid "언어"
 msgstr "언어"
 
-#: src/ui/page/Setting.tsx:175
+#: src/ui/page/Setting.tsx:209
 #: src/ui/overlay/LanguageSheet.tsx:12
 msgid "언어 선택"
 msgstr "언어 선택"
@@ -378,7 +396,7 @@ msgstr "언어 선택"
 msgid "여행 및 장소"
 msgstr "여행 및 장소"
 
-#: src/ui/page/Setting.tsx:94
+#: src/ui/page/Setting.tsx:128
 msgid "연결"
 msgstr "연결"
 
@@ -386,7 +404,7 @@ msgstr "연결"
 msgid "영어"
 msgstr "영어"
 
-#: src/ui/page/Setting.tsx:194
+#: src/ui/page/Setting.tsx:228
 msgid "오픈소스 라이브러리"
 msgstr "오픈소스 라이브러리"
 
@@ -442,13 +460,13 @@ msgstr "이미 사용중인 아이디입니다."
 msgid "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요."
 msgstr "이미 콕! 찔렀습니다. 상대방이 반응할때까지 기다려보세요."
 
-#: src/ui/page/Setting.tsx:193
+#: src/ui/page/Setting.tsx:227
 msgid "이용 약관"
 msgstr "이용 약관"
 
 #: src/ui/page/Introduction.tsx:71
-msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
-msgstr "이제 그림을 그려서 콕! 찌를 수 있습니다."
+#~ msgid "이제 그림을 그려서 콕! 찌를 수 있습니다."
+#~ msgstr "이제 그림을 그려서 콕! 찌를 수 있습니다."
 
 #: src/ui/page/ThirdPartyRegister.tsx:51
 #: src/ui/page/SignIn.tsx:53
@@ -460,19 +478,19 @@ msgstr "이제 콕 찔리면 알림이 울립니다."
 msgid "일본어"
 msgstr "일본어"
 
-#: src/ui/page/Like.tsx:66
+#: src/ui/page/Like.tsx:60
 msgid "자주 콕 찌르는 상대를<0/>즐겨찾기해보세요."
 msgstr "자주 콕 찌르는 상대를<0/>즐겨찾기해보세요."
 
-#: src/ui/page/Setting.tsx:212
+#: src/ui/page/Setting.tsx:246
 msgid "정보"
 msgstr "정보"
 
-#: src/ui/page/Like.tsx:43
-msgid "즐겨찾기"
-msgstr "즐겨찾기"
+#: src/ui/page/Like.tsx:37
+#~ msgid "즐겨찾기"
+#~ msgstr "즐겨찾기"
 
-#: src/ui/page/Setting.tsx:215
+#: src/ui/page/Setting.tsx:249
 msgid "지원"
 msgstr "지원"
 
@@ -482,6 +500,10 @@ msgstr "지원"
 msgid "찌르기"
 msgstr "찌르기"
 
+#: src/ui/overlay/UserRelationSheet.tsx:83
+msgid "차단"
+msgstr "차단"
+
 #: src/ui/domain/BlockedUser.tsx:70
 msgid "차단 해제"
 msgstr "차단 해제"
@@ -490,7 +512,7 @@ msgstr "차단 해제"
 msgid "차단을 해제했습니다."
 msgstr "차단을 해제했습니다."
 
-#: src/ui/page/Setting.tsx:159
+#: src/ui/page/Setting.tsx:193
 msgid "차단한 계정"
 msgstr "차단한 계정"
 
@@ -516,8 +538,8 @@ msgstr "취소"
 msgid "콕 찌르기"
 msgstr "콕 찌르기"
 
-#: src/ui/page/User.tsx:134
-#: src/ui/page/Setting.tsx:76
+#: src/ui/page/User.tsx:114
+#: src/ui/page/Setting.tsx:79
 #: src/ui/overlay/PokeSheet.tsx:36
 msgid "콕! 찌르기"
 msgstr "콕! 찌르기"
@@ -526,11 +548,25 @@ msgstr "콕! 찌르기"
 msgid "클립보드에 복사되었습니다."
 msgstr "클립보드에 복사되었습니다."
 
+#: src/ui/page/User.tsx:134
+#: src/ui/page/Setting.tsx:108
+msgid "팔로우"
+msgstr "팔로우"
+
+#: src/ui/overlay/UserRelationSheet.tsx:92
+msgid "팔로우 취소"
+msgstr "팔로우 취소"
+
+#: src/ui/page/User.tsx:130
+#: src/ui/page/Like.tsx:37
+msgid "팔로잉"
+msgstr "팔로잉"
+
 #: src/ui/page/MyPage.tsx:97
 msgid "프로필 공유"
 msgstr "프로필 공유"
 
-#: src/ui/page/User.tsx:103
+#: src/ui/page/User.tsx:83
 #: src/ui/page/MyPage.tsx:54
 #: src/ui/overlay/UpdateMyInfoStack.tsx:77
 msgid "프로필 이미지"
@@ -582,6 +618,6 @@ msgstr "회원님이 <0>{targetUserName}</0>님에게 위치를 보냈습니다:
 msgid "회원님이 <0>{targetUserName}</0>님을 콕 찔렀습니다"
 msgstr "회원님이 <0>{targetUserName}</0>님을 콕 찔렀습니다"
 
-#: src/ui/page/User.tsx:160
+#: src/ui/page/User.tsx:143
 msgid "후에 찌를 수 있어요"
 msgstr "후에 찌를 수 있어요"

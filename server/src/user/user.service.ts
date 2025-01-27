@@ -29,6 +29,8 @@ export class UserService {
         id: true,
         name: true,
         profileImageUrl: true,
+        pushOnFollow: true,
+        pushOnPoke: true,
         pushSubscription: true,
       },
       where: user,
@@ -54,7 +56,17 @@ export class UserService {
   }
 
   async getUserList(
-    { email, ids, name }: { email?: string; ids?: number[]; name?: string },
+    {
+      email,
+      ids,
+      isFollowing,
+      name,
+    }: {
+      email?: string;
+      ids?: number[];
+      isFollowing?: boolean;
+      name?: string;
+    },
     { limit, page }: Pagination,
     orderBy: Prisma.SortOrder,
     selfId: number,
@@ -91,6 +103,15 @@ export class UserService {
               },
             ],
           },
+          ...(typeof isFollowing === 'boolean'
+            ? [
+                {
+                  comingRelations: {
+                    some: { fromUserId: selfId, isFollowing },
+                  },
+                },
+              ]
+            : []),
           {
             NOT: { id: selfId },
           },
@@ -118,18 +139,23 @@ export class UserService {
     id,
     name,
     profileImageUrl,
+    pushOnFollow,
+    pushOnPoke,
     pushSubscription,
   }: {
     id: number;
     name?: string;
-    password?: string;
     profileImageUrl?: string;
+    pushOnFollow?: boolean;
+    pushOnPoke?: boolean;
     pushSubscription?: null | PushSubscriptionJSON;
   }) {
     return this.db.user.update({
       data: {
         name,
         profileImageUrl,
+        pushOnFollow,
+        pushOnPoke,
         pushSubscription:
           pushSubscription === null
             ? Prisma.DbNull

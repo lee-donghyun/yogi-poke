@@ -1,7 +1,5 @@
 import { AuthProvider } from "~/service/dataType";
 
-export const LIKE_PERSIST_KEY = "LIKE";
-
 export const DELETED_USER = {
   authProvider: AuthProvider.INSTAGRAM,
   email: "",

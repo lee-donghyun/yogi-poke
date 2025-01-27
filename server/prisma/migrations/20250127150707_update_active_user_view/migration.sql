@@ -1,0 +1,1 @@
+CREATE OR REPLACE VIEW "ActiveUser" AS SELECT * FROM "User" WHERE "deletedAt" IS NULL;

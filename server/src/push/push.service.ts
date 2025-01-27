@@ -21,7 +21,7 @@ export class PushService {
         };
         title: string;
       };
-      type: 'POKE';
+      type: 'FOLLOW' | 'POKE';
     },
   ) {
     const user = await this.db.activeUser.findUnique({
