@@ -29,6 +29,8 @@ export class UserService {
         id: true,
         name: true,
         profileImageUrl: true,
+        pushOnFollow: true,
+        pushOnPoke: true,
         pushSubscription: true,
       },
       where: user,
@@ -137,18 +139,23 @@ export class UserService {
     id,
     name,
     profileImageUrl,
+    pushOnFollow,
+    pushOnPoke,
     pushSubscription,
   }: {
     id: number;
     name?: string;
-    password?: string;
     profileImageUrl?: string;
+    pushOnFollow?: boolean;
+    pushOnPoke?: boolean;
     pushSubscription?: null | PushSubscriptionJSON;
   }) {
     return this.db.user.update({
       data: {
         name,
         profileImageUrl,
+        pushOnFollow,
+        pushOnPoke,
         pushSubscription:
           pushSubscription === null
             ? Prisma.DbNull
