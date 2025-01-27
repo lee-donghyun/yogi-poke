@@ -6,6 +6,7 @@ interface UserData {
   authProvider: AuthProvider;
   email: string;
   id: number;
+  isFollowing: boolean;
   name: string;
   pokeds: number;
   pokes: number;

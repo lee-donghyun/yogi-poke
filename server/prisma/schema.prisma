@@ -21,6 +21,8 @@ model User {
   authProvider     AuthProvider @default(EMAIL)
   authProviderId   String?
   passkeyOptions   Json?
+  pushOnPoke       Boolean      @default(true)
+  pushOnFollow     Boolean      @default(true)
 }
 
 model Passkey {
@@ -36,14 +38,15 @@ model Passkey {
 }
 
 model Relation {
-  id         Int         @id @default(autoincrement())
-  fromUserId Int
-  toUserId   Int
-  isAccepted Boolean     @default(true)
-  pokes      Poke[]      @relation("relation-poke")
-  pokeds     Poke[]      @relation("relation-poked")
-  fromUser   ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
-  toUser     ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
+  id          Int         @id @default(autoincrement())
+  fromUserId  Int
+  toUserId    Int
+  isAccepted  Boolean     @default(true)
+  isFollowing Boolean     @default(false)
+  pokes       Poke[]      @relation("relation-poke")
+  pokeds      Poke[]      @relation("relation-poked")
+  fromUser    ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
+  toUser      ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
 
   @@unique([fromUserId, toUserId])
 }
@@ -80,6 +83,8 @@ view ActiveUser {
   goingRelations   Relation[]   @relation("user-from")
   comingRelations  Relation[]   @relation("user-to")
   Passkey          Passkey[]
+  pushOnPoke       Boolean
+  pushOnFollow     Boolean
 }
 
 enum AuthProvider {

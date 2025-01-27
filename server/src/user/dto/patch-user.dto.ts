@@ -1,4 +1,4 @@
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class PatchUserDto {
   @IsOptional()
@@ -12,6 +12,14 @@ export class PatchUserDto {
   @IsOptional()
   @IsString()
   profileImageUrl?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  pushOnFollow?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  pushOnPoke?: boolean;
 
   @IsObject()
   @IsOptional()

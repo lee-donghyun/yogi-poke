@@ -13,6 +13,8 @@ export interface MyInfo {
   pokeds: number;
   pokes: number;
   profileImageUrl: null | string;
+  pushOnFollow: boolean;
+  pushOnPoke: boolean;
   pushSubscription: null | string;
   token: string;
 }
