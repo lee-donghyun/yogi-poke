@@ -54,7 +54,17 @@ export class UserService {
   }
 
   async getUserList(
-    { email, ids, name }: { email?: string; ids?: number[]; name?: string },
+    {
+      email,
+      ids,
+      isFollowing,
+      name,
+    }: {
+      email?: string;
+      ids?: number[];
+      isFollowing?: boolean;
+      name?: string;
+    },
     { limit, page }: Pagination,
     orderBy: Prisma.SortOrder,
     selfId: number,
@@ -91,6 +101,15 @@ export class UserService {
               },
             ],
           },
+          ...(typeof isFollowing === 'boolean'
+            ? [
+                {
+                  comingRelations: {
+                    some: { fromUserId: selfId, isFollowing },
+                  },
+                },
+              ]
+            : []),
           {
             NOT: { id: selfId },
           },
