@@ -34,7 +34,7 @@ export const Like = () => {
       <Navigation />
       <div className="p-5">
         <p className="pt-32 text-2xl font-bold text-zinc-800">
-          <Trans>즐겨찾기</Trans>
+          <Trans>팔로잉</Trans>
         </p>
         <div className="mt-5 flex flex-col" style={{ height: 300 }}>
           {data?.map((user, i) => (
