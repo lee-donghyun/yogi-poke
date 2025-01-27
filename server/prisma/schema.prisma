@@ -36,14 +36,15 @@ model Passkey {
 }
 
 model Relation {
-  id         Int         @id @default(autoincrement())
-  fromUserId Int
-  toUserId   Int
-  isAccepted Boolean     @default(true)
-  pokes      Poke[]      @relation("relation-poke")
-  pokeds     Poke[]      @relation("relation-poked")
-  fromUser   ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
-  toUser     ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
+  id          Int         @id @default(autoincrement())
+  fromUserId  Int
+  toUserId    Int
+  isAccepted  Boolean     @default(true)
+  isFollowing Boolean     @default(false)
+  pokes       Poke[]      @relation("relation-poke")
+  pokeds      Poke[]      @relation("relation-poked")
+  fromUser    ActiveUser? @relation("user-from", fields: [fromUserId], references: [id])
+  toUser      ActiveUser? @relation("user-to", fields: [toUserId], references: [id])
 
   @@unique([fromUserId, toUserId])
 }
