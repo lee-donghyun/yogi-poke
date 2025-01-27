@@ -1,5 +1,5 @@
-import { Type } from 'class-transformer';
-import { IsArray, IsIn, IsInt, IsOptional } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsArray, IsBoolean, IsIn, IsInt, IsOptional } from 'class-validator';
 
 export class GetUserListParamDto {
   @IsOptional()
@@ -10,6 +10,11 @@ export class GetUserListParamDto {
   @IsOptional()
   @Type(() => Number)
   ids?: number[];
+
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true')
+  isFollowing?: boolean;
 
   @IsInt()
   @IsOptional()
