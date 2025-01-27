@@ -18,6 +18,8 @@ import { persisteToken } from "~/ui/provider/PwaProvider.tsx";
 interface PatchUserPayload {
   name?: string;
   profileImageUrl?: string;
+  pushOnFollow?: boolean;
+  pushOnPoke?: boolean;
   pushSubscription?: null | PushSubscriptionJSON;
 }
 

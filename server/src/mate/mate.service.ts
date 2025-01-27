@@ -116,17 +116,19 @@ export class MateService {
   }
 
   async pokeMate(fromUserId: number, toUserId: number, payload: object) {
-    const relation =
-      (await this.relationService.getRelation(fromUserId, toUserId)) ??
-      (await this.relationService.createRelation(fromUserId, toUserId));
+    const relation = await this.relationService.getRelation(
+      fromUserId,
+      toUserId,
+    );
 
     if (relation?.isAccepted === false) {
       throw new HttpException('차단한 사용자입니다.', HttpStatus.FORBIDDEN);
     }
 
-    const reverseRelation =
-      (await this.relationService.getRelation(toUserId, fromUserId)) ??
-      (await this.relationService.createRelation(toUserId, fromUserId));
+    const reverseRelation = await this.relationService.getRelation(
+      toUserId,
+      fromUserId,
+    );
 
     if (reverseRelation?.isAccepted === false) {
       throw new HttpException('차단당한 사용자입니다.', HttpStatus.FORBIDDEN);

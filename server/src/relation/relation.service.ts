@@ -1,20 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class RelationService {
   constructor(private db: PrismaService) {}
-  async createRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.getRelation(fromUserId, toUserId);
-    if (relation !== null) {
-      throw new HttpException('Already has relation', HttpStatus.CONFLICT);
-    }
-    const made = await this.db.relation.create({
-      data: { fromUserId, toUserId },
-    });
-    return made;
-  }
-
   async getBlockedUsers(userId: number) {
     return this.db.relation
       .findMany({
@@ -35,15 +24,22 @@ export class RelationService {
       })
       .then((relations) => relations.map((relation) => relation.toUser));
   }
+
   async getRelation(fromUserId: number, toUserId: number) {
-    const relation = await this.db.relation.findFirst({
-      where: { fromUserId, toUserId },
-    });
+    const relation =
+      (await this.db.relation.findFirst({
+        where: { fromUserId, toUserId },
+      })) ?? (await this.createRelation(fromUserId, toUserId));
     return relation;
   }
-
-  async updateUserAcception(
-    isAccepted: boolean,
+  async updateUserRelation(
+    {
+      isAccepted,
+      isFollowing,
+    }: {
+      isAccepted?: boolean;
+      isFollowing?: boolean;
+    },
     {
       fromUserId,
       toUserId,
@@ -53,14 +49,17 @@ export class RelationService {
     },
   ) {
     return this.db.relation.upsert({
-      create: { fromUserId, isAccepted, toUserId },
-      update: { isAccepted },
+      create: { fromUserId, isAccepted, isFollowing, toUserId },
+      update: { isAccepted, isFollowing },
       where: {
-        fromUserId_toUserId: {
-          fromUserId,
-          toUserId,
-        },
+        fromUserId_toUserId: { fromUserId, toUserId },
       },
+    });
+  }
+
+  private async createRelation(fromUserId: number, toUserId: number) {
+    return await this.db.relation.create({
+      data: { fromUserId, toUserId },
     });
   }
 }
