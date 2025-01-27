@@ -11,7 +11,7 @@ import {
 } from "~/ui/overlay/IntroductionSheet.tsx";
 import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
-const VERSION = "25.01.08";
+const VERSION = "25.01.28";
 
 export const Introduction = () => {
   const overlay = useStackedLayer();
@@ -68,7 +68,7 @@ export const Introduction = () => {
           <Trans>버전 {VERSION}</Trans>
         </p>
         <p className="pt-2 text-sm text-zinc-600">
-          <Trans>이제 그림을 그려서 콕! 찌를 수 있습니다.</Trans>
+          <Trans>가까운 친구를 팔로우하세요</Trans>
         </p>
       </div>
       <div className="mx-5 mt-8 border-t border-zinc-200 pt-3">
