@@ -42,8 +42,14 @@ export class RelationService {
     return relation;
   }
 
-  async updateUserAcception(
-    isAccepted: boolean,
+  async updateUserRelation(
+    {
+      isAccepted,
+      isFollowing,
+    }: {
+      isAccepted?: boolean;
+      isFollowing?: boolean;
+    },
     {
       fromUserId,
       toUserId,
@@ -53,13 +59,10 @@ export class RelationService {
     },
   ) {
     return this.db.relation.upsert({
-      create: { fromUserId, isAccepted, toUserId },
-      update: { isAccepted },
+      create: { fromUserId, isAccepted, isFollowing, toUserId },
+      update: { isAccepted, isFollowing },
       where: {
-        fromUserId_toUserId: {
-          fromUserId,
-          toUserId,
-        },
+        fromUserId_toUserId: { fromUserId, toUserId },
       },
     });
   }
