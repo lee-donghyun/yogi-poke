@@ -27,7 +27,7 @@ export class RelationController {
     @Param('email') email: string,
   ) {
     const { id: toUserId } = await this.userService.getUser({ email });
-    return await this.relationService.updateUserAcception(body.isAccepted, {
+    return await this.relationService.updateUserRelation(body, {
       fromUserId: userPayload.id,
       toUserId,
     });
