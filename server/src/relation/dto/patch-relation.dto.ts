@@ -1,6 +1,11 @@
-import { IsBoolean } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator';
 
 export class PatchRelationDto {
   @IsBoolean()
-  isAccepted: boolean;
+  @IsOptional()
+  isAccepted?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  isFollowing?: boolean;
 }
