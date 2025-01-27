@@ -17,6 +17,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { JwtPayload } from 'src/auth/auth.interface';
 import { AuthService } from 'src/auth/auth.service';
 import { MateService } from 'src/mate/mate.service';
+import { RelationService } from 'src/relation/relation.service';
 
 import { DeleteUserDto } from './dto/delete-user.dto';
 import { GetUserByEmailParamDto } from './dto/get-user-by-email.dto';
@@ -32,6 +33,7 @@ export class UserController {
     private userService: UserService,
     private authService: AuthService,
     private mateService: MateService,
+    private relationService: RelationService,
   ) {}
 
   @Delete('/my-info')
@@ -73,10 +75,15 @@ export class UserController {
       toUserId: userPayload.id,
     });
     const totalPokes = await this.mateService.getPokeCount(id);
+    const { isFollowing } = await this.relationService.getRelation(
+      userPayload.id,
+      id,
+    );
     return {
       authProvider,
       email,
       id,
+      isFollowing,
       name,
       pokeds,
       pokes,

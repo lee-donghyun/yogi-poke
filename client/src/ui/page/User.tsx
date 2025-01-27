@@ -1,20 +1,15 @@
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
-import {
-  NoSymbolIcon,
-  StarIcon as StarOutlineIcon,
-} from "@heroicons/react/24/outline";
-import { StarIcon as StarSolidIcon } from "@heroicons/react/24/solid";
+import { NoSymbolIcon } from "@heroicons/react/24/outline";
 import { Trans, useLingui } from "@lingui/react/macro";
 import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
 import useSWRMutation from "swr/mutation";
 
-import { useLocalStorage } from "~/hook/base/useLocalStorage.ts";
 import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
 import { useUserPofile } from "~/hook/domain/useUserProfile.ts";
 import { useUserRelatedPokeList } from "~/hook/domain/useUserRelatedPokeList.ts";
-import { LIKE_PERSIST_KEY } from "~/service/const.ts";
 import { isVerifiedUser } from "~/service/util.ts";
+import { AButton } from "~/ui/base/AButton";
 import { Image } from "~/ui/base/Image";
 import { StackedNavigation } from "~/ui/base/Navigation.tsx";
 import { Stat } from "~/ui/base/Stat.tsx";
@@ -67,8 +62,26 @@ export const User = () => {
     },
   );
 
-  const [likes, setLikes] = useLocalStorage<number[]>(LIKE_PERSIST_KEY, []);
-  const isLiked = typeof data?.id === "number" && likes.includes(data.id);
+  const { trigger: triggerFollow } = useSWRMutation(
+    `relation/${userEmail}`,
+    (api, { arg }: { arg: { isFollowing: boolean } }) =>
+      client
+        .patch(api, { json: arg })
+        .then(() => mutateAll())
+        .then(() => {
+          push({
+            content: arg.isFollowing
+              ? t`사용자를 팔로우했습니다.`
+              : t`사용자를 언팔로우했습니다.`,
+          });
+        }),
+    {
+      onError: () => {
+        push({ content: t`다시 시도해주세요.` });
+      },
+    },
+  );
+
   const lastPoked =
     pokes?.[0]?.fromUserId === myInfo?.id ? dayjs(pokes?.[0]?.createdAt) : null;
   const isPokable = lastPoked ? dayjs().diff(lastPoked, "hour") >= 24 : true;
@@ -125,7 +138,7 @@ export const User = () => {
         </div>
         <div className="flex gap-2 pt-5">
           <button
-            className="block flex-1 rounded-2xl bg-black p-2 text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
+            className="block flex-2 rounded-2xl border bg-black p-2 font-medium text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
             disabled={!isPokable || isLoading}
             onClick={() => {
               overlay(PokeSheet, { targetUserEmail: userEmail });
@@ -133,24 +146,14 @@ export const User = () => {
           >
             <Trans>콕! 찌르기</Trans> 👉
           </button>
-          <button
-            className="rounded-2xl bg-zinc-100 px-2 active:opacity-60"
+          <AButton
+            className={`block flex-1 rounded-2xl border p-2 font-medium duration-300 active:opacity-60 disabled:bg-zinc-300 ${data?.isFollowing ? "border-black" : "border-transparent bg-zinc-100"}`}
             key="edit"
-            onClick={() => {
-              if (isLiked) {
-                setLikes(likes.filter((id) => id !== data.id));
-              } else if (data) {
-                setLikes([...likes, data.id]);
-              }
-            }}
+            onClick={() => triggerFollow({ isFollowing: !data?.isFollowing })}
             type="button"
           >
-            {isLiked ? (
-              <StarSolidIcon className="size-5 text-yellow-500" />
-            ) : (
-              <StarOutlineIcon className="size-5 text-zinc-600" />
-            )}
-          </button>
+            {data?.isFollowing ? <Trans>팔로잉</Trans> : <Trans>팔로우</Trans>}
+          </AButton>
         </div>
         {isDayjs(lastPoked) && !isPokable && (
           <p className="mt-1 text-center text-sm text-zinc-500">
