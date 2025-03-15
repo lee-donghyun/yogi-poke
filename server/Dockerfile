@@ -3,7 +3,6 @@ FROM node:20-alpine
 WORKDIR /usr/src/app
 
 COPY . ./
-RUN mv .env.prod .env
 
 RUN corepack enable pnpm
 RUN pnpm i
