@@ -1,8 +1,11 @@
 import Dockerode from "dockerode";
 import express from "express";
+import { config } from "dotenv";
+
+config();
 
 const auth = (req, res, next) => {
-  const SECRET_KEY = "very_secret_key";
+  const SECRET_KEY = process.env.SECRET_KEY;
   const isValidToken = (token) => {
     return token === SECRET_KEY;
   };

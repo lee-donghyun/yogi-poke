@@ -1,12 +1,8 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    AUTHORIZED_SECRET: string;
     CLIENT_HOST: string;
     CLIENT_URL: string;
     DATABASE_URL: string;
-    INSTAGRAM_CLIENT_ID: string;
-    INSTAGRAM_CLIENT_SECRET: string;
-    INSTAGRAM_REDIRECT_URI: string;
     PORT: string;
     SERVER_URL: string;
     STORAGE_ACCESS_KEY: string;
