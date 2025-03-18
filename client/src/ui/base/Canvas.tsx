@@ -62,11 +62,13 @@ export const Canvas = ({
   setLines,
   width,
 }: CanvasProps) => {
+  const isDrawingRef = useRef(false);
   const cleanupRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const [traces, setTraces] = useState<Trace[][]>([]);
 
   const onStart = () => {
+    isDrawingRef.current = true;
     setLines((lines) => [
       ...lines,
       {
@@ -78,8 +80,10 @@ export const Canvas = ({
     setTraces((p) => [...p, []]);
   };
 
-  const onMove: KonvaNodeEvents["onDragMove"] &
-    KonvaNodeEvents["onTouchMove"] = (e) => {
+  const onMove: KonvaNodeEvents["onPointerMove"] = (e) => {
+    if (!isDrawingRef.current) {
+      return;
+    }
     const point = e.currentTarget?.getStage()?.getPointerPosition();
     if (!point) {
       return;
@@ -104,14 +108,17 @@ export const Canvas = ({
     }, ANIMATED_DURATION);
   };
 
+  const onEnd = () => {
+    isDrawingRef.current = false;
+  };
+
   return (
     <Stage
       className="overflow-hidden rounded-2xl bg-black"
       height={height}
-      onDragMove={onMove}
-      onDragStart={onStart}
-      onTouchMove={onMove}
-      onTouchStart={onStart}
+      onPointerDown={onStart}
+      onPointerMove={onMove}
+      onPointerUp={onEnd}
       width={width}
     >
       <Layer>
