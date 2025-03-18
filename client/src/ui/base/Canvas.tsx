@@ -80,8 +80,7 @@ export const Canvas = ({
     setTraces((p) => [...p, []]);
   };
 
-  const onMove: KonvaNodeEvents["onDragMove"] &
-    KonvaNodeEvents["onTouchMove"] = (e) => {
+  const onMove: KonvaNodeEvents["onPointerMove"] = (e) => {
     if (!isDrawingRef.current) {
       return;
     }
@@ -117,12 +116,9 @@ export const Canvas = ({
     <Stage
       className="overflow-hidden rounded-2xl bg-black"
       height={height}
-      onMouseDown={onStart}
-      onMouseMove={onMove}
-      onMouseUp={onEnd}
-      onTouchEnd={onEnd}
-      onTouchMove={onMove}
-      onTouchStart={onStart}
+      onPointerDown={onStart}
+      onPointerMove={onMove}
+      onPointerUp={onEnd}
       width={width}
     >
       <Layer>
