@@ -117,9 +117,6 @@ importers:
       eslint-plugin-react-compiler:
         specifier: 19.0.0-beta-df7b47d-20241124
         version: 19.0.0-beta-df7b47d-20241124(eslint@9.16.0(jiti@2.4.2))
-      postcss:
-        specifier: ^8.4.49
-        version: 8.4.49
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
