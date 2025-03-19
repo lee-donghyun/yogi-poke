@@ -1,5 +1,6 @@
 import { CSSProperties, ReactNode, useState, useTransition } from "react";
 
+import { useDrag } from "~/hook/base/useDrag";
 import { run } from "~/lib/run";
 import { Backdrop } from "~/ui/base/Backdrop";
 import { Layer } from "~/ui/provider/StackedLayerProvider";
@@ -17,6 +18,33 @@ const DraggableSheet = ({
     null,
   );
 
+  const registerHandle = useDrag({
+    onDrag: (e) => {
+      const { clientX, clientY } = e;
+      const { x, y } = startPoint;
+      const diffY = clientY - y;
+      const diffX = clientX - x;
+      startTransition(() => {
+        setTranslate({
+          x: diffX > 0 ? Math.sqrt(clientX - x) : -Math.sqrt(-(clientX - x)),
+          y: diffY > 0 ? diffY : -Math.sqrt(-diffY) * 1.6,
+        });
+      });
+    },
+    onEnd: () => {
+      if (translate && translate.y > 160) {
+        setTranslate({ x: 0, y: translate.y });
+        close();
+      } else {
+        setTranslate(null);
+      }
+    },
+    onStart: (e) => {
+      const { clientX: x, clientY: y } = e;
+      setStartPoint({ x, y });
+    },
+  });
+
   const paperStyle = run<CSSProperties>(() => {
     if (translate) {
       const scale = Math.min(1, (startPoint.y + translate.y) / startPoint.y);
@@ -29,33 +57,6 @@ const DraggableSheet = ({
     return { transition: `all 300ms` };
   });
 
-  const onHandleDragEnd = () => {
-    if (translate && translate.y > 160) {
-      setTranslate({ x: 0, y: translate.y });
-      close();
-    } else {
-      setTranslate(null);
-    }
-  };
-
-  const onHandleDrag = (e: React.TouchEvent<HTMLDivElement>) => {
-    const { clientX, clientY } = e.touches.item(0);
-    const { x, y } = startPoint;
-    const diffY = clientY - y;
-    const diffX = clientX - x;
-    startTransition(() => {
-      setTranslate({
-        x: diffX > 0 ? Math.sqrt(clientX - x) : -Math.sqrt(-(clientX - x)),
-        y: diffY > 0 ? diffY : -Math.sqrt(-diffY) * 1.6,
-      });
-    });
-  };
-
-  const onHandleDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    const { clientX: x, clientY: y } = e.touches.item(0);
-    setStartPoint({ x, y });
-  };
-
   return (
     <Backdrop close={close} visible={visible}>
       <div
@@ -67,9 +68,7 @@ const DraggableSheet = ({
           <div className="rounded-3xl bg-white" style={paperStyle}>
             <div
               className="flex cursor-pointer justify-center p-3"
-              onTouchEnd={onHandleDragEnd}
-              onTouchMove={onHandleDrag}
-              onTouchStart={onHandleDragStart}
+              {...registerHandle}
             >
               <div className="h-1.5 w-12 rounded-full bg-zinc-200"></div>
             </div>
