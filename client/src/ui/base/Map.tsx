@@ -1,4 +1,4 @@
-import { Map as MapboxMap, Marker } from "react-map-gl";
+import { Map as MapboxMap, Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import { useGeolocation } from "~/hook/base/useGeolocation";
