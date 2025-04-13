@@ -16,7 +16,7 @@ export const SettingGroup = <T extends Key>({
   subGroups,
   title,
 }: SettingGroupProps<T>) => {
-  const [chidlrenRefs] = useState(() =>
+  const [childrenRefs] = useState(() =>
     Array.from({ length: subGroups.length }).map(() =>
       createRef<HTMLDivElement>(),
     ),
@@ -46,7 +46,7 @@ export const SettingGroup = <T extends Key>({
               style={
                 subGroup.open
                   ? {
-                      height: chidlrenRefs[index].current?.offsetHeight,
+                      height: childrenRefs[index].current?.offsetHeight,
                       opacity: 1,
                     }
                   : { height: 0, opacity: 0 }
@@ -54,7 +54,7 @@ export const SettingGroup = <T extends Key>({
             >
               <div
                 className="rounded-xl bg-zinc-50 px-3"
-                ref={chidlrenRefs[index]}
+                ref={childrenRefs[index]}
               >
                 {subGroup.children}
               </div>
