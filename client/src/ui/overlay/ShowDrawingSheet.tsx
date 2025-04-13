@@ -14,7 +14,7 @@ const CanvasRenderer = lazy(() =>
 export const ShowDrawingSheet = createDraggableSheet<{
   lines: Line[];
   title: string;
-}>(({ context }) => {
+}>(({ context, titleId }) => {
   const {
     domRef,
     size: { height, width },
@@ -22,7 +22,9 @@ export const ShowDrawingSheet = createDraggableSheet<{
 
   return (
     <div className="p-6">
-      <p className="text-lg font-semibold text-zinc-800">{context.title}</p>
+      <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
+        {context.title}
+      </h1>
       <div className="h-6"></div>
       <div
         className="aspect-square w-full"

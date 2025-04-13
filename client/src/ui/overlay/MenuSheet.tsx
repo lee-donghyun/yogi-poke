@@ -5,10 +5,13 @@ import { useRouter } from "router2";
 import { BACKDROP_ANIMATION_DURATION } from "~/ui/base/Backdrop";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
-export const MenuSheet = createDraggableSheet(({ close }) => {
+export const MenuSheet = createDraggableSheet(({ close, titleId }) => {
   const { push } = useRouter();
   return (
     <div className="p-3 pb-32">
+      <h1 className="sr-only" id={titleId}>
+        <Trans>메뉴</Trans>
+      </h1>
       <ul>
         <li>
           <button

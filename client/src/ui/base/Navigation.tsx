@@ -47,12 +47,14 @@ interface ModalNavigationProps {
   left: ActionButtonProps;
   right: ActionButtonProps;
   title: string;
+  titleId?: string;
 }
 
 export const ModalNavigation = ({
   left,
   right,
   title,
+  titleId,
 }: ModalNavigationProps) => {
   return (
     <header
@@ -67,7 +69,9 @@ export const ModalNavigation = ({
       >
         {left.label}
       </button>
-      <h1 className="text-center font-medium">{title}</h1>
+      <h1 className="text-center font-medium" id={titleId}>
+        {title}
+      </h1>
       <button
         className="justify-self-end disabled:opacity-60"
         disabled={right.disabled}

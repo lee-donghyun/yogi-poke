@@ -15,7 +15,7 @@ const Map = lazy(() =>
 );
 
 export const PokeWithGeoLocationSheet = createDraggableSheet<{ email: string }>(
-  ({ close, context: { email } }) => {
+  ({ close, context: { email }, titleId }) => {
     const {
       domRef,
       size: { height, width },
@@ -25,9 +25,9 @@ export const PokeWithGeoLocationSheet = createDraggableSheet<{ email: string }>(
 
     return (
       <div className="p-6">
-        <p className="text-lg font-semibold text-zinc-800">
+        <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>내 위치 찌르기</Trans> 📍
-        </p>
+        </h1>
         <div className="h-6"></div>
         <div
           className="relative aspect-square w-full overflow-hidden rounded-2xl"

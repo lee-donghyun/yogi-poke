@@ -15,7 +15,7 @@ const Map = lazy(() =>
 export const ShowGeolocationSheet = createDraggableSheet<{
   position: { latitude: number; longitude: number };
   title: string;
-}>(({ context }) => {
+}>(({ context, titleId }) => {
   const {
     domRef,
     size: { height, width },
@@ -31,7 +31,9 @@ export const ShowGeolocationSheet = createDraggableSheet<{
 
   return (
     <div className="p-6 pt-2.5">
-      <p className="text-lg font-semibold text-zinc-800">{context.title}</p>
+      <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
+        {context.title}
+      </h1>
       <p className="pt-3 pb-6 text-sm text-zinc-400">
         <Trans>
           나와의 거리: <CountUp duration={1500} from={0} to={distance} />m

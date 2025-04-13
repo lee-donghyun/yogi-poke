@@ -1,4 +1,4 @@
-import { useLingui } from "@lingui/react/macro";
+import { Trans, useLingui } from "@lingui/react/macro";
 import { lazy, Suspense } from "react";
 
 import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
@@ -9,7 +9,7 @@ const QRCodeSVG = lazy(() =>
   import("qrcode.react").then((mod) => ({ default: mod.QRCodeSVG })),
 );
 
-export const SharedProfileSheet = createDraggableSheet(({ close }) => {
+export const SharedProfileSheet = createDraggableSheet(({ close, titleId }) => {
   const push = useNotification();
   const { t } = useLingui();
   const { myInfo } = useUser();
@@ -19,6 +19,9 @@ export const SharedProfileSheet = createDraggableSheet(({ close }) => {
 
   return (
     <div className="pt-8 pb-20">
+      <h1 className="sr-only" id={titleId}>
+        <Trans>프로필 공유하기</Trans>
+      </h1>
       <div className="flex size-full flex-col items-center">
         <Suspense
           fallback={

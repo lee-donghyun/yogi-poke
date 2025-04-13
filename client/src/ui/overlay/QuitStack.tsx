@@ -19,7 +19,7 @@ const cx = {
   input: "border border-zinc-200 rounded-sm text-zinc-800 p-2",
   label: "text-lg",
 };
-export const QuitStack = createStackedPage(({ close }) => {
+export const QuitStack = createStackedPage(({ close, titleId }) => {
   const push = useNotification();
   const { t } = useLingui();
   const [password, setPassword] = useState("");
@@ -63,6 +63,7 @@ export const QuitStack = createStackedPage(({ close }) => {
           onClick: () => void trigger({ password }),
         }}
         title={t`요기콕콕! 계정 삭제`}
+        titleId={titleId}
       />
       <div className="h-16"></div>
       <div className="p-5">

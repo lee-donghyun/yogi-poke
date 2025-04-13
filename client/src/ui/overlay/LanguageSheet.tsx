@@ -4,13 +4,13 @@ import { Locale, setLocale } from "~/service/i18n";
 import { AButton } from "~/ui/base/AButton";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet";
 
-export const LanguageSheet = createDraggableSheet(({ close }) => {
+export const LanguageSheet = createDraggableSheet(({ close, titleId }) => {
   const { t } = useLingui();
   return (
     <div className="p-6 pt-2.5">
-      <p className="pb-3 text-lg font-semibold text-zinc-800">
+      <h1 className="pb-3 text-lg font-semibold text-zinc-800" id={titleId}>
         <Trans>언어 선택</Trans>
-      </p>
+      </h1>
       {[
         { label: "한국어", locale: Locale.KO, translatedLabel: t`한국어` },
         // eslint-disable-next-line lingui/no-unlocalized-strings
