@@ -8,7 +8,7 @@ const TOKEN_PERSIST_KEY = "TOKEN";
 const IS_PWA_PERSIST_KEY = "IS_PWA";
 const IS_PWA_SEARCH_KEY = "is-pwa";
 const TRUE = "1";
-const splashElement = document.getElementById("splash");
+const splashElement = document.getElementById("splash")!;
 
 export const persisteToken = (token: string) => {
   localStorage.setItem(TOKEN_PERSIST_KEY, token);
@@ -33,7 +33,8 @@ const isPwaMode = () => {
 
 const closeSplash = (delay: number) => {
   setTimeout(() => {
-    splashElement?.classList.add("opacity-0", "pointer-events-none");
+    splashElement.classList.add("opacity-0", "pointer-events-none");
+    splashElement.ariaHidden = "true";
   }, delay);
 };
 
