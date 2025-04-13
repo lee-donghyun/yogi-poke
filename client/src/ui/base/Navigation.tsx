@@ -9,7 +9,7 @@ export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
         <Trans>요기콕콕!</Trans>
         👉
       </h1>
-      <div className="flex gap-5">{actions}</div>
+      <nav className="flex gap-5">{actions}</nav>
     </header>
   );
 };
