@@ -12,7 +12,7 @@ export const Stat = ({
   value: null | number | undefined;
 }) => {
   return (
-    <div className="flex flex-1 flex-col items-center">
+    <div className="flex flex-col items-center">
       <p className="text-xl font-extrabold">
         <CountUp duration={400} from={value ?? 0} to={value ?? 0} />
       </p>

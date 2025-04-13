@@ -3,6 +3,8 @@ import { createContext, JSX, use, useState } from "react";
 export type Layer<Context = unknown> = (props: {
   close: () => void;
   context: Context;
+  descriptionId: string;
+  titleId: string;
   visible: boolean;
 }) => JSX.Element;
 
@@ -30,12 +32,14 @@ export const StackedLayerProvider = ({
   const [visible, setVisible] = useState(false);
   const [context, setContext] = useState<unknown>(null);
   const [Layer, setLayer] = useState<Layer | null>(null);
+  const [id, setId] = useState(0);
 
   const overlay: Overlay = (
     Component: Parameters<Overlay>[0],
     context?: unknown,
   ) => {
     setLayer(() => Component);
+    setId((id) => id + 1);
     setVisible(true);
     setContext(context);
   };
@@ -57,7 +61,13 @@ export const StackedLayerProvider = ({
     <StackedLayerContext.Provider value={overlay}>
       {children}
       {isLayer(Layer) && (
-        <Layer close={close} context={context} visible={visible} />
+        <Layer
+          close={close}
+          context={context}
+          descriptionId={id + ":description"}
+          titleId={id + ":title"}
+          visible={visible}
+        />
       )}
     </StackedLayerContext.Provider>
   );

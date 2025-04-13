@@ -1,4 +1,6 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useLiveRef } from "~/hook/base/useLiveRef";
 
 interface Props {
   onDrag?: (e: PointerEvent) => void;
@@ -37,12 +39,4 @@ export const useDrag = <T extends HTMLElement>(props: Props) => {
   return {
     onPointerDown,
   };
-};
-
-const useLiveRef = <T>(value: T) => {
-  const ref = useRef(value);
-  useLayoutEffect(() => {
-    ref.current = value;
-  });
-  return ref;
 };

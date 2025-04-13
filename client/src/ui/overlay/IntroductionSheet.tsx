@@ -3,6 +3,7 @@ import { Trans, useLingui } from "@lingui/react/macro";
 
 import { switch_ } from "~/lib/expify.ts";
 import { createDraggableSheet } from "~/ui/base/DraggableSheet.tsx";
+import { Layer } from "~/ui/provider/StackedLayerProvider";
 
 enum Platform {
   ANDROID = "Android",
@@ -32,14 +33,14 @@ export const pwaHelpUrl = switch_<Platform, string>(platform)
       "https://support.google.com/chrome/answer/9658361?hl=ko&co=GENIE.Platform%3DDesktop&oco=0",
   );
 
-const IosInstruction = () => {
+const IosInstruction: Layer = ({ titleId }) => {
   const { t } = useLingui();
   return (
     <div
       className="max-h-[40vh] overflow-y-scroll p-5 pb-32"
       data-allow-touch-move-on-stacked-layer
     >
-      <h3 className="font-semibold text-zinc-800">
+      <h3 className="font-semibold text-zinc-800" id={titleId}>
         <Trans>홈 화면에 요기콕콕! 설치하기</Trans>
       </h3>
       <p className="pt-4 text-sm text-zinc-600">
@@ -82,9 +83,9 @@ const IosInstruction = () => {
   );
 };
 
-const AndroidInstruction = () => (
+const AndroidInstruction: Layer = ({ titleId }) => (
   <div className="p-5 pb-32">
-    <h3 className="font-semibold text-zinc-800">
+    <h3 className="font-semibold text-zinc-800" id={titleId}>
       <Trans>홈 화면에 요기콕콕! 설치하기</Trans>
     </h3>
     <p className="pt-4 text-sm text-zinc-600">

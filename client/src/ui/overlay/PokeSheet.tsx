@@ -14,7 +14,7 @@ const cx = {
 };
 
 export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
-  ({ close, context }) => {
+  ({ close, context, titleId }) => {
     const { isMutating, trigger } = usePoke();
     const overlay = useStackedLayer();
 
@@ -32,9 +32,9 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
 
     return (
       <div className="p-6 pt-0">
-        <p className="pt-4 text-lg font-semibold text-zinc-800">
+        <h1 className="pt-4 text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>콕! 찌르기</Trans> 👉
-        </p>
+        </h1>
         <div className="flex flex-col gap-4 pt-6">
           <button
             className={cx.pokeButton + " text-zinc-900"}

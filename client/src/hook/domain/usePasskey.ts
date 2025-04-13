@@ -1,4 +1,5 @@
 import {
+  browserSupportsWebAuthn,
   type PublicKeyCredentialCreationOptionsJSON,
   startAuthentication,
   startRegistration,
@@ -36,6 +37,16 @@ export const usePasskey = () => {
     localStorage.setItem(PASSKEY_USER_ID_PERSIST_KEY, userId.toString());
   };
 
+  const canAuthenticate = () => {
+    if (!browserSupportsWebAuthn()) {
+      return false;
+    }
+    if (!localStorage.getItem(PASSKEY_USER_ID_PERSIST_KEY)) {
+      return false;
+    }
+    return true;
+  };
+
   const authenticate = async () => {
     const id = localStorage.getItem(PASSKEY_USER_ID_PERSIST_KEY);
     if (!id) {
@@ -54,5 +65,5 @@ export const usePasskey = () => {
     await registerToken(token);
   };
 
-  return { authenticate, register };
+  return { authenticate, canAuthenticate, register };
 };

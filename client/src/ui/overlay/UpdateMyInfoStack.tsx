@@ -17,7 +17,7 @@ const FORM_NAME = {
   PROFILE_IMAGE: "profileImageUrl",
 };
 
-export const UpdateMyInfoStack = createStackedPage(({ close }) => {
+export const UpdateMyInfoStack = createStackedPage(({ close, titleId }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const push = useNotification();
   const { t } = useLingui();
@@ -64,6 +64,7 @@ export const UpdateMyInfoStack = createStackedPage(({ close }) => {
           onClick: () => formRef.current && void trigger(formRef.current),
         }}
         title={t`프로필 편집`}
+        titleId={titleId}
       />
       <div className="h-16"></div>
       <form

@@ -84,11 +84,17 @@ export const User = () => {
             size={80}
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
-          <div className="flex flex-1 items-center pl-5">
-            <Stat label={t`모든 콕!`} value={data?.totalPokes} />
-            <Stat label={t`내가 콕!`} value={data?.pokes} />
-            <Stat label={t`나를 콕!`} value={data?.pokeds} />
-          </div>
+          <ul className="grid flex-1 grid-cols-3 items-center pl-5">
+            <li>
+              <Stat label={t`모든 콕!`} value={data?.totalPokes} />
+            </li>
+            <li>
+              <Stat label={t`내가 콕!`} value={data?.pokes} />
+            </li>
+            <li>
+              <Stat label={t`나를 콕!`} value={data?.pokeds} />
+            </li>
+          </ul>
         </div>
         <div className="pt-7">
           <div className="flex items-end justify-between">
@@ -137,9 +143,9 @@ export const User = () => {
         </div>
         {isDayjs(lastPoked) && !isPokable && (
           <p className="mt-1 text-center text-sm text-zinc-500">
-            <b className="font-medium">
+            <strong className="font-medium">
               <Timer to={lastPoked} />
-            </b>{" "}
+            </strong>{" "}
             <Trans>후에 찌를 수 있어요</Trans>
           </p>
         )}

@@ -43,7 +43,7 @@ const Emoji = ({
 };
 
 export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
-  ({ close, context }) => {
+  ({ close, context, titleId }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { isMutating, trigger } = usePoke();
     const { t } = useLingui();
@@ -59,9 +59,9 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
 
     return (
       <div className="py-5">
-        <p className="px-5 text-lg font-semibold text-zinc-800">
+        <h1 className="px-5 text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>이모티콘 찌르기</Trans> 😊
-        </p>
+        </h1>
         <div className="flex gap-2 px-5 pt-5">
           {Array.from({ length: MESSAGE_LENGTH }).map((_, index) => (
             <Emoji

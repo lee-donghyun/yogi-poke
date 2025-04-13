@@ -33,7 +33,7 @@ export const MyPage = () => {
   const { data, intersectorRef, isFreshData } = useRelatedPokeList();
 
   return (
-    <div className="min-h-dvh">
+    <>
       <Navigation
         actions={[
           <button
@@ -48,33 +48,37 @@ export const MyPage = () => {
           </button>,
         ]}
       />
-      <div className="p-5 pt-16">
+      <main className="min-h-dvh p-5 pt-16">
         <div className="flex pt-5">
           <Image
             alt={t`프로필 이미지`}
             size={80}
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
           />
-          <div className="flex flex-1 items-center pl-5">
-            <Stat
-              label={t`모든 콕!`}
-              value={myInfo && myInfo.pokes + myInfo.pokeds}
-            />
-            <Stat label={t`내가 콕!`} value={myInfo?.pokes} />
-            <Stat label={t`나를 콕!`} value={myInfo?.pokeds} />
-          </div>
+          <ul className="grid flex-1 grid-cols-3 items-center pl-5">
+            <li>
+              <Stat
+                label={t`모든 콕!`}
+                value={myInfo && myInfo.pokes + myInfo.pokeds}
+              />
+            </li>
+            <li>
+              <Stat label={t`내가 콕!`} value={myInfo?.pokes} />
+            </li>
+            <li>
+              <Stat label={t`나를 콕!`} value={myInfo?.pokeds} />
+            </li>
+          </ul>
         </div>
         <div className="pt-7">
-          <div className="flex items-end justify-between">
-            <p className="flex items-center text-xl font-bold">
-              @{myInfo?.email}
-              {myInfo && isVerifiedUser(myInfo) && (
-                <span className="ml-1 text-blue-500">
-                  <CheckBadgeIcon className="size-5" />
-                </span>
-              )}
-            </p>
-          </div>
+          <h1 className="flex items-center text-xl font-bold">
+            @{myInfo?.email}
+            {myInfo && isVerifiedUser(myInfo) && (
+              <span className="ml-1 text-blue-500">
+                <CheckBadgeIcon className="size-5" />
+              </span>
+            )}
+          </h1>
           <p className="mt-1">{myInfo?.name ?? <div className="h-6" />}</p>
         </div>
         <div className="flex gap-2 pt-5">
@@ -155,8 +159,8 @@ export const MyPage = () => {
           )}
           <div className="h-24" ref={intersectorRef}></div>
         </div>
-      </div>
+      </main>
       <DomainBottomNavigation />
-    </div>
+    </>
   );
 };

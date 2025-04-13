@@ -12,7 +12,7 @@ import { useNotification } from "~/ui/provider/Notification";
 
 export const UserRelationSheet = createDraggableSheet<{
   targetUserEmail: string;
-}>(({ close, context }) => {
+}>(({ close, context, titleId }) => {
   const { t } = useLingui();
   const push = useNotification();
 
@@ -70,9 +70,9 @@ export const UserRelationSheet = createDraggableSheet<{
 
   return (
     <div className="p-4">
-      <p className="px-2 text-lg font-semibold text-zinc-800">
+      <h1 className="px-2 text-lg font-semibold text-zinc-800" id={titleId}>
         @{context.targetUserEmail}
-      </p>
+      </h1>
       <ul className="space-y-1 pt-4">
         <li>
           <AButton

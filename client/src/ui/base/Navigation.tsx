@@ -4,13 +4,13 @@ import { JSX } from "react";
 
 export const Navigation = ({ actions }: { actions?: JSX.Element[] }) => {
   return (
-    <div className="fixed inset-x-0 top-0 z-10 flex justify-end bg-white p-5">
-      <p className="flex-1 font-bold italic">
+    <header className="fixed inset-x-0 top-0 z-10 flex justify-end bg-white p-5">
+      <h1 className="flex-1 font-bold italic">
         <Trans>요기콕콕!</Trans>
         👉
-      </p>
-      <div className="flex gap-5">{actions}</div>
-    </div>
+      </h1>
+      <nav className="flex gap-5">{actions}</nav>
+    </header>
   );
 };
 
@@ -26,16 +26,16 @@ export const StackedNavigation = ({
   title,
 }: StackedNavigationProps) => {
   return (
-    <div
+    <header
       className="fixed inset-x-0 top-0 z-10 grid bg-white p-5"
       style={{ gridTemplateColumns: "80px 1fr 80px" }}
     >
       <button className="justify-self-start" onClick={onBack} type="button">
         <ChevronLeftIcon className="size-6" />
       </button>
-      <p className="text-center font-medium">{title}</p>
+      <h1 className="text-center font-medium">{title}</h1>
       <div className="flex gap-5 justify-self-end">{actions}</div>
-    </div>
+    </header>
   );
 };
 interface ActionButtonProps {
@@ -47,15 +47,17 @@ interface ModalNavigationProps {
   left: ActionButtonProps;
   right: ActionButtonProps;
   title: string;
+  titleId?: string;
 }
 
 export const ModalNavigation = ({
   left,
   right,
   title,
+  titleId,
 }: ModalNavigationProps) => {
   return (
-    <div
+    <header
       className="fixed inset-x-0 top-0 z-10 grid bg-white p-5"
       style={{ gridTemplateColumns: "80px 1fr 80px" }}
     >
@@ -67,7 +69,9 @@ export const ModalNavigation = ({
       >
         {left.label}
       </button>
-      <p className="text-center font-medium">{title}</p>
+      <h1 className="text-center font-medium" id={titleId}>
+        {title}
+      </h1>
       <button
         className="justify-self-end disabled:opacity-60"
         disabled={right.disabled}
@@ -76,6 +80,6 @@ export const ModalNavigation = ({
       >
         {right.label}
       </button>
-    </div>
+    </header>
   );
 };
