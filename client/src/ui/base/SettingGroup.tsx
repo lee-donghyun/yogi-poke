@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { createRef, Key, ReactNode, useRef } from "react";
+import { createRef, Key, ReactNode, useState } from "react";
 
 interface SettingGroupProps<T> {
   onOpenSubgroup: (id: T) => void;
@@ -16,7 +16,7 @@ export const SettingGroup = <T extends Key>({
   subGroups,
   title,
 }: SettingGroupProps<T>) => {
-  const chidlrenRef = useRef(
+  const [chidlrenRefs] = useState(() =>
     Array.from({ length: subGroups.length }).map(() =>
       createRef<HTMLDivElement>(),
     ),
@@ -46,7 +46,7 @@ export const SettingGroup = <T extends Key>({
               style={
                 subGroup.open
                   ? {
-                      height: chidlrenRef.current[index].current?.offsetHeight,
+                      height: chidlrenRefs[index].current?.offsetHeight,
                       opacity: 1,
                     }
                   : { height: 0, opacity: 0 }
@@ -54,7 +54,7 @@ export const SettingGroup = <T extends Key>({
             >
               <div
                 className="rounded-xl bg-zinc-50 px-3"
-                ref={chidlrenRef.current[index]}
+                ref={chidlrenRefs[index]}
               >
                 {subGroup.children}
               </div>
