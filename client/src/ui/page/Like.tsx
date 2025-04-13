@@ -30,44 +30,46 @@ export const Like = () => {
   >(["user", { email: "", isFollowing: true }], { use: middlewares });
 
   return (
-    <div className="min-h-dvh">
+    <>
       <Navigation />
-      <div className="p-5">
-        <p className="pt-32 text-2xl font-bold text-zinc-800">
-          <Trans>팔로잉</Trans>
-        </p>
-        <div className="mt-5 flex flex-col" style={{ height: 300 }}>
-          {data?.map((user, i) => (
-            <UserListItem
-              animation={shouldAnimate ? { delayTimes: i } : null}
-              isVerifiedUser={isVerifiedUser(user)}
-              key={user.email + dataUpdatedAt}
-              onClick={() => {
-                push({ pathname: `/user/${user.email}` });
-              }}
-              selected={false}
-              userEmail={user.email}
-              userName={user.name}
-              userProfileImageUrl={user.profileImageUrl}
-            />
-          ))}
-          {data?.length == 0 && (
-            <div className="animate-from-bottom flex flex-col items-center pt-16 text-zinc-600">
-              <span className="text-zinc-400">
-                <XCircleIcon className="size-6" />
-              </span>
-              <p className="pt-6 text-center">
-                <Trans>
-                  자주 콕 찌르는 상대를
-                  <br />
-                  즐겨찾기해보세요.
-                </Trans>
-              </p>
-            </div>
-          )}
+      <main className="min-h-dvh">
+        <div className="p-5">
+          <h1 className="pt-32 text-2xl font-bold text-zinc-800">
+            <Trans>팔로잉</Trans>
+          </h1>
+          <div className="mt-5 flex flex-col" style={{ height: 300 }}>
+            {data?.map((user, i) => (
+              <UserListItem
+                animation={shouldAnimate ? { delayTimes: i } : null}
+                isVerifiedUser={isVerifiedUser(user)}
+                key={user.email + dataUpdatedAt}
+                onClick={() => {
+                  push({ pathname: `/user/${user.email}` });
+                }}
+                selected={false}
+                userEmail={user.email}
+                userName={user.name}
+                userProfileImageUrl={user.profileImageUrl}
+              />
+            ))}
+            {data?.length == 0 && (
+              <div className="animate-from-bottom flex flex-col items-center pt-16 text-zinc-600">
+                <span className="text-zinc-400">
+                  <XCircleIcon className="size-6" />
+                </span>
+                <p className="pt-6 text-center">
+                  <Trans>
+                    자주 콕 찌르는 상대를
+                    <br />
+                    즐겨찾기해보세요.
+                  </Trans>
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </main>
       <DomainBottomNavigation />
-    </div>
+    </>
   );
 };
