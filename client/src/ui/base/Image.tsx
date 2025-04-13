@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 
 import { useDebouncedValue } from "~/hook/base/useDebouncedValue";
-import { useKeyboard } from "~/hook/base/useKeyborad";
+import { useKeyboard } from "~/hook/base/useKeyboard";
 
 enum View {
   THUMBNAIL,

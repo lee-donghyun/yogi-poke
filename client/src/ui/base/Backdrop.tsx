@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 
-import { useKeyboard } from "~/hook/base/useKeyborad";
+import { useKeyboard } from "~/hook/base/useKeyboard";
 import { Layer } from "~/ui/provider/StackedLayerProvider";
 
 export const BACKDROP_ANIMATION_DURATION = 500;
