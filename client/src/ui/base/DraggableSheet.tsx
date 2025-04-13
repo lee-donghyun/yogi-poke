@@ -8,6 +8,8 @@ import { Layer } from "~/ui/provider/StackedLayerProvider";
 const DraggableSheet = ({
   children,
   close,
+  descriptionId,
+  titleId,
   visible,
 }: {
   children: ReactNode;
@@ -58,7 +60,12 @@ const DraggableSheet = ({
   });
 
   return (
-    <Backdrop close={close} visible={visible}>
+    <Backdrop
+      close={close}
+      descriptionId={descriptionId}
+      titleId={titleId}
+      visible={visible}
+    >
       <div
         className={`fixed inset-0 top-auto z-40 ${
           visible ? "animate-stacked-layer-from" : "animate-stacked-layer-to"
@@ -85,10 +92,28 @@ export const createDraggableSheet = <Context,>(Content: Layer<Context>) => {
     console.warn("DraggableSheet is created. This must be created once.");
   }
 
-  const Component: Layer<Context> = ({ close, context, visible }) => (
-    <DraggableSheet close={close} visible={visible}>
-      <Content close={close} context={context} visible={visible} />
+  const Component: Layer<Context> = ({
+    close,
+    context,
+    descriptionId,
+    titleId,
+    visible,
+  }) => (
+    <DraggableSheet
+      close={close}
+      descriptionId={descriptionId}
+      titleId={titleId}
+      visible={visible}
+    >
+      <Content
+        close={close}
+        context={context}
+        descriptionId={descriptionId}
+        titleId={titleId}
+        visible={visible}
+      />
     </DraggableSheet>
   );
+
   return Component;
 };
