@@ -14,7 +14,7 @@ export const Home = () => {
   const { t } = useLingui();
   const { authenticate, canAuthenticate } = usePasskey();
 
-  const showPasskeyButton = !canAuthenticate();
+  const showPasskeyButton = canAuthenticate();
 
   return (
     <main>
@@ -23,7 +23,10 @@ export const Home = () => {
         className="mx-auto mt-20 size-60"
         src="/asset/icon.jpg"
       />
-      <div className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
+      <fieldset className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
+        <legend className="sr-only">
+          <Trans>로그인 방법 선택</Trans>
+        </legend>
         {showPasskeyButton && (
           <>
             <button
@@ -67,7 +70,7 @@ export const Home = () => {
             </span>
           </button>
         )}
-      </div>
+      </fieldset>
     </main>
   );
 };
