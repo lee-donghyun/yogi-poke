@@ -33,8 +33,8 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "^/api/.*": {
-          // target: "https://yogi-poke-api.is-not-a.store",
-          target: "http://localhost:8080",
+          target: "https://yogi-poke-api.is-not-a.store",
+          // target: "http://localhost:8080",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
