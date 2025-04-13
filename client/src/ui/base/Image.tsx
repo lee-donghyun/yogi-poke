@@ -1,8 +1,9 @@
-import { ImgHTMLAttributes, useRef, useState } from "react";
+import { ImgHTMLAttributes, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 
 import { useDebouncedValue } from "~/hook/base/useDebouncedValue";
+import { useKeyboard } from "~/hook/base/useKeyborad";
 
 enum View {
   THUMBNAIL,
@@ -25,6 +26,7 @@ const VIEWER_SIZE_IN_VW = 64;
 export const Image = ({ alt, size, src, ...props }: ImageProps) => {
   const thumbnailRef = useRef(null as unknown as HTMLImageElement);
   const viewerRef = useRef(null as unknown as HTMLImageElement);
+  const backdropRef = useRef<HTMLButtonElement>(null);
   const [view, setView] = useState(View.THUMBNAIL);
   const debouncedIsViewer = useDebouncedValue(
     view === View.VIEWER,
@@ -119,13 +121,20 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
         },
       );
     });
-
-    void transition.finished
-      .then(() => {
-        viewerRef.current.style.viewTransitionName = "";
-      })
-      .catch(console.error);
   };
+
+  useKeyboard(() => {
+    if (view === View.VIEWER) {
+      closeViewer();
+    }
+    // eslint-disable-next-line lingui/no-unlocalized-strings
+  }, "Escape");
+
+  useEffect(() => {
+    if (view === View.VIEWER) {
+      backdropRef.current?.focus();
+    }
+  }, [view]);
 
   return (
     <>
@@ -142,7 +151,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
       {mounted &&
         createPortal(
           <RemoveScroll>
-            <>
+            <div aria-modal="true" role="dialog">
               <div
                 className={`fixed inset-0 z-50 backdrop-blur-md backdrop-brightness-95 ${
                   view === View.VIEWER ? "animate-fade-in" : "animate-fade-out"
@@ -157,6 +166,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
                     closeViewer();
                   }
                 }}
+                ref={backdropRef}
               >
                 <img
                   {...props}
@@ -170,7 +180,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
                   }}
                 />
               </button>
-            </>
+            </div>
           </RemoveScroll>,
           document.body,
         )}
