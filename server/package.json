@@ -21,14 +21,14 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/axios": "^3.1.2",
-    "@nestjs/common": "^10.4.12",
-    "@nestjs/core": "^10.4.12",
-    "@nestjs/jwt": "^10.2.0",
-    "@nestjs/platform-express": "^10.4.12",
+    "@nestjs/axios": "^4.0.0",
+    "@nestjs/common": "^11.0.16",
+    "@nestjs/core": "^11.0.16",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.16",
     "@prisma/client": "6.1.0",
-    "@sentry/nestjs": "^8.47.0",
-    "@sentry/profiling-node": "^8.47.0",
+    "@sentry/nestjs": "^9.12.0",
+    "@sentry/profiling-node": "^9.12.0",
     "@simplewebauthn/server": "^13.0.0",
     "axios": "^1.7.8",
     "bcrypt": "^5.1.1",
@@ -44,10 +44,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
-    "@nestjs/cli": "^10.4.8",
-    "@nestjs/schematics": "^10.2.3",
-    "@nestjs/testing": "^10.4.12",
-    "@swc/cli": "^0.5.2",
+    "@nestjs/cli": "^11.0.6",
+    "@nestjs/schematics": "^11.0.5",
+    "@nestjs/testing": "^11.0.16",
+    "@swc/cli": "^0.6.0",
     "@swc/core": "^1.9.3",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
@@ -91,5 +91,5 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
-  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a"
+  "packageManager": "pnpm@10.8.0+sha512.0e82714d1b5b43c74610193cb20734897c1d00de89d0e18420aebc5977fa13d780a9cb05734624e81ebd81cc876cd464794850641c48b9544326b5622ca29971"
 }
