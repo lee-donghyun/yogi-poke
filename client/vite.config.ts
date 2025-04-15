@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
         org: "yogi-company",
         project: "yogi-poke-web",
         sourcemaps: {
-          filesToDeleteAfterUpload: "dist/assets/*.js.map",
+          filesToDeleteAfterUpload: `${cwd}/dist/assets/*.js.map`,
         },
         authToken: env.SENTRY_AUTH_TOKEN,
         disable: env.MODE === "local",
