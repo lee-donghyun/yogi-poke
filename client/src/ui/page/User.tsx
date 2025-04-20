@@ -2,14 +2,17 @@ import { CheckBadgeIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Trans, useLingui } from "@lingui/react/macro";
 import dayjs, { isDayjs } from "dayjs";
 import { useRouter } from "router2";
+import { preload } from "swr";
 import useSWRMutation from "swr/mutation";
 
 import { useRelatedPokeList } from "~/hook/domain/useRelatedPokeList.ts";
-import { useUserPofile } from "~/hook/domain/useUserProfile.ts";
+import { SWR_KEY_USER, useUserPofile } from "~/hook/domain/useUserProfile.ts";
 import { useUserRelatedPokeList } from "~/hook/domain/useUserRelatedPokeList.ts";
+import { createFetcher } from "~/service/swr/fetcher";
 import { isVerifiedUser } from "~/service/util.ts";
 import { Image } from "~/ui/base/Image";
 import { StackedNavigation } from "~/ui/base/Navigation.tsx";
+import { PreloadablePage } from "~/ui/base/PreloadLink";
 import { Stat } from "~/ui/base/Stat.tsx";
 import { Timer } from "~/ui/base/Timer.tsx";
 import { PokeSheet } from "~/ui/overlay/PokeSheet.tsx";
@@ -18,7 +21,7 @@ import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
 import { useNotification } from "~/ui/provider/Notification.tsx";
 import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
-export const User = () => {
+export const User: PreloadablePage = () => {
   useAuthNavigator({ goToAuth: true });
 
   const { params } = useRouter();
@@ -152,4 +155,13 @@ export const User = () => {
       </div>
     </div>
   );
+};
+
+User.preload = async (history, client) => {
+  const { params } = history;
+  const userEmail = params[":userId"];
+  if (typeof userEmail !== "string") {
+    return;
+  }
+  await preload(SWR_KEY_USER(userEmail), createFetcher(client));
 };

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
 import { mutate } from "swr";
 import useSWRInfinite, { unstable_serialize } from "swr/infinite";
 
@@ -35,10 +35,9 @@ export const useRelatedPokeList = () => {
         : null,
     { revalidateAll: true },
   );
-  const loadMore = useCallback(
-    () => !isLoading && !error && void setSize((prev) => prev + 1),
-    [error, isLoading, setSize],
-  );
+  const loadMore = () =>
+    !isLoading && !error && void setSize((prev) => prev + 1);
+
   const intersectorRef = useIntersectionObserver(loadMore);
   const prevData = useRef(data);
 

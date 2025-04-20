@@ -1,4 +1,15 @@
-import { Config } from "router2/lib/types";
+import { Config, RouterProps } from "router2/lib/types";
+
+import { Home } from "~/ui/page/Home";
+import { Like } from "~/ui/page/Like";
+import { MyPage } from "~/ui/page/MyPage";
+import { NotFound } from "~/ui/page/NotFound";
+import { Register } from "~/ui/page/Register";
+import { Search } from "~/ui/page/Search";
+import { Setting } from "~/ui/page/Setting";
+import { SignIn } from "~/ui/page/SignIn";
+import { ThridPartyRegister } from "~/ui/page/ThirdPartyRegister";
+import { User } from "~/ui/page/User";
 
 const scroll = new Map<string, number>();
 
@@ -42,4 +53,17 @@ export const config: Config = {
       next();
     },
   },
+};
+
+export const routes: RouterProps["routes"] = {
+  "/": Home,
+  "/404": NotFound,
+  "/like": Like,
+  "/my-page": MyPage,
+  "/register": Register,
+  "/search": Search,
+  "/setting": Setting,
+  "/sign-in": SignIn,
+  "/third-party-register": ThridPartyRegister,
+  "/user/:userId": User,
 };

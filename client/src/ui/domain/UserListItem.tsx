@@ -1,6 +1,7 @@
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { Link } from "router2";
+
+import { PreloadLink } from "~/ui/base/PreloadLink";
 
 interface UserListItemProps {
   animation: {
@@ -57,13 +58,13 @@ export const UserListItem = ({
           <p className="text-sm text-zinc-800">{userName}</p>
         </div>
         {selected && (
-          <Link
+          <PreloadLink
             className="self-center p-1 text-zinc-400"
             pathname={`/user/${userEmail}`}
             role="button"
           >
             <ChevronRightIcon className="size-6" />
-          </Link>
+          </PreloadLink>
         )}
       </div>
     </button>
