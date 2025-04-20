@@ -100,3 +100,18 @@ export const createdAt = (dep: undefined | WeakKey) => {
   map.set(dep, createdAt);
   return createdAt;
 };
+
+export const memoize = <A, R>(fn: (arg: A) => R) => {
+  const cache = new Map<A, R>();
+  const memoizedFn = (arg: A): R => {
+    const key = arg;
+    if (cache.has(key)) {
+      return cache.get(key)!;
+    }
+    const result = fn(arg);
+    cache.set(key, result);
+    return result;
+  };
+
+  return memoizedFn;
+};
