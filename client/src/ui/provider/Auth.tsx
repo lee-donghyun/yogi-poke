@@ -13,6 +13,7 @@ import { SWRConfig } from "swr";
 
 import { client } from "~/service/api.ts";
 import { MyInfo } from "~/service/dataType.ts";
+import { createFetcher } from "~/service/swr/fetcher";
 import { persisteToken } from "~/ui/provider/PwaProvider.tsx";
 
 interface PatchUserPayload {
@@ -183,8 +184,7 @@ export const AuthProvider = ({
     >
       <SWRConfig
         value={{
-          fetcher: ([key, params]: [string, Record<string, string>]) =>
-            userClient.get(key, { searchParams: params }).json(),
+          fetcher: createFetcher(userClient),
         }}
       >
         {children}
