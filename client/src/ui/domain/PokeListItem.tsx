@@ -1,11 +1,11 @@
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { Trans, useLingui } from "@lingui/react/macro";
-import { Link } from "router2";
 
 import { DELETED_USER } from "~/service/const.ts";
 import { Poke, User } from "~/service/dataType.ts";
 import { getReadableDateOffset } from "~/service/util.ts";
 import { type Line } from "~/ui/base/Canvas.tsx";
+import { PreloadLink } from "~/ui/base/PreloadLink";
 import { PokeSheet } from "~/ui/overlay/PokeSheet.tsx";
 import { ShowDrawingSheet } from "~/ui/overlay/ShowDrawingSheet.tsx";
 import { ShowGeolocationSheet } from "~/ui/overlay/ShowGeolocationSheet.tsx";
@@ -229,7 +229,7 @@ export const PokeListItem = ({
         />
         <div className="ml-4 flex-1">
           <p className="relative">
-            <Link
+            <PreloadLink
               className="flex items-center font-medium"
               pathname={`/user/${targetUser.email}`}
               role="link"
@@ -240,7 +240,7 @@ export const PokeListItem = ({
                   <CheckBadgeIcon className="size-[1.125rem]" />
                 </span>
               )}
-            </Link>
+            </PreloadLink>
             <span className="absolute top-1 right-0 text-xs font-normal text-zinc-400">
               {t(getReadableDateOffset(date))}
             </span>
