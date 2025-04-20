@@ -1,12 +1,17 @@
 import { useEffect, useRef } from "react";
 
-export const useIntersectionObserver = (onObserve: () => unknown) => {
-  const intersectorRef = useRef<HTMLDivElement>(null);
+import { useLiveRef } from "~/hook/base/useLiveRef";
+
+export const useIntersectionObserver = <T extends HTMLElement = HTMLDivElement>(
+  onObserve: () => unknown,
+) => {
+  const intersectorRef = useRef<T>(null);
+  const onObserveRef = useLiveRef(onObserve);
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        onObserve();
+        onObserveRef.current();
       }
     });
     if (intersectorRef.current) {
@@ -15,7 +20,7 @@ export const useIntersectionObserver = (onObserve: () => unknown) => {
         observer.disconnect();
       };
     }
-  }, [onObserve]);
+  }, [onObserveRef]);
 
   return intersectorRef;
 };
