@@ -8,7 +8,7 @@ import { usePoke } from "~/hook/domain/usePoke.ts";
 import { User } from "~/service/dataType.ts";
 import { dataUpdatedAtMiddleware } from "~/service/swr/middleware.dataUpdatedAt.ts";
 import { createShouldAnimateMiddleware } from "~/service/swr/middleware.shouldAnimate.ts";
-import { useSWRMiddleware } from "~/service/swr/middleware.ts";
+import { createUseSWRMiddleware } from "~/service/swr/middleware.ts";
 import { isVerifiedUser } from "~/service/util.ts";
 import { Navigation } from "~/ui/base/Navigation.tsx";
 import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
@@ -37,10 +37,10 @@ type Key = [string, { email: string; limit: number; name: string }];
 const isEqualKey = (a: Key, b: Key) =>
   a[1].email === b[1].email && a[1].name === b[1].name;
 
-const middlewares = [
+const useSWRMiddleware = createUseSWRMiddleware(
   createShouldAnimateMiddleware(isEqualKey),
   dataUpdatedAtMiddleware,
-];
+);
 
 export const Search = () => {
   useAuthNavigator({ goToAuth: "/sign-in" });
@@ -60,7 +60,7 @@ export const Search = () => {
 
   const { data, dataUpdatedAt, isLoading, shouldAnimate } = useSWRMiddleware<
     User[],
-    typeof middlewares,
+    unknown,
     Key
   >(
     ["user", { email: deferredSearchText, limit: 5, name: deferredSearchText }],
@@ -70,7 +70,6 @@ export const Search = () => {
         setSelected(null);
         setPokeOptionOpen(false);
       },
-      use: middlewares,
     },
   );
 
