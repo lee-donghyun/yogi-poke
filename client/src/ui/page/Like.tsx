@@ -3,9 +3,9 @@ import { Trans } from "@lingui/react/macro";
 import { useRouter } from "router2";
 
 import { User } from "~/service/dataType.ts";
+import { createUseSWRMiddleware } from "~/service/swr/middleware";
 import { dataUpdatedAtMiddleware } from "~/service/swr/middleware.dataUpdatedAt.ts";
 import { createShouldAnimateMiddleware } from "~/service/swr/middleware.shouldAnimate.ts";
-import { useSWRMiddleware } from "~/service/swr/middleware.ts";
 import { isVerifiedUser } from "~/service/util.ts";
 import { Navigation } from "~/ui/base/Navigation.tsx";
 import { DomainBottomNavigation } from "~/ui/domain/DomainBottomNavigation.tsx";
@@ -15,19 +15,21 @@ import { useAuthNavigator } from "~/ui/provider/Auth";
 type Key = [string, { email: string; isFollowing: boolean }] | null;
 const isEqualKey = (a: Key, b: Key) =>
   a?.[0] === b?.[0] && a?.[1].isFollowing === b?.[1].isFollowing;
-const middlewares = [
+
+const useSWRMiddleware = createUseSWRMiddleware(
   createShouldAnimateMiddleware(isEqualKey),
   dataUpdatedAtMiddleware,
-];
+);
+
 export const Like = () => {
   useAuthNavigator({ goToAuth: true });
   const { push } = useRouter();
 
   const { data, dataUpdatedAt, shouldAnimate } = useSWRMiddleware<
     User[],
-    typeof middlewares,
+    unknown,
     Key
-  >(["user", { email: "", isFollowing: true }], { use: middlewares });
+  >(["user", { email: "", isFollowing: true }]);
 
   return (
     <>
