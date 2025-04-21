@@ -25,15 +25,12 @@ const getRoute = memoize((pathname: string) => {
 });
 
 export const PreloadLink = (props: Parameters<typeof Link>[0]) => {
-  const { pathname, query } = props;
-
   const { client } = useUser();
 
-  const [path, Page] = getRoute(pathname);
-
-  const params = getParams({ pathname, query }, path);
-
   const observer = useIntersectionObserver<HTMLAnchorElement>(() => {
+    const { pathname, query } = props;
+    const [path, Page] = getRoute(pathname);
+    const params = getParams({ pathname, query }, path);
     void Page?.preload?.({ params, path, pathname }, client);
   });
 
