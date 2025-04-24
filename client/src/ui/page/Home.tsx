@@ -33,8 +33,8 @@ export const Home = () => {
         {showPasskeyButton && (
           <>
             <button
-              data-testid="패스키로 로그인 버튼"
               className="flex items-center gap-4 rounded-2xl bg-black p-4 duration-300 active:opacity-60 disabled:opacity-60"
+              data-testid="패스키로 로그인 버튼"
               onClick={() => {
                 authenticate().catch(() => {
                   push({ content: t`다시 시도해주세요.` });
@@ -53,8 +53,8 @@ export const Home = () => {
               </span>
             </button>
             <button
-              data-testid="패스키가 있지만, 패스키 없이 로그인 버튼"
               className="rounded-2xl p-2 text-sm text-zinc-400 duration-300 active:opacity-60"
+              data-testid="패스키가 있지만, 패스키 없이 로그인 버튼"
               onClick={() => overlay(PrivateLoginSheet)}
             >
               <Trans>아이디로 로그인</Trans>

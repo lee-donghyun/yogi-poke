@@ -116,11 +116,11 @@ export const Register = () => {
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"
+        id="register"
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
         }}
-        id="register"
         style={{ transform: `translateY(${(step - 3) * 128}px)` }}
       >
         <div
@@ -131,8 +131,8 @@ export const Register = () => {
             <Trans>비밀번호</Trans>
           </label>
           <input
-            data-testid="비밀번호"
             className={cx.input}
+            data-testid="비밀번호"
             disabled={isMutating}
             id="password"
             name="password"
@@ -154,8 +154,8 @@ export const Register = () => {
             <Trans>이름</Trans>
           </label>
           <input
-            data-testid="이름"
             className={cx.input}
+            data-testid="이름"
             disabled={isMutating}
             id="name"
             name="name"
@@ -174,9 +174,11 @@ export const Register = () => {
             <Trans>아이디</Trans>
           </label>
           <input
-            data-testid="이메일"
             autoCapitalize="off"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
             className={cx.input}
+            data-testid="이메일"
             disabled={isMutating}
             id="email"
             name="email"
@@ -195,10 +197,10 @@ export const Register = () => {
       <div className="fixed inset-x-0 bottom-0 bg-linear-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
           className="block h-12 w-full rounded-2xl bg-black text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
-          disabled={isMutating || hasError}
-          onClick={onSubmit}
           data-testid="회원가입 버튼"
+          disabled={isMutating || hasError}
           form="register"
+          onClick={onSubmit}
         >
           {step === 3 ? t`회원가입` : t`다음`}
         </button>
