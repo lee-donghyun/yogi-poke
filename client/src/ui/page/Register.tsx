@@ -120,6 +120,7 @@ export const Register = () => {
           e.preventDefault();
           onSubmit();
         }}
+        id="register"
         style={{ transform: `translateY(${(step - 3) * 128}px)` }}
       >
         <div
@@ -130,6 +131,7 @@ export const Register = () => {
             <Trans>비밀번호</Trans>
           </label>
           <input
+            data-testid="비밀번호"
             className={cx.input}
             disabled={isMutating}
             id="password"
@@ -152,6 +154,7 @@ export const Register = () => {
             <Trans>이름</Trans>
           </label>
           <input
+            data-testid="이름"
             className={cx.input}
             disabled={isMutating}
             id="name"
@@ -171,6 +174,7 @@ export const Register = () => {
             <Trans>아이디</Trans>
           </label>
           <input
+            data-testid="이메일"
             autoCapitalize="off"
             className={cx.input}
             disabled={isMutating}
@@ -193,6 +197,8 @@ export const Register = () => {
           className="block h-12 w-full rounded-2xl bg-black text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
           disabled={isMutating || hasError}
           onClick={onSubmit}
+          data-testid="회원가입 버튼"
+          form="register"
         >
           {step === 3 ? t`회원가입` : t`다음`}
         </button>

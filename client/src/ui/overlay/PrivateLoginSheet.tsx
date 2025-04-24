@@ -7,7 +7,7 @@ export const PrivateLoginSheet = createDraggableSheet(({ close, titleId }) => {
   const { params } = useRouter();
   const { t } = useLingui();
   return (
-    <div className="p-6 pt-0">
+    <div className="p-6 pt-0" data-testid="아이디로 로그인 시트">
       <h2
         className="border-b border-zinc-100 pt-4 pb-6 text-lg font-semibold text-zinc-800"
         id={titleId}

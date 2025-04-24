@@ -23,7 +23,10 @@ export const Home = () => {
         className="mx-auto mt-20 size-60"
         src="/asset/icon.jpg"
       />
-      <fieldset className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
+      <fieldset
+        className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5"
+        data-testid="로그인 방법 선택"
+      >
         <legend className="sr-only">
           <Trans>로그인 방법 선택</Trans>
         </legend>
