@@ -102,8 +102,7 @@ test.describe("회원가입", () => {
     await checkRegisterRequest(page);
   });
 
-  test("숨심 요소에 대해 aria-hidden 테스트", async ({ page }) => {
-    await page.goto("http://127.0.0.1:5173/register?is-pwa=1");
+  test("숨김 요소에 대해 aria-hidden 테스트", async ({ page }) => {
     await expect(page.getByTestId("회원가입 폼")).toMatchAriaSnapshot(`
     - text: 아이디
     - textbox "아이디"
