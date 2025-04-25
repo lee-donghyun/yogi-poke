@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 
 const baseUrl = "http://127.0.0.1:5173/register?is-pwa=1";
 
@@ -18,7 +18,10 @@ test.beforeEach("set base url", async ({ page }) => {
   });
 });
 
-test.afterEach(async ({ page }) => {
+const checkRegisterRequest = async (
+  page: Page,
+  payload: { referrerId: null | number } = { referrerId: null },
+) => {
   const [request] = await Promise.all([
     page.waitForRequest("**/api/user/register"),
     page.getByTestId("회원가입 버튼").click(),
@@ -29,9 +32,9 @@ test.afterEach(async ({ page }) => {
     email: "testing",
     name: "testing",
     password: "testing",
-    referrerId: null,
+    ...payload,
   });
-});
+};
 
 test.describe("회원가입", () => {
   test("마우스로 회원가입", async ({ page }) => {
@@ -51,6 +54,8 @@ test.describe("회원가입", () => {
     await expect(page.getByTestId("회원가입 버튼")).toBeDisabled();
     await page.getByTestId("비밀번호").fill("testing");
     await expect(page.getByTestId("회원가입 버튼")).toBeEnabled();
+
+    await checkRegisterRequest(page);
   });
   test("키보드로 회원가입", async ({ page }) => {
     await expect(page.getByTestId("이메일")).toBeFocused();
@@ -69,6 +74,8 @@ test.describe("회원가입", () => {
     await expect(page.getByTestId("회원가입 버튼")).toBeDisabled();
     await page.getByTestId("비밀번호").fill("testing");
     await expect(page.getByTestId("회원가입 버튼")).toBeEnabled();
+
+    await checkRegisterRequest(page);
   });
   test("유저 입력 검증", async ({ page }) => {
     await page.getByTestId("이메일").click();
@@ -91,6 +98,8 @@ test.describe("회원가입", () => {
     await page.getByTestId("비밀번호").fill("");
     expect(page.getByTestId("회원가입 버튼")).toBeDisabled();
     await page.getByTestId("비밀번호").fill("testing");
+
+    await checkRegisterRequest(page);
   });
 
   test("숨심 요소에 대해 aria-hidden 테스트", async ({ page }) => {
@@ -124,5 +133,21 @@ test.describe("회원가입", () => {
     `);
     await page.getByTestId("비밀번호").click();
     await page.getByTestId("비밀번호").fill("testing");
+
+    await checkRegisterRequest(page);
+  });
+
+  test("referrerId가 있는 경우", async ({ page }) => {
+    await page.goto(baseUrl + "&tag=1");
+    await page.getByTestId("이메일").click();
+    await page.getByTestId("이메일").fill("testing");
+    await page.getByTestId("회원가입 버튼").click();
+    await page.getByTestId("이름").click();
+    await page.getByTestId("이름").fill("testing");
+    await page.getByTestId("회원가입 버튼").click();
+    await page.getByTestId("비밀번호").click();
+    await page.getByTestId("비밀번호").fill("testing");
+
+    await checkRegisterRequest(page, { referrerId: 1 });
   });
 });
