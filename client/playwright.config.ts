@@ -15,18 +15,18 @@ export default defineConfig({
 
   projects: [
     {
-      name: "PWA 설정",
-      testMatch: /pwa\.setup\.ts/,
+      name: "테스트 셋업",
+      testMatch: /global\.setup\.ts/,
     },
     {
       name: "Mobile Chrome Pixel 5",
       use: { ...devices["Pixel 5"], storageState: "tests/storage-state.json" },
-      dependencies: ["PWA 설정"],
+      dependencies: ["테스트 셋업"],
     },
     {
       name: "Mobile Chrome Pixel 7",
       use: { ...devices["Pixel 7"], storageState: "tests/storage-state.json" },
-      dependencies: ["PWA 설정"],
+      dependencies: ["테스트 셋업"],
     },
     {
       name: "Mobile Safari iPhone 14",
@@ -34,7 +34,7 @@ export default defineConfig({
         ...devices["iPhone 14 Pro"],
         storageState: "tests/storage-state.json",
       },
-      dependencies: ["PWA 설정"],
+      dependencies: ["테스트 셋업"],
     },
     {
       name: "Mobile Safari iPhone 14 Pro Max",
@@ -42,7 +42,7 @@ export default defineConfig({
         ...devices["iPhone 14 Pro Max"],
         storageState: "tests/storage-state.json",
       },
-      dependencies: ["PWA 설정"],
+      dependencies: ["테스트 셋업"],
     },
   ],
 

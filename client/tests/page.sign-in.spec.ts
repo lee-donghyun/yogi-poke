@@ -1,16 +1,7 @@
 import { test, expect, Page } from "@playwright/test";
 
-const baseUrl = "http://127.0.0.1:5173/sign-in?is-pwa=1";
-
 test.beforeEach("set base url", async ({ page }) => {
-  await page.goto(baseUrl);
-  await page.evaluate(() => {
-    // ky 버그
-    // @see https://github.com/microsoft/playwright/issues/6479#issuecomment-2079000370
-    Request.prototype.clone = function () {
-      return this;
-    };
-  });
+  await page.goto("/sign-in");
   await page.route("**/api/user/sign-in", async (route) => {
     await route.fulfill({
       body: "bearer token",

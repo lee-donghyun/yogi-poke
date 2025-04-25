@@ -1,16 +1,7 @@
 import { test, expect, Page } from "@playwright/test";
 
-const baseUrl = "http://127.0.0.1:5173/register?is-pwa=1";
-
 test.beforeEach("set base url", async ({ page }) => {
-  await page.goto(baseUrl);
-  await page.evaluate(() => {
-    // ky 버그
-    // @see https://github.com/microsoft/playwright/issues/6479#issuecomment-2079000370
-    Request.prototype.clone = function () {
-      return this;
-    };
-  });
+  await page.goto("/register");
   await page.route("**/api/user/register", async (route) => {
     await route.fulfill({
       body: "bearer token",
@@ -137,7 +128,7 @@ test.describe("회원가입", () => {
   });
 
   test("referrerId가 있는 경우", async ({ page }) => {
-    await page.goto(baseUrl + "&tag=1");
+    await page.goto("/register?tag=1");
     await page.getByTestId("이메일").click();
     await page.getByTestId("이메일").fill("testing");
     await page.getByTestId("회원가입 버튼").click();
