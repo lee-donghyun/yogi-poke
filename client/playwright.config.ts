@@ -15,34 +15,20 @@ export default defineConfig({
 
   projects: [
     {
-      name: "테스트 셋업",
-      testMatch: /global\.setup\.ts/,
-    },
-    {
       name: "Mobile Chrome Pixel 5",
-      use: { ...devices["Pixel 5"], storageState: "tests/storage-state.json" },
-      dependencies: ["테스트 셋업"],
+      use: { ...devices["Pixel 5"] },
     },
     {
       name: "Mobile Chrome Pixel 7",
-      use: { ...devices["Pixel 7"], storageState: "tests/storage-state.json" },
-      dependencies: ["테스트 셋업"],
+      use: { ...devices["Pixel 7"] },
     },
     {
       name: "Mobile Safari iPhone 14",
-      use: {
-        ...devices["iPhone 14 Pro"],
-        storageState: "tests/storage-state.json",
-      },
-      dependencies: ["테스트 셋업"],
+      use: { ...devices["iPhone 14 Pro"] },
     },
     {
       name: "Mobile Safari iPhone 14 Pro Max",
-      use: {
-        ...devices["iPhone 14 Pro Max"],
-        storageState: "tests/storage-state.json",
-      },
-      dependencies: ["테스트 셋업"],
+      use: { ...devices["iPhone 14 Pro Max"] },
     },
   ],
 
