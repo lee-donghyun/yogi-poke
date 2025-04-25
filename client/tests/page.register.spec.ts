@@ -50,4 +50,35 @@ test.describe("회원가입", () => {
       referrerId: null,
     });
   });
+  test("키보드로 회원가입", async ({ page }) => {
+    await expect(page.getByTestId("이메일")).toBeFocused();
+    await expect(page.getByTestId("회원가입 버튼")).toBeDisabled();
+    await page.getByTestId("이메일").fill("testing");
+    await expect(page.getByTestId("회원가입 버튼")).toBeEnabled();
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByTestId("이름")).toBeFocused();
+    await expect(page.getByTestId("회원가입 버튼")).toBeDisabled();
+    await page.getByTestId("이름").fill("testing");
+    await expect(page.getByTestId("회원가입 버튼")).toBeEnabled();
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByTestId("비밀번호")).toBeFocused();
+    await expect(page.getByTestId("회원가입 버튼")).toBeDisabled();
+    await page.getByTestId("비밀번호").fill("testing");
+    await expect(page.getByTestId("회원가입 버튼")).toBeEnabled();
+
+    const [request] = await Promise.all([
+      page.waitForRequest("**/api/user/register"),
+      page.keyboard.press("Enter"),
+    ]);
+
+    expect(request.method()).toBe("POST");
+    expect(request.postDataJSON()).toEqual({
+      email: "testing",
+      name: "testing",
+      password: "testing",
+      referrerId: null,
+    });
+  });
 });
