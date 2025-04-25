@@ -11,6 +11,11 @@ test.beforeEach("set base url", async ({ page }) => {
       return this;
     };
   });
+  await page.route("**/api/user/register", async (route) => {
+    await route.fulfill({
+      body: "bearer token",
+    });
+  });
 });
 
 test.describe("회원가입", () => {
@@ -36,7 +41,6 @@ test.describe("회원가입", () => {
       page.waitForRequest("**/api/user/register"),
       page.getByTestId("회원가입 버튼").click(),
     ]);
-    console.log(await request.allHeaders());
 
     expect(request.method()).toBe("POST");
     expect(request.postDataJSON()).toEqual({
