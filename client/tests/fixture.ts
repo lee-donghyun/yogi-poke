@@ -16,6 +16,10 @@ export const test = base.extend<{
         return this;
       };
     });
+    await page.routeFromHAR("tests/har/localhost.har", {
+      url: "**/api/**",
+      notFound: "fallback",
+    });
 
     await use(page);
   },

@@ -12,3 +12,10 @@ test.describe("로그인 페이지로 리다이렉트", () => {
     expect(new URL(app.url()).pathname).toBe("/sign-in");
   });
 });
+
+test.describe("검색", () => {
+  test("로딩", async ({ app }) => {
+    // await app.goto("/search");
+    await app.screenshot({ path: "screenshot.png" });
+  });
+});
