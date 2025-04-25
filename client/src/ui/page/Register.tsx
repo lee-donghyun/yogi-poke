@@ -116,6 +116,7 @@ export const Register = () => {
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"
+        data-testid="회원가입 폼"
         id="register"
         onSubmit={(e) => {
           e.preventDefault();
@@ -124,8 +125,9 @@ export const Register = () => {
         style={{ transform: `translateY(${(step - 3) * 128}px)` }}
       >
         <div
+          aria-hidden={step < 3}
           className={cx.formItem}
-          style={step > 2 ? undefined : { opacity: 0, pointerEvents: "none" }}
+          style={step < 3 ? { opacity: 0, pointerEvents: "none" } : undefined}
         >
           <label className={cx.label} htmlFor="password">
             <Trans>비밀번호</Trans>
@@ -147,8 +149,9 @@ export const Register = () => {
           )}
         </div>
         <div
+          aria-hidden={step < 2}
           className={cx.formItem}
-          style={step > 1 ? undefined : { opacity: 0, pointerEvents: "none" }}
+          style={step < 2 ? { opacity: 0, pointerEvents: "none" } : undefined}
         >
           <label className={cx.label} htmlFor="name">
             <Trans>이름</Trans>
@@ -192,7 +195,6 @@ export const Register = () => {
             <p className={cx.helper}>{translatedCurrentFieldError}</p>
           )}
         </div>
-        <button disabled={isMutating || hasError} />
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-linear-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
