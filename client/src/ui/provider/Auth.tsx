@@ -75,6 +75,7 @@ export const useUser = ({
   return { ...auth };
 };
 
+const RETURN_URL_KEY = "return-url";
 export const useAuthNavigator = ({
   goToApp,
   goToAuth,
@@ -88,27 +89,27 @@ export const useAuthNavigator = ({
    */
   goToAuth?: boolean | string;
 } = {}) => {
-  const RETURN_URL_KEY = "return-url";
-  const AUTH_PATH = typeof goToAuth === "string" ? goToAuth : "/sign-in";
-  const APP_PATH = typeof goToApp === "string" ? goToApp : "/search";
-
   const { params, path, replace } = useRouter();
   const { isLoggedIn } = useUser();
 
-  if (goToAuth && !isLoggedIn) {
-    replace({
-      pathname: AUTH_PATH,
-      ...(path && { query: { ...params, [RETURN_URL_KEY]: path } }),
-    });
-  }
+  useEffect(() => {
+    const authPath = typeof goToAuth === "string" ? goToAuth : "/sign-in";
+    const appPath = typeof goToApp === "string" ? goToApp : "/search";
+    if (goToAuth && !isLoggedIn) {
+      replace({
+        pathname: authPath,
+        ...(path && { query: { ...params, [RETURN_URL_KEY]: path } }),
+      });
+    }
 
-  if (goToApp && isLoggedIn) {
-    const pathname = params[RETURN_URL_KEY] ?? APP_PATH;
-    replace({
-      pathname,
-      query: { ...params },
-    });
-  }
+    if (goToApp && isLoggedIn) {
+      const pathname = params[RETURN_URL_KEY] ?? appPath;
+      replace({
+        pathname,
+        query: { ...params },
+      });
+    }
+  }, [goToApp, goToAuth, isLoggedIn, params, path, replace]);
 };
 
 export const AuthProvider = ({
