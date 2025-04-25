@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "analyze": "npx vite-bundle-visualizer",
     "extract": "lingui extract",
-    "compile": "lingui compile"
+    "compile": "lingui compile",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
