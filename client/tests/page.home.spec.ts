@@ -55,3 +55,16 @@ test.describe("패스키가 있을 때", () => {
     `);
   });
 });
+
+test.describe("토큰이 있을 때", () => {
+  test("유효한 토큰일때", async ({ auth, app }) => {
+    await auth.authorize();
+    await app.waitForURL((url) => url.pathname === "/search");
+    expect(new URL(app.url()).pathname).toBe("/search");
+  });
+  test("유효하지 않은 토큰일때", async ({ auth, app }) => {
+    await auth.authorize(false);
+    await app.waitForURL((url) => url.pathname === "/");
+    expect(new URL(app.url()).pathname).toBe("/");
+  });
+});
