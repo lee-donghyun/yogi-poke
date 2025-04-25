@@ -1,10 +1,9 @@
 import { test, expect } from "@playwright/test";
 
-const baseUrl = "http://127.0.0.1:5173/?is-pwa=1";
-
-test.beforeEach("set base url", async ({ page }) => {
-  await page.goto(baseUrl);
+test.beforeEach(async ({ page }) => {
+  await page.goto("/");
 });
+
 test.describe("패스키가 없을 때", () => {
   test("조건부 로그인 버튼 렌더링", async ({ page }) => {
     await expect(page.getByTestId("로그인 방법 선택")).toMatchAriaSnapshot(`
@@ -19,7 +18,7 @@ test.describe("패스키가 없을 때", () => {
     - heading "아이디로 로그인" [level=2]
     - navigation "로그인 방법 선택":
       - link "회원가입":
-        - /url: /register?is-pwa=1
+        - /url: /register?
       - link "로그인":
         - /url: /sign-in
     `);
@@ -50,7 +49,7 @@ test.describe("패스키가 있을 때", () => {
     - heading "아이디로 로그인" [level=2]
     - navigation "로그인 방법 선택":
       - link "회원가입":
-        - /url: /register?is-pwa=1
+        - /url: /register?
       - link "로그인":
         - /url: /sign-in
     `);
