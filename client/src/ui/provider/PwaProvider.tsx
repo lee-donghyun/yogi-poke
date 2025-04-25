@@ -78,7 +78,7 @@ export const PwaProvider = ({
           }
         })
         .catch((err: HTTPError) => {
-          if (!ignore && err.response.status === 403) {
+          if (!ignore && err.response?.status === 403) {
             releaseToken();
             setPrefetch({ myInfo: null });
           }

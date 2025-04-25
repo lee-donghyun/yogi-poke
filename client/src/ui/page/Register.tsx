@@ -62,7 +62,7 @@ export const Register = () => {
         }),
     {
       onError: (err: HTTPError) => {
-        switch (err.response.status) {
+        switch (err.response?.status) {
           case 409:
             push({ content: t`이미 사용중인 아이디입니다.` });
             break;
