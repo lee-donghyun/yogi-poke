@@ -120,7 +120,11 @@ export const Search = () => {
             value={searchText}
           />
         </div>
-        <div className="mt-5 flex flex-col" style={{ height: 300 }}>
+        <div
+          className="mt-5 flex flex-col"
+          data-testid="유저 컨테이너"
+          style={{ height: 300 }}
+        >
           {data?.map((user, i) => (
             <UserListItem
               animation={shouldAnimate ? { delayTimes: i } : null}

@@ -15,7 +15,8 @@ test.describe("로그인 페이지로 리다이렉트", () => {
 
 test.describe("검색", () => {
   test("로딩", async ({ app }) => {
-    // await app.goto("/search");
-    await app.screenshot({ path: "screenshot.png" });
+    await expect(
+      app.getByTestId("유저 컨테이너").locator("button"),
+    ).toHaveCount(5);
   });
 });
