@@ -43,6 +43,10 @@ test.describe("검색", () => {
     await app.getByTestId("검색어").click();
     await app.getByTestId("검색어").fill("d");
 
+    await expect(
+      app.getByTestId("유저 컨테이너").locator("button"),
+    ).toHaveCount(1);
+
     await expect(app.getByTestId("콕찌르기 버튼")).toBeDisabled();
 
     await app.getByTestId("유저 컨테이너").locator("button").first().click();
