@@ -19,4 +19,44 @@ test.describe("검색", () => {
       app.getByTestId("유저 컨테이너").locator("button"),
     ).toHaveCount(5);
   });
+  test("검색어 입력", async ({ app }) => {
+    await app.getByTestId("검색어").click();
+    await app.getByTestId("검색어").fill("d");
+    expect(app.url()).toContain("/search?q=d");
+
+    await expect(
+      app.getByTestId("유저 컨테이너").locator("button"),
+    ).toHaveCount(1);
+  });
+  test("검색어 삭제", async ({ app }) => {
+    await app.getByTestId("검색어").click();
+    await app.getByTestId("검색어").fill("d");
+    expect(app.url()).toContain("/search?q=d");
+    await app.getByTestId("검색어").fill("");
+    expect(new URL(app.url()).searchParams.get("q")).toBeFalsy();
+
+    await expect(
+      app.getByTestId("유저 컨테이너").locator("button"),
+    ).toHaveCount(5);
+  });
+  test("검색어 입력 후 유저 선택", async ({ app }) => {
+    await app.getByTestId("검색어").click();
+    await app.getByTestId("검색어").fill("d");
+
+    await expect(app.getByTestId("콕찌르기 버튼")).toBeDisabled();
+
+    await app.getByTestId("유저 컨테이너").locator("button").first().click();
+
+    await expect(app.getByTestId("콕찌르기 버튼")).toBeEnabled();
+  });
+
+  test("유저 선택 후 콕찌르기", async ({ app }) => {
+    await app.getByTestId("유저 컨테이너").locator("button").first().click();
+
+    await app.getByTestId("콕찌르기 버튼").click();
+
+    await expect(
+      app.getByTestId("콕찌르기 버튼 컨테이너").locator("button"),
+    ).toHaveCount(4);
+  });
 });
