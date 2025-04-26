@@ -6,7 +6,7 @@ export const test = base
       const context = await browser.newContext();
       await context.routeFromHAR("tests/har/localhost.har", {
         url: "**/api/**",
-        notFound: "fallback",
+        notFound: "abort",
       });
 
       const page = await context.newPage();
