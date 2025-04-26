@@ -63,7 +63,7 @@ test.describe("토큰이 있을 때", () => {
     expect(new URL(app.url()).pathname).toBe("/search");
   });
   test("유효하지 않은 토큰일때", async ({ auth, app }) => {
-    await auth.authorize(false);
+    await auth.unauthorize();
     await app.waitForURL((url) => url.pathname === "/");
     expect(new URL(app.url()).pathname).toBe("/");
   });

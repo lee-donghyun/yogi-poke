@@ -7,6 +7,9 @@ export const test = base
         url: "**/api/**",
         notFound: "abort",
       });
+      await context.route("https://static.is-not-a.store/**", (route) =>
+        route.abort(),
+      );
 
       await page.evaluate(() => {
         // ky 버그
@@ -16,19 +19,19 @@ export const test = base
         };
       });
 
-      await page.goto("/");
-      await page.evaluate(() => {
+      await page.goto("/", { waitUntil: "domcontentloaded" });
+      await page.evaluate(async () => {
         self.localStorage.setItem("IS_PWA", "1");
         self.localStorage.setItem("LOCALE", "ko");
       });
-      await page.reload();
+      await page.reload({ waitUntil: "domcontentloaded" });
 
       await use(page);
 
       await context.unrouteAll();
     },
   })
-  .extend<{ auth: { authorize: (valid?: boolean) => Promise<void> } }>({
+  .extend<{ auth: Auth }>({
     auth: async ({ app }, use) => {
       await app.route("**/api/user/my-info", async (route) => {
         const token = route.request().headers()["authorization"];
@@ -37,15 +40,27 @@ export const test = base
         }
         return route.fulfill({ status: 403 });
       });
+      const auth = new Auth(app);
 
-      const authorize = async (valid: boolean = true) => {
-        await app.evaluate((valid) => {
-          localStorage.setItem("TOKEN", valid ? "VALID" : "INVALID");
-        }, valid);
-        await app.reload();
-      };
-      await use({ authorize });
+      await use(auth);
     },
   });
+
+class Auth {
+  constructor(private page: Page) {}
+
+  async authorize() {
+    await this.page.evaluate(async () => {
+      localStorage.setItem("TOKEN", "VALID");
+    });
+    await this.page.reload();
+  }
+  async unauthorize() {
+    await this.page.evaluate(async () => {
+      localStorage.setItem("TOKEN", "INVALID");
+    });
+    await this.page.reload();
+  }
+}
 
 export { expect } from "@playwright/test";

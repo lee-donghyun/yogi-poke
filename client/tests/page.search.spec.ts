@@ -7,7 +7,7 @@ test.beforeEach("로그인, 페이지 접근", async ({ app, auth }) => {
 
 test.describe("로그인 페이지로 리다이렉트", () => {
   test("유효하지 않은 토큰일 때", async ({ auth, app }) => {
-    await auth.authorize(false);
+    await auth.unauthorize();
     await app.waitForURL((url) => url.pathname === "/sign-in");
     expect(new URL(app.url()).pathname).toBe("/sign-in");
   });
