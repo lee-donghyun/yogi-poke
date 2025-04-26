@@ -24,7 +24,7 @@ export const PokeWithGeoLocationSheet = createDraggableSheet<{ email: string }>(
     const { data, isLoading } = useGeolocation();
 
     return (
-      <div className="p-6">
+      <div className="p-6" data-testid="내 위치 찌르기">
         <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>내 위치 찌르기</Trans> 📍
         </h1>

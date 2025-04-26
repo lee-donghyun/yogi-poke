@@ -58,7 +58,7 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
     );
 
     return (
-      <div className="py-5">
+      <div className="py-5" data-testid="이모티콘 찌르기">
         <h1 className="px-5 text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>이모티콘 찌르기</Trans> 😊
         </h1>

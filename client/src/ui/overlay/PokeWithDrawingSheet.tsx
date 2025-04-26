@@ -35,7 +35,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
     const { isMutating, trigger } = usePoke();
 
     return (
-      <div className="p-6">
+      <div className="p-6" data-testid="그림 찌르기">
         <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>그림 찌르기</Trans> 🎨
         </h1>
