@@ -50,6 +50,7 @@
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "babel-plugin-jsx-remove-data-test-id": "^3.0.0",
     "babel-plugin-react-compiler": "19.0.0-beta-e993439-20250328",
     "eslint": "^9.16.0",
     "eslint-config-react-app-essentials": "^18.0.0",

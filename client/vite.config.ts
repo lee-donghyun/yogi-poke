@@ -14,6 +14,9 @@ export default defineConfig(({ mode }) => {
       react({
         babel: {
           plugins: [
+            ...(mode === "production"
+              ? ["babel-plugin-jsx-remove-data-test-id"]
+              : []),
             "@lingui/babel-plugin-lingui-macro",
             "babel-plugin-react-compiler",
           ],
@@ -27,7 +30,7 @@ export default defineConfig(({ mode }) => {
           filesToDeleteAfterUpload: `${cwd}/dist/assets/*.js.map`,
         },
         authToken: env.SENTRY_AUTH_TOKEN,
-        disable: env.MODE === "local",
+        disable: mode === "development",
       }),
     ],
     server: {
