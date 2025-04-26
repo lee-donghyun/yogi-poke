@@ -31,7 +31,6 @@ export const PokeWithGeoLocationSheet = createDraggableSheet<{ email: string }>(
         <div className="h-6"></div>
         <div
           className="relative aspect-square w-full overflow-hidden rounded-2xl"
-          data-allow-touch-move-on-stacked-layer
           ref={domRef}
         >
           <ErrorBoundary

@@ -26,11 +26,7 @@ export const ShowDrawingSheet = createDraggableSheet<{
         {context.title}
       </h1>
       <div className="h-6"></div>
-      <div
-        className="aspect-square w-full"
-        data-allow-touch-move-on-stacked-layer
-        ref={domRef}
-      >
+      <div className="aspect-square w-full" ref={domRef}>
         <Suspense
           fallback={<div className="size-full rounded-2xl bg-black"></div>}
         >

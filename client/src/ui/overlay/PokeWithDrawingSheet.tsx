@@ -40,11 +40,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
           <Trans>그림 찌르기</Trans> 🎨
         </h1>
         <div className="h-6"></div>
-        <div
-          className="relative aspect-square w-full"
-          data-allow-touch-move-on-stacked-layer
-          ref={domRef}
-        >
+        <div className="relative aspect-square w-full" ref={domRef}>
           {lines.length > 0 && (
             <button
               className="absolute top-2 left-2 z-10 rounded-full bg-zinc-800 p-1 text-zinc-300 opacity-80"
