@@ -102,9 +102,9 @@ export const MyPage = () => {
           </button>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4">
+        <ul className="mt-10 flex flex-col gap-4" data-testid="콕찌르기 기록">
           {data?.[0].length === 0 && (
-            <div className="animate-from-bottom flex flex-col items-center pt-10 text-zinc-700">
+            <li className="animate-from-bottom flex flex-col items-center pt-10 text-zinc-700">
               <SparklesIcon className="size-6" />
               <p className="pt-6">
                 <Trans>처음으로 콕 찔러보세요!</Trans>
@@ -118,7 +118,7 @@ export const MyPage = () => {
                 <Trans>콕 찌르기</Trans>
                 {" 👉"}
               </button>
-            </div>
+            </li>
           )}
           {data?.flatMap((pokes, pageIndex) =>
             pokes.map(
@@ -158,7 +158,7 @@ export const MyPage = () => {
             ),
           )}
           <div className="h-24" ref={intersectorRef}></div>
-        </div>
+        </ul>
       </main>
       <DomainBottomNavigation />
     </>

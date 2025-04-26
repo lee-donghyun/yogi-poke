@@ -32,7 +32,7 @@ export const test = base
       await app.route("**/api/user/my-info", async (route) => {
         const token = route.request().headers()["authorization"];
         if (token === "VALID") {
-          return route.fulfill();
+          return route.fallback();
         }
         return route.fulfill({ status: 403 });
       });

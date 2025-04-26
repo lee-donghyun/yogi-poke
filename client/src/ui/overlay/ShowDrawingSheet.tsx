@@ -21,7 +21,7 @@ export const ShowDrawingSheet = createDraggableSheet<{
   } = useDomSize<HTMLDivElement>();
 
   return (
-    <div className="p-6">
+    <div className="p-6" data-testid="그림 보기">
       <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
         {context.title}
       </h1>

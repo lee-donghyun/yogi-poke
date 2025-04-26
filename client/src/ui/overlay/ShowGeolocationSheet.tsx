@@ -30,7 +30,7 @@ export const ShowGeolocationSheet = createDraggableSheet<{
   );
 
   return (
-    <div className="p-6 pt-2.5">
+    <div className="p-6 pt-2.5" data-testid="위치 보기">
       <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
         {context.title}
       </h1>

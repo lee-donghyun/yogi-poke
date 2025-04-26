@@ -31,7 +31,7 @@ export const PokeSheet = createDraggableSheet<{ targetUserEmail: string }>(
     };
 
     return (
-      <div className="p-6 pt-0">
+      <div className="p-6 pt-0" data-testid="콕찌르기 시트">
         <h1 className="pt-4 text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>콕! 찌르기</Trans> 👉
         </h1>
