@@ -52,9 +52,15 @@ test.describe("검색", () => {
     await app.getByTestId("유저 컨테이너").locator("button").first().click();
 
     await expect(app.getByTestId("콕찌르기 버튼")).toBeEnabled();
-  });
 
-  test("유저 선택 후 콕찌르기 시트", async ({ app }) => {
+    await expect(
+      app.getByTestId("유저 컨테이너").locator("button a").first(),
+    ).toHaveAttribute("href", /user\/*/);
+  });
+});
+
+test.describe("콕찌르기", () => {
+  test("시트 열기", async ({ app }) => {
     await expect(
       app.getByTestId("유저 컨테이너").locator("button"),
     ).toHaveCount(5);
@@ -68,7 +74,7 @@ test.describe("검색", () => {
     ).toHaveCount(4);
   });
 
-  test("유저 선택 후 콕찌르기 시트 - 그림 찌르기", async ({ app }) => {
+  test("그림 찌르기", async ({ app }) => {
     await expect(
       app.getByTestId("유저 컨테이너").locator("button"),
     ).toHaveCount(5);
@@ -87,7 +93,7 @@ test.describe("검색", () => {
     await expect(app.getByTestId("그림 찌르기")).toBeInViewport();
   });
 
-  test("유저 선택 후 콕찌르기 시트 - 내 위치 찌르기", async ({ app }) => {
+  test("내 위치 찌르기", async ({ app }) => {
     await expect(
       app.getByTestId("유저 컨테이너").locator("button"),
     ).toHaveCount(5);
@@ -106,7 +112,7 @@ test.describe("검색", () => {
     await expect(app.getByTestId("내 위치 찌르기")).toBeInViewport();
   });
 
-  test("유저 선택 후 콕찌르기 시트 - 이모지", async ({ app }) => {
+  test("이모지", async ({ app }) => {
     await expect(
       app.getByTestId("유저 컨테이너").locator("button"),
     ).toHaveCount(5);
@@ -125,7 +131,7 @@ test.describe("검색", () => {
     await expect(app.getByTestId("이모티콘 찌르기")).toBeInViewport();
   });
 
-  test("유저 선택 후 콕찌르기 시트 - 바로 콕 찌르기", async ({ app }) => {
+  test("바로 콕 찌르기", async ({ app }) => {
     await expect(
       app.getByTestId("유저 컨테이너").locator("button"),
     ).toHaveCount(5);
