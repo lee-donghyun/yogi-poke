@@ -25,7 +25,7 @@ export class FileUtilService implements OnModuleInit {
         fileName,
         buffer,
       );
-      return `https://static.is-not-a.store/${process.env.STORAGE_ASSET_BUCKET_ID}/${fileName}`;
+      return `https://d3gu28ipwoewpm.cloudfront.net/${process.env.STORAGE_ASSET_BUCKET_ID}/${fileName}`;
     } catch (err) {
       console.log(err);
       throw new HttpException(
