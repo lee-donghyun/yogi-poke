@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
-          cache-dependency-path: client/pnpm-lock.json
+          cache-dependency-path: client/pnpm-lock.yaml
 
       # 4) 의존성 설치
       - name: Install dependencies
