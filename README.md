@@ -1,6 +1,6 @@
 # 요기콕콕!
 
-요기콕콕!의 서버와 클라이언트를 포함한 모노레포형식의 프로젝트입니다. [데모](https://yogi-poke-demo.vercel.app) [바로가기](https://yogi-poke.vercel.app)
+요기콕콕!의 서버와 클라이언트를 포함한 모노레포형식의 프로젝트입니다. [데모](https://yogi-poke-demo.vercel.app)
 
 ## 전체 구조
 
