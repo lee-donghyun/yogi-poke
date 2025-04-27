@@ -26,7 +26,8 @@ export default [
         {
           ignore: ["^(?![A-Z])\\S+$", "^[A-Z0-9_-]+$"],
           ignoreNames: [
-            { regex: { pattern: "className", flags: "i" } },
+            "className",
+            "data-testid",
             "src",
             "type",
             "id",

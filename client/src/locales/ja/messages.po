@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/ui/overlay/SharedProfileSheet.tsx:44
+#: src/ui/overlay/SharedProfileSheet.tsx:47
 msgid "(@{myEmail}) - 요기콕콕! 프로필 공유"
 msgstr "(@{myEmail}) - Yogi Poke! プロフィール共有"
 
@@ -49,23 +49,23 @@ msgstr "{myEmail}さんがあなたをフォローし始めました。"
 msgid "{platform}를 위한 웹 어플리케이션"
 msgstr "{platform}のためのウェブアプリケーション"
 
-#: src/ui/domain/PokeListItem.tsx:226
+#: src/ui/domain/PokeListItem.tsx:231
 msgid "{targetUserName} 프로필 이미지"
 msgstr "{targetUserName}のプロフィール画像"
 
-#: src/ui/domain/PokeListItem.tsx:99
+#: src/ui/domain/PokeListItem.tsx:100
 msgid "{targetUserName}님에게 보낸 그림"
 msgstr "{targetUserName}さんへ送った絵"
 
-#: src/ui/domain/PokeListItem.tsx:161
+#: src/ui/domain/PokeListItem.tsx:164
 msgid "{targetUserName}님에게 보낸 위치"
 msgstr "{targetUserName}さんへ送った位置"
 
-#: src/ui/domain/PokeListItem.tsx:130
+#: src/ui/domain/PokeListItem.tsx:132
 msgid "{targetUserName}님이 보낸 그림"
 msgstr "{targetUserName}さんが送った絵"
 
-#: src/ui/domain/PokeListItem.tsx:192
+#: src/ui/domain/PokeListItem.tsx:196
 msgid "{targetUserName}님이 보낸 위치"
 msgstr "{targetUserName}さんが送った位置"
 
@@ -81,7 +81,7 @@ msgstr "{userEmail}さんをYogi Poke!しました。"
 msgid "{year}년 {month}월 {dateOfMonth}일"
 msgstr "{year}年{month}月{dateOfMonth}日"
 
-#: src/ui/domain/PokeListItem.tsx:121
+#: src/ui/domain/PokeListItem.tsx:122
 msgid "<0>{targetUserName}</0>님이 회원님에게 그림을 보냈습니다:"
 msgstr "<0>{targetUserName}</0>さんがあなたに絵を送りました:"
 
@@ -89,7 +89,7 @@ msgstr "<0>{targetUserName}</0>さんがあなたに絵を送りました:"
 msgid "<0>{targetUserName}</0>님이 회원님에게 메세지를 보냈습니다: {message}"
 msgstr "<0>{targetUserName}</0>さんがあなたにメッセージを送りました: {message}"
 
-#: src/ui/domain/PokeListItem.tsx:183
+#: src/ui/domain/PokeListItem.tsx:186
 msgid "<0>{targetUserName}</0>님이 회원님에게 위치를 보냈습니다:"
 msgstr "<0>{targetUserName}</0>さんがあなたに位置を送りました:"
 
@@ -97,11 +97,11 @@ msgstr "<0>{targetUserName}</0>さんがあなたに位置を送りました:"
 msgid "<0>{targetUserName}</0>님이 회원님을 콕 찔렀습니다"
 msgstr "<0>{targetUserName}</0>さんがあなたをYogi Poke!しました"
 
-#: src/ui/overlay/IntroductionSheet.tsx:52
+#: src/ui/overlay/IntroductionSheet.tsx:50
 msgid "<0><1>Safari</1> 브라우저를 열고 <2>요기콕콕! 웹 사이트</2>로 이동합니다.</0><3>웹 사이트를 보는 동안 메뉴 막대에서 <4/>을 탭하십시오.</3><5>옵션 목록을 아래로 스크롤한 다음, <6>홈 화면에 추가</6>를 탭하십시오.</5>"
 msgstr "<0><1>Safari</1>ブラウザを開き<2>Yogi Poke!ウェブサイト</2>にアクセスします。</0><3>ウェブサイト閲覧中にメニューバーの<4/>をタップしてください。</3><5>オプションリストをスクロールして<6>ホーム画面に追加</6>をタップしてください。</5>"
 
-#: src/ui/overlay/IntroductionSheet.tsx:97
+#: src/ui/overlay/IntroductionSheet.tsx:95
 msgid "<0>주소 표시줄 오른쪽에서 더보기 > 홈 화면에 추가 > 설치를 탭합니다.</0><1>화면에 표시된 안내를 따릅니다.</1>"
 msgstr "<0>アドレスバーの右側にある「その他」＞「ホーム画面に追加」＞「インストール」をタップします。</0><1>画面の指示に従ってください。</1>"
 
@@ -113,11 +113,11 @@ msgstr "1文字以上入力してください。"
 msgid "6자리 이상 입력해주세요."
 msgstr "6文字以上入力してください。"
 
-#: src/ui/overlay/IntroductionSheet.tsx:91
+#: src/ui/overlay/IntroductionSheet.tsx:89
 msgid "Android 기기 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr "Android端末のホーム画面にYogi Poke!を追加してアプリを簡単にインストールできます。"
 
-#: src/ui/overlay/IntroductionSheet.tsx:46
+#: src/ui/overlay/IntroductionSheet.tsx:44
 msgid "iPhone 홈 화면에 요기콕콕!을 추가하여 어플리케이션을 간편하게 설치할 수 있습니다."
 msgstr "iPhoneのホーム画面にYogi Poke!を追加してアプリを簡単にインストールできます。"
 
@@ -132,11 +132,11 @@ msgstr "Passkey登録"
 msgid "Passkey가 등록되었습니다."
 msgstr "Passkeyが登録されました。"
 
-#: src/ui/page/Home.tsx:43
+#: src/ui/page/Home.tsx:49
 msgid "Passkey로 시작하기"
 msgstr "Passkeyで始める"
 
-#: src/ui/overlay/QrScannerSheet.tsx:29
+#: src/ui/overlay/QrScannerSheet.tsx:30
 msgid "QR 코드 스캔"
 msgstr "QRコードスキャン"
 
@@ -160,15 +160,15 @@ msgstr "アカウント"
 msgid "계정 삭제"
 msgstr "アカウント削除"
 
-#: src/ui/overlay/QuitStack.tsx:70
+#: src/ui/overlay/QuitStack.tsx:71
 msgid "계정 삭제는 영구적입니다. 요기콕콕! 게정을 삭제하시면 회원님의 모든 활동이 영구 삭제됩니다."
 msgstr "アカウント削除は永久的です。Yogi Poke!アカウントを削除すると、すべての活動記録が永久に削除されます。"
 
-#: src/ui/overlay/SharedProfileSheet.tsx:48
+#: src/ui/overlay/SharedProfileSheet.tsx:51
 msgid "공유하기"
 msgstr "共有する"
 
-#: src/ui/page/Search.tsx:161
+#: src/ui/page/Search.tsx:168
 #: src/ui/overlay/PokeWithDrawingSheet.tsx:40
 #: src/ui/overlay/PokeSheet.tsx:44
 msgid "그림 찌르기"
@@ -182,16 +182,16 @@ msgstr "記号"
 msgid "깃발"
 msgstr "旗"
 
-#: src/ui/domain/PokeListItem.tsx:297
+#: src/ui/domain/PokeListItem.tsx:303
 msgid "나도 콕! 찌르기 👉"
 msgstr "私もYogi Poke!する 👉"
 
-#: src/ui/page/User.tsx:90
-#: src/ui/page/MyPage.tsx:64
+#: src/ui/page/User.tsx:98
+#: src/ui/page/MyPage.tsx:69
 msgid "나를 콕!"
 msgstr "自分へのPoke!"
 
-#: src/ui/overlay/ShowGeolocationSheet.tsx:36
+#: src/ui/overlay/ShowGeolocationSheet.tsx:38
 msgid "나와의 거리: <0/>m"
 msgstr "私からの距離: <0/>m"
 
@@ -203,26 +203,27 @@ msgstr "マイアカウント"
 msgid "내 앱"
 msgstr "マイアプリ"
 
-#: src/ui/page/Search.tsx:168
+#: src/ui/page/Search.tsx:175
 #: src/ui/overlay/PokeWithGeolocationSheet.tsx:29
 #: src/ui/overlay/PokeSheet.tsx:51
 msgid "내 위치 찌르기"
 msgstr "自分の位置でPoke!"
 
-#: src/ui/page/User.tsx:89
-#: src/ui/page/MyPage.tsx:63
+#: src/ui/page/User.tsx:95
+#: src/ui/page/MyPage.tsx:66
 msgid "내가 콕!"
 msgstr "自分がPoke!"
 
-#: src/ui/page/Search.tsx:99
+#: src/ui/page/Search.tsx:98
 msgid "누구를 콕콕! 찌를까요?"
 msgstr "誰をYogi Poke!しますか？"
 
-#: src/ui/page/User.tsx:63
+#: src/ui/page/User.tsx:66
 #: src/ui/page/ThirdPartyRegister.tsx:57
 #: src/ui/page/SignIn.tsx:64
 #: src/ui/page/Setting.tsx:149
 #: src/ui/page/Register.tsx:70
+#: src/ui/page/Home.tsx:40
 #: src/ui/overlay/UserRelationSheet.tsx:47
 #: src/ui/overlay/UserRelationSheet.tsx:66
 #: src/ui/overlay/UpdateMyInfoStack.tsx:45
@@ -233,12 +234,12 @@ msgid "다시 시도해주세요."
 msgstr "もう一度お試しください。"
 
 #: src/ui/page/ThirdPartyRegister.tsx:156
-#: src/ui/page/SignIn.tsx:163
-#: src/ui/page/Register.tsx:197
+#: src/ui/page/SignIn.tsx:171
+#: src/ui/page/Register.tsx:207
 msgid "다음"
 msgstr "次へ"
 
-#: src/ui/overlay/UpdateMyInfoStack.tsx:95
+#: src/ui/overlay/UpdateMyInfoStack.tsx:96
 msgid "더 작은 사진을 사용해주세요."
 msgstr "より小さい写真を使用してください。"
 
@@ -255,13 +256,22 @@ msgid "로그아웃할까요?"
 msgstr "ログアウトしますか？"
 
 #: src/ui/page/SignIn.tsx:102
-#: src/ui/page/SignIn.tsx:163
-#: src/ui/overlay/PrivateLoginSheet.tsx:27
+#: src/ui/page/SignIn.tsx:171
+#: src/ui/overlay/PrivateLoginSheet.tsx:36
 msgid "로그인"
 msgstr "ログイン"
 
-#: src/ui/page/User.tsx:88
-#: src/ui/page/MyPage.tsx:60
+#: src/ui/page/Home.tsx:31
+#: src/ui/overlay/PrivateLoginSheet.tsx:18
+msgid "로그인 방법 선택"
+msgstr "ログイン方法を選択"
+
+#: src/ui/overlay/MenuSheet.tsx:13
+msgid "메뉴"
+msgstr "メニュー"
+
+#: src/ui/page/User.tsx:92
+#: src/ui/page/MyPage.tsx:61
 msgid "모든 콕!"
 msgstr "すべてのPoke!"
 
@@ -269,7 +279,7 @@ msgstr "すべてのPoke!"
 msgid "미리보기"
 msgstr "プレビュー"
 
-#: src/ui/page/Search.tsx:197
+#: src/ui/page/Search.tsx:205
 msgid "바로 콕 찌르기"
 msgstr "すぐにYogi Poke!"
 
@@ -281,10 +291,10 @@ msgstr "すぐにYogi Poke!する"
 msgid "버전 {VERSION}"
 msgstr "バージョン {VERSION}"
 
-#: src/ui/domain/PokeListItem.tsx:104
-#: src/ui/domain/PokeListItem.tsx:135
-#: src/ui/domain/PokeListItem.tsx:166
-#: src/ui/domain/PokeListItem.tsx:197
+#: src/ui/domain/PokeListItem.tsx:105
+#: src/ui/domain/PokeListItem.tsx:137
+#: src/ui/domain/PokeListItem.tsx:169
+#: src/ui/domain/PokeListItem.tsx:201
 msgid "보기"
 msgstr "表示"
 
@@ -292,13 +302,13 @@ msgstr "表示"
 msgid "보안"
 msgstr "セキュリティ"
 
-#: src/ui/overlay/SharedProfileSheet.tsx:57
+#: src/ui/overlay/SharedProfileSheet.tsx:60
 msgid "복사하기"
 msgstr "コピーする"
 
-#: src/ui/page/SignIn.tsx:118
-#: src/ui/page/Register.tsx:130
-#: src/ui/overlay/QuitStack.tsx:77
+#: src/ui/page/SignIn.tsx:121
+#: src/ui/page/Register.tsx:133
+#: src/ui/overlay/QuitStack.tsx:78
 msgid "비밀번호"
 msgstr "パスワード"
 
@@ -311,8 +321,8 @@ msgid "사물"
 msgstr "物体"
 
 #: src/ui/page/Home.tsx:33
-msgid "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
-msgstr "利用可能なPasskeyがありません。IDでログインできます。"
+#~ msgid "사용가능한 Passkey가 없습니다. 아이디로 로그인할 수 있습니다."
+#~ msgstr "利用可能なPasskeyがありません。IDでログインできます。"
 
 #: src/ui/overlay/UserRelationSheet.tsx:42
 msgid "사용자를 차단했습니다."
@@ -322,20 +332,20 @@ msgstr "ユーザーをブロックしました。"
 msgid "사용자를 팔로우 취소했습니다."
 msgstr "ユーザーのフォローを解除しました。"
 
-#: src/ui/page/User.tsx:58
+#: src/ui/page/User.tsx:61
 msgid "사용자를 팔로우했습니다."
 msgstr "ユーザーをフォローしました。"
 
-#: src/ui/overlay/ShowGeolocationSheet.tsx:48
-#: src/ui/overlay/PokeWithGeolocationSheet.tsx:40
+#: src/ui/overlay/ShowGeolocationSheet.tsx:49
+#: src/ui/overlay/PokeWithGeolocationSheet.tsx:39
 msgid "사용할 수 없는 기기입니다."
 msgstr "利用できない端末です。"
 
-#: src/ui/overlay/UpdateMyInfoStack.tsx:82
+#: src/ui/overlay/UpdateMyInfoStack.tsx:83
 msgid "사진 수정"
 msgstr "写真編集"
 
-#: src/ui/overlay/QrScannerSheet.tsx:32
+#: src/ui/overlay/QrScannerSheet.tsx:33
 msgid "상대방의 QR 코드를 스캔하여 콕콕! 찌를 수 있어요."
 msgstr "相手のQRコードをスキャンしてYogi Poke!できます。"
 
@@ -344,7 +354,7 @@ msgid "새로운 소식"
 msgstr "新着情報"
 
 #: src/ui/page/Setting.tsx:53
-#: src/ui/overlay/MenuSheet.tsx:25
+#: src/ui/overlay/MenuSheet.tsx:28
 msgid "설정"
 msgstr "設定"
 
@@ -361,17 +371,18 @@ msgid "스마일리 및 사람"
 msgstr "スマイリーと人"
 
 #: src/ui/page/ThirdPartyRegister.tsx:130
-#: src/ui/page/SignIn.tsx:137
-#: src/ui/page/Register.tsx:171
+#: src/ui/page/SignIn.tsx:141
+#: src/ui/page/Register.tsx:177
 msgid "아이디"
 msgstr "ID"
 
-#: src/ui/page/Home.tsx:53
-#: src/ui/overlay/PrivateLoginSheet.tsx:11
+#: src/ui/page/Home.tsx:60
+#: src/ui/page/Home.tsx:72
+#: src/ui/overlay/PrivateLoginSheet.tsx:15
 msgid "아이디로 로그인"
 msgstr "IDでログイン"
 
-#: src/ui/overlay/IntroductionSheet.tsx:77
+#: src/ui/overlay/IntroductionSheet.tsx:75
 msgid "아이폰 홈 화면에 추가 미리보기"
 msgstr "iPhoneホーム画面追加プレビュー"
 
@@ -420,7 +431,11 @@ msgstr "Yogi Poke!"
 msgid "요기콕콕! 계정 삭제"
 msgstr "Yogi Poke!アカウント削除"
 
-#: src/ui/page/Search.tsx:149
+#: src/ui/page/Home.tsx:22
+msgid "요기콕콕! 로고"
+msgstr "Yogi Poke! ロゴ"
+
+#: src/ui/page/Search.tsx:153
 msgid "유저를 찾지 못했어요."
 msgstr "ユーザーが見つかりませんでした。"
 
@@ -429,12 +444,12 @@ msgid "음식 및 음료"
 msgstr "食べ物と飲み物"
 
 #: src/ui/page/Home.tsx:27
-msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
-msgstr "この端末はPasskeyをサポートしていません。IDでログインできます。"
+#~ msgid "이 기기는 Passkey를 지원하지 않습니다. 아이디로 로그인할 수 있습니다."
+#~ msgstr "この端末はPasskeyをサポートしていません。IDでログインできます。"
 
 #: src/ui/page/ThirdPartyRegister.tsx:111
-#: src/ui/page/Register.tsx:152
-#: src/ui/overlay/UpdateMyInfoStack.tsx:110
+#: src/ui/page/Register.tsx:157
+#: src/ui/overlay/UpdateMyInfoStack.tsx:111
 msgid "이름"
 msgstr "名前"
 
@@ -442,7 +457,7 @@ msgstr "名前"
 msgid "이름 또는 아이디로 검색해요"
 msgstr "名前またはIDで検索"
 
-#: src/ui/page/Search.tsx:175
+#: src/ui/page/Search.tsx:182
 #: src/ui/overlay/PokeWithEmojiSheet.tsx:63
 #: src/ui/overlay/PokeSheet.tsx:58
 msgid "이모티콘 찌르기"
@@ -474,7 +489,7 @@ msgstr "Yogi Poke!されると通知が届きます。"
 msgid "일본어"
 msgstr "日本語"
 
-#: src/ui/page/Like.tsx:60
+#: src/ui/page/Like.tsx:63
 msgid "자주 콕 찌르는 상대를<0/>즐겨찾기해보세요."
 msgstr "よくYogi Poke!する相手を<0/>お気に入りに追加しましょう。"
 
@@ -490,9 +505,9 @@ msgstr "情報"
 msgid "지원"
 msgstr "サポート"
 
-#: src/ui/overlay/PokeWithGeolocationSheet.tsx:85
-#: src/ui/overlay/PokeWithEmojiSheet.tsx:142
-#: src/ui/overlay/PokeWithDrawingSheet.tsx:101
+#: src/ui/overlay/PokeWithGeolocationSheet.tsx:84
+#: src/ui/overlay/PokeWithEmojiSheet.tsx:140
+#: src/ui/overlay/PokeWithDrawingSheet.tsx:99
 msgid "찌르기"
 msgstr "Poke!"
 
@@ -520,7 +535,7 @@ msgstr "ブロックしたユーザーはいません。"
 msgid "찾을 수 없는 페이지입니다."
 msgstr "ページが見つかりません。"
 
-#: src/ui/page/MyPage.tsx:106
+#: src/ui/page/MyPage.tsx:110
 msgid "처음으로 콕 찔러보세요!"
 msgstr "初めてのYogi Poke!をしてみましょう！"
 
@@ -529,22 +544,22 @@ msgstr "初めてのYogi Poke!をしてみましょう！"
 msgid "취소"
 msgstr "キャンセル"
 
-#: src/ui/page/Search.tsx:198
-#: src/ui/page/MyPage.tsx:114
+#: src/ui/page/Search.tsx:206
+#: src/ui/page/MyPage.tsx:118
 msgid "콕 찌르기"
 msgstr "Yogi Poke!"
 
-#: src/ui/page/User.tsx:114
+#: src/ui/page/User.tsx:123
 #: src/ui/page/Setting.tsx:79
 #: src/ui/overlay/PokeSheet.tsx:36
 msgid "콕! 찌르기"
 msgstr "Yogi Poke!する"
 
-#: src/ui/overlay/SharedProfileSheet.tsx:54
+#: src/ui/overlay/SharedProfileSheet.tsx:57
 msgid "클립보드에 복사되었습니다."
 msgstr "クリップボードにコピーされました。"
 
-#: src/ui/page/User.tsx:134
+#: src/ui/page/User.tsx:143
 #: src/ui/page/Setting.tsx:108
 msgid "팔로우"
 msgstr "フォロー"
@@ -553,22 +568,26 @@ msgstr "フォロー"
 msgid "팔로우 취소"
 msgstr "フォロー解除"
 
-#: src/ui/page/User.tsx:130
-#: src/ui/page/Like.tsx:37
+#: src/ui/page/User.tsx:139
+#: src/ui/page/Like.tsx:40
 msgid "팔로잉"
 msgstr "フォロー中"
 
-#: src/ui/page/MyPage.tsx:97
+#: src/ui/page/MyPage.tsx:101
 msgid "프로필 공유"
 msgstr "プロフィール共有"
 
-#: src/ui/page/User.tsx:83
+#: src/ui/overlay/SharedProfileSheet.tsx:23
+msgid "프로필 공유하기"
+msgstr "プロフィールを共有する"
+
+#: src/ui/page/User.tsx:86
 #: src/ui/page/MyPage.tsx:54
-#: src/ui/overlay/UpdateMyInfoStack.tsx:77
+#: src/ui/overlay/UpdateMyInfoStack.tsx:78
 msgid "프로필 이미지"
 msgstr "プロフィール画像"
 
-#: src/ui/page/MyPage.tsx:88
+#: src/ui/page/MyPage.tsx:92
 #: src/ui/overlay/UpdateMyInfoStack.tsx:66
 msgid "프로필 편집"
 msgstr "プロフィール編集"
@@ -577,12 +596,12 @@ msgstr "プロフィール編集"
 msgid "한국어"
 msgstr "韓国語"
 
-#: src/ui/overlay/IntroductionSheet.tsx:43
-#: src/ui/overlay/IntroductionSheet.tsx:88
+#: src/ui/overlay/IntroductionSheet.tsx:41
+#: src/ui/overlay/IntroductionSheet.tsx:86
 msgid "홈 화면에 요기콕콕! 설치하기"
 msgstr "ホーム画面にYogi Poke!をインストール"
 
-#: src/ui/page/NotFound.tsx:13
+#: src/ui/page/NotFound.tsx:15
 msgid "홈으로 이동"
 msgstr "ホームへ戻る"
 
@@ -593,8 +612,8 @@ msgstr "アクティビティ"
 #: src/ui/page/ThirdPartyRegister.tsx:95
 #: src/ui/page/ThirdPartyRegister.tsx:156
 #: src/ui/page/Register.tsx:114
-#: src/ui/page/Register.tsx:197
-#: src/ui/overlay/PrivateLoginSheet.tsx:22
+#: src/ui/page/Register.tsx:207
+#: src/ui/overlay/PrivateLoginSheet.tsx:28
 msgid "회원가입"
 msgstr "会員登録"
 
@@ -606,7 +625,7 @@ msgstr "あなたが<0>{targetUserName}</0>さんに絵を送りました:"
 msgid "회원님이 <0>{targetUserName}</0>님에게 메세지를 보냈습니다: {message}"
 msgstr "あなたが<0>{targetUserName}</0>さんにメッセージを送りました: {message}"
 
-#: src/ui/domain/PokeListItem.tsx:152
+#: src/ui/domain/PokeListItem.tsx:154
 msgid "회원님이 <0>{targetUserName}</0>님에게 위치를 보냈습니다:"
 msgstr "あなたが<0>{targetUserName}</0>さんに位置を送りました:"
 
@@ -614,6 +633,6 @@ msgstr "あなたが<0>{targetUserName}</0>さんに位置を送りました:"
 msgid "회원님이 <0>{targetUserName}</0>님을 콕 찔렀습니다"
 msgstr "あなたが<0>{targetUserName}</0>さんをYogi Poke!しました"
 
-#: src/ui/page/User.tsx:143
+#: src/ui/page/User.tsx:152
 msgid "후에 찌를 수 있어요"
 msgstr "後でPoke!できます"

@@ -21,16 +21,12 @@ export const ShowDrawingSheet = createDraggableSheet<{
   } = useDomSize<HTMLDivElement>();
 
   return (
-    <div className="p-6">
+    <div className="p-6" data-testid="그림 보기">
       <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
         {context.title}
       </h1>
       <div className="h-6"></div>
-      <div
-        className="aspect-square w-full"
-        data-allow-touch-move-on-stacked-layer
-        ref={domRef}
-      >
+      <div className="aspect-square w-full" ref={domRef}>
         <Suspense
           fallback={<div className="size-full rounded-2xl bg-black"></div>}
         >

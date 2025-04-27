@@ -75,7 +75,7 @@ export const usePoke = (
         .then(() => arg.email)
         .catch((err: HTTPError) => {
           throw new Error("failed to poke", {
-            cause: { email: arg.email, status: err.response?.status },
+            cause: { email: arg.email, status: err?.response?.status },
           });
         }),
     {

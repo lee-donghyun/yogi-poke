@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "analyze": "npx vite-bundle-visualizer",
     "extract": "lingui extract",
-    "compile": "lingui compile"
+    "compile": "lingui compile",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -40,6 +42,7 @@
     "@lingui/babel-plugin-lingui-macro": "^5.1.2",
     "@lingui/cli": "^5.1.2",
     "@lingui/vite-plugin": "^5.1.2",
+    "@playwright/test": "^1.52.0",
     "@sentry/vite-plugin": "^3.3.1",
     "@tailwindcss/vite": "^4.0.0",
     "@types/mapbox-gl": "^3.4.1",
@@ -47,6 +50,7 @@
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "babel-plugin-jsx-remove-data-test-id": "^3.0.0",
     "babel-plugin-react-compiler": "19.0.0-beta-e993439-20250328",
     "eslint": "^9.16.0",
     "eslint-config-react-app-essentials": "^18.0.0",

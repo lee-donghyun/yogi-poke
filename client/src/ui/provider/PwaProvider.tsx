@@ -1,3 +1,4 @@
+import { HTTPError } from "ky";
 import { ReactNode, useEffect, useState } from "react";
 import { RemoveScroll } from "react-remove-scroll";
 
@@ -76,9 +77,11 @@ export const PwaProvider = ({
             setPrefetch({ myInfo: { ...res, token } });
           }
         })
-        .catch(() => {
-          releaseToken();
-          setPrefetch({ myInfo: null });
+        .catch((err: HTTPError) => {
+          if (!ignore && err.response?.status === 403) {
+            releaseToken();
+            setPrefetch({ myInfo: null });
+          }
         });
       return () => {
         ignore = true;

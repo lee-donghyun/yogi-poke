@@ -23,7 +23,10 @@ export const Home = () => {
         className="mx-auto mt-20 size-60"
         src="/asset/icon.jpg"
       />
-      <fieldset className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5">
+      <fieldset
+        className="fixed inset-x-0 bottom-0 flex flex-col gap-5 p-5"
+        data-testid="로그인 방법 선택"
+      >
         <legend className="sr-only">
           <Trans>로그인 방법 선택</Trans>
         </legend>
@@ -31,6 +34,7 @@ export const Home = () => {
           <>
             <button
               className="flex items-center gap-4 rounded-2xl bg-black p-4 duration-300 active:opacity-60 disabled:opacity-60"
+              data-testid="패스키로 로그인 버튼"
               onClick={() => {
                 authenticate().catch(() => {
                   push({ content: t`다시 시도해주세요.` });
@@ -50,6 +54,7 @@ export const Home = () => {
             </button>
             <button
               className="rounded-2xl p-2 text-sm text-zinc-400 duration-300 active:opacity-60"
+              data-testid="패스키가 있지만, 패스키 없이 로그인 버튼"
               onClick={() => overlay(PrivateLoginSheet)}
             >
               <Trans>아이디로 로그인</Trans>
@@ -59,6 +64,7 @@ export const Home = () => {
         {!showPasskeyButton && (
           <button
             className="mb-6 flex items-center gap-4 rounded-2xl bg-black p-4 duration-300 active:opacity-60 disabled:opacity-60"
+            data-testid="패스키 없이 로그인 버튼"
             onClick={() => overlay(PrivateLoginSheet)}
             type="button"
           >

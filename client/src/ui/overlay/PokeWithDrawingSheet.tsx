@@ -35,19 +35,16 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
     const { isMutating, trigger } = usePoke();
 
     return (
-      <div className="p-6">
+      <div className="p-6" data-testid="그림 찌르기">
         <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>그림 찌르기</Trans> 🎨
         </h1>
         <div className="h-6"></div>
-        <div
-          className="relative aspect-square w-full"
-          data-allow-touch-move-on-stacked-layer
-          ref={domRef}
-        >
+        <div className="relative aspect-square w-full" ref={domRef}>
           {lines.length > 0 && (
             <button
               className="absolute top-2 left-2 z-10 rounded-full bg-zinc-800 p-1 text-zinc-300 opacity-80"
+              data-testid="그림 지우기"
               onClick={() => {
                 setLines([]);
               }}
@@ -86,6 +83,7 @@ export const PokeWithDrawingSheet = createDraggableSheet<{ email: string }>(
         <div className="pt-10">
           <button
             className="h-12 w-full rounded-2xl bg-black font-medium text-white duration-300 active:bg-zinc-300 disabled:bg-zinc-300"
+            data-testid="찌르기 버튼"
             disabled={lines.length == 0 || isMutating}
             onClick={() =>
               void trigger({

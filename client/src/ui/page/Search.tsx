@@ -112,6 +112,7 @@ export const Search = () => {
           <input
             autoCapitalize="off"
             className="flex-1 rounded-none border-b-2 border-black py-2 text-xl font-bold outline-hidden placeholder:font-normal"
+            data-testid="검색어"
             onChange={({ target: { value } }) => {
               setSearchText(value);
             }}
@@ -120,7 +121,11 @@ export const Search = () => {
             value={searchText}
           />
         </div>
-        <div className="mt-5 flex flex-col" style={{ height: 300 }}>
+        <div
+          className="mt-5 flex flex-col"
+          data-testid="유저 컨테이너"
+          style={{ height: 300 }}
+        >
           {data?.map((user, i) => (
             <UserListItem
               animation={shouldAnimate ? { delayTimes: i } : null}
@@ -151,7 +156,10 @@ export const Search = () => {
           )}
         </div>
       </div>
-      <div className="fixed right-5 bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))]">
+      <div
+        className="fixed right-5 bottom-[calc(128px+max(1.25rem,env(safe-area-inset-bottom)))]"
+        data-testid="콕찌르기 버튼 컨테이너"
+      >
         <button
           className={`${pokeOptionOpen ? "" : `${cx.hiddenAnimatedPokeOptionButton} translate-y-[10.5rem]`} bottom-[10.5rem] ${cx.pokeOptionButton} ${cx.animatedPokeOptionButton}`}
           onClick={validateAndOverlay(PokeWithDrawingSheet)}
@@ -175,6 +183,7 @@ export const Search = () => {
         </button>
         <button
           className={`${pokeOptionOpen ? "w-36" : "w-28"} relative overflow-hidden ${cx.pokeOptionButton}`}
+          data-testid="콕찌르기 버튼"
           disabled={selected === null || isLoading || isMutating}
           onClick={(e) => {
             if (e.target !== e.currentTarget) {

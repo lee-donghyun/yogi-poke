@@ -104,6 +104,8 @@ export const SignIn = () => {
       <div className="h-40"></div>
       <form
         className="flex flex-col p-5 duration-300"
+        data-testid="회원가입 폼"
+        id="sign-in"
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
@@ -111,14 +113,16 @@ export const SignIn = () => {
         style={{ transform: `translateY(${(step - 2) * 128}px)` }}
       >
         <div
+          aria-hidden={step < 2}
           className={cx.formItem}
-          style={step > 1 ? undefined : { opacity: 0, pointerEvents: "none" }}
+          style={step < 2 ? { opacity: 0, pointerEvents: "none" } : undefined}
         >
           <label className={cx.label} htmlFor="password">
             <Trans>비밀번호</Trans>
           </label>
           <input
             className={cx.input}
+            data-testid="비밀번호"
             disabled={isMutating}
             id="password"
             name="password"
@@ -138,7 +142,10 @@ export const SignIn = () => {
           </label>
           <input
             autoCapitalize="off"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
             className={cx.input}
+            data-testid="이메일"
             disabled={isMutating}
             id="email"
             name="email"
@@ -152,12 +159,13 @@ export const SignIn = () => {
             <p className={cx.helper}>{translatedCurrentFieldError}</p>
           )}
         </div>
-        <button disabled={isMutating || hasError} />
       </form>
       <div className="fixed inset-x-0 bottom-0 bg-linear-to-b from-transparent to-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
         <button
           className="block h-12 w-full rounded-2xl bg-black text-white duration-300 active:opacity-60 disabled:bg-zinc-300"
+          data-testid="로그인 버튼"
           disabled={isMutating || hasError}
+          form="sign-in"
           onClick={onSubmit}
         >
           {step === 2 ? t`로그인` : t`다음`}

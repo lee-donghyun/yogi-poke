@@ -93,6 +93,7 @@ const DrawingPokeBody = ({
       </Trans>{" "}
       <button
         className={cx.watchButton}
+        data-testid="보낸 그림 보기"
         onClick={() =>
           overlay(ShowDrawingSheet, {
             lines,
@@ -124,6 +125,7 @@ const DrawingPokedBody = ({
       </Trans>{" "}
       <button
         className={cx.watchButton}
+        data-testid="받은 그림 보기"
         onClick={() =>
           overlay(ShowDrawingSheet, {
             lines,
@@ -155,6 +157,7 @@ const GeolocationPokeBody = ({
       </Trans>{" "}
       <button
         className={cx.watchButton}
+        data-testid="보낸 위치 보기"
         onClick={() =>
           overlay(ShowGeolocationSheet, {
             position,
@@ -186,6 +189,7 @@ const GeolocationPokedBody = ({
       </Trans>{" "}
       <button
         className={cx.watchButton}
+        data-testid="받은 위치 보기"
         onClick={() =>
           overlay(ShowGeolocationSheet, {
             position,
@@ -212,9 +216,10 @@ export const PokeListItem = ({
   const { t } = useLingui();
   const targetUserName = targetUser.name;
   return (
-    <div
+    <li
+      className="block"
       {...(animation && {
-        className: "animate-from-bottom opacity-0",
+        className: "animate-from-bottom opacity-0 block",
         style: {
           animationDelay: `${animation.delayTimes * 50}ms`,
           transform: "translateY(60px)",
@@ -290,6 +295,7 @@ export const PokeListItem = ({
           {type === "poked" && targetUser !== DELETED_USER && (
             <button
               className="mt-1.5 w-full rounded-xl bg-zinc-100 p-1 text-sm font-medium text-zinc-900 active:opacity-60 disabled:opacity-60"
+              data-testid="나도 콕 찌르기"
               onClick={() =>
                 overlay(PokeSheet, { targetUserEmail: targetUser.email })
               }
@@ -299,6 +305,6 @@ export const PokeListItem = ({
           )}
         </div>
       </div>
-    </div>
+    </li>
   );
 };

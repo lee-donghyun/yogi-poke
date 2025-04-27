@@ -58,7 +58,7 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
     );
 
     return (
-      <div className="py-5">
+      <div className="py-5" data-testid="이모티콘 찌르기">
         <h1 className="px-5 text-lg font-semibold text-zinc-800" id={titleId}>
           <Trans>이모티콘 찌르기</Trans> 😊
         </h1>
@@ -74,7 +74,6 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
         </div>
         <div
           className="mx-5 mt-7 mb-2 flex overflow-x-scroll overflow-y-hidden rounded-full bg-zinc-50"
-          data-allow-touch-move-on-stacked-layer
           style={{ maxHeight: "28px" }}
         >
           {BOOKMARK.map(({ depth, icon, title }, index) => {
@@ -101,7 +100,6 @@ export const PokeWithEmojiSheet = createDraggableSheet<{ email: string }>(
         </div>
         <div
           className="overflow-x-scroll"
-          data-allow-touch-move-on-stacked-layer
           onScroll={() => {
             const scrollLeft = containerRef.current?.scrollLeft ?? 0;
             const index = BOOKMARK.findLastIndex(
