@@ -8,23 +8,23 @@
 
 ## 포함된 프로젝트
 
-### client
+### [client](./client/)
 
 요기콕콕! 프론트엔드
 
-### server
+### [server](./server/)
 
 요기콕콕! 서버
 
-### ci-server
+### [ci-server](./ci-server/)
 
 서버에서 실행되는 CI 서버
 
-### web-server
+### [web-server](./web-server/)
 
 리버스 프록시 서버
 
-### legacy-server
+### [legacy-server](./legacy-server/)
 
 **deprecated**
 
