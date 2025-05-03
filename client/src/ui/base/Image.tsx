@@ -1,8 +1,9 @@
 import { ImgHTMLAttributes, useEffect, useRef, useState } from "react";
-import { createPortal, flushSync } from "react-dom";
+import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 
 import { useKeyboard } from "~/hook/base/useKeyboard";
+import { useViewTransition } from "~/hook/base/useViewTransition";
 
 enum View {
   THUMBNAIL,
@@ -11,37 +12,36 @@ enum View {
 
 type ImageProps = {
   size: number;
+  transitionName: string;
 } & Omit<
   ImgHTMLAttributes<HTMLImageElement>,
   "alt" | "className" | "src" | "style"
 > &
   Required<Pick<ImgHTMLAttributes<HTMLImageElement>, "alt" | "src">>;
 
-const TRANSITION_NAME = "thumbnail";
 const VIEWER_SIZE_IN_VW = 64;
 
-export const Image = ({ alt, size, src, ...props }: ImageProps) => {
+export const Image = ({
+  alt,
+  size,
+  src,
+  transitionName,
+  ...props
+}: ImageProps) => {
   const backdropRef = useRef<HTMLButtonElement>(null);
+
   const [view, setView] = useState(View.THUMBNAIL);
 
-  const openViewer = () => {
-    if (!document.startViewTransition) {
-      return setView(View.VIEWER);
-    }
+  const { startTransition, style, viewTransitionName } = useViewTransition({
+    name: transitionName,
+  });
 
-    document.startViewTransition(() => {
-      flushSync(() => setView(View.VIEWER));
-    });
+  const openViewer = () => {
+    startTransition(() => setView(View.VIEWER));
   };
 
   const closeViewer = () => {
-    if (!document.startViewTransition) {
-      return setView(View.THUMBNAIL);
-    }
-
-    document.startViewTransition(() => {
-      flushSync(() => setView(View.THUMBNAIL));
-    });
+    startTransition(() => setView(View.THUMBNAIL));
   };
 
   useKeyboard(() => {
@@ -59,6 +59,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
 
   return (
     <>
+      {style}
       <button onClick={openViewer}>
         {view === View.THUMBNAIL && (
           <img
@@ -68,7 +69,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
             src={src}
             style={{
               height: size,
-              viewTransitionName: TRANSITION_NAME,
+              viewTransitionName,
               width: size,
             }}
           />
@@ -103,7 +104,7 @@ export const Image = ({ alt, size, src, ...props }: ImageProps) => {
                   src={src}
                   style={{
                     height: `${VIEWER_SIZE_IN_VW}vw`,
-                    viewTransitionName: TRANSITION_NAME,
+                    viewTransitionName,
                     width: `${VIEWER_SIZE_IN_VW}vw`,
                   }}
                 />

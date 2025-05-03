@@ -86,6 +86,7 @@ export const User: PreloadablePage = () => {
             alt={t`프로필 이미지`}
             size={80}
             src={data?.profileImageUrl ?? "/asset/default_user_profile.png"}
+            transitionName={userEmail}
           />
           <ul className="grid flex-1 grid-cols-3 items-center pl-5">
             <li>
