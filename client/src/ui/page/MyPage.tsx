@@ -54,6 +54,7 @@ export const MyPage = () => {
             alt={t`프로필 이미지`}
             size={80}
             src={myInfo?.profileImageUrl ?? "/asset/default_user_profile.png"}
+            transitionName="my-profile"
           />
           <ul className="grid flex-1 grid-cols-3 items-center pl-5">
             <li>

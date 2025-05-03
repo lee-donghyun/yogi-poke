@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import { Config, RouterProps } from "router2/lib/types";
 
 import { Home } from "~/ui/page/Home";
@@ -43,7 +44,9 @@ export const config: Config = {
         return;
       }
       document.documentElement.classList.add(...transitionClasses);
-      const transtition = document.startViewTransition(next);
+      const transtition = document.startViewTransition(() => {
+        flushSync(() => next());
+      });
       void transtition.finished.then(() => {
         document.documentElement.classList.remove(...transitionClasses);
       });
