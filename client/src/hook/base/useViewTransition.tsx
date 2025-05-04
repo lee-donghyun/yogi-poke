@@ -20,7 +20,7 @@ export const useViewTransition = ({ name }: { name: string }) => {
     <style>{`
     ::view-transition-group(${name}) {
       animation-duration: 400ms;
-      animation-timing-function: var(--ease-apple);
+      animation-timing-function: ease;
     }
   `}</style>
   );
