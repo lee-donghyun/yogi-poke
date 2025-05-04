@@ -36,7 +36,6 @@ const Column = ({
     >
       {template.map((text, index) => (
         <span
-          className="flex-1"
           key={text}
           style={{
             left: 0,
