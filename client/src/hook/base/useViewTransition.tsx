@@ -18,10 +18,9 @@ export const useViewTransition = ({ name }: { name: string }) => {
   const style = (
     // eslint-disable-next-line lingui/no-unlocalized-strings
     <style>{`
-    @view-transition {
-      name: ${name};
-      animation-duration: 500ms;
-      animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    ::view-transition-group(${name}) {
+      animation-duration: 400ms;
+      animation-timing-function: ease;
     }
   `}</style>
   );
