@@ -30,13 +30,21 @@ const Column = ({
   return (
     <span
       aria-hidden
-      className="flex flex-col"
+      className="relative block"
       ref={ref}
       style={{ height: height * template.length }}
     >
-      {template.map((i) => (
-        <span className="flex flex-1 items-center justify-center" key={i}>
-          {i}
+      {template.map((text, index) => (
+        <span
+          className="flex-1"
+          key={text}
+          style={{
+            left: 0,
+            position: (value || 10) == index ? "relative" : "absolute",
+            top: height * index,
+          }}
+        >
+          {text}
         </span>
       ))}
     </span>

@@ -9,7 +9,7 @@ export const Stat = ({
 }) => {
   return (
     <div className="flex flex-col items-center">
-      <p className="text-xl font-extrabold tracking-tighter">
+      <p className="text-xl font-extrabold">
         <CountUp duration={1500} height={28} value={value ?? null} />
       </p>
       <p>{label}</p>
