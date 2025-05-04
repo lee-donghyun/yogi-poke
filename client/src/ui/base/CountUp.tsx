@@ -49,6 +49,9 @@ export const CountUp = ({
 }: {
   duration: number;
   height: number;
+  /**
+   * null인 경우 렌더링하지 않는다.
+   */
   value: null | number;
 }) => {
   return (
