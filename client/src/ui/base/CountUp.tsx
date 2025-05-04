@@ -29,6 +29,7 @@ const Column = ({
   }, [height, value, duration]);
   return (
     <span
+      aria-hidden
       className="flex flex-col"
       ref={ref}
       style={{ height: height * template.length }}
@@ -56,6 +57,7 @@ export const CountUp = ({
 }) => {
   return (
     <span
+      aria-label={value?.toString()}
       className="inline-flex overflow-hidden"
       style={{
         height,
@@ -68,7 +70,11 @@ export const CountUp = ({
         .split("")
         .map((value, index) => {
           if (value === ",") {
-            return <span key={index + value}>,</span>;
+            return (
+              <span aria-hidden key={index + value}>
+                ,
+              </span>
+            );
           }
           const number = Number(value);
           return (
