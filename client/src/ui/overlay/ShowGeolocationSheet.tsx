@@ -12,6 +12,8 @@ const Map = lazy(() =>
   import("~/ui/base/Map").then((module) => ({ default: module.Map })),
 );
 
+const DISTANCE_FALLBACK = -1;
+
 export const ShowGeolocationSheet = createDraggableSheet<{
   position: { latitude: number; longitude: number };
   title: string;
@@ -25,7 +27,9 @@ export const ShowGeolocationSheet = createDraggableSheet<{
 
   const distance = useMemo(
     () =>
-      data ? Math.ceil(getDistance(data.coords, context.position) * 1000) : 0,
+      data
+        ? Math.ceil(getDistance(data.coords, context.position) * 1000)
+        : DISTANCE_FALLBACK,
     [data, context.position],
   );
 
@@ -34,9 +38,15 @@ export const ShowGeolocationSheet = createDraggableSheet<{
       <h1 className="text-lg font-semibold text-zinc-800" id={titleId}>
         {context.title}
       </h1>
-      <p className="pt-3 pb-6 text-sm text-zinc-400">
+      <p className="flex pt-3 pb-6 text-sm text-zinc-400">
         <Trans>
-          나와의 거리: <CountUp duration={1500} from={0} to={distance} />m
+          나와의 거리:{" "}
+          <CountUp
+            duration={1500}
+            height={20}
+            value={distance == DISTANCE_FALLBACK ? null : distance}
+          />
+          m
         </Trans>
       </p>
       <div
