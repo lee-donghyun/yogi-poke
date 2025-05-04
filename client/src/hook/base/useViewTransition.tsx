@@ -40,7 +40,7 @@ export const useViewTransition = ({ name }: { name: string }) => {
 
   return {
     startTransition,
-    style,
+    style: state.expose ? style : undefined,
     viewTransitionName: state.expose ? name : undefined,
   };
 };
