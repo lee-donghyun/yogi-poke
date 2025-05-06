@@ -12,21 +12,27 @@ const Column = ({
   value: number;
 }) => {
   const ref = useRef<HTMLSpanElement>(null);
+  const previousOffset = useRef<number>(0);
   useEffect(() => {
-    const animation = ref.current?.animate(
-      {
-        transform: `translateY(-${(value || 10) * height}px)`, // 0의 경우 template index 10
-      },
+    const offset = value || 10;
+
+    if (offset === previousOffset.current) {
+      return;
+    }
+    ref.current?.animate(
+      [
+        { transform: `translateY(${-previousOffset.current * height}px)` },
+        { transform: `translateY(${-offset * height}px)` },
+      ],
       {
         duration,
         easing: `linear(0,.005,.019,.039,.066,.096,.129,.165,.202,.24,.278,.316,.354,.39,.426,.461,.494,.526,.557,.586,.614,.64,.665,.689,.711,.731,.751,.769,.786,.802,.817,.831,.844,.856,.867,.877,.887,.896,.904,.912,.919,.925,.931,.937,.942,.947,.951,.955,.959,.962,.965,.968,.971,.973,.976,.978,.98,.981,.983,.984,.986,.987,.988,.989,.99,.991,.992,.992,.993,.994,.994,.995,.995,.996,.996,.9963,.9967,.9969,.9972,.9975,.9977,.9979,.9981,.9982,.9984,.9985,.9987,.9988,.9989,1)`,
         fill: "forwards",
       },
     );
-    return () => {
-      animation?.cancel();
-    };
+    previousOffset.current = offset;
   }, [height, value, duration]);
+
   return (
     <span
       aria-hidden
@@ -39,7 +45,7 @@ const Column = ({
           key={text}
           style={{
             left: 0,
-            position: (value || 10) == index ? "relative" : "absolute",
+            position: (value || 10) == index ? "relative" : "absolute", // 0의 경우 template index 10
             top: height * index,
           }}
         >
@@ -75,7 +81,7 @@ export const CountUp = ({
       {value
         ?.toLocaleString()
         .split("")
-        .map((value, index) => {
+        .map((value, index, { length }) => {
           if (value === ",") {
             return (
               <span aria-hidden key={index + value}>
@@ -88,7 +94,7 @@ export const CountUp = ({
             <Column
               duration={duration}
               height={height}
-              key={index + value}
+              key={length - index}
               value={number}
             />
           );
