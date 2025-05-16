@@ -18,7 +18,6 @@ export const Backdrop = ({
 } & Omit<Parameters<Layer>[0], "context">) => {
   const backdropRef = useRef<HTMLButtonElement>(null);
 
-  // eslint-disable-next-line lingui/no-unlocalized-strings
   useKeyboard(close, "Escape");
 
   useEffect(() => {

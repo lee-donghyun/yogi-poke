@@ -20,7 +20,7 @@ export const Introduction = () => {
     <div className="min-h-dvh pb-60">
       <div className="flex px-5 pt-32">
         <img
-          alt="요기콕콕👉"
+          alt={t`요기콕콕! 로고`}
           className="size-28 rounded-3xl border border-zinc-200"
           src="/asset/icon.jpg"
         />

@@ -55,7 +55,7 @@ const DraggableSheet = ({
           `translate(${translate.x}px,${translate.y}px) ` + `scale(${scale})`,
       };
     }
-    // eslint-disable-next-line lingui/no-unlocalized-strings
+
     return { transition: `all 300ms` };
   });
 

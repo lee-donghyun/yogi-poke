@@ -12,11 +12,10 @@ import { useAuthNavigator, useUser } from "~/ui/provider/Auth.tsx";
 import { useNotification } from "~/ui/provider/Notification.tsx";
 
 const cx = {
-  // eslint-disable-next-line lingui/no-unlocalized-strings
   formItem: "flex flex-col gap-2 h-32 duration-300",
-  // eslint-disable-next-line lingui/no-unlocalized-strings
+
   helper: "text-sm text-zinc-600",
-  // eslint-disable-next-line lingui/no-unlocalized-strings
+
   input: "border border-zinc-200 rounded-sm text-zinc-800 p-2",
   label: "text-lg",
 };

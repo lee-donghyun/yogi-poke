@@ -24,7 +24,6 @@ interface PocketListItemProps {
 
 const cx = {
   watchButton:
-    // eslint-disable-next-line lingui/no-unlocalized-strings
     "inline-flex items-center justify-center rounded-lg bg-zinc-100 px-1 align-middle font-medium",
 };
 

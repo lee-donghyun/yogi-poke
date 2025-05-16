@@ -48,7 +48,6 @@ export const Image = ({
     if (view === View.VIEWER) {
       closeViewer();
     }
-    // eslint-disable-next-line lingui/no-unlocalized-strings
   }, "Escape");
 
   useEffect(() => {
