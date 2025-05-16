@@ -16,7 +16,6 @@ export const useViewTransition = ({ name }: { name: string }) => {
   };
 
   const style = (
-    // eslint-disable-next-line lingui/no-unlocalized-strings
     <style>{`
     ::view-transition-group(${name}) {
       animation-duration: 400ms;

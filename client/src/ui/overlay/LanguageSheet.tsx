@@ -12,10 +12,21 @@ export const LanguageSheet = createDraggableSheet(({ close, titleId }) => {
         <Trans>언어 선택</Trans>
       </h1>
       {[
-        { label: "한국어", locale: Locale.KO, translatedLabel: t`한국어` },
-        // eslint-disable-next-line lingui/no-unlocalized-strings
-        { label: "English", locale: Locale.EN, translatedLabel: t`영어` },
-        { label: "日本語", locale: Locale.JA, translatedLabel: t`일본어` },
+        {
+          label: "한국어" as const,
+          locale: Locale.KO,
+          translatedLabel: t`한국어`,
+        },
+        {
+          label: "English" as const,
+          locale: Locale.EN,
+          translatedLabel: t`영어`,
+        },
+        {
+          label: "日本語" as const,
+          locale: Locale.JA,
+          translatedLabel: t`일본어`,
+        },
       ].map(({ label, locale, translatedLabel }) => (
         <AButton
           className="w-full rounded-xl py-3 text-start duration-150 active:scale-[98%] disabled:opacity-80"

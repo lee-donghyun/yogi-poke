@@ -19,7 +19,6 @@ import { useStackedLayer } from "~/ui/provider/StackedLayerProvider.tsx";
 
 const cx = {
   actionButton:
-    // eslint-disable-next-line lingui/no-unlocalized-strings
     "flex-1 rounded-xl border px-2 py-1 text-sm font-medium text-zinc-800 duration-300 active:opacity-60",
 };
 

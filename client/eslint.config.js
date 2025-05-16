@@ -12,7 +12,12 @@ export default defineConfig({
     reactCompiler.configs.recommended,
     {
       rules: {
-        "lingui/no-unlocalized-strings": ["error", {}],
+        "lingui/no-unlocalized-strings": [
+          "error",
+          {
+            ignore: ["^[^가-힣]+$"],
+          },
+        ],
       },
     },
   ],

@@ -12,7 +12,6 @@ enum Path {
 
 const cx = {
   button:
-    // eslint-disable-next-line lingui/no-unlocalized-strings
     "flex flex-1 justify-center p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]",
 };
 

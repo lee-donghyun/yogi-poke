@@ -172,7 +172,7 @@ msgstr "Deleting your account is permanent. All your activities on Yogi Poke! wi
 msgid "공유하기"
 msgstr "Share"
 
-#: src/ui/page/Search.tsx:168
+#: src/ui/page/Search.tsx:166
 #: src/ui/overlay/PokeWithDrawingSheet.tsx:40
 #: src/ui/overlay/PokeSheet.tsx:44
 msgid "그림 찌르기"
@@ -190,12 +190,12 @@ msgstr "Flag"
 msgid "나도 콕! 찌르기 👉"
 msgstr "I want to poke too 👉"
 
-#: src/ui/page/User.tsx:98
-#: src/ui/page/MyPage.tsx:69
+#: src/ui/page/User.tsx:99
+#: src/ui/page/MyPage.tsx:70
 msgid "나를 콕!"
 msgstr "Poke me!"
 
-#: src/ui/overlay/ShowGeolocationSheet.tsx:38
+#: src/ui/overlay/ShowGeolocationSheet.tsx:42
 msgid "나와의 거리: <0/>m"
 msgstr "Distance from me: <0/>m"
 
@@ -207,18 +207,18 @@ msgstr "My Account"
 msgid "내 앱"
 msgstr "My App"
 
-#: src/ui/page/Search.tsx:175
+#: src/ui/page/Search.tsx:173
 #: src/ui/overlay/PokeWithGeolocationSheet.tsx:29
 #: src/ui/overlay/PokeSheet.tsx:51
 msgid "내 위치 찌르기"
 msgstr "Poke my location"
 
-#: src/ui/page/User.tsx:95
-#: src/ui/page/MyPage.tsx:66
+#: src/ui/page/User.tsx:96
+#: src/ui/page/MyPage.tsx:67
 msgid "내가 콕!"
 msgstr "I poked!"
 
-#: src/ui/page/Search.tsx:98
+#: src/ui/page/Search.tsx:96
 msgid "누구를 콕콕! 찌를까요?"
 msgstr "Who should I poke?"
 
@@ -274,8 +274,8 @@ msgstr "Choose Login Method"
 msgid "메뉴"
 msgstr "Menu"
 
-#: src/ui/page/User.tsx:92
-#: src/ui/page/MyPage.tsx:61
+#: src/ui/page/User.tsx:93
+#: src/ui/page/MyPage.tsx:62
 msgid "모든 콕!"
 msgstr "All pokes!"
 
@@ -283,7 +283,7 @@ msgstr "All pokes!"
 msgid "미리보기"
 msgstr "Preview"
 
-#: src/ui/page/Search.tsx:205
+#: src/ui/page/Search.tsx:203
 msgid "바로 콕 찌르기"
 msgstr "Poke instantly"
 
@@ -340,7 +340,7 @@ msgstr "You unfollowed the user."
 msgid "사용자를 팔로우했습니다."
 msgstr "You followed the user."
 
-#: src/ui/overlay/ShowGeolocationSheet.tsx:49
+#: src/ui/overlay/ShowGeolocationSheet.tsx:59
 #: src/ui/overlay/PokeWithGeolocationSheet.tsx:39
 msgid "사용할 수 없는 기기입니다."
 msgstr "This device is not supported."
@@ -411,7 +411,7 @@ msgstr "Travel & Places"
 msgid "연결"
 msgstr "Connection"
 
-#: src/ui/overlay/LanguageSheet.tsx:17
+#: src/ui/overlay/LanguageSheet.tsx:23
 msgid "영어"
 msgstr "English"
 
@@ -435,11 +435,12 @@ msgstr "Yogi Poke!"
 msgid "요기콕콕! 계정 삭제"
 msgstr "Delete Yogi Poke! Account"
 
+#: src/ui/page/Introduction.tsx:23
 #: src/ui/page/Home.tsx:22
 msgid "요기콕콕! 로고"
 msgstr "Yogi Poke! Logo"
 
-#: src/ui/page/Search.tsx:153
+#: src/ui/page/Search.tsx:151
 msgid "유저를 찾지 못했어요."
 msgstr "Could not find the user."
 
@@ -457,11 +458,11 @@ msgstr "Food & Drink"
 msgid "이름"
 msgstr "Name"
 
-#: src/ui/page/Search.tsx:119
+#: src/ui/page/Search.tsx:117
 msgid "이름 또는 아이디로 검색해요"
 msgstr "Search by name or ID"
 
-#: src/ui/page/Search.tsx:182
+#: src/ui/page/Search.tsx:180
 #: src/ui/overlay/PokeWithEmojiSheet.tsx:63
 #: src/ui/overlay/PokeSheet.tsx:58
 msgid "이모티콘 찌르기"
@@ -489,7 +490,7 @@ msgstr "Terms of Service"
 msgid "이제 콕 찔리면 알림이 울립니다."
 msgstr "You will now receive a notification when poked."
 
-#: src/ui/overlay/LanguageSheet.tsx:18
+#: src/ui/overlay/LanguageSheet.tsx:28
 msgid "일본어"
 msgstr "Japanese"
 
@@ -539,7 +540,7 @@ msgstr "No blocked users."
 msgid "찾을 수 없는 페이지입니다."
 msgstr "Page not found."
 
-#: src/ui/page/MyPage.tsx:110
+#: src/ui/page/MyPage.tsx:111
 msgid "처음으로 콕 찔러보세요!"
 msgstr "Poke for the first time!"
 
@@ -548,12 +549,12 @@ msgstr "Poke for the first time!"
 msgid "취소"
 msgstr "Cancel"
 
-#: src/ui/page/Search.tsx:206
-#: src/ui/page/MyPage.tsx:118
+#: src/ui/page/Search.tsx:204
+#: src/ui/page/MyPage.tsx:119
 msgid "콕 찌르기"
 msgstr "Poke"
 
-#: src/ui/page/User.tsx:123
+#: src/ui/page/User.tsx:124
 #: src/ui/page/Setting.tsx:79
 #: src/ui/overlay/PokeSheet.tsx:36
 msgid "콕! 찌르기"
@@ -563,7 +564,7 @@ msgstr "Poke!"
 msgid "클립보드에 복사되었습니다."
 msgstr "Copied to clipboard."
 
-#: src/ui/page/User.tsx:143
+#: src/ui/page/User.tsx:144
 #: src/ui/page/Setting.tsx:108
 msgid "팔로우"
 msgstr "Follow"
@@ -572,12 +573,12 @@ msgstr "Follow"
 msgid "팔로우 취소"
 msgstr "Unfollow"
 
-#: src/ui/page/User.tsx:139
+#: src/ui/page/User.tsx:140
 #: src/ui/page/Like.tsx:40
 msgid "팔로잉"
 msgstr "Following"
 
-#: src/ui/page/MyPage.tsx:101
+#: src/ui/page/MyPage.tsx:102
 msgid "프로필 공유"
 msgstr "Share Profile"
 
@@ -591,12 +592,12 @@ msgstr "Share Profile"
 msgid "프로필 이미지"
 msgstr "Profile Image"
 
-#: src/ui/page/MyPage.tsx:92
+#: src/ui/page/MyPage.tsx:93
 #: src/ui/overlay/UpdateMyInfoStack.tsx:66
 msgid "프로필 편집"
 msgstr "Edit Profile"
 
-#: src/ui/overlay/LanguageSheet.tsx:15
+#: src/ui/overlay/LanguageSheet.tsx:18
 msgid "한국어"
 msgstr "Korean"
 
@@ -637,6 +638,6 @@ msgstr "You sent a location to <0>{targetUserName}</0>:"
 msgid "회원님이 <0>{targetUserName}</0>님을 콕 찔렀습니다"
 msgstr "You poked <0>{targetUserName}</0>"
 
-#: src/ui/page/User.tsx:152
+#: src/ui/page/User.tsx:153
 msgid "후에 찌를 수 있어요"
 msgstr "You can poke later"
