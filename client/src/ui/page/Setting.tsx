@@ -163,7 +163,7 @@ export const Setting = () => {
                 <>
                   <button
                     className="flex w-full items-center justify-between rounded-xl py-3 text-start text-red-500 duration-150 active:scale-[98%]"
-                    key="로그아웃"
+                    key="release"
                     onClick={() => {
                       if (confirm(t`로그아웃할까요?`)) {
                         releaseToken();
@@ -175,7 +175,7 @@ export const Setting = () => {
                   </button>
                   <button
                     className="flex w-full items-center justify-between rounded-xl py-3 text-start text-zinc-500 duration-150 active:scale-[98%]"
-                    key="탈퇴"
+                    key="quit"
                     onClick={() => overlay(QuitStack)}
                   >
                     <Trans>계정 삭제</Trans>

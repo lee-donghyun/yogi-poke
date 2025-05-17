@@ -72,6 +72,9 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3(react@19.1.0)
     devDependencies:
+      '@lee-donghyun/eslint-plugin-lingui':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@lingui/babel-plugin-lingui-macro':
         specifier: ^5.3.1
         version: 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.7.2)
@@ -509,6 +512,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@lee-donghyun/eslint-plugin-lingui@2.1.0':
+    resolution: {integrity: sha512-TWzpRd0DD1bfpXzEPot63FeQJ+4XaPay9cPgBEkq+FD0mVA8O9GLDm3fuHTEUWJXi4RaFkAc/bVKTZum+Oi6yg==}
 
   '@lingui/babel-plugin-extract-messages@5.3.1':
     resolution: {integrity: sha512-hh//ck6ein130vC55b9CnzCAthQFP/IeHb0pJKzyGtC0yvcjJesLPPRutJ/tS9iLtcnBeYKw4pTyFaQJ0bB6Ew==}
@@ -3649,6 +3655,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@lee-donghyun/eslint-plugin-lingui@2.1.0': {}
 
   '@lingui/babel-plugin-extract-messages@5.3.1': {}
 
