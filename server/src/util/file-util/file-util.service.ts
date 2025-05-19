@@ -20,7 +20,11 @@ export class FileUtilService implements OnModuleInit {
     });
   }
   async resizeImage(buffer: Buffer, width: number, height: number) {
-    return await sharp(buffer).resize(width, height).webp().toBuffer();
+    return await sharp(buffer)
+      .autoOrient()
+      .resize(width, height)
+      .webp()
+      .toBuffer();
   }
   async uploadAndGetUrl(buffer: Buffer, fileName: string) {
     try {
