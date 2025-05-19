@@ -72,12 +72,15 @@ export class UtilController {
     )
     file: Express.Multer.File,
   ) {
-    const type = file.mimetype.split('/')[1];
     const title = `${user.email}-${Date.now()}`;
-    const filename = `${title}.${type}`;
-    const url = await this.fileUtilService.uploadAndGetUrl(
+    const resized = await this.fileUtilService.resizeImage(
       file.buffer,
-      filename,
+      1080,
+      1080,
+    );
+    const url = await this.fileUtilService.uploadAndGetUrl(
+      resized,
+      `${title}.webp`,
     );
     return url;
   }
