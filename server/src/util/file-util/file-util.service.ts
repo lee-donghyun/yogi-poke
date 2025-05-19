@@ -5,6 +5,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { Client as MinioClient } from 'minio';
+import sharp from 'sharp';
 
 @Injectable()
 export class FileUtilService implements OnModuleInit {
@@ -17,6 +18,9 @@ export class FileUtilService implements OnModuleInit {
       secretKey: process.env.STORAGE_SECRET_KEY,
       useSSL: false,
     });
+  }
+  async resizeImage(buffer: Buffer, width: number, height: number) {
+    return await sharp(buffer).resize(width, height).webp().toBuffer();
   }
   async uploadAndGetUrl(buffer: Buffer, fileName: string) {
     try {
