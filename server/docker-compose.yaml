@@ -32,7 +32,5 @@ services:
 volumes:
     yogi_poke_db:
       name: yogi_poke_db
-      external: true
     yogi_poke_storage:
       name: yogi_poke_storage
-      external: true
