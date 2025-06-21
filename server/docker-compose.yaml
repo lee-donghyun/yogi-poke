@@ -1,0 +1,36 @@
+services:
+  server:
+    image: donghyunlee022/yogi-poke:latest
+    container_name: yogi_poke_server
+    env_file: .env
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+      - storage
+
+  database:
+    image: postgres:17
+    container_name: yogi_poke_db
+    env_file: .env
+    ports: 
+      - 5432:5432
+    volumes: 
+      - yogi_poke_db:/var/lib/postgresql/data
+  
+  storage:
+    image: minio/minio:latest
+    container_name: yogi_poke_storage
+    env_file: .env
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - yogi_poke_storage:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+    yogi_poke_db:
+      name: yogi_poke_db
+    yogi_poke_storage:
+      name: yogi_poke_storage
