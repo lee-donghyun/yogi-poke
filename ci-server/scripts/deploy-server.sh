@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker-compose -f docker-compose.server.yaml pull server
-docker-compose -f docker-compose.server.yaml up -d
+docker-compose -f ../server/docker-compose.yaml pull server
+docker-compose -f ../server/docker-compose.yaml up -d
