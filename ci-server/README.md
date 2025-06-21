@@ -1,6 +1,5 @@
 # ci-server
 
-```
-docker build . -t ci-server
-docker run -p 708:708 -v /var/run/docker.sock:/var/run/docker.sock --name ci-server ci-server
-```
+서버를 업데이트하고 실행하는 webhook 서버
+
+server/docker-compose.yaml 파일을 복사하여 서버를 실행할 수 있다.
